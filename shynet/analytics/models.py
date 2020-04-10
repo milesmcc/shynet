@@ -35,16 +35,6 @@ class Session(models.Model):
     latitude = models.FloatField(null=True)
     time_zone = models.TextField(blank=True)
 
-    # Additional metadata, stored as JSON string
-    metadata_raw = models.TextField()
-
-    @property
-    def metadata(self):
-        try:
-            return json.loads(self.metadata_raw)
-        except:  # Metadata is not crucial; in the case of a read error, just ignore it
-            return {}
-
 
 class Hit(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
@@ -60,13 +50,4 @@ class Hit(models.Model):
     referrer = models.TextField(blank=True)
     loadTime = models.FloatField(null=True)
     httpStatus = models.IntegerField(null=True)
-
-    # Additional metadata, stored as JSON string
-    metadata_raw = models.TextField()
-
-    @property
-    def metadata(self):
-        try:
-            return json.loads(self.metadata_raw)
-        except:  # Metadata is not crucial; in the case of a read error, just ignore it
-            return {}
+    

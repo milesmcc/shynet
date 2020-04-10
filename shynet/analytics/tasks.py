@@ -50,7 +50,6 @@ def ingress_request(
         log.debug(f"Linked to service {service}")
 
         # Create or update session
-        session_metadata = payload.get("sessionMetadata", {})
         session = Session.objects.filter(
             service=service,
             last_seen__gt=timezone.now() - timezone.timedelta(minutes=30),
@@ -70,7 +69,6 @@ def ingress_request(
                 browser=f"{ua.browser.family or ''} {ua.browser.version_string or ''}".strip(),
                 device=f"{ua.device.model or ''}",
                 os=f"{ua.os.family or ''} {ua.os.version_string or ''}".strip(),
-                metadata_raw=json.dumps(session_metadata),
                 asn=ip_data.get("asn", ""),
                 country=ip_data.get("country", ""),
                 longitude=ip_data.get("longitude"),
@@ -79,16 +77,11 @@ def ingress_request(
             )
         else:
             log.debug("Updating old session with new data...")
-            # Update old metadata with new metadata
-            new_metadata = session.metadata
-            new_metadata.update(session_metadata)
-            session.metadata_raw = json.dumps(new_metadata)
             # Update last seen time
             session.last_seen = timezone.now()
             session.save()
 
         # Create or update hit
-        hit_metadata = payload.get("hitMetadata", {})
         idempotency = payload.get("idempotency")
         idempotency_path = f"hit_idempotency_{idempotency}"
         hit = None
@@ -103,9 +96,6 @@ def ingress_request(
                     log.debug("Hit is a heartbeat; updating old hit with new data...")
                     hit.heartbeats += 1
                     hit.duration = (timezone.now() - hit.start).total_seconds()
-                    new_metadata = hit.metadata
-                    new_metadata.update(hit_metadata)
-                    hit.metadata_raw = json.dumps(new_metadata)
                     hit.save()
         if hit is None:
             log.debug("Hit is a page load; creating new hit...")
@@ -116,10 +106,10 @@ def ingress_request(
                 location=location,
                 referrer=payload.get("referrer", ""),
                 loadTime=payload.get("loadTime"),
-                metadata_raw=json.dumps(hit_metadata),
             )
             # Set idempotency (if applicable)
             if idempotency is not None:
                 cache.set(idempotency_path, hit.pk, timeout=30 * 60)
     except Exception as e:
-        log.error(e)
+        log.exception(e)
+        raise e

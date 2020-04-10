@@ -13,12 +13,6 @@ window.onload = function () {
         loadTime:
           window.performance.timing.domContentLoadedEventEnd -
           window.performance.timing.navigationStart,
-        hitMetadata:
-          typeof shynetHitMetadata !== "undefined" ? shynetHitMetadata : {},
-        sessionMetadata:
-          typeof shynetSessionMetadata !== "undefined"
-            ? shynetSessionMetadata
-            : {},
       })
     );
   }
