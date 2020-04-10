@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "a17t",
     "core",
     "analytics",
     "allauth",
@@ -148,3 +149,12 @@ CELERY_REDIS_SOCKET_TIMEOUT = 15
 
 MAXMIND_CITY_DB = os.getenv("MAXMIND_CITY_DB")
 MAXMIND_ASN_DB = os.getenv("MAXMIND_ASN_DB")
+
+# Messages
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.INFO: '~info',
+    messages.WARNING: "~warning",
+    messages.ERROR: "~critical",
+    messages.SUCCESS: "~positive",
+}

@@ -6,8 +6,7 @@
   <title>{% block head_title %}Privacy-oriented analytics{% endblock %} | Shynet</title>
   <meta name="robots" content="noindex">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/a17t@latest/dist/a17t.css">
+  {% include 'a17t/head.html' %}
   {% block extra_head %}
   {% endblock %}
 </head>
@@ -19,7 +18,7 @@
     {% if messages %}
     <div>
       {% for message in messages %}
-      <article class="card {{message.tags}} mb-2 w-full">{{message}}</article>
+      <article class="card {{message.tags}} !high mb-2 w-full">{{message}}</article>
       {% endfor %}
       </ul>
     </div>
@@ -29,7 +28,7 @@
       <strong>Menu:</strong>
       <ul>
         {% if user.is_authenticated %}
-        <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+        <li><a href="{% url 'account_email' %}">Change Email</a></li>
         <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
         {% else %}
         <li><a href="{% url 'account_login' %}">Sign In</a></li>

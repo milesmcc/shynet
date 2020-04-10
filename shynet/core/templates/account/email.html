@@ -1,0 +1,80 @@
+{% extends "account/base.html" %}
+
+{% load i18n a17t_tags %}
+
+{% block head_title %}{% trans "Email Addresses" %}{% endblock %}
+
+{% block content %}
+<h1 class="heading">{% trans "Email Addresses" %}</h1>
+
+<hr class="sep">
+
+<div class="card ~neutral !low">
+
+  {% if user.emailaddress_set.all %}
+  <p>{% trans 'The following email addresses are associated with your account:' %}</p>
+  <form action="{% url 'account_email' %}" class="email_list" method="post">
+    {% csrf_token %}
+    <fieldset class="blockLabels">
+      {% for emailaddress in user.emailaddress_set.all %}
+      <div class="ctrlHolder my-2">
+        <label for="email_radio_{{forloop.counter}}" class="switch">
+
+          <input id="email_radio_{{forloop.counter}}" type="radio" name="email"
+            {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked" {%endif %}
+            value="{{emailaddress.email}}" />
+
+          {{ emailaddress.email }}
+          {% if emailaddress.verified %}
+          <span class="support ~positive">({% trans "Verified" %})</span>
+          {% else %}
+          <span class="support ~warning">({% trans "Unverified" %})</span>
+          {% endif %}
+          {% if emailaddress.primary %}<span class="support ~urge">({% trans "Primary" %})</span>{% endif %}
+        </label>
+      </div>
+      {% endfor %}
+
+      <div class="block">
+        <button class="button ~urge mb-1" type="submit" name="action_primary">{% trans 'Make Primary' %}</button>
+        <button class="button ~info mb-1" type="submit" name="action_send">{% trans 'Re-send Verification' %}</button>
+        <button class="button ~critical mb-1" type="submit" name="action_remove">{% trans 'Remove' %}</button>
+      </div>
+    </fieldset>
+  </form>
+
+  {% else %}
+  <aside class="aside ~warning">
+    <p>
+      {% trans "You currently do not have an email address associated with your account. Without one, you won't be able to reset your password, receive notifications, etc." %}
+    </p>
+  </aside>
+  {% endif %}
+</div>
+
+<hr class="sep">
+
+<form method="post" action="{% url 'account_email' %}" class="add_email max-w-lg">
+  {% csrf_token %}
+  {{ form|a17t }}
+  <button name="button ~neutral !high" type="submit">{% trans "Add Email" %}</button>
+</form>
+
+{% endblock %}
+
+
+{% block extra_body %}
+<script type="text/javascript">
+  (function () {
+    var message = "{% trans 'Do you really want to remove the selected email address?' %}";
+    var actions = document.getElementsByName('action_remove');
+    if (actions.length) {
+      actions[0].addEventListener("click", function (e) {
+        if (!confirm(message)) {
+          e.preventDefault();
+        }
+      });
+    }
+  })();
+</script>
+{% endblock %}
