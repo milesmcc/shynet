@@ -38,10 +38,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "core",
+    "analytics",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "core",
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,16 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
 
 SITE_ID = 1
+
+# Celery
+
+if DEBUG:
+    CELERY_TASK_ALWAYS_EAGER = True
+
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+CELERY_REDIS_SOCKET_TIMEOUT = 15
+
+# GeoIP
+
+MAXMIND_CITY_DB = os.getenv("MAXMIND_CITY_DB")
+MAXMIND_ASN_DB = os.getenv("MAXMIND_ASN_DB")

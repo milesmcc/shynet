@@ -9,6 +9,12 @@ black = "*"
 [packages]
 django = "*"
 django-allauth = "*"
+geoip2 = "*"
+celery = "*"
+django-ipware = "*"
+pyyaml = "*"
+ua-parser = "*"
+user-agents = "*"
 
 [requires]
 python_version = "3.6"
