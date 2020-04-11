@@ -16,6 +16,7 @@ pyyaml = "*"
 ua-parser = "*"
 user-agents = "*"
 django-humanize = "*"
+anonymizeip = "*"
 
 [requires]
 python_version = "3.6"

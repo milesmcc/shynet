@@ -7,6 +7,7 @@ from celery import shared_task
 from django.conf import settings
 from django.core.cache import cache
 from django.utils import timezone
+from anonymizeip import anonymize_ip
 
 from core.models import Service
 
@@ -44,10 +45,14 @@ def ingress_request(
     service_uuid, tracker, time, payload, ip, location, user_agent, identifier=""
 ):
     try:
-        ip_data = _geoip2_lookup(ip)
-
         service = Service.objects.get(uuid=service_uuid, status=Service.ACTIVE)
         log.debug(f"Linked to service {service}")
+
+        ip_data = _geoip2_lookup(ip)
+        log.debug(f"Found geoip2 data")
+
+        if service.anonymize_ips:
+            ip = anonymize_ip(ip)
 
         # Create or update session
         session = Session.objects.filter(

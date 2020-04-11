@@ -39,6 +39,9 @@ class Service(models.Model):
         max_length=2, choices=SERVICE_STATUSES, default=ACTIVE, db_index=True
     )
 
+    # Analytics settings
+    anonymize_ips = models.BooleanField(default=False)
+
     def __str__(self):
         return self.name
 
