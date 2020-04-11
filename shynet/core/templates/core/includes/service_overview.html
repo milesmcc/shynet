@@ -3,7 +3,7 @@
     {% with stats=service.get_daily_stats %}
     <div class="md:flex justify-between">
         <div class="mr-4 md:w-1/4">
-            <h3 class="heading text-gray-700 text-2xl mr-2 leading-none">
+            <h3 class="heading text-2xl mr-2">
                 {{service.name}}
             </h3>
             {% if stats.currently_online > 0 %}

@@ -15,10 +15,19 @@
   {% block body %}
 
   <section class="max-w-screen-lg mx-auto px-6 md:py-12 md:flex">
-    <aside class="w-2/12 mr-4 block text-sm">
+    <aside class="w-2/12 mr-4 block">
       <a class="icon ~urge ml-6 mb-8 mt-3" href="{% url 'core:dashboard' %}">
         <i class="fas fa-low-vision fa-3x text-purple-600"></i>
       </a>
+
+      <p class="ml-2 mt-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Services</p>
+
+      {% for service in user.owning_services.all %}
+      {% url 'account_email' as url %}
+      {% include 'core/includes/sidebar_portal.html' with label=service.name url=url %}
+      {% endfor %}
+
+      <p class="ml-2 mt-8 mb-1 supra font-medium text-gray-500 pointer-events-none">Account</p>
 
       {% if user.is_authenticated %}
 
