@@ -14,32 +14,44 @@
 <body class="bg-gray-100 min-h-full">
   {% block body %}
 
-  <section class="max-w-4xl mx-auto px-6 md:py-12">
-    {% if messages %}
-    <div>
-      {% for message in messages %}
-      <article class="card {{message.tags}} !high mb-2 w-full">{{message}}</article>
-      {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
+  <section class="max-w-screen-lg mx-auto px-6 md:py-12 md:flex">
+    <aside class="w-2/12 mr-4 block text-sm">
+      <a class="icon ~urge ml-6 mb-8 mt-3" href="{% url 'core:dashboard' %}">
+        <i class="fas fa-low-vision fa-3x text-purple-600"></i>
+      </a>
 
-    <div>
-      <strong>Menu:</strong>
-      <ul>
-        {% if user.is_authenticated %}
-        <li><a href="{% url 'account_email' %}">Change Email</a></li>
-        <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
-        {% else %}
-        <li><a href="{% url 'account_login' %}">Sign In</a></li>
-        <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
-        {% endif %}
-      </ul>
+      {% if user.is_authenticated %}
+
+      {% url 'account_email' as url %}
+      {% include 'core/includes/sidebar_portal.html' with label="Emails" url=url %}
+
+      {% url 'account_logout' as url %}
+      {% include 'core/includes/sidebar_portal.html' with label="Log Out" url=url %}
+
+      {% else %}
+
+      {% url 'account_login' as url %}
+      {% include 'core/includes/sidebar_portal.html' with label="Log In" url=url %}
+
+      {% url 'account_signup' as url %}
+      {% include 'core/includes/sidebar_portal.html' with label="Sign Up" url=url %}
+
+      {% endif %}
+    </aside>
+    <div class="flex-grow">
+      {% if messages %}
+      <div>
+        {% for message in messages %}
+        <article class="card {{message.tags}} !high mb-2 w-full">{{message}}</article>
+        {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      <main>
+        {% block content %}
+        {% endblock %}
+      </main>
     </div>
-    <main>
-      {% block content %}
-      {% endblock %}
-    </main>
   </section>
   {% endblock %}
   {% block extra_body %}

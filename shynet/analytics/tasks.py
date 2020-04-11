@@ -46,7 +46,7 @@ def ingress_request(
     try:
         ip_data = _geoip2_lookup(ip)
 
-        service = Service.objects.get(uuid=service_uuid)
+        service = Service.objects.get(uuid=service_uuid, status=Service.ACTIVE)
         log.debug(f"Linked to service {service}")
 
         # Create or update session
@@ -95,7 +95,7 @@ def ingress_request(
                     # this is a heartbeat.
                     log.debug("Hit is a heartbeat; updating old hit with new data...")
                     hit.heartbeats += 1
-                    hit.duration = (timezone.now() - hit.start).total_seconds()
+                    hit.last_seen = timezone.now()
                     hit.save()
         if hit is None:
             log.debug("Hit is a page load; creating new hit...")

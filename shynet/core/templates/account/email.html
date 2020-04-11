@@ -26,18 +26,18 @@
 
           {{ emailaddress.email }}
           {% if emailaddress.verified %}
-          <span class="support ~positive">({% trans "Verified" %})</span>
+          <span class="badge ~positive">{% trans "Verified" %}</span>
           {% else %}
-          <span class="support ~warning">({% trans "Unverified" %})</span>
+          <span class="badge ~critical">{% trans "Unverified" %}</span>
           {% endif %}
-          {% if emailaddress.primary %}<span class="support ~urge">({% trans "Primary" %})</span>{% endif %}
+          {% if emailaddress.primary %}<span class="badge ~urge">{% trans "Primary" %}</span>{% endif %}
         </label>
       </div>
       {% endfor %}
 
-      <div class="block">
+      <div class="block mt-4">
         <button class="button ~urge mb-1" type="submit" name="action_primary">{% trans 'Make Primary' %}</button>
-        <button class="button ~info mb-1" type="submit" name="action_send">{% trans 'Re-send Verification' %}</button>
+        <button class="button ~info mb-1" type="submit" name="action_send">{% trans 'Resend Verification' %}</button>
         <button class="button ~critical mb-1" type="submit" name="action_remove">{% trans 'Remove' %}</button>
       </div>
     </fieldset>
@@ -57,7 +57,7 @@
 <form method="post" action="{% url 'account_email' %}" class="add_email max-w-lg">
   {% csrf_token %}
   {{ form|a17t }}
-  <button name="button ~neutral !high" type="submit">{% trans "Add Email" %}</button>
+  <button name="action_add" class="button ~neutral !high" type="submit">{% trans "Add Email" %}</button>
 </form>
 
 {% endblock %}

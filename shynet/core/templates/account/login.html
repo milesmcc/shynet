@@ -8,7 +8,7 @@
 {% block content %}
 <div class="card ~neutral !low max-w-lg">
   <h1 class="heading mb-3">{% trans "Sign In" %}</h1>
-  <form class="login" method="POST" action="{% url 'account_login' %} max-w-lg">
+  <form class="login" method="POST" action="{% url 'account_login' %}">
     {% csrf_token %}
     {{ form|a17t }}
     {% if redirect_field_value %}

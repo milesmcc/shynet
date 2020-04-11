@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "django_humanize",
     "a17t",
     "core",
     "analytics",
@@ -158,3 +159,4 @@ MESSAGE_TAGS = {
     messages.ERROR: "~critical",
     messages.SUCCESS: "~positive",
 }
+

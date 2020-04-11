@@ -18,7 +18,7 @@ class Session(models.Model):
     identifier = models.TextField(blank=True)
 
     # Time
-    first_seen = models.DateTimeField(auto_now_add=True)
+    start_time = models.DateTimeField(auto_now_add=True)
     last_seen = models.DateTimeField(auto_now_add=True)
 
     # Core request information
@@ -40,8 +40,8 @@ class Hit(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
 
     # Base request information
-    start = models.DateTimeField(auto_now_add=True)
-    duration = models.FloatField(default=0.0)  # Seconds spent on page
+    start_time = models.DateTimeField(auto_now_add=True)
+    last_seen = models.DateTimeField(auto_now_add=True)
     heartbeats = models.IntegerField(default=0)
     tracker = models.TextField()  # Tracking pixel or JS
 

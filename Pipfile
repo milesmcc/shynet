@@ -15,6 +15,7 @@ django-ipware = "*"
 pyyaml = "*"
 ua-parser = "*"
 user-agents = "*"
+django-humanize = "*"
 
 [requires]
 python_version = "3.6"
