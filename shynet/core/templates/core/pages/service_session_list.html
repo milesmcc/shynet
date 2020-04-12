@@ -1,0 +1,48 @@
+{% extends "core/service_base.html" %}
+
+{% load a17t_tags pagination humanize helpers %}
+
+{% block head_title %}{{object.name}} Sessions{% endblock %}
+
+{% block service_actions %}
+<a href="{% url 'core:service' object.uuid %}" class="button field ~neutral !low w-auto">Analytics &rarr;</a>
+{% endblock %}
+
+{% block service_content %}
+<div class="card ~neutral !low mb-8 pt-2 max-w-full overflow-x-scroll">
+    <table class="table">
+        <thead>
+            <th>Time</th>
+            <th>Identity</th>
+            <th>Network</th>
+            <th>Duration</th>
+            <th>Hits</th>
+        </thead>
+        <tbody>
+            {% for session in object_list %}
+            <tr>
+                <td>
+                    <a href="{% url 'core:service_session' object.pk session.pk %}" class="font-medium text-purple-700">
+                        {{session.start_time|date:"M j Y, g:i a"|capfirst}}
+                        {% if session.is_currently_active %}
+                        <span class="badge ~positive">Online</span>
+                        {% endif %}
+                    </a>
+                </td>
+                <td>
+                    {% if session.identifier %}
+                    <span class="chip ~neutral">{{session.identifier}}</span>
+                    {% else %}
+                    <span class="text-gray-600">&mdash;</span>
+                    {% endif %}
+                </td>
+                <td>{{session.country|flag_emoji}} {{session.asn|default:"Unknown"}}</td>
+                <td>{{session.duration|naturaldelta}}</td>
+                <td>{{session.hit_set.count|intcomma}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% pagination page_obj request %}
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "core/service_base.html" %}
+
+{% load a17t_tags pagination humanize helpers %}
+
+{% block head_title %}{{object.name}} Session{% endblock %}
+
+{% block service_actions %}
+<a href="{% url 'core:service' object.uuid %}" class="button field ~neutral !low w-auto">Analytics &rarr;</a>
+{% endblock %}
+
+{% block service_content %}
+<article class="card ~neutral !low">
+    <div class="flex items-center justify-between">
+        <div>
+            <h3 class="heading text-xl text-purple-600 mr-4">
+                {{session.identifier|default:"Anonymous"}} @ {{session.duration|naturaldelta}} <span
+                    class="text-gray-600">({{session.ip}})</span>
+            </h3>
+            <p>{{session.start_time|date:"M j Y, g:i a"}} until
+                {{session.last_seen|date:"g:i a"}}</p>
+        </div>
+        <div>
+            {% if session.is_currently_active %}<span class="chip ~positive text-base">Online</span>{% endif %}
+        </div>
+    </div>
+    <hr class="sep h-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div>
+            <p>Browser</p>
+            <p class="label">{{session.browser|default:"Unknown"}}</p>
+        </div>
+        <div>
+            <p>Device</p>
+            <p class="label">{{session.device|default:"Unknown"}}</p>
+        </div>
+        <div>
+            <p>Device Type</p>
+            <p class="label">{{session.device_type|title}}</p>
+        </div>
+        <div>
+            <p>OS</p>
+            <p class="label">{{session.os|default:"Unknown"}}</p>
+        </div>
+        <div>
+            <p>Network</p>
+            <p class="label">{{session.asn|default:"Unknown"}}</p>
+        </div>
+        <div>
+            <p>Country</p>
+            <p class="label">{{session.country|flag_emoji}} {{session.country|default:"Unknown"}}</p>
+        </div>
+        <div>
+            <p>Location</p>
+            <p class="label">
+                {% if session.latitude %}
+                <a href="https://www.google.com/maps/search/?api=1&query={{session.latitude}},{{session.longitude}}">Open
+                    in Maps &nearr;</a>
+                {% else %}
+                Unknown
+                {% endif %}
+            </p>
+        </div>
+        <div>
+            <p>Time Zone</p>
+            <p class="label">{{session.time_zone|default:"Unknown"}}</p>
+        </div>
+    </div>
+</article>
+<div class="">
+    {% for hit in session.hit_set.all %}
+    <article class="my-12 md:flex">
+        <div class="md:w-2/12">
+            <div class="text-lg">{{hit.start_time|date:"g:i a"}}</div>
+        </div>
+        <div class="md:flex card ~neutral !low flex-grow justify-between">
+            <div class="mb-4 md:mb-0 md:w-1/2">
+                <p class="label font-medium text-lg">{{hit.location|urlize}}</p>
+                {% if hit.referrer %}
+                <p>via {{hit.referrer|urlize}}<p>
+                {% endif %}
+            </div>
+            <div class="grid grid-cols-3 gap-3 md:pl-8 md:w-1/2">
+                <div>
+                    <p>Duration</p>
+                    <p class="label">{{hit.duration|naturaldelta}}</p>
+                </div>
+                <div>
+                    <p>Load</p>
+                    <p class="label">{{hit.load_time|floatformat:"0"}}ms</p>
+                </div>
+                <div>
+                    <p>Tracker</p>
+                    <p class="label">{{hit.tracker}}</p>
+                </div>
+            </div>
+            <div>
+    </article>
+    {% endfor %}
+</div>
+{% endblock %}

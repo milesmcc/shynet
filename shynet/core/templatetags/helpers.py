@@ -25,3 +25,9 @@ def flag_emoji(isocode):
         return flag.flag(isocode)
     except:
         return ""
+
+@register.filter('startswith')
+def startswith(text, starts):
+    if isinstance(text, str):
+        return text.startswith(starts)
+    return False

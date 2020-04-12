@@ -1,17 +1,14 @@
-{% extends "base.html" %}
+{% extends "core/service_base.html" %}
 
 {% load a17t_tags %}
 
 {% block head_title %}{{object.name}} Management{% endblock %}
 
-{% block content %}
-<div class="md:flex justify-between items-center" id="heading">
-    <h3 class="heading leading-none mr-4">
-        {{object.name}}
-    </h3>
-    <a href="{% url 'core:service' object.uuid %}" class="button field ~neutral !low w-auto">View &rarr;</a>
-</div>
-<hr class="sep">
+{% block service_actions %}
+<a href="{% url 'core:service' object.uuid %}" class="button field ~neutral !low w-auto">View &rarr;</a>
+{% endblock %}
+
+{% block service_content %}
 <div class="max-w-xl content">
     <h5>Analytics Installation</h5>
     <p>(At the end of <code>&lt;body&gt;</code>)
@@ -25,9 +22,14 @@
     <div class="p-4">
         {{form|a17t}}
     </div>
-    <div class="section ~neutral !normal p-4">
-        <button type="submit" class="button ~neutral !high">Save</button>
-        <a href="{% url 'core:service' object.uuid %}" class="button ~neutral !low">Cancel</a>
+    <div class="section ~neutral !normal p-4 flex justify-between">
+        <div>
+            <button type="submit" class="button ~neutral !high">Save</button>
+            <a href="{% url 'core:service' object.uuid %}" class="button ~neutral !low">Cancel</a>
+        </div>
+        <div>
+            <a href="{% url 'core:service_delete' object.uuid %}" class="button ~critical !high">Delete</a>
+        </div>
     </div>
 </form>
 {% endblock %}

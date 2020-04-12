@@ -64,7 +64,6 @@ class Service(models.Model):
             Session.objects.filter(
                 service=self, start_time__gt=start_time, start_time__lt=end_time
             )
-            .prefetch_related("hit_set")
             .order_by("-start_time")
         )
         session_count = sessions.count()
@@ -151,6 +150,5 @@ class Service(models.Model):
             "browsers": browsers,
             "devices": devices,
             "device_types": device_types,
-            "sessions": sessions,
             "online": True,
         }

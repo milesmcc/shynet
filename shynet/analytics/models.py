@@ -70,3 +70,7 @@ class Hit(models.Model):
     location = models.TextField(blank=True)
     referrer = models.TextField(blank=True)
     load_time = models.FloatField(null=True)
+
+    @property
+    def duration(self):
+        return self.last_seen - self.start_time

@@ -13,4 +13,19 @@ urlpatterns = [
         views.ServiceUpdateView.as_view(),
         name="service_update",
     ),
+    path(
+        "dash/service/<pk>/delete/",
+        views.ServiceDeleteView.as_view(),
+        name="service_delete",
+    ),
+    path(
+        "dash/service/<pk>/sessions/",
+        views.ServiceSessionsListView.as_view(),
+        name="service_session_list",
+    ),
+    path(
+        "dash/service/<pk>/sessions/<session_pk>/",
+        views.ServiceSessionView.as_view(),
+        name="service_session",
+    ),
 ]

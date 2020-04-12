@@ -1,0 +1,46 @@
+<nav class="flex w-full flex-wrap items-center justify-between" role="navigation" aria-label="pagination">
+    <div class="w-full md:w-auto mb-2">
+        {% if page.has_previous %}
+        <a href="?page={{ page.previous_page_number }}{{url_parameters}}" class="button ~neutral !low">Previous</a>
+        {% else %}
+        <a class="button ~neutral !normal" disabled>Previous</a>
+        {% endif %}
+        {% if page.has_next %}
+        <a href="?page={{ page.next_page_number }}{{url_parameters}}" class="button ~neutral !low">Next</a>
+        {% else %}
+        <a class="button ~neutral !normal" disabled>Next</a>
+        {% endif %}
+    </div>
+
+    <ul class="pagination-list w-full md:w-auto mb-2">
+        {% for pnum in begin %}
+        {% ifequal page.number pnum %}
+        <li><a class="button ~neutral !high">{{ pnum }}</a></li>
+        {% else %}
+        <li><a class="button ~neutral !normal" href="?page={{ pnum }}{{url_parameters}}">{{ pnum }}</a></li>
+        {% endifequal %}
+        {% endfor %}
+
+        {% if middle %}
+        <li><span class="pagination-ellipsis">&hellip;</span></li>
+        {% for pnum in middle %}
+        {% ifequal page.number pnum %}
+        <li><a class="button ~neutral !high">{{ pnum }}</a></li>
+        {% else %}
+        <li><a class="button ~neutral !normal" href="?page={{ pnum }}{{url_parameters}}">{{ pnum }}</a></li>
+        {% endifequal %}
+        {% endfor %}
+        {% endif %}
+
+        {% if end %}
+        <li><span class="pagination-ellipsis">&hellip;</span></li>
+        {% for pnum in end %}
+        {% ifequal page.number pnum %}
+        <li><a class="button ~neutral !high">{{ pnum }}</a></li>
+        {% else %}
+        <li><a class="button ~neutral !normal" href="?page={{ pnum }}{{url_parameters}}">{{ pnum }}</a></li>
+        {% endifequal %}
+        {% endfor %}
+        {% endif %}
+    </ul>
+</nav>
