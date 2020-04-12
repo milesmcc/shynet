@@ -1,5 +1,4 @@
-from django import forms
-from django import template
+from django import forms, template
 from django.forms import BoundField
 from django.template.loader import get_template
 from django.utils.safestring import mark_safe

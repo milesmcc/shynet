@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5c4a63923138fea970c8851ac72d6d6a391db28090a02d738e675775d2c6f26b"
+            "sha256": "93fe2edcab5c588173dcaa4799fd66873e47014f417920ad5a969544a33e5cb5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -22,14 +22,6 @@
                 "sha256:77f1aef9410698d20eaeac5b73a87817365f457a507d82edf292e12cbb83b08d"
             ],
             "version": "==2.5.2"
-        },
-        "anonymizeip": {
-            "hashes": [
-                "sha256:491cb94a31bae23294c5b93a13dd5c9ed55be98003c622e76e2fe64d6a4f3e91",
-                "sha256:e0d446b06b2bbf236394a90b971de403f90f805d14db3a405f8731716acad1fe"
-            ],
-            "index": "pypi",
-            "version": "==1.0.0"
         },
         "asgiref": {
             "hashes": [
@@ -89,19 +81,20 @@
             "index": "pypi",
             "version": "==0.41.0"
         },
-        "django-humanize": {
-            "hashes": [
-                "sha256:32491bf0209b89a277f7bfdab7fd6d4cc7944bb037f742d62e8e447a575c0028"
-            ],
-            "index": "pypi",
-            "version": "==0.1.2"
-        },
         "django-ipware": {
             "hashes": [
                 "sha256:a7c7a8fd019dbdc9c357e6e582f65034e897572fc79a7e467674efa8aef9d00b"
             ],
             "index": "pypi",
             "version": "==2.1.0"
+        },
+        "emoji-country-flag": {
+            "hashes": [
+                "sha256:67c0cb6a3765fb53f31b34160d6b1c8a5f44b297bc278d1835c6f2e5b0a9a592",
+                "sha256:ae7edb38077b0840210fa9e37673f481f2b9c032446e13ad6dab2b1108cd7ad6"
+            ],
+            "index": "pypi",
+            "version": "==1.2.1"
         },
         "geoip2": {
             "hashes": [
@@ -110,13 +103,6 @@
             ],
             "index": "pypi",
             "version": "==3.0.0"
-        },
-        "humanize": {
-            "hashes": [
-                "sha256:98b7ac9d1a70ad62175c8e0dd44beebbd92418727fc4e214468dfb2baa8ebfb5",
-                "sha256:bc2a1ff065977011de2bc36197a4b14730c54bfc46ab12a153376684573a2dab"
-            ],
-            "version": "==2.3.0"
         },
         "idna": {
             "hashes": [

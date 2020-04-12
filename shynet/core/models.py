@@ -1,10 +1,10 @@
 import uuid
 
+from django.apps import apps
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.apps import apps
-from django.utils import timezone
 from django.db.utils import NotSupportedError
+from django.utils import timezone
 
 
 def _default_uuid():
@@ -39,9 +39,6 @@ class Service(models.Model):
         max_length=2, choices=SERVICE_STATUSES, default=ACTIVE, db_index=True
     )
 
-    # Analytics settings
-    anonymize_ips = models.BooleanField(default=False)
-
     def __str__(self):
         return self.name
 
@@ -63,8 +60,12 @@ class Service(models.Model):
             service=self, start_time__gt=timezone.now() - timezone.timedelta(seconds=10)
         ).count()
 
-        sessions = Session.objects.filter(
-            service=self, start_time__gt=start_time, start_time__lt=end_time
+        sessions = (
+            Session.objects.filter(
+                service=self, start_time__gt=start_time, start_time__lt=end_time
+            )
+            .prefetch_related("hit_set")
+            .order_by("-start_time")
         )
         session_count = sessions.count()
 
@@ -76,28 +77,80 @@ class Service(models.Model):
         bounces = sessions.annotate(hit_count=models.Count("hit")).filter(hit_count=1)
         bounce_count = bounces.count()
 
+        locations = (
+            hits.values("location")
+            .annotate(count=models.Count("location"))
+            .order_by("-count")
+        )
+
+        referrers = (
+            hits.filter(initial=True)
+            .values("referrer")
+            .annotate(count=models.Count("referrer"))
+            .order_by("-count")
+        )
+
+        operating_systems = (
+            sessions.values("os").annotate(count=models.Count("os")).order_by("-count")
+        )
+
+        browsers = (
+            sessions.values("browser")
+            .annotate(count=models.Count("browser"))
+            .order_by("-count")
+        )
+
+        device_types = (
+            sessions.values("device_type")
+            .annotate(count=models.Count("device_type"))
+            .order_by("-count")
+        )
+
+        devices = (
+            sessions.values("device")
+            .annotate(count=models.Count("device"))
+            .order_by("-count")
+        )
+
+        device_types = (
+            sessions.values("device_type")
+            .annotate(count=models.Count("device_type"))
+            .order_by("-count")
+        )
+
+        avg_load_time = hits.aggregate(load_time__avg=models.Avg("load_time"))[
+            "load_time__avg"
+        ]
+
+        avg_hits_per_session = hit_count / max(session_count, 1)
+
         try:
             avg_session_duration = sessions.annotate(
                 duration=models.F("last_seen") - models.F("start_time")
             ).aggregate(duration=models.Avg("duration"))["duration"]
         except NotSupportedError:
-            avg_session_duration = (
-                sum(
-                    [
-                        (session.last_seen - session.start_time).total_seconds()
-                        for session in sessions
-                    ]
-                )
-                / session_count
-            )
+            avg_session_duration = sum(
+                [
+                    (session.last_seen - session.start_time).total_seconds()
+                    for session in sessions
+                ]
+            ) / max(session_count, 1)
 
         return {
             "currently_online": currently_online,
-            "sessions": session_count,
-            "hits": hit_count,
+            "session_count": session_count,
+            "hit_count": hit_count,
             "avg_hits_per_session": hit_count / (max(session_count, 1)),
-            "bounce_rate_pct": bounce_count * 100 / session_count,
+            "bounce_rate_pct": bounce_count * 100 / (max(session_count, 1)),
             "avg_session_duration": avg_session_duration,
-            "uptime": 99.9,
+            "avg_load_time": avg_load_time,
+            "avg_hits_per_session": avg_hits_per_session,
+            "locations": locations,
+            "referrers": referrers,
+            "operating_systems": operating_systems,
+            "browsers": browsers,
+            "devices": devices,
+            "device_types": device_types,
+            "sessions": sessions,
             "online": True,
         }

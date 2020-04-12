@@ -1,13 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h4 class="heading text-xl leading-none text-purple-600">Shynet</h4>
-<h4 class="heading text-5xl leading-none">Dashboard</h4>
+<div class="md:flex justify-between">
+<h4 class="heading text-5xl leading-none">Shynet Dash</h4>
+<div>
+    {% include 'core/includes/date_range.html' %}
+</div>
+</div>
 <hr class="sep">
 
-{% for service in user.owning_services.all %}
+{% for service in services %}
 {% include 'core/includes/service_overview.html' %}
 {% empty %}
 <p>You don't have any services.</p>
 {% endfor %}
+<a href="{% url 'core:service_create' %}" class="button ~neutral my-2">+ New Service</a>
 {% endblock %}

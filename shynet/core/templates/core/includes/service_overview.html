@@ -1,45 +1,30 @@
-{% load humanizelib %}
-<article class="card ~neutral !low service mb-4">
-    {% with stats=service.get_daily_stats %}
-    <div class="md:flex justify-between">
-        <div class="mr-4 md:w-1/4">
-            <h3 class="heading text-2xl mr-2">
+{% load humanize helpers %}
+
+<a class="card ~neutral !low service mb-6" href="{% url 'core:service' service.uuid %}">
+    {% with stats=service.stats %}
+    <div class="md:flex justify-between items-center">
+        <div class="mr-4 md:w-4/12">
+            <h3 class="heading text-xl mr-2 mb-1">
                 {{service.name}}
             </h3>
-            {% if stats.currently_online > 0 %}
-            <span class="badge ~positive">
-                {{stats.currently_online|intcomma}} online
-            </span>
-            {% elif stats.online == True %}
-            <span class="badge ~positive">
-                Online
-            </span>
-            {% elif stats.online == False %}
-            <span class="badge ~critical">
-                Offline
-            </span>
-            {% endif %}
+            {% include 'core/includes/stats_status_chip.html' %}
         </div>
         <div class="mr-2">
             <p class="font-medium text-sm">Sessions</p>
-            <p class="text-xl text-purple-700 font-medium">{{stats.sessions|intcomma}}</p>
-        </div>
-        <div class="mr-2">
-            <p class="font-medium text-sm">Pages/Session</p>
-            <p class="text-xl text-purple-700 font-medium">{{stats.avg_hits_per_session|floatformat:"-1"}}</p>
+            <p class="text-xl text-purple-700 font-medium">{{stats.session_count|intcomma}}</p>
         </div>
         <div class="mr-2">
             <p class="font-medium text-sm">Bounce Rate</p>
             <p class="text-xl text-purple-700 font-medium">{{stats.bounce_rate_pct|floatformat:"-1"}}%</p>
         </div>
         <div class="mr-2">
-            <p class="font-medium text-sm">Avg. Session</p>
+            <p class="font-medium text-sm">Avg. Duration</p>
             <p class="text-xl text-purple-700 font-medium">{{stats.avg_session_duration|naturaldelta}}</p>
         </div>
         <div class="mr-2">
             <p class="font-medium text-sm">Uptime</p>
-            <p class="text-xl text-purple-700 font-medium">{{stats.uptime|floatformat:"-1"}}%</p>
+            <p class="text-xl text-purple-700 font-medium">99.9%</p>
         </div>
     </div>
     {% endwith %}
-</article>
+</a>

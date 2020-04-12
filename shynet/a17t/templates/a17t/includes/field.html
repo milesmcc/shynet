@@ -1,7 +1,6 @@
 {% load a17t_tags %}
 
-<field role="field" class="block mb-2">
-
+<field role="field" class="block mb-4">
     {% if field|is_checkbox %}
     <label class="switch {{ classes.label }}">
         {{ field }}
@@ -12,25 +11,25 @@
     <label class="label my-1" for="{{field.auto_id}}">{{ field.label }}</label>
     {% endif %}
     {% for choice in field %}
-    <label class="switch">
+    <label class="switch my-1">
         {{ choice.tag }}
         <span>{{ choice.choice_label }}</span>
     </label>
     {% endfor %}
     {% elif field|is_input %}
-    <label class="label" for="{{field.auto_id}}">{{ field.label }}</label>
-    {{field|add_class:"input"}}
+    {% include 'a17t/includes/label.html' %}
+    {{field|add_class:"input my-1"}}
     {% elif field|is_textarea %}
-    <label class="label" for="{{field.auto_id}}">{{ field.label }}</label>
-    {{ field|add_class:'textarea' }}
+    {% include 'a17t/includes/label.html' %}
+    {{ field|add_class:'textarea my-1' }}
     {% elif field|is_select %}
-    <label class="label" for="{{field.auto_id}}">{{ field.label }}</label>
-    <div class="select {% if field.errors|length > 0 %}~critical{% endif %}">
+    {% include 'a17t/includes/label.html' %}
+    <div class="select {% if field.errors|length > 0 %}~critical{% endif %} my-1">
         {{field}}
     </div>
     {% else %}
-    <label class="label" for="{{field.auto_id}}">{{ field.label }}</label>
-    {{field|add_class:"field"}}
+    {% include 'a17t/includes/label.html' %}
+    {{field|add_class:"field my-1"}}
     {% endif %}
 
     {% for error in field.errors %}

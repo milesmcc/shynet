@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load a17t_tags %}
+
+{% block head_title %}Create Service{% endblock %}
+
+{% block content %}
+<h4 class="heading text-5xl leading-none">Create Service</h4>
+<hr class="sep">
+<form class="card ~neutral !low p-0 max-w-xl" method="POST">
+    {% csrf_token %}
+    <div class="p-4">
+        {{form|a17t}}
+    </div>
+    <div class="section ~urge !normal p-4">
+        <button type="submit" class="button ~urge !high">Create</button>
+        <a href="{% url 'core:dashboard' %}" class="button ~urge !low">Cancel</a>
+    </div>
+</form>
+{% endblock %}

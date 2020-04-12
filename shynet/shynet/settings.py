@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+# Messages
+from django.contrib.messages import constants as messages
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -38,7 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-    "django_humanize",
+    "django.contrib.humanize",
     "a17t",
     "core",
     "analytics",
@@ -151,12 +154,10 @@ CELERY_REDIS_SOCKET_TIMEOUT = 15
 MAXMIND_CITY_DB = os.getenv("MAXMIND_CITY_DB")
 MAXMIND_ASN_DB = os.getenv("MAXMIND_ASN_DB")
 
-# Messages
-from django.contrib.messages import constants as messages
+
 MESSAGE_TAGS = {
-    messages.INFO: '~info',
+    messages.INFO: "~info",
     messages.WARNING: "~warning",
     messages.ERROR: "~critical",
     messages.SUCCESS: "~positive",
 }
-

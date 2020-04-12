@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load a17t_tags %}
+
+{% block head_title %}{{object.name}} Management{% endblock %}
+
+{% block content %}
+<div class="md:flex justify-between items-center" id="heading">
+    <h3 class="heading leading-none mr-4">
+        {{object.name}}
+    </h3>
+    <a href="{% url 'core:service' object.uuid %}" class="button field ~neutral !low w-auto">View &rarr;</a>
+</div>
+<hr class="sep">
+<div class="max-w-xl content">
+    <h5>Analytics Installation</h5>
+    <p>(At the end of <code>&lt;body&gt;</code>)
+        <pre
+            class="text-sm"><code>{% filter force_escape %}<noscript><img src="{{base_url}}/ingress/fc4008d3-f2fa-4500-9968-d96719e3819c/pixel.gif"></noscript>
+<script src="{{base_url}}/ingress/fc4008d3-f2fa-4500-9968-d96719e3819c/identifier/script.js"></script>{% endfilter %}</pre></code>
+</div>
+<hr class="sep">
+<form class="card ~neutral !low p-0 max-w-xl" method="POST">
+    {% csrf_token %}
+    <div class="p-4">
+        {{form|a17t}}
+    </div>
+    <div class="section ~neutral !normal p-4">
+        <button type="submit" class="button ~neutral !high">Save</button>
+        <a href="{% url 'core:service' object.uuid %}" class="button ~neutral !low">Cancel</a>
+    </div>
+</form>
+{% endblock %}

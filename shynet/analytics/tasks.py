@@ -7,7 +7,6 @@ from celery import shared_task
 from django.conf import settings
 from django.core.cache import cache
 from django.utils import timezone
-from anonymizeip import anonymize_ip
 
 from core.models import Service
 
@@ -51,13 +50,10 @@ def ingress_request(
         ip_data = _geoip2_lookup(ip)
         log.debug(f"Found geoip2 data")
 
-        if service.anonymize_ips:
-            ip = anonymize_ip(ip)
-
         # Create or update session
         session = Session.objects.filter(
             service=service,
-            last_seen__gt=timezone.now() - timezone.timedelta(minutes=30),
+            last_seen__gt=timezone.now() - timezone.timedelta(minutes=10),
             ip=ip,
             user_agent=user_agent,
             identifier=identifier,
@@ -65,15 +61,25 @@ def ingress_request(
         if session is None:
             log.debug("Cannot link to existing session; creating a new one...")
             ua = user_agents.parse(user_agent)
-
+            initial = True
+            device_type = "OTHER"
+            if ua.is_mobile:
+                device_type = "PHONE"
+            elif ua.is_tablet:
+                device_type = "TABLET"
+            elif ua.is_pc:
+                device_type = "DESKTOP"
+            elif ua.is_bot:
+                device_type = "ROBOT"
             session = Session.objects.create(
                 service=service,
                 ip=ip,
                 user_agent=user_agent,
                 identifier=identifier,
-                browser=f"{ua.browser.family or ''} {ua.browser.version_string or ''}".strip(),
-                device=f"{ua.device.model or ''}",
-                os=f"{ua.os.family or ''} {ua.os.version_string or ''}".strip(),
+                browser=ua.browser.family or "",
+                device=ua.device.model or "",
+                device_type=device_type,
+                os=ua.os.family or "",
                 asn=ip_data.get("asn", ""),
                 country=ip_data.get("country", ""),
                 longitude=ip_data.get("longitude"),
@@ -82,6 +88,7 @@ def ingress_request(
             )
         else:
             log.debug("Updating old session with new data...")
+            initial = False
             # Update last seen time
             session.last_seen = timezone.now()
             session.save()
@@ -92,6 +99,7 @@ def ingress_request(
         hit = None
         if idempotency is not None:
             if cache.get(idempotency_path) is not None:
+                cache.touch(idempotency_path, 10 * 60)
                 hit = Hit.objects.filter(
                     pk=cache.get(idempotency_path), session=session
                 ).first()
@@ -107,14 +115,15 @@ def ingress_request(
             # There is no existing hit; create a new one
             hit = Hit.objects.create(
                 session=session,
+                initial=initial,
                 tracker=tracker,
                 location=location,
                 referrer=payload.get("referrer", ""),
-                loadTime=payload.get("loadTime"),
+                load_time=payload.get("loadTime"),
             )
             # Set idempotency (if applicable)
             if idempotency is not None:
-                cache.set(idempotency_path, hit.pk, timeout=30 * 60)
+                cache.set(idempotency_path, hit.pk, timeout=10 * 60)
     except Exception as e:
         log.exception(e)
         raise e

@@ -1,0 +1,15 @@
+{% load humanize %}
+
+{% if stats.currently_online > 0 %}
+<span class="chip ~positive">
+    {{stats.currently_online|intcomma}} online
+</span>
+{% elif stats.online == True %}
+<span class="chip ~positive">
+    Online
+</span>
+{% elif stats.online == False %}
+<span class="chip ~critical">
+    Offline
+</span>
+{% endif %}

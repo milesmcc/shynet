@@ -1,0 +1,33 @@
+<form method="GET" id="datePicker">
+    <input type="hidden" name="startDate" value="{{start_date.isoformat}}" id="startDate">
+    <input type="hidden" name="endDate" value="{{end_date.isoformat}}" id="endDate">
+</form>
+<input type="input" id="rangePicker" placeholder="Date range" class="input ~neutral !low cursor-pointer" readonly>
+<style>
+    :root {
+        --litepickerMonthButtonHover: var(--color-urge);
+        --litepickerDayColorHover: var(--color-urge);
+        --litepickerDayIsTodayColor: var(--color-urge);
+        --litepickerDayIsInRange: var(--color-urge-normal-fill);
+        --litepickerDayIsStartBg: var(--color-urge);
+        --litepickerDayIsEndBg: var(--color-urge);
+        --litepickerButtonApplyBg: var(--color-urge);
+    }
+</style>
+<script>
+    var picker = new Litepicker({
+        element: document.getElementById('rangePicker'),
+        singleMode: false,
+        format: 'MMM D, YYYY',
+        maxDate: new Date(),
+        startDate: Date.parse(document.getElementById("startDate").getAttribute("value")),
+        endDate: Date.parse(document.getElementById("endDate").getAttribute("value")),
+        onSelect: function (startDate, endDate) {
+            document.getElementById("startDate").setAttribute("value", startDate.getFullYear() +
+                "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate());
+            document.getElementById("endDate").setAttribute("value", endDate.getFullYear() + "-" +
+                (endDate.getMonth() + 1) + "-" + endDate.getDate());
+            document.getElementById("datePicker").submit();
+        }
+    });
+</script>

@@ -15,8 +15,7 @@ django-ipware = "*"
 pyyaml = "*"
 ua-parser = "*"
 user-agents = "*"
-django-humanize = "*"
-anonymizeip = "*"
+emoji-country-flag = "*"
 
 [requires]
 python_version = "3.6"

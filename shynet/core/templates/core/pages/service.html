@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% load humanize helpers %}
+
+{% block head_title %}{{service.name}}{% endblock %}
+
+{% block content %}
+<style>
+    .limited-height {
+        max-height: 400px !important;
+        overflow: scroll !important;
+    }
+</style>
+<div class="md:flex justify-between items-center" id="heading">
+    <div class="flex items-center">
+        <h3 class="heading leading-none mr-4">
+            {{service.name}}
+        </h3>
+        <div class='text-3xl'>
+            {% include 'core/includes/stats_status_chip.html' %}
+        </div>
+    </div>
+    <div class="flex items-center">
+        <div class="mr-2">{% include 'core/includes/date_range.html' %}</div>
+        <a href="{% url 'core:service_update' service.uuid %}" class="button field ~neutral !low w-auto">Manage &rarr;</a>
+    </div>
+</div>
+<hr class="sep h-8">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6" id="stats">
+    <article class="card ~neutral !low">
+        <p class="label">Sessions</p>
+        <p class="heading text-purple-600">
+            {{stats.session_count|intcomma}}
+        </p>
+    </article>
+    <article class="card ~neutral !low">
+        <p class="label">Hits</p>
+        <p class="heading text-purple-600">
+            {{stats.hit_count|intcomma}}
+        </p>
+    </article>
+    <article class="card ~neutral !low">
+        <p class="label">Avg. Load Time</p>
+        <p class="heading text-purple-600">
+            {{stats.avg_load_time|floatformat:"0"}}ms
+        </p>
+    </article>
+    <article class="card ~neutral !low">
+        <p class="label">Bounce Rate</p>
+        <p class="heading text-purple-600">{{stats.bounce_rate_pct|floatformat:"-1"}}%</p>
+    </article>
+    <article class="card ~neutral !low">
+        <p class="label">Avg. Duration</p>
+        <p class="heading text-purple-600">{{stats.avg_session_duration|naturaldelta}}</p>
+    </article>
+    <article class="card ~neutral !low">
+        <p class="label">Avg. Hits/Session</p>
+        <p class="heading text-purple-600">{{stats.avg_hits_per_session|floatformat:"-1"}}</p>
+    </article>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div class="card ~neutral !low limited-height">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
+                    <th>Location</th>
+                    <th>Hits</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for location in stats.locations %}
+                <tr>
+                    <td>{{location.location}}</td>
+                    <td>{{location.count|intcomma}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card ~neutral !low limited-height">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
+                    <th>Referrer</th>
+                    <th>Sessions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for referrer in stats.referrers %}
+                <tr>
+                    <td>{{referrer.referrer|default:"Direct"}}</td>
+                    <td>{{referrer.count|intcomma}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card ~neutral !low limited-height">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
+                    <th>Operating System</th>
+                    <th>Sessions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for os in stats.operating_systems %}
+                <tr>
+                    <td>{{os.os|default:"Unknown"}}</td>
+                    <td>{{os.count|intcomma}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card ~neutral !low limited-height">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
+                    <th>Browser</th>
+                    <th>Sessions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for browser in stats.browsers %}
+                <tr>
+                    <td>{{browser.browser|default:"Unknown"}}</td>
+                    <td>{{browser.count|intcomma}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card ~neutral !low limited-height">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
+                    <th>Device</th>
+                    <th>Sessions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for device in stats.devices %}
+                <tr>
+                    <td>{{device.device|default:"Unknown"}}</td>
+                    <td>{{device.count|intcomma}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card ~neutral !low limited-height">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
+                    <th>Device Type</th>
+                    <th>Sessions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for device_type in stats.device_types %}
+                <tr>
+                    <td>{{device_type.device_type|default:"Unknown"|title}}</td>
+                    <td>{{device_type.count|intcomma}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="card ~neutral !low limited-height">
+    <table class="table">
+        <thead>
+            <th>Time</th>
+            <th>Identity</th>
+            <th>Duration</th>
+            <th>Network</th>
+            <th>IP</th>
+            <th>Hits</th>
+        </thead>
+        <tbody>
+            {% for session in stats.sessions %}
+            <tr>
+                <td>
+                    {{session.start_time|date:"M j Y, g:i a"|capfirst}}
+                    {% if session.is_currently_active %}
+                    <span class="badge ~positive">Online</span>
+                    {% endif %}
+                </td>
+                <td>{{session.identifier|default:"Anonymous"}}</td>
+                <td>{{session.duration|naturaldelta}}</td>
+                <td>{{session.country|flag_emoji}} {{session.asn|default:"Unknown"}}</td>
+                <td>{{session.ip}}</td>
+                <td>{{session.hit_set.count|intcomma}}</td>
+            </tr>
+            {% endfor %}
+            {% for session in stats.sessions %}
+            <tr>
+                <td>
+                    {{session.start_time|date:"M j Y, g:i a"|capfirst}}
+                    {% if session.is_currently_active %}
+                    <span class="badge ~positive">Online</span>
+                    {% endif %}
+                </td>
+                <td>{{session.identifier|default:"Anonymous"}}</td>
+                <td>{{session.duration|naturaldelta}}</td>
+                <td>{{session.country|flag_emoji}} {{session.asn|default:"Unknown"}}</td>
+                <td>{{session.ip}}</td>
+                <td>{{session.hit_set.count|intcomma}}</td>
+            </tr>
+            {% endfor %}
+            {% for session in stats.sessions %}
+            <tr>
+                <td>
+                    {{session.start_time|date:"M j Y, g:i a"|capfirst}}
+                    {% if session.is_currently_active %}
+                    <span class="badge ~positive">Online</span>
+                    {% endif %}
+                </td>
+                <td>{{session.identifier|default:"Anonymous"}}</td>
+                <td>{{session.duration|naturaldelta}}</td>
+                <td>{{session.country|flag_emoji}} {{session.asn|default:"Unknown"}}</td>
+                <td>{{session.ip}}</td>
+                <td>{{session.hit_set.count|intcomma}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
