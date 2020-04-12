@@ -1,0 +1,76 @@
+<div id="{{name|default:'timeChart'}}"></div>
+<script>
+var triggerMatchesChartOptions = {
+    dataLabels: {
+        enabled: false
+    },
+    tooltip: {
+        shared: false,
+    },
+    colors: ["#805AD5"],
+    chart: {
+        toolbar: {
+            show: false,
+        },
+        type: 'area',
+        height: {{height|default:"200"}},
+        offsetY: -1,
+        animations: {
+            enabled: false
+        },
+        sparkline: {
+            enabled: {% if sparkline %}true{% else %}false{% endif %},
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shadeIntensity: 1,
+                inverseColors: false,
+                opacityFrom: 0.8,
+                opacityTo: 0,
+                stops: [0, 75, 100]
+            },
+        },
+    },
+    grid: {
+        padding: {
+            right: 0,
+            left: -8,
+        },
+        {% if not sparkline %}
+        xaxis: {
+            lines: {
+                show: true,
+            }
+        },
+        yaxis: {
+            lines: {
+                show: false,
+            }
+        },
+        show: true
+        {% endif %}
+    },
+    yaxis: {
+        labels: {
+            show: false,
+            formatter: val => val.toFixed(0)
+        },
+        padding: {
+            left: 0,
+        }
+    },
+    xaxis: {
+        type: "datetime",
+    },
+    stroke: {
+        width: 1.5,
+    },
+    series: [{
+        name: "{{unit|default:'Sessions'}}",
+        data: {{data|safe}}
+    }]
+};
+var triggerMatchesChart = new ApexCharts(document.querySelector("#{{name|default:'timeChart'}}"), triggerMatchesChartOptions);
+triggerMatchesChart.render();
+</script>

@@ -1,30 +1,36 @@
 {% load humanize helpers %}
 
-<a class="card ~neutral !low service mb-6" href="{% url 'core:service' object.uuid %}">
+<a class="card ~neutral !low service mb-6 p-0" href="{% url 'core:service' object.uuid %}">
     {% with stats=object.stats %}
-    <div class="md:flex justify-between items-center">
-        <div class="mr-4 md:w-4/12">
-            <h3 class="heading text-xl mr-2 mb-1">
+    <div class="p-4 md:flex justify-between">
+        <div class="md:w-4/12">
+            <h3 class="heading text-xl mr-2 mb-1 text-purple-600">
                 {{object.name}}
             </h3>
             {% include 'core/includes/stats_status_chip.html' %}
         </div>
-        <div class="mr-2">
-            <p class="font-medium text-sm">Sessions</p>
-            <p class="text-xl text-purple-700 font-medium">{{stats.session_count|intcomma}}</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div>
+                <p>Sessions</p>
+                <p class="label">{{stats.session_count|intcomma}}</p>
+            </div>
+            <div>
+                <p>Bounce Rate</p>
+                <p class="label">{{stats.bounce_rate_pct|floatformat:"-1"}}%</p>
+            </div>
+            <div>
+                <p>Avg. Duration</p>
+                <p class="label">{{stats.avg_session_duration|naturaldelta}}</p>
+            </div>
+            <div>
+                <p>Uptime</p>
+                <p class="label">99.9%</p>
+            </div>
         </div>
-        <div class="mr-2">
-            <p class="font-medium text-sm">Bounce Rate</p>
-            <p class="text-xl text-purple-700 font-medium">{{stats.bounce_rate_pct|floatformat:"-1"}}%</p>
-        </div>
-        <div class="mr-2">
-            <p class="font-medium text-sm">Avg. Duration</p>
-            <p class="text-xl text-purple-700 font-medium">{{stats.avg_session_duration|naturaldelta}}</p>
-        </div>
-        <div class="mr-2">
-            <p class="font-medium text-sm">Uptime</p>
-            <p class="text-xl text-purple-700 font-medium">99.9%</p>
-        </div>
+    </div>
+    <hr class="sep h-4">
+    <div style="bottom: -1px;">
+        {% include 'core/includes/time_chart.html' with data=stats.session_chart_data sparkline=True height=100 %}
     </div>
     {% endwith %}
 </a>

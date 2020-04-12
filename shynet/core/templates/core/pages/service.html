@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block service_content %}
+{% include 'core/includes/time_chart.html' with data=stats.session_chart_data %}
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6" id="stats">
     <article class="card ~neutral !low">
         <p class="label">Sessions</p>

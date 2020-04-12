@@ -1,10 +1,12 @@
 import uuid
+import json
 
 from django.apps import apps
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.utils import NotSupportedError
 from django.utils import timezone
+from django.db.models.functions import TruncDate
 
 
 def _default_uuid():
@@ -60,12 +62,9 @@ class Service(models.Model):
             service=self, start_time__gt=timezone.now() - timezone.timedelta(seconds=10)
         ).count()
 
-        sessions = (
-            Session.objects.filter(
-                service=self, start_time__gt=start_time, start_time__lt=end_time
-            )
-            .order_by("-start_time")
-        )
+        sessions = Session.objects.filter(
+            service=self, start_time__gt=start_time, start_time__lt=end_time
+        ).order_by("-start_time")
         session_count = sessions.count()
 
         hits = Hit.objects.filter(
@@ -135,6 +134,18 @@ class Service(models.Model):
                 ]
             ) / max(session_count, 1)
 
+        session_chart_data = {
+            k["date"]: k["count"]
+            for k in sessions.annotate(date=TruncDate("start_time"))
+            .values("date")
+            .annotate(count=models.Count("uuid"))
+            .order_by("date")
+        }
+        for day_offset in range((end_time - start_time).days + 1):
+            day = (start_time + timezone.timedelta(days=day_offset)).date()
+            if day not in session_chart_data:
+                session_chart_data[day] = 0
+
         return {
             "currently_online": currently_online,
             "session_count": session_count,
@@ -150,5 +161,11 @@ class Service(models.Model):
             "browsers": browsers,
             "devices": devices,
             "device_types": device_types,
+            "session_chart_data": json.dumps(
+                [
+                    {"x": str(key), "y": value}
+                    for key, value in session_chart_data.items()
+                ]
+            ),
             "online": True,
         }
