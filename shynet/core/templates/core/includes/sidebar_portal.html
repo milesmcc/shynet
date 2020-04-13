@@ -1,4 +1,6 @@
 {% load helpers %}
 
-<a class="portal {% if request.get_full_path|startswith:url %}~urge active bg-gray-100{% endif %}"
-    href="{{url}}">{{label}}</a><br>
+<div>
+    <a class="portal !low {% if request.get_full_path|startswith:url %}~urge active bg-gray-100{% endif %}"
+        href="{{url}}">{{label}}</a>
+</div>

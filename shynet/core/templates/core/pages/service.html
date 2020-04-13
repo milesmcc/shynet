@@ -1,155 +1,183 @@
 {% extends "core/service_base.html" %}
 
-{% load humanize helpers %}
+{% load humanize helpers rules %}
 
 {% block service_actions %}
 <div class="mr-2">{% include 'core/includes/date_range.html' %}</div>
-<a href="{% url 'core:service_update' service.uuid %}" class="button field ~neutral !low w-auto">Manage &rarr;</a>
+{% has_perm 'core.change_service' user object as can_update %}
+{% if can_update %}
+<a href="{% url 'core:service_update' service.uuid %}" class="button field ~neutral w-auto">Manage &rarr;</a>
+{% endif %}
 {% endblock %}
 
 {% block service_content %}
-{% include 'core/includes/time_chart.html' with data=stats.session_chart_data %}
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6" id="stats">
-    <article class="card ~neutral !low">
-        <p class="label">Sessions</p>
-        <p class="heading text-purple-600">
+<div class="grid grid-cols-2 gap-6 md:flex justify-between mb-6 card ~neutral !high px-6" id="stats">
+    <article class="">
+        <p class="label text-gray-400">Sessions</p>
+        <p class="heading">
             {{stats.session_count|intcomma}}
         </p>
     </article>
-    <article class="card ~neutral !low">
-        <p class="label">Hits</p>
-        <p class="heading text-purple-600">
+    <article class="">
+        <p class="label text-gray-400">Hits</p>
+        <p class="heading">
             {{stats.hit_count|intcomma}}
         </p>
     </article>
-    <article class="card ~neutral !low">
-        <p class="label">Avg. Load Time</p>
-        <p class="heading text-purple-600">
+    <article class="">
+        <p class="label text-gray-400">Load Time</p>
+        <p class="heading">
+            {% if stats.avg_load_time %}
             {{stats.avg_load_time|floatformat:"0"}}ms
+            {% else %}
+            ?
+            {% endif %}
         </p>
     </article>
-    <article class="card ~neutral !low">
-        <p class="label">Bounce Rate</p>
-        <p class="heading text-purple-600">{{stats.bounce_rate_pct|floatformat:"-1"}}%</p>
+    <article class="">
+        <p class="label text-gray-400">Bounce Rate</p>
+        <p class="heading">
+            {% if stats.bounce_rate_pct %}
+            {{stats.bounce_rate_pct|floatformat:"-1"}}%
+            {% else %}
+            ?
+            {% endif %}
+        </p>
     </article>
-    <article class="card ~neutral !low">
-        <p class="label">Avg. Duration</p>
-        <p class="heading text-purple-600">{{stats.avg_session_duration|naturaldelta}}</p>
+    <article class="">
+        <p class="label text-gray-400">Duration</p>
+        <p class="heading">
+            {% if stats.avg_session_duration %}
+            {{stats.avg_session_duration|naturaldelta}}
+            {% else %}
+            ?
+            {% endif %}
+        </p>
     </article>
-    <article class="card ~neutral !low">
-        <p class="label">Avg. Hits/Session</p>
-        <p class="heading text-purple-600">{{stats.avg_hits_per_session|floatformat:"-1"}}</p>
+    <article class="">
+        <p class="label text-gray-400">Hits/Session</p>
+        <p class="heading">
+            {% if stats.avg_hits_per_session %}
+            {{stats.avg_hits_per_session|floatformat:"-1"}}
+            {% else %}
+            ?
+            {% endif %}
+        </p>
     </article>
 </div>
+<div class="card ~neutral !low py-0 mb-6">
+    {% include 'core/includes/time_chart.html' with data=stats.session_chart_data %}
+</div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-    <div class="card ~neutral !low limited-height">
+    <div class="card ~neutral !low limited-height pt-1">
         <table class="table">
             <thead class="text-sm">
                 <tr>
                     <th>Location</th>
-                    <th>Hits</th>
+                    <th class="rf">Hits</th>
                 </tr>
             </thead>
             <tbody>
                 {% for location in stats.locations %}
                 <tr>
-                    <td>{{location.location|urlize}}</td>
-                    <td>{{location.count|intcomma}}</td>
+                    <td>{{location.location|urldisplay}}</td>
+                    <td class="rf">{{location.count|intcomma}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="card ~neutral !low limited-height">
+    <div class="card ~neutral !low limited-height pt-1">
         <table class="table">
             <thead class="text-sm">
                 <tr>
                     <th>Referrer</th>
-                    <th>Sessions</th>
+                    <th class="rf">Sessions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for referrer in stats.referrers %}
                 <tr>
-                    <td>{{referrer.referrer|default:"Direct"|urlize}}</td>
-                    <td>{{referrer.count|intcomma}}</td>
+                    <td>{{referrer.referrer|default:"Direct"|urldisplay}}</td>
+                    <td class="rf">{{referrer.count|intcomma}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="card ~neutral !low limited-height">
+    <div class="card ~neutral !low limited-height pt-1">
         <table class="table">
             <thead class="text-sm">
                 <tr>
                     <th>Operating System</th>
-                    <th>Sessions</th>
+                    <th class="rf">Sessions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for os in stats.operating_systems %}
                 <tr>
                     <td>{{os.os|default:"Unknown"}}</td>
-                    <td>{{os.count|intcomma}}</td>
+                    <td class="rf">{{os.count|intcomma}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="card ~neutral !low limited-height">
+    <div class="card ~neutral !low limited-height pt-1">
         <table class="table">
             <thead class="text-sm">
                 <tr>
                     <th>Browser</th>
-                    <th>Sessions</th>
+                    <th class="rf">Sessions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for browser in stats.browsers %}
                 <tr>
                     <td>{{browser.browser|default:"Unknown"}}</td>
-                    <td>{{browser.count|intcomma}}</td>
+                    <td class="rf">{{browser.count|intcomma}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="card ~neutral !low limited-height">
+    <div class="card ~neutral !low limited-height pt-1">
         <table class="table">
             <thead class="text-sm">
                 <tr>
                     <th>Device</th>
-                    <th>Sessions</th>
+                    <th class="rf">Sessions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for device in stats.devices %}
                 <tr>
                     <td>{{device.device|default:"Unknown"}}</td>
-                    <td>{{device.count|intcomma}}</td>
+                    <td class="rf">{{device.count|intcomma}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="card ~neutral !low limited-height">
+    <div class="card ~neutral !low limited-height pt-1">
         <table class="table">
             <thead class="text-sm">
                 <tr>
                     <th>Device Type</th>
-                    <th>Sessions</th>
+                    <th class="rf">Sessions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for device_type in stats.device_types %}
                 <tr>
                     <td>{{device_type.device_type|default:"Unknown"|title}}</td>
-                    <td>{{device_type.count|intcomma}}</td>
+                    <td class="rf">{{device_type.count|intcomma}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-<a href="{% url 'core:service_session_list' service.uuid %}" class="button">View individual sessions &rarr;</a>
+<a href="{% url 'core:service_session_list' service.uuid %}" class="button field w-auto">View individual sessions
+    &rarr;</a>
 {% endblock %}

@@ -1,6 +1,9 @@
+from urllib.parse import urlparse
+
 import flag
 from django import template
 from django.utils import timezone
+from django.utils.safestring import SafeString
 
 register = template.Library()
 
@@ -26,8 +29,20 @@ def flag_emoji(isocode):
     except:
         return ""
 
-@register.filter('startswith')
+
+@register.filter
 def startswith(text, starts):
     if isinstance(text, str):
         return text.startswith(starts)
     return False
+
+
+@register.filter
+def urldisplay(url):
+    try:
+        parsed = urlparse(url)
+        return SafeString(
+            f"<a href='{url}' title='{url}' rel='nofollow'>{parsed.path if len(parsed.path) < 32 else parsed.path[:32] + '&hellip;'}</a>"
+        )
+    except:
+        return url

@@ -2,15 +2,15 @@
 
 {% with stats=object.get_daily_stats %}
 {% if stats.currently_online > 0 %}
-<span class="chip ~positive">
+<span class="chip ~positive !high">
     {{stats.currently_online|intcomma}} online
 </span>
 {% elif stats.online == True %}
-<span class="chip ~positive">
+<span class="chip ~positive !high">
     Online
 </span>
 {% elif stats.online == False %}
-<span class="chip ~critical">
+<span class="chip ~critical !high">
     Offline
 </span>
 {% endif %}

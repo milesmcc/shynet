@@ -1,0 +1,12 @@
+.table tbody tr:nth-child(2n) {
+    background-color: transparent;
+}
+
+.limited-height {
+    overflow-y: scroll;
+    max-height: 400px;
+}
+
+.rf {
+    text-align: right !important;
+}

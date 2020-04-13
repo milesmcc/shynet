@@ -1,12 +1,12 @@
-import uuid
 import json
+import uuid
 
 from django.apps import apps
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.functions import TruncDate
 from django.db.utils import NotSupportedError
 from django.utils import timezone
-from django.db.models.functions import TruncDate
 
 
 def _default_uuid():
@@ -120,7 +120,7 @@ class Service(models.Model):
             "load_time__avg"
         ]
 
-        avg_hits_per_session = hit_count / max(session_count, 1)
+        avg_hits_per_session = hit_count / session_count if session_count > 0 else None
 
         try:
             avg_session_duration = sessions.annotate(
@@ -133,6 +133,8 @@ class Service(models.Model):
                     for session in sessions
                 ]
             ) / max(session_count, 1)
+        if session_count == 0:
+            avg_session_duration = None
 
         session_chart_data = {
             k["date"]: k["count"]
@@ -151,7 +153,9 @@ class Service(models.Model):
             "session_count": session_count,
             "hit_count": hit_count,
             "avg_hits_per_session": hit_count / (max(session_count, 1)),
-            "bounce_rate_pct": bounce_count * 100 / (max(session_count, 1)),
+            "bounce_rate_pct": bounce_count * 100 / session_count
+            if session_count > 0
+            else None,
             "avg_session_duration": avg_session_duration,
             "avg_load_time": avg_load_time,
             "avg_hits_per_session": avg_hits_per_session,

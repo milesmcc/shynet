@@ -1,3 +1,4 @@
+{% load static rules %}
 <!DOCTYPE html>
 
 <html>
@@ -10,27 +11,45 @@
   <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.18.1/dist/apexcharts.min.js"
     integrity="sha256-RalQXBZdisB04aaBsm+6YZ0b/iRYjX1MZn90m19AnCY=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{% static 'core/css/global.css' %}">
   {% block extra_head %}
   {% endblock %}
 </head>
 
-<body class="bg-gray-100 min-h-full">
+<body class="bg-gray-200 min-h-full">
   {% block body %}
 
-  <section class="max-w-screen-lg mx-auto px-6 md:py-12 md:flex">
-    <aside class="w-2/12 mr-8 block">
-      <a class="icon ~urge ml-6 mb-12 mt-3" href="{% url 'core:dashboard' %}">
-        <i class="fas fa-low-vision fa-3x text-purple-600"></i>
+  <section class="max-w-screen-xl mx-auto px-6 md:px-0 md:py-12 md:flex">
+    <aside class="md:w-2/12 md:pr-6">
+      <a class="icon ~urge ml-6 mb-8 mt-3" href="{% url 'core:dashboard' %}">
+        <i class="fas fa-book-reader fa-3x text-purple-600"></i>
       </a>
 
+      {% if user.owning_services.all %}
+      <p class="ml-2 mt-8 mb-1 supra font-medium text-gray-500 pointer-events-none">Services</p>
 
       {% for service in user.owning_services.all %}
       {% url 'core:service' service.uuid as url %}
       {% include 'core/includes/sidebar_portal.html' with label=service.name url=url %}
       {% endfor %}
 
+      {% endif %}
+
+      {% has_perm 'core.create_service' user as can_create %}
+      {% if can_create %}
       {% url 'core:service_create' as url %}
       {% include 'core/includes/sidebar_portal.html' with label="+ Create" url=url %}
+      {% endif %}
+
+      {% if user.collaborating_services.all %}
+      <p class="ml-2 mt-8 mb-1 supra font-medium text-gray-500 pointer-events-none">Collaborations</p>
+
+      {% for service in user.collaborating_services.all %}
+      {% url 'core:service' service.uuid as url %}
+      {% include 'core/includes/sidebar_portal.html' with label=service.name url=url %}
+      {% endfor %}
+
+      {% endif %}
 
       <p class="ml-2 mt-8 mb-1 supra font-medium text-gray-500 pointer-events-none">Account</p>
 
@@ -52,7 +71,7 @@
 
       {% endif %}
     </aside>
-    <div class="flex-grow">
+    <div class="md:w-10/12">
       {% if messages %}
       <div>
         {% for message in messages %}
@@ -60,6 +79,7 @@
         {% endfor %}
         </ul>
       </div>
+      <hr class="sep">
       {% endif %}
       <main>
         {% block content %}

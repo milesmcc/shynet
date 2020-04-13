@@ -4,7 +4,6 @@ from django.utils import timezone
 
 
 class DateRangeMixin:
-
     def get_start_date(self):
         if self.request.GET.get("startDate") != None:
             found_time = timezone.datetime.strptime(

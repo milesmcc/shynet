@@ -9,10 +9,10 @@
 
 <hr class="sep">
 
-<div class="card ~neutral !low">
+<div class="card ~neutral !low max-w-lg">
 
   {% if user.emailaddress_set.all %}
-  <p>{% trans 'The following email addresses are associated with your account:' %}</p>
+  <p>{% trans 'These are your known email addresses:' %}</p>
   <form action="{% url 'account_email' %}" class="email_list" method="post">
     {% csrf_token %}
     <fieldset class="blockLabels">
@@ -36,9 +36,9 @@
       {% endfor %}
 
       <div class="block mt-4">
-        <button class="button ~urge mb-1" type="submit" name="action_primary">{% trans 'Make Primary' %}</button>
-        <button class="button ~info mb-1" type="submit" name="action_send">{% trans 'Resend Verification' %}</button>
-        <button class="button ~critical mb-1" type="submit" name="action_remove">{% trans 'Remove' %}</button>
+        <button class="button ~neutral !high mb-1" type="submit" name="action_primary">{% trans 'Make Primary' %}</button>
+        <button class="button ~neutral mb-1" type="submit" name="action_send">{% trans 'Resend Verification' %}</button>
+        <button class="button ~neutral mb-1" type="submit" name="action_remove">{% trans 'Remove' %}</button>
       </div>
     </fieldset>
   </form>
@@ -54,10 +54,10 @@
 
 <hr class="sep">
 
-<form method="post" action="{% url 'account_email' %}" class="add_email max-w-lg">
+<form method="post" action="{% url 'account_email' %}" class="card ~neutral !low max-w-lg">
   {% csrf_token %}
   {{ form|a17t }}
-  <button name="action_add" class="button ~neutral !high" type="submit">{% trans "Add Email" %}</button>
+  <button name="action_add" class="button ~neutral !high" type="submit">{% trans "Add Address" %}</button>
 </form>
 
 {% endblock %}

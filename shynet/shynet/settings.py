@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.humanize",
+    "rules",
     "a17t",
     "core",
     "analytics",
@@ -129,6 +130,7 @@ STATIC_URL = "/static/"
 AUTH_USER_MODEL = "core.User"
 
 AUTHENTICATION_BACKENDS = (
+    "rules.permissions.ObjectPermissionBackend",
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 )
@@ -138,6 +140,11 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
+ACCOUNT_USER_DISPLAY = lambda k: k.email
+
+LOGIN_REDIRECT_URL = "/dash"
 
 SITE_ID = 1
 
@@ -161,3 +168,7 @@ MESSAGE_TAGS = {
     messages.ERROR: "~critical",
     messages.SUCCESS: "~positive",
 }
+
+# Shynet
+
+ONLY_SUPERUSERS_CREATE = True  # Can everyone create services, or only superusers?

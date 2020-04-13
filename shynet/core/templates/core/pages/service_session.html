@@ -5,26 +5,25 @@
 {% block head_title %}{{object.name}} Session{% endblock %}
 
 {% block service_actions %}
-<a href="{% url 'core:service' object.uuid %}" class="button field ~neutral !low w-auto">Analytics &rarr;</a>
+<a href="{% url 'core:service' object.uuid %}" class="button field ~neutral w-auto">Analytics &rarr;</a>
 {% endblock %}
 
 {% block service_content %}
-<article class="card ~neutral !low">
-    <div class="flex items-center justify-between">
+<article class="card ~neutral !high">
+    <div class="md:flex items-center justify-between">
         <div>
-            <h3 class="heading text-xl text-purple-600 mr-4">
-                {{session.identifier|default:"Anonymous"}} @ {{session.duration|naturaldelta}} <span
-                    class="text-gray-600">({{session.ip}})</span>
+            <h3 class="heading text-2xl mr-4">
+                {{session.identifier|default:"Anonymous"}}, {{session.duration|naturaldelta}}
             </h3>
-            <p>{{session.start_time|date:"M j Y, g:i a"}} until
-                {{session.last_seen|date:"g:i a"}}</p>
         </div>
         <div>
-            {% if session.is_currently_active %}<span class="chip ~positive text-base">Online</span>{% endif %}
+            <p class="font-medium text-lg">{{session.start_time|date:"M j Y, g:i a"}} to
+                {{session.last_seen|date:"g:i a"}}</p>
+            {% if session.is_currently_active %}<span class="chip ~positive !high text-base">Online</span>{% endif %}
         </div>
     </div>
     <hr class="sep h-8">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-gray-400 font-medium">
         <div>
             <p>Browser</p>
             <p class="label">{{session.browser|default:"Unknown"}}</p>
@@ -69,8 +68,8 @@
 <div class="">
     {% for hit in session.hit_set.all %}
     <article class="my-12 md:flex">
-        <div class="md:w-2/12">
-            <div class="text-lg">{{hit.start_time|date:"g:i a"}}</div>
+        <div class="md:w-2/12 mb-2 md:mr-4 pt-4 md:text-right">
+            <div class="text-lg font-medium">{{hit.start_time|date:"g:i a"}}</div>
         </div>
         <div class="md:flex card ~neutral !low flex-grow justify-between">
             <div class="mb-4 md:mb-0 md:w-1/2">

@@ -1,20 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import reverse, get_object_or_404
+from django.shortcuts import get_object_or_404, reverse
 from django.utils import timezone
-from django.views.generic import (
-    CreateView,
-    DetailView,
-    TemplateView,
-    UpdateView,
-    DeleteView,
-    ListView,
-)
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  TemplateView, UpdateView)
+from rules.contrib.views import PermissionRequiredMixin
+
+from analytics.models import Session
 
 from .forms import ServiceForm
 from .mixins import BaseUrlMixin, DateRangeMixin
 from .models import Service
-
-from analytics.models import Session
 
 
 class IndexView(TemplateView):
@@ -32,19 +27,26 @@ class DashboardView(LoginRequiredMixin, DateRangeMixin, TemplateView):
         return data
 
 
-class ServiceCreateView(LoginRequiredMixin, CreateView):
+class ServiceCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Service
     form_class = ServiceForm
     template_name = "core/pages/service_create.html"
+    permission_required = "core.create_service"
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
+    def get_success_url(self):
+        return reverse("core:service", kwargs={"pk": self.object.uuid})
 
-class ServiceView(LoginRequiredMixin, DateRangeMixin, DetailView):
+
+class ServiceView(
+    LoginRequiredMixin, PermissionRequiredMixin, DateRangeMixin, DetailView
+):
     model = Service
     template_name = "core/pages/service.html"
+    permission_required = "core.view_service"
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -52,28 +54,35 @@ class ServiceView(LoginRequiredMixin, DateRangeMixin, DetailView):
         return data
 
 
-class ServiceUpdateView(LoginRequiredMixin, BaseUrlMixin, UpdateView):
+class ServiceUpdateView(
+    LoginRequiredMixin, PermissionRequiredMixin, BaseUrlMixin, UpdateView
+):
     model = Service
     form_class = ServiceForm
     template_name = "core/pages/service_update.html"
+    permission_required = "core.change_service"
 
     def get_success_url(self):
         return reverse("core:service", kwargs={"uuid": self.object.uuid})
 
 
-class ServiceDeleteView(LoginRequiredMixin, DeleteView):
+class ServiceDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Service
     form_class = ServiceForm
     template_name = "core/pages/service_delete.html"
+    permission_required = "core.delete_service"
 
     def get_success_url(self):
         return reverse("core:dashboard")
 
 
-class ServiceSessionsListView(LoginRequiredMixin, DateRangeMixin, ListView):
+class ServiceSessionsListView(
+    LoginRequiredMixin, PermissionRequiredMixin, DateRangeMixin, ListView
+):
     model = Session
     template_name = "core/pages/service_session_list.html"
     paginate_by = 20
+    permission_required = "core.view_service"
 
     def get_object(self):
         return get_object_or_404(Service, pk=self.kwargs.get("pk"))
@@ -91,11 +100,12 @@ class ServiceSessionsListView(LoginRequiredMixin, DateRangeMixin, ListView):
         return data
 
 
-class ServiceSessionView(LoginRequiredMixin, DetailView):
+class ServiceSessionView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Session
     template_name = "core/pages/service_session.html"
     pk_url_kwarg = "session_pk"
     context_object_name = "session"
+    permission_required = "core.view_service"
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)

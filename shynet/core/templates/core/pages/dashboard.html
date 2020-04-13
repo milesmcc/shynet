@@ -1,18 +1,26 @@
 {% extends "base.html" %}
 
+{% load rules %}
+
 {% block content %}
-<div class="md:flex justify-between">
-<h4 class="heading text-5xl leading-none">Shynet Dash</h4>
-<div>
-    {% include 'core/includes/date_range.html' %}
-</div>
+<div class="md:flex justify-between items-center">
+    <div>
+        <h4 class="heading">Dashboard</h4>
+    </div>
+    <div class="flex items-center">
+        <div class="mr-1">
+            {% include 'core/includes/date_range.html' %}
+        </div>
+        {% has_perm "core.create_service" user as can_create %}
+        {% if can_create %}
+        <a href="{% url 'core:service_create' %}" class="button field w-auto">+ New Service</a>
+        {% endif %}
+    </div>
 </div>
 <hr class="sep">
-
 {% for object in services %}
 {% include 'core/includes/service_overview.html' %}
 {% empty %}
 <p>You don't have any services.</p>
 {% endfor %}
-<a href="{% url 'core:service_create' %}" class="button ~neutral my-2">+ New Service</a>
 {% endblock %}

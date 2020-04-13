@@ -5,7 +5,8 @@
 {% block head_title %}{{object.name}} Sessions{% endblock %}
 
 {% block service_actions %}
-<a href="{% url 'core:service' object.uuid %}" class="button field ~neutral !low w-auto">Analytics &rarr;</a>
+<div class="mr-2">{% include 'core/includes/date_range.html' %}</div>
+<a href="{% url 'core:service' object.uuid %}" class="button field ~neutral w-auto">Analytics &rarr;</a>
 {% endblock %}
 
 {% block service_content %}
@@ -15,8 +16,8 @@
             <th>Time</th>
             <th>Identity</th>
             <th>Network</th>
-            <th>Duration</th>
-            <th>Hits</th>
+            <th class="rf">Duration</th>
+            <th class="rf">Hits</th>
         </thead>
         <tbody>
             {% for session in object_list %}
@@ -37,8 +38,8 @@
                     {% endif %}
                 </td>
                 <td>{{session.country|flag_emoji}} {{session.asn|default:"Unknown"}}</td>
-                <td>{{session.duration|naturaldelta}}</td>
-                <td>{{session.hit_set.count|intcomma}}</td>
+                <td class="rf">{{session.duration|naturaldelta}}</td>
+                <td class="rf">{{session.hit_set.count|intcomma}}</td>
             </tr>
             {% endfor %}
         </tbody>
