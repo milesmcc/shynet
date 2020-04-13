@@ -19,57 +19,70 @@
 <body class="bg-gray-200 min-h-full">
   {% block body %}
 
-  <section class="max-w-screen-xl mx-auto px-6 md:px-0 md:py-12 md:flex">
-    <aside class="md:w-2/12 md:pr-6">
-      <a class="icon ~urge ml-6 mb-8 mt-3" href="{% url 'core:dashboard' %}">
-        <i class="fas fa-book-reader fa-3x text-purple-600"></i>
+  <section class="max-w-screen-xl mx-auto px-4 md:px-0 py-4 md:py-12 md:flex">
+    <aside class="mb-8 md:w-2/12 md:pr-6 relative flex flex-wrap md:block justify-between items-center">
+      <a class="icon ~urge ml-2 md:ml-6 md:mb-8 md:mt-3" href="{% url 'core:dashboard' %}">
+        <i class="fas fa-binoculars fa-3x text-purple-600 hidden md:block"></i>
+        <i class="fas fa-binoculars fa-2x text-purple-600 md:hidden"></i>
       </a>
 
-      {% if user.owning_services.all %}
-      <p class="ml-2 mt-8 mb-1 supra font-medium text-gray-500 pointer-events-none">Services</p>
+      <button class="button ~neutral !low md:hidden"
+        onclick="document.getElementById('navMenuExpanded').classList.toggle('hidden')">
+        <span class="icon">
+          <i class="fas fa-bars"></i>
+        </span>
+      </button>
+      <hr class="sep h-4 md:h-8 w-full">
+      <div id="navMenuExpanded" class="bg-white shadow-lg md:shadow-none p-4 hidden rounded-lg md:block md:bg-transparent md:border-none md:p-0 w-full">
+        {% if user.owning_services.all %}
+        <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Services</p>
 
-      {% for service in user.owning_services.all %}
-      {% url 'core:service' service.uuid as url %}
-      {% include 'core/includes/sidebar_portal.html' with label=service.name url=url %}
-      {% endfor %}
+        {% for service in user.owning_services.all %}
+        {% url 'core:service' service.uuid as url %}
+        {% include 'core/includes/sidebar_portal.html' with label=service.name url=url %}
+        {% endfor %}
 
-      {% endif %}
+        {% endif %}
 
-      {% has_perm 'core.create_service' user as can_create %}
-      {% if can_create %}
-      {% url 'core:service_create' as url %}
-      {% include 'core/includes/sidebar_portal.html' with label="+ Create" url=url %}
-      {% endif %}
+        {% has_perm 'core.create_service' user as can_create %}
+        {% if can_create %}
+        {% url 'core:service_create' as url %}
+        {% include 'core/includes/sidebar_portal.html' with label="+ Create" url=url %}
+        {% endif %}
 
-      {% if user.collaborating_services.all %}
-      <p class="ml-2 mt-8 mb-1 supra font-medium text-gray-500 pointer-events-none">Collaborations</p>
+        {% if user.collaborating_services.all %}
+        <p class="ml-2 mt-8 mb-1 supra font-medium text-gray-500 pointer-events-none">Collaborations</p>
 
-      {% for service in user.collaborating_services.all %}
-      {% url 'core:service' service.uuid as url %}
-      {% include 'core/includes/sidebar_portal.html' with label=service.name url=url %}
-      {% endfor %}
+        {% for service in user.collaborating_services.all %}
+        {% url 'core:service' service.uuid as url %}
+        {% include 'core/includes/sidebar_portal.html' with label=service.name url=url %}
+        {% endfor %}
 
-      {% endif %}
+        {% endif %}
 
-      <p class="ml-2 mt-8 mb-1 supra font-medium text-gray-500 pointer-events-none">Account</p>
+        <p class="ml-2 mt-8 mb-1 supra font-medium text-gray-500 pointer-events-none">Account</p>
 
-      {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
 
-      {% url 'account_email' as url %}
-      {% include 'core/includes/sidebar_portal.html' with label="Emails" url=url %}
+        {% url 'account_email' as url %}
+        {% include 'core/includes/sidebar_portal.html' with label="Emails" url=url %}
 
-      {% url 'account_logout' as url %}
-      {% include 'core/includes/sidebar_portal.html' with label="Log Out" url=url %}
+        {% url 'account_set_password' as url %}
+        {% include 'core/includes/sidebar_portal.html' with label="Security" url=url %}
 
-      {% else %}
+        {% url 'account_logout' as url %}
+        {% include 'core/includes/sidebar_portal.html' with label="Log Out" url=url %}
 
-      {% url 'account_login' as url %}
-      {% include 'core/includes/sidebar_portal.html' with label="Log In" url=url %}
+        {% else %}
 
-      {% url 'account_signup' as url %}
-      {% include 'core/includes/sidebar_portal.html' with label="Sign Up" url=url %}
+        {% url 'account_login' as url %}
+        {% include 'core/includes/sidebar_portal.html' with label="Log In" url=url %}
 
-      {% endif %}
+        {% url 'account_signup' as url %}
+        {% include 'core/includes/sidebar_portal.html' with label="Sign Up" url=url %}
+
+        {% endif %}
+      </div>
     </aside>
     <div class="md:w-10/12">
       {% if messages %}

@@ -3,8 +3,8 @@
 <a class="card ~neutral !low service mb-6 p-0" href="{% url 'core:service' object.uuid %}">
     {% with stats=object.stats %}
     <div class="p-4 md:flex justify-between">
-        <div class="md:w-4/12 flex items-center">
-            <h3 class="heading mr-2 mb-1 text-purple-600">
+        <div class="md:w-4/12 flex items-center mb-4 md:mb-0">
+            <h3 class="heading text-xl md:text-2xl mr-2 mb-1 text-purple-600">
                 {{object.name}}
             </h3>
             {% include 'core/includes/stats_status_chip.html' %}

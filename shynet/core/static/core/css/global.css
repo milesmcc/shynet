@@ -2,8 +2,12 @@
     background-color: transparent;
 }
 
+.table {
+    overflow-x: scroll;
+}
+
 .limited-height {
-    overflow-y: scroll;
+    overflow: scroll;
     max-height: 400px;
 }
 
