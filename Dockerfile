@@ -14,6 +14,7 @@ RUN pipenv install --system --deploy
 
 COPY shynet .
 RUN python manage.py collectstatic --noinput
+RUN python manage.py compilemessages
 
 ARG GF_UID="500"
 ARG GF_GID="500"
