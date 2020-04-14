@@ -13,13 +13,13 @@ def _default_uuid():
 
 class Session(models.Model):
     uuid = models.UUIDField(default=_default_uuid, primary_key=True)
-    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, db_index=True)
 
     # Cross-session identification; optional, and provided by the service
-    identifier = models.TextField(blank=True)
+    identifier = models.TextField(blank=True, db_index=True)
 
     # Time
-    start_time = models.DateTimeField(auto_now_add=True)
+    start_time = models.DateTimeField(auto_now_add=True, db_index=True)
     last_seen = models.DateTimeField(auto_now_add=True)
 
     # Core request information
@@ -38,7 +38,7 @@ class Session(models.Model):
         default="OTHER",
     )
     os = models.TextField()
-    ip = models.GenericIPAddressField()
+    ip = models.GenericIPAddressField(db_index=True)
 
     # GeoIP data
     asn = models.TextField(blank=True)
@@ -46,6 +46,13 @@ class Session(models.Model):
     longitude = models.FloatField(null=True)
     latitude = models.FloatField(null=True)
     time_zone = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ["-start_time"]
+        indexes = [
+            models.Index(fields=["service", "-start_time"]),
+            models.Index(fields=["service", "identifier"]),
+        ]
 
     @property
     def is_currently_active(self):
@@ -57,19 +64,27 @@ class Session(models.Model):
 
 
 class Hit(models.Model):
-    session = models.ForeignKey(Session, on_delete=models.CASCADE)
-    initial = models.BooleanField(default=True)
+    session = models.ForeignKey(Session, on_delete=models.CASCADE, db_index=True)
+    initial = models.BooleanField(default=True, db_index=True)
 
     # Base request information
-    start_time = models.DateTimeField(auto_now_add=True)
+    start_time = models.DateTimeField(auto_now_add=True, db_index=True)
     last_seen = models.DateTimeField(auto_now_add=True)
     heartbeats = models.IntegerField(default=0)
     tracker = models.TextField()  # Tracking pixel or JS
 
     # Advanced page information
-    location = models.TextField(blank=True)
-    referrer = models.TextField(blank=True)
+    location = models.TextField(blank=True, db_index=True)
+    referrer = models.TextField(blank=True, db_index=True)
     load_time = models.FloatField(null=True)
+
+    class Meta:
+        ordering = ["-start_time"]
+        indexes = [
+            models.Index(fields=["session", "-start_time"]),
+            models.Index(fields=["session", "location"]),
+            models.Index(fields=["session", "referrer"]),
+        ]
 
     @property
     def duration(self):
