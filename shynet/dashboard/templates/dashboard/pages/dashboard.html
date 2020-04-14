@@ -21,6 +21,6 @@
 {% for object in services %}
 {% include 'dashboard/includes/service_overview.html' %}
 {% empty %}
-<p>You don't have any services on this Shynet instance yet.</p>
+<p>You don't have any services on {{request.site.name|default:"Shynet"}} yet.</p>
 {% endfor %}
 {% endblock %}

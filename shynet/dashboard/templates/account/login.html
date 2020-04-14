@@ -9,7 +9,7 @@
 {% block card %}
 <form class="login" method="POST" action="{% url 'account_login' %}">
   <aside class="aside ~info mb-4">
-    <p>Welcome to Shynet, a self-hosted analytics tool that's open source and privacy conscious. View the <a href="https://github.com/milesmcc/shynet">source code</a>.</p>
+    <p>Welcome to {{request.site.name|default:"Shynet"}}, a self-hosted analytics tool that's open source and privacy conscious. Powered by Shynet. View the <a href="https://github.com/milesmcc/shynet">source code</a>.</p>
   </aside>
   {% csrf_token %}
   {{ form|a17t }}

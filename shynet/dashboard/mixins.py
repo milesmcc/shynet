@@ -29,11 +29,3 @@ class DateRangeMixin:
         data["start_date"] = self.get_start_date()
         data["end_date"] = self.get_end_date()
         return data
-
-
-class BaseUrlMixin:
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        url_data = urlparse(self.request.build_absolute_uri())
-        data["base_url"] = f"{url_data.scheme}://{url_data.netloc}"
-        return data

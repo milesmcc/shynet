@@ -18,6 +18,6 @@ urlpatterns = [
     path(
         "<service_uuid>/<identifier>/script.js",
         ingress.ScriptView.as_view(),
-        name="endpoint_pixel_id",
+        name="endpoint_script_id",
     ),
 ]

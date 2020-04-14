@@ -15,7 +15,7 @@ from django.db.models import Q
 from analytics.models import Session
 
 from .forms import ServiceForm
-from .mixins import BaseUrlMixin, DateRangeMixin
+from .mixins import DateRangeMixin
 from core.models import Service
 
 class DashboardView(LoginRequiredMixin, DateRangeMixin, TemplateView):
@@ -64,7 +64,7 @@ class ServiceView(
 
 
 class ServiceUpdateView(
-    LoginRequiredMixin, PermissionRequiredMixin, BaseUrlMixin, UpdateView
+    LoginRequiredMixin, PermissionRequiredMixin, UpdateView
 ):
     model = Service
     form_class = ServiceForm

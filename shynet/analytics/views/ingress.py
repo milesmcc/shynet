@@ -2,7 +2,7 @@ import base64
 import json
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -64,10 +64,24 @@ class ScriptView(View):
         return resp
 
     def get(self, *args, **kwargs):
+        endpoint = (
+            reverse(
+                "ingress:endpoint_script",
+                kwargs={"service_uuid": self.kwargs.get("service_uuid"),},
+            )
+            if self.kwargs.get("identifier") == None
+            else reverse(
+                "ingress:endpoint_script_id",
+                kwargs={
+                    "service_uuid": self.kwargs.get("service_uuid"),
+                    "identifier": self.kwargs.get("identifier"),
+                },
+            )
+        )
         return render(
             self.request,
             "analytics/scripts/page.js",
-            context={"endpoint": self.request.build_absolute_uri()},
+            context={"endpoint": endpoint},
             content_type="application/javascript",
         )
 

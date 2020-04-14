@@ -4,7 +4,7 @@ window.onload = function () {
     Math.random().toString(36).substring(2, 15);
   function sendUpdate() {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "{{endpoint}}", true);
+    xhr.open("POST", self.location.protocol + "//{{request.site.domain|default:request.META.HTTP_HOST}}{{endpoint}}", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(
       JSON.stringify({
