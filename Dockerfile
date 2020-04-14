@@ -2,6 +2,11 @@ FROM python:3
 
 WORKDIR /usr/src/shynet
 
+# URL from https://github.com/shlinkio/shlink/issues/596 :)
+RUN curl "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key=G4Lm0C60yJsnkdPi&suffix=tar.gz" | tar -xvz -C /tmp
+RUN curl "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=G4Lm0C60yJsnkdPi&suffix=tar.gz" | tar -xvz -C /tmp
+RUN mv /tmp/GeoLite2*/*.mmdb /etc
+
 RUN pip install pipenv
 COPY Pipfile.lock ./
 COPY Pipfile ./

@@ -161,8 +161,8 @@ CELERY_REDIS_SOCKET_TIMEOUT = 15
 
 # GeoIP
 
-MAXMIND_CITY_DB = os.getenv("MAXMIND_CITY_DB")
-MAXMIND_ASN_DB = os.getenv("MAXMIND_ASN_DB")
+MAXMIND_CITY_DB = os.getenv("MAXMIND_CITY_DB", "/etc/GeoLite2-City.mmdb")
+MAXMIND_ASN_DB = os.getenv("MAXMIND_ASN_DB", "/etc/GeoLite2-ASN.mmdb")
 
 
 MESSAGE_TAGS = {

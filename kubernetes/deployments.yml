@@ -1,0 +1,86 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "shynet-webserver"
+  namespace: "default"
+  labels:
+    app: "shynet-webserver"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "shynet-webserver"
+  template:
+    metadata:
+      labels:
+        app: "shynet-webserver"
+    spec:
+      containers:
+        - name: "covideo-webserver"
+          image: "docker.pkg.github.com/milesmcc/shynet/shynet:latest"
+          command: ["./webserver.sh"]
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: django-settings
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "shynet-celeryworker"
+  namespace: "default"
+  labels:
+  app: "shynet-celeryworker"
+spec:
+  replicas: 3
+  selector:
+  matchLabels:
+    app: "shynet-celeryworker"
+  template:
+  metadata:
+    labels:
+    app: "shynet-celeryworker"
+  spec:
+    containers:
+      - name: "covideo-celeryworker"
+        image: "docker.pkg.github.com/milesmcc/shynet/shynet:latest"
+        command: ["./celeryworker.sh"]
+        imagePullPolicy: Always
+        envFrom:
+          - secretRef:
+              name: django-settings
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  ports:
+    - port: 6379
+      name: redis
+  clusterIP: None
+  selector:
+    app: redis
+---
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  name: redis
+spec:
+  selector:
+    matchLabels:
+      app: redis
+  serviceName: redis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+              name: redis
