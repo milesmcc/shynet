@@ -11,24 +11,29 @@
 {% block service_content %}
 <div class="max-w-xl content">
     <h5>Installation</h5>
+    <p>Place the following snippet at the end of the <code>&lt;body&gt;</code> tag on any page you'd like to track.</p>
     <div class="card ~neutral !high font-mono text-sm">
-        {% filter force_escape %}<noscript><img src="{{base_url}}/ingress/fc4008d3-f2fa-4500-9968-d96719e3819c/pixel.gif"></noscript><script src="{{base_url}}/ingress/fc4008d3-f2fa-4500-9968-d96719e3819c/identifier/script.js"></script>{% endfilter %}
+        {% filter force_escape %}<noscript><img
+                src="{{base_url}}/ingress/fc4008d3-f2fa-4500-9968-d96719e3819c/pixel.gif"></noscript>
+        <script src="{{base_url}}/ingress/fc4008d3-f2fa-4500-9968-d96719e3819c/identifier/script.js"></script>
+        {% endfilter %}
     </div>
+    <hr class="sep h-4">
+    <h5>Settings</h5>
+    <form class="card ~neutral !low p-0" method="POST">
+        {% csrf_token %}
+        <div class="p-4">
+            {{form|a17t}}
+        </div>
+        <div class="section ~neutral !normal p-4 flex justify-between">
+            <div>
+                <button type="submit" class="button ~neutral !high">Save</button>
+                <a href="{% url 'core:service' object.uuid %}" class="button ~neutral !low">Cancel</a>
+            </div>
+            <div>
+                <a href="{% url 'core:service_delete' object.uuid %}" class="button ~critical !high">Delete</a>
+            </div>
+        </div>
+    </form>
 </div>
-<hr class="sep">
-<form class="card ~neutral !low p-0 max-w-xl" method="POST">
-    {% csrf_token %}
-    <div class="p-4">
-        {{form|a17t}}
-    </div>
-    <div class="section ~neutral !normal p-4 flex justify-between">
-        <div>
-            <button type="submit" class="button ~neutral !high">Save</button>
-            <a href="{% url 'core:service' object.uuid %}" class="button ~neutral !low">Cancel</a>
-        </div>
-        <div>
-            <a href="{% url 'core:service_delete' object.uuid %}" class="button ~critical !high">Delete</a>
-        </div>
-    </div>
-</form>
 {% endblock %}

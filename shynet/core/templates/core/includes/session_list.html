@@ -1,0 +1,35 @@
+{% load humanize helpers %}
+
+<table class="table">
+    <thead>
+        <th>Session Start</th>
+        <th>Identity</th>
+        <th>Network</th>
+        <th class="rf">Duration</th>
+        <th class="rf">Hits</th>
+    </thead>
+    <tbody>
+        {% for session in object_list %}
+        <tr>
+            <td>
+                <a href="{% url 'core:service_session' object.pk session.pk %}" class="font-medium text-purple-700">
+                    {{session.start_time|date:"M j Y, g:i a"|capfirst}}
+                    {% if session.is_currently_active %}
+                    <span class="badge ~positive">Online</span>
+                    {% endif %}
+                </a>
+            </td>
+            <td>
+                {% if session.identifier %}
+                <span class="chip ~neutral">{{session.identifier}}</span>
+                {% else %}
+                <span class="text-gray-600">&mdash;</span>
+                {% endif %}
+            </td>
+            <td>{{session.country|flag_emoji}} {{session.asn|default:"Unknown"}}</td>
+            <td class="rf">{{session.duration|naturaldelta}}</td>
+            <td class="rf">{{session.hit_set.count|intcomma}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

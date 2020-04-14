@@ -26,9 +26,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "q@@928+gjkhmcdpuwse0awn@#ygm#0etg11jlny+b*^cm5m-x!"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
 
 # Application definition
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.humanize",
-    "rules",
+    "rules.apps.AutodiscoverRulesConfig",
     "a17t",
     "core",
     "analytics",
@@ -168,6 +168,24 @@ MESSAGE_TAGS = {
     messages.SUCCESS: "~positive",
 }
 
+# Email
+
+SERVER_EMAIL = os.getenv("SERVER_EMAIL", "Shynet <noreply@shynet.example.com>")
+DEFAULT_FROM_EMAIL = SERVER_EMAIL
+
+if DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    EMAIL_HOST = os.environ.get("EMAIL_HOST")
+    EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 465))
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+    EMAIL_USE_SSL = True
+
 # Shynet
 
-ONLY_SUPERUSERS_CREATE = True  # Can everyone create services, or only superusers?
+ONLY_SUPERUSERS_CREATE = True
+# Can everyone create services, or only superusers?
+# Note that in the current version of Shynet, being able to edit a service allows
+# you to see every registered user on the Shynet instance. This will be changed in
+# a future version.

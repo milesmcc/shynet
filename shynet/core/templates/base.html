@@ -48,19 +48,23 @@
         {% if can_create %}
         {% url 'core:service_create' as url %}
         {% include 'core/includes/sidebar_portal.html' with label="+ Create" url=url %}
+
+        <hr class="sep h-8">
         {% endif %}
 
+
         {% if user.collaborating_services.all %}
-        <p class="ml-2 mt-8 mb-1 supra font-medium text-gray-500 pointer-events-none">Collaborations</p>
+        <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Collaborations</p>
 
         {% for service in user.collaborating_services.all %}
         {% url 'core:service' service.uuid as url %}
         {% include 'core/includes/sidebar_portal.html' with label=service.name url=url %}
         {% endfor %}
 
+        <hr class="sep h-8">
         {% endif %}
 
-        <p class="ml-2 mt-8 mb-1 supra font-medium text-gray-500 pointer-events-none">Account</p>
+        <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Account</p>
 
         {% if user.is_authenticated %}
 

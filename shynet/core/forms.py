@@ -7,10 +7,11 @@ from .models import Service
 class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
-        fields = ["name", "link", "origins"]
+        fields = ["name", "link", "origins", "collaborators"]
         widgets = {
             "name": forms.TextInput(),
             "origins": forms.TextInput(),
+            "collaborators": forms.CheckboxSelectMultiple(),
         }
         labels = {
             "origins": "Allowed Hostnames",

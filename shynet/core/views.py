@@ -1,9 +1,16 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, reverse
 from django.utils import timezone
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  TemplateView, UpdateView)
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    TemplateView,
+    UpdateView,
+)
 from rules.contrib.views import PermissionRequiredMixin
+from django.db.models import Q
 
 from analytics.models import Session
 
@@ -21,7 +28,9 @@ class DashboardView(LoginRequiredMixin, DateRangeMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data["services"] = Service.objects.filter(owner=self.request.user)
+        data["services"] = Service.objects.filter(
+            Q(owner=self.request.user) | Q(collaborators__in=[self.request.user])
+        )
         for service in data["services"]:
             service.stats = service.get_core_stats(data["start_date"], data["end_date"])
         return data
@@ -51,6 +60,11 @@ class ServiceView(
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data["stats"] = self.object.get_core_stats(data["start_date"], data["end_date"])
+        data["object_list"] = Session.objects.filter(
+            service=self.get_object(),
+            start_time__lt=self.get_end_date(),
+            start_time__gt=self.get_start_date(),
+        ).order_by("-start_time")[:10]
         return data
 
 
@@ -92,7 +106,7 @@ class ServiceSessionsListView(
             service=self.get_object(),
             start_time__lt=self.get_end_date(),
             start_time__gt=self.get_start_date(),
-        )
+        ).order_by("-start_time")
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)

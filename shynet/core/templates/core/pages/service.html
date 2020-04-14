@@ -178,6 +178,10 @@
         </table>
     </div>
 </div>
-<a href="{% url 'core:service_session_list' service.uuid %}" class="button field w-auto">View individual sessions
-    &rarr;</a>
+<div class="card ~neutral !low">
+    {% include 'core/includes/session_list.html' %}
+    <hr class="sep h-8">
+    <a href="{% url 'core:service_session_list' service.uuid %}" class="button ~neutral w-auto">View more sessions
+        &rarr;</a>
+</div>
 {% endblock %}

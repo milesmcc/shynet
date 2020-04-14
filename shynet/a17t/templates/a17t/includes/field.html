@@ -6,6 +6,16 @@
         {{ field }}
         <span>{{ field.label }}</span>
     </label>
+    {% elif field|is_multiple_checkbox %}
+    {% if field.auto_id %}
+    <label class="label my-1" for="{{field.auto_id}}">{{ field.label }}</label>
+    {% endif %}
+    {% for choice in field %}
+    <label class="switch my-1 block">
+        {{ choice.tag }}
+        <span>{{ choice.choice_label }}</span>
+    </label>
+    {% endfor %}
     {% elif field|is_radio %}
     {% if field.auto_id %}
     <label class="label my-1" for="{{field.auto_id}}">{{ field.label }}</label>

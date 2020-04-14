@@ -10,13 +10,13 @@ def is_service_creator(user):
 
 
 @rules.predicate
-def is_service_owner(service, user):
+def is_service_owner(user, service):
     return service.owner == user
 
 
 @rules.predicate
-def is_service_collaborator(service, user):
-    return user in service.collaborators.all()
+def is_service_collaborator(user, service):
+    return service.collaborators.filter(pk=user.pk).exists()
 
 
 rules.add_perm("core.view_service", is_service_owner | is_service_collaborator)
