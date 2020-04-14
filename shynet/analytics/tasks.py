@@ -44,7 +44,7 @@ def ingress_request(
     service_uuid, tracker, time, payload, ip, location, user_agent, identifier=""
 ):
     try:
-        service = Service.objects.get(uuid=service_uuid, status=Service.ACTIVE)
+        service = Service.objects.get(pk=service_uuid, status=Service.ACTIVE)
         log.debug(f"Linked to service {service}")
 
         ip_data = _geoip2_lookup(ip)

@@ -80,7 +80,7 @@
             <tbody>
                 {% for location in stats.locations %}
                 <tr>
-                    <td>{{location.location|urldisplay}}</td>
+                    <td>{{location.location|default:"Unknown"|urldisplay}}</td>
                     <td class="rf">{{location.count|intcomma}}</td>
                 </tr>
                 {% endfor %}
