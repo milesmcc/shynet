@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "rules.apps.AutodiscoverRulesConfig",
     "a17t",
     "core",
+    "dashboard",
     "analytics",
     "allauth",
     "allauth.account",

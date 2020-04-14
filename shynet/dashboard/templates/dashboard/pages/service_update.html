@@ -1,11 +1,11 @@
-{% extends "core/service_base.html" %}
+{% extends "dashboard/service_base.html" %}
 
 {% load a17t_tags %}
 
 {% block head_title %}{{object.name}} Management{% endblock %}
 
 {% block service_actions %}
-<a href="{% url 'core:service' object.uuid %}" class="button field ~neutral w-auto">View &rarr;</a>
+<a href="{% url 'dashboard:service' object.uuid %}" class="button field ~neutral w-auto">View &rarr;</a>
 {% endblock %}
 
 {% block service_content %}
@@ -28,10 +28,10 @@
         <div class="section ~neutral !normal p-4 flex justify-between">
             <div>
                 <button type="submit" class="button ~neutral !high">Save</button>
-                <a href="{% url 'core:service' object.uuid %}" class="button ~neutral !low">Cancel</a>
+                <a href="{% url 'dashboard:service' object.uuid %}" class="button ~neutral !low">Cancel</a>
             </div>
             <div>
-                <a href="{% url 'core:service_delete' object.uuid %}" class="button ~critical !high">Delete</a>
+                <a href="{% url 'dashboard:service_delete' object.uuid %}" class="button ~critical !high">Delete</a>
             </div>
         </div>
     </form>

@@ -20,5 +20,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("ingress/", include("analytics.ingress_urls"), name="ingress"),
+    path("dashboard/", include(("dashboard.urls", "dashboard"), namespace="dashboard")),
     path("", include(("core.urls", "core"), namespace="core")),
 ]

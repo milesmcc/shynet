@@ -1,12 +1,12 @@
-{% extends "core/service_base.html" %}
+{% extends "dashboard/service_base.html" %}
 
 {% load humanize helpers rules %}
 
 {% block service_actions %}
-<div class="mr-2">{% include 'core/includes/date_range.html' %}</div>
+<div class="mr-2">{% include 'dashboard/includes/date_range.html' %}</div>
 {% has_perm 'core.change_service' user object as can_update %}
 {% if can_update %}
-<a href="{% url 'core:service_update' service.uuid %}" class="button field ~neutral w-auto">Manage &rarr;</a>
+<a href="{% url 'dashboard:service_update' service.uuid %}" class="button field ~neutral w-auto">Manage &rarr;</a>
 {% endif %}
 {% endblock %}
 
@@ -66,7 +66,7 @@
     </article>
 </div>
 <div class="card ~neutral !low py-0 mb-6">
-    {% include 'core/includes/time_chart.html' with data=stats.session_chart_data %}
+    {% include 'dashboard/includes/time_chart.html' with data=stats.session_chart_data %}
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div class="card ~neutral !low limited-height py-2">
@@ -179,9 +179,9 @@
     </div>
 </div>
 <div class="card ~neutral !low">
-    {% include 'core/includes/session_list.html' %}
+    {% include 'dashboard/includes/session_list.html' %}
     <hr class="sep h-8">
-    <a href="{% url 'core:service_session_list' service.uuid %}" class="button ~neutral w-auto">View more sessions
+    <a href="{% url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto">View more sessions
         &rarr;</a>
 </div>
 {% endblock %}

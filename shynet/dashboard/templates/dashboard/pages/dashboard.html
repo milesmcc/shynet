@@ -9,17 +9,17 @@
     </div>
     <div class="flex items-center">
         <div class="mr-1">
-            {% include 'core/includes/date_range.html' %}
+            {% include 'dashboard/includes/date_range.html' %}
         </div>
         {% has_perm "core.create_service" user as can_create %}
         {% if can_create %}
-        <a href="{% url 'core:service_create' %}" class="button field w-auto">+ New Service</a>
+        <a href="{% url 'dashboard:service_create' %}" class="button field w-auto">+ New Service</a>
         {% endif %}
     </div>
 </div>
 <hr class="sep">
 {% for object in services %}
-{% include 'core/includes/service_overview.html' %}
+{% include 'dashboard/includes/service_overview.html' %}
 {% empty %}
 <p>You don't have any services on this Shynet instance yet.</p>
 {% endfor %}

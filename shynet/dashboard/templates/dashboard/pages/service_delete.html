@@ -1,4 +1,4 @@
-{% extends "core/service_base.html" %}
+{% extends "dashboard/service_base.html" %}
 
 {% load a17t_tags %}
 
@@ -14,7 +14,7 @@
     </div>
     <div class="section ~critical !normal p-4">
         <button type="submit" class="button ~critical !high">Delete</button>
-        <a href="{% url 'core:service' object.uuid %}" class="button ~critical !low">Cancel</a>
+        <a href="{% url 'dashboard:service' object.uuid %}" class="button ~critical !low">Cancel</a>
     </div>
 </form>
 {% endblock %}

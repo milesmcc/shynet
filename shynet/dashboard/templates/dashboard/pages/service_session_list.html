@@ -1,17 +1,17 @@
-{% extends "core/service_base.html" %}
+{% extends "dashboard/service_base.html" %}
 
 {% load a17t_tags pagination humanize helpers %}
 
 {% block head_title %}{{object.name}} Sessions{% endblock %}
 
 {% block service_actions %}
-<div class="mr-2">{% include 'core/includes/date_range.html' %}</div>
-<a href="{% url 'core:service' object.uuid %}" class="button field ~neutral w-auto">Analytics &rarr;</a>
+<div class="mr-2">{% include 'dashboard/includes/date_range.html' %}</div>
+<a href="{% url 'dashboard:service' object.uuid %}" class="button field ~neutral w-auto">Analytics &rarr;</a>
 {% endblock %}
 
 {% block service_content %}
 <div class="card ~neutral !low mb-8 pt-2 max-w-full overflow-x-scroll">
-    {% include 'core/includes/session_list.html' %}
+    {% include 'dashboard/includes/session_list.html' %}
 </div>
 {% pagination page_obj request %}
 {% endblock %}
