@@ -5,7 +5,7 @@
 {% block content %}
 <div class="md:flex justify-between items-center">
     <div>
-        <h4 class="heading">Dashboard</h4>
+        <h4 class="heading">{{request.site.name|default:"Dashboard"}}</h4>
     </div>
     <div class="flex items-center">
         <div class="mr-1">
