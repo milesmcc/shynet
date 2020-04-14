@@ -15,8 +15,8 @@ from ..tasks import ingress_request
 def ingress(request, service_uuid, identifier, tracker, payload):
     time = timezone.now()
     client_ip, is_routable = get_client_ip(request)
-    location = request.META.get("HTTP_REFERER") or ""
-    user_agent = request.META.get("HTTP_USER_AGENT") or ""
+    location = request.META.get("HTTP_REFERER", "").strip()
+    user_agent = request.META.get("HTTP_USER_AGENT", "").strip()
 
     ingress_request.delay(
         service_uuid,
