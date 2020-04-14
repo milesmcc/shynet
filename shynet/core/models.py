@@ -125,7 +125,7 @@ class Service(models.Model):
         try:
             avg_session_duration = sessions.annotate(
                 duration=models.F("last_seen") - models.F("start_time")
-            ).aggregate(duration=models.Avg("duration"))["duration"]
+            ).aggregate(time_delta=models.Avg("duration"))["time_delta"]
         except NotSupportedError:
             avg_session_duration = sum(
                 [
