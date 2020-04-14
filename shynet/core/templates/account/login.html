@@ -4,20 +4,17 @@
 {% load account socialaccount %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
+{% block page_title %}{% trans "Sign In" %}{% endblock %}
 
-{% block content %}
-<div class="card ~neutral !low max-w-lg">
-  <h1 class="heading mb-3">{% trans "Sign In" %}</h1>
-  <form class="login" method="POST" action="{% url 'account_login' %}">
-    {% csrf_token %}
-    {{ form|a17t }}
-    {% if redirect_field_value %}
-    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-    {% endif %}
-    <br>
-    <button class="button ~urge !high mr-2" type="submit">{% trans "Sign In" %}</button>
-    <a href="{% url 'account_reset_password' %}" class="button ~neutral mr-2">{% trans "Reset Password" %}</a>
-    <a href="{{ signup_url }}" class="button ~neutral">Sign Up</a>
-  </form>
-</div>
+{% block card %}
+<form class="login" method="POST" action="{% url 'account_login' %}">
+  {% csrf_token %}
+  {{ form|a17t }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button class="button ~urge !high mr-2" type="submit">{% trans "Sign In" %}</button>
+  <a href="{% url 'account_reset_password' %}" class="button ~neutral mr-2">{% trans "Reset Password" %}</a>
+  <a href="{{ signup_url }}" class="button ~neutral">Sign Up</a>
+</form>
 {% endblock %}

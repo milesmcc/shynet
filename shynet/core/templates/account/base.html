@@ -1,1 +1,14 @@
 {% extends "base.html" %}
+
+{% block content %}
+<div>
+    <h4 class="heading">{% block page_title %}{% endblock %}</h4>
+</div>
+<hr class="sep">
+{% block main %}
+<div class="card ~neutral !low max-w-lg content">
+    {% block card %}
+    {% endblock %}
+</div>
+{% endblock %}
+{% endblock %}

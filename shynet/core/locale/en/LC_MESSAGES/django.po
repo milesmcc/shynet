@@ -1,0 +1,247 @@
+#: account/adapter.py:51
+msgid "A user is already registered with this e-mail address."
+msgstr "A user is already registered with this email address."
+
+#: account/adapter.py:294
+#, python-brace-format
+msgid "Password must be a minimum of {0} characters."
+msgstr ""
+
+#: account/forms.py:92
+msgid "Remember Me"
+msgstr "Remember me"
+
+#: account/forms.py:101
+msgid "The e-mail address and/or password you specified are not correct."
+msgstr "The email address and/or password are not correct."
+
+#: account/forms.py:113 account/forms.py:268 account/forms.py:426
+#: account/forms.py:495
+msgid "E-mail address"
+msgstr "Email address"
+
+#: account/forms.py:115 account/forms.py:301 account/forms.py:421
+#: account/forms.py:490
+msgid "E-mail"
+msgstr "Email"
+
+#: account/forms.py:130
+msgid "Username or e-mail"
+msgstr "Username or email"
+
+#: account/forms.py:292
+msgid "E-mail (again)"
+msgstr "Email (again)"
+
+#: account/forms.py:296
+msgid "E-mail address confirmation"
+msgstr "Email address confirmation"
+
+#: account/forms.py:304
+msgid "E-mail (optional)"
+msgstr "Email (optional)"
+
+#: account/forms.py:432
+msgid "This e-mail address is already associated with this account."
+msgstr "This email address is already associated with this account."
+
+#: account/forms.py:434
+msgid "This e-mail address is already associated with another account."
+msgstr "This email address is already associated with another account."
+
+#: account/forms.py:504
+msgid "The e-mail address is not assigned to any user account"
+msgstr "The email address is not assigned to any user account."
+
+#: account/models.py:25 account/models.py:78
+msgid "e-mail address"
+msgstr "email address"
+
+#: socialaccount/adapter.py:26
+#, python-format
+msgid ""
+"An account already exists with this e-mail address. Please sign in to that "
+"account first, then connect your %s account."
+msgstr ""
+"An account already exists with this email address. Please sign in to that "
+"account first, then connect your %s account."
+
+#: socialaccount/adapter.py:138
+msgid "Your account has no verified e-mail address."
+msgstr "Your account has no verified email address."
+
+#: templates/account/email.html:8
+msgid "E-mail Addresses"
+msgstr "Email Addresses"
+
+#: templates/account/email.html:10
+msgid "The following e-mail addresses are associated with your account:"
+msgstr "The following email addresses are associated with your account:"
+
+#: templates/account/email.html:43
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr ""
+"You currently do not have any email address set up. You should really add "
+"an email address so you can receive notifications, reset your password, etc."
+
+#: templates/account/email.html:48
+msgid "Add E-mail Address"
+msgstr "Add Email Address"
+
+#: templates/account/email.html:53
+msgid "Add E-mail"
+msgstr "Add Email"
+
+#: templates/account/email.html:62
+msgid "Do you really want to remove the selected e-mail address?"
+msgstr "Do you really want to remove the selected email address?"
+
+#: templates/account/email/email_confirmation_message.txt:1
+#, python-format
+msgid ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this e-mail because user %(user_display)s has given yours "
+"as an e-mail address to connect their account.\n"
+"\n"
+"To confirm this is correct, go to %(activate_url)s\n"
+msgstr ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this email because user %(user_display)s has given yours "
+"as an email address to connect their account.\n"
+"\n"
+"To confirm this is correct, go to %(activate_url)s\n"
+
+#: templates/account/email/email_confirmation_message.txt:7
+#, python-format
+msgid ""
+"Thank you from %(site_name)s!\n"
+"%(site_domain)s"
+msgstr ""
+
+#: templates/account/email/email_confirmation_subject.txt:3
+msgid "Please Confirm Your E-mail Address"
+msgstr "Please Confirm Your Email Address"
+
+#: templates/account/email/password_reset_key_message.txt:1
+#, python-format
+msgid ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this e-mail because you or someone else has requested a "
+"password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the "
+"link below to reset your password."
+msgstr ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this email because you or someone else has requested a "
+"password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the "
+"link below to reset your password."
+
+#: templates/account/email/password_reset_key_subject.txt:3
+msgid "Password Reset E-mail"
+msgstr "Password Reset Email"
+
+#: templates/account/email_confirm.html:6
+#: templates/account/email_confirm.html:10
+msgid "Confirm E-mail Address"
+msgstr "Confirm Email Address"
+
+#: templates/account/email_confirm.html:16
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an email "
+"address for user %(user_display)s."
+
+#: templates/account/email_confirm.html:27
+#, python-format
+msgid ""
+"This e-mail confirmation link expired or is invalid. Please <a href="
+"\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+msgstr ""
+"This email confirmation link expired or is invalid. Please <a href="
+"\"%(email_url)s\">issue a new email confirmation request</a>."
+
+#: templates/account/messages/cannot_delete_primary_email.txt:2
+#, python-format
+msgid "You cannot remove your primary e-mail address (%(email)s)."
+msgstr "You cannot remove your primary email address (%(email)s)."
+
+#: templates/account/messages/email_confirmation_sent.txt:2
+#, python-format
+msgid "Confirmation e-mail sent to %(email)s."
+msgstr "Confirmation email sent to %(email)s."
+
+#: templates/account/messages/email_deleted.txt:2
+#, python-format
+msgid "Removed e-mail address %(email)s."
+msgstr "Removed email address %(email)s."
+
+#: templates/account/messages/primary_email_set.txt:2
+msgid "Primary e-mail address set."
+msgstr "Primary email address set."
+
+#: templates/account/messages/unverified_primary_email.txt:2
+msgid "Your primary e-mail address must be verified."
+msgstr "Your primary email address must be verified."
+
+#: templates/account/password_reset.html:15
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+"Forgotten your password? Enter your email address below, and we'll send you "
+"an email allowing you to reset it."
+
+#: templates/account/password_reset_done.html:15
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+"We have sent you an email. Please contact us if you do not receive it "
+"within a few minutes."
+
+#: templates/account/verification_sent.html:5
+#: templates/account/verification_sent.html:8
+#: templates/account/verified_email_required.html:5
+#: templates/account/verified_email_required.html:8
+msgid "Verify Your E-mail Address"
+msgstr "Verify Your Email Address"
+
+#: templates/account/verification_sent.html:10
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+"We have sent an email to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+
+#: templates/account/verified_email_required.html:12
+msgid ""
+"This part of the site requires us to verify that\n"
+"you are who you claim to be. For this purpose, we require that you\n"
+"verify ownership of your e-mail address. "
+msgstr ""
+"This part of the site requires us to verify that\n"
+"you are who you claim to be. For this purpose, we require that you\n"
+"verify ownership of your email address. "
+
+#: templates/account/verified_email_required.html:16
+msgid ""
+"We have sent an e-mail to you for\n"
+"verification. Please click on the link inside this e-mail. Please\n"
+"contact us if you do not receive it within a few minutes."
+msgstr ""
+"We have sent an email to you for\n"
+"verification. Please click on the link inside this email. Please\n"
+"contact us if you do not receive it within a few minutes."

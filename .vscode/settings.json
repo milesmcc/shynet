@@ -1,3 +1,12 @@
 {
-    "python.pythonPath": "/home/miles/.local/share/virtualenvs/shynet-L7oRCOdf/bin/python"
+    "python.pythonPath": "/home/miles/.local/share/virtualenvs/shynet-L7oRCOdf/bin/python",
+    "spellright.language": [
+        "en_US",
+        "ru_RU"
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext"
+    ]
 }

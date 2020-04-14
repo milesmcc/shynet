@@ -2,12 +2,11 @@
 
 {% load i18n a17t_tags %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block head_title %}{% trans "Sign Up" %}{% endblock %}
+{% block page_title %}{% trans "Sign Up" %}{% endblock %}
 
-{% block content %}
-<h1>{% trans "Sign Up" %}</h1>
-
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+{% block card %}
+<aside class="aside ~info">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a> instead.{% endblocktrans %}</aside>
 
 <form class="signup max-w-lg" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
@@ -15,7 +14,7 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button type="submit" class="button ~urge !high">{% trans "Sign Up" %} &raquo;</button>
+  <button type="submit" class="button ~urge !high">{% trans "Sign Up" %}</button>
 </form>
 
 {% endblock %}

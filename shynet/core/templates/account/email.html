@@ -3,12 +3,9 @@
 {% load i18n a17t_tags %}
 
 {% block head_title %}{% trans "Email Addresses" %}{% endblock %}
+{% block page_title %}{% trans "Email Addresses" %}{% endblock %}
 
-{% block content %}
-<h1 class="heading">{% trans "Email Addresses" %}</h1>
-
-<hr class="sep">
-
+{% block main %}
 <div class="card ~neutral !low max-w-lg">
 
   {% if user.emailaddress_set.all %}

@@ -2,11 +2,10 @@
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Verify Your Email Address" %}{% endblock %}
+{% block head_title %}{% trans "Verify Email Address" %}{% endblock %}
+{% block page_title %}{% trans "Verify Email Address" %}{% endblock %}
 
-{% block content %}
-<h1>{% trans "Verify Your Email Address" %}</h1>
-
+{% block card %}
 {% url 'account_email' as email_url %}
 
 <p>{% blocktrans %}This part of the site requires us to verify that
@@ -15,9 +14,7 @@ verify ownership of your email address. {% endblocktrans %}</p>
 
 <p>{% blocktrans %}We have sent an email to you for
 verification. Please click on the link inside this email. Please
-contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>
+try again if you do not receive it within a few minutes.{% endblocktrans %}</p>
 
-<p>{% blocktrans %}<strong>Note:</strong> you can still <a href="{{ email_url }}">change your email address</a>.{% endblocktrans %}</p>
-
-
+<aside class="aside ~info">{% blocktrans %}<strong>Note:</strong> you can still <a href="{{ email_url }}">change your email address</a>.{% endblocktrans %}</aside>
 {% endblock %}
