@@ -19,6 +19,7 @@ user-agents = "*"
 emoji-country-flag = "*"
 rules = "*"
 gunicorn = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.6"
