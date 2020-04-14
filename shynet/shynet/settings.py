@@ -140,6 +140,17 @@ STATIC_URL = "/static/"
 STATIC_ROOT = "compiledstatic/"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+# Redis
+# Redis cache
+if not DEBUG:
+    CACHES = {
+        "default": {
+            "BACKEND": "redis_cache.RedisCache",
+            "LOCATION": os.getenv("REDIS_CACHE_LOCATION"),
+            "KEY_PREFIX": "v1_",  # Increment when migrations occur
+        }
+    }
+
 
 # Auth
 

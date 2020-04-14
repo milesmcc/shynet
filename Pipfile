@@ -20,6 +20,8 @@ emoji-country-flag = "*"
 rules = "*"
 gunicorn = "*"
 psycopg2 = "*"
+redis = "*"
+django-redis-cache = "*"
 
 [requires]
 python_version = "3.6"
