@@ -42,6 +42,9 @@ class Service(models.Model):
         max_length=2, choices=SERVICE_STATUSES, default=ACTIVE, db_index=True
     )
 
+    class Meta:
+        ordering = ["name", "uuid"]
+
     def __str__(self):
         return self.name
 
