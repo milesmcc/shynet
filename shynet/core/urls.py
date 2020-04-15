@@ -5,5 +5,7 @@ from django.views.generic import RedirectView
 from . import views
 
 urlpatterns = [
-    path("", RedirectView.as_view(url=reverse_lazy("dashboard:dashboard")), name="index"),
+    path(
+        "", RedirectView.as_view(url=reverse_lazy("dashboard:dashboard")), name="index"
+    ),
 ]

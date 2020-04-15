@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, reverse
 from django.utils import timezone
-from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -11,13 +12,13 @@ from django.views.generic import (
     UpdateView,
 )
 from rules.contrib.views import PermissionRequiredMixin
-from django.db.models import Q
 
 from analytics.models import Session
+from core.models import Service
 
 from .forms import ServiceForm
 from .mixins import DateRangeMixin
-from core.models import Service
+
 
 class DashboardView(LoginRequiredMixin, DateRangeMixin, TemplateView):
     template_name = "dashboard/pages/dashboard.html"
@@ -77,7 +78,9 @@ class ServiceUpdateView(
         return reverse("dashboard:service", kwargs={"pk": self.object.uuid})
 
 
-class ServiceDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
+class ServiceDeleteView(
+    LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView
+):
     model = Service
     form_class = ServiceForm
     template_name = "dashboard/pages/service_delete.html"

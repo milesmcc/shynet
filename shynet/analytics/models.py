@@ -2,10 +2,10 @@ import json
 import uuid
 
 from django.db import models
+from django.shortcuts import reverse
 from django.utils import timezone
 
 from core.models import Service
-from django.shortcuts import reverse
 
 
 def _default_uuid():

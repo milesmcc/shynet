@@ -6,8 +6,9 @@ import user_agents
 from celery import shared_task
 from django.conf import settings
 from django.core.cache import cache
-from django.utils import timezone
 from django.db.models import Q
+from django.utils import timezone
+
 from core.models import Service
 
 from .models import Hit, Session

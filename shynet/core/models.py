@@ -6,8 +6,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.functions import TruncDate
 from django.db.utils import NotSupportedError
-from django.utils import timezone
 from django.shortcuts import reverse
+from django.utils import timezone
 
 
 def _default_uuid():
@@ -179,7 +179,4 @@ class Service(models.Model):
         }
 
     def get_absolute_url(self):
-        return reverse(
-            "dashboard:service",
-            kwargs={"pk": self.pk},
-        )
+        return reverse("dashboard:service", kwargs={"pk": self.pk},)
