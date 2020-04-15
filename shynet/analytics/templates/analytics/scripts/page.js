@@ -16,6 +16,7 @@ window.onload = function () {
         JSON.stringify({
           idempotency: idempotency,
           referrer: document.referrer,
+          location: window.location.href,
           loadTime:
             window.performance.timing.domContentLoadedEventEnd -
             window.performance.timing.navigationStart,

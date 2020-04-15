@@ -122,7 +122,10 @@ def ingress_request(
                 session=session,
                 initial=initial,
                 tracker=tracker,
-                location=location,
+                # At first, location is given by the HTTP referrer. Some browsers
+                # will send the source of the script, however, so we allow JS payloads
+                # to include the location.
+                location=payload.get("location", location),
                 referrer=payload.get("referrer", ""),
                 load_time=payload.get("loadTime"),
             )
