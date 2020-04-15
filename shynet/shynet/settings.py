@@ -177,7 +177,6 @@ STATIC_ROOT = "compiledstatic/"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Redis
-# Redis cache
 if not DEBUG:
     CACHES = {
         "default": {

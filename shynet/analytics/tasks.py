@@ -7,7 +7,7 @@ from celery import shared_task
 from django.conf import settings
 from django.core.cache import cache
 from django.utils import timezone
-
+from django.db.models import Q
 from core.models import Service
 
 from .models import Hit, Session
@@ -51,13 +51,16 @@ def ingress_request(
         log.debug(f"Found geoip2 data")
 
         # Create or update session
-        session = Session.objects.filter(
-            service=service,
-            last_seen__gt=timezone.now() - timezone.timedelta(minutes=10),
-            ip=ip,
-            user_agent=user_agent,
-            identifier=identifier,
-        ).first()
+        session = (
+            Session.objects.filter(
+                service=service,
+                last_seen__gt=timezone.now() - timezone.timedelta(minutes=10),
+                ip=ip,
+                user_agent=user_agent,
+            )
+            .filter(Q(identifier=identifier) | Q(identifier=""))
+            .first()
+        )
         if session is None:
             log.debug("Cannot link to existing session; creating a new one...")
             ua = user_agents.parse(user_agent)
@@ -75,7 +78,7 @@ def ingress_request(
                 service=service,
                 ip=ip,
                 user_agent=user_agent,
-                identifier=identifier,
+                identifier=identifier.strip(),
                 browser=ua.browser.family or "",
                 device=ua.device.model or "",
                 device_type=device_type,
@@ -91,6 +94,8 @@ def ingress_request(
             initial = False
             # Update last seen time
             session.last_seen = timezone.now()
+            if session.identifier == "" and identifier.strip() != "":
+                session.identifier = identifier.strip()
             session.save()
 
         # Create or update hit
