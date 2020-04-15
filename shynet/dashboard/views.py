@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, reverse
 from django.utils import timezone
+from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -64,22 +65,24 @@ class ServiceView(
 
 
 class ServiceUpdateView(
-    LoginRequiredMixin, PermissionRequiredMixin, UpdateView
+    LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView
 ):
     model = Service
     form_class = ServiceForm
     template_name = "dashboard/pages/service_update.html"
     permission_required = "core.change_service"
+    success_message = "Your changes were saved successfully."
 
     def get_success_url(self):
         return reverse("dashboard:service", kwargs={"pk": self.object.uuid})
 
 
-class ServiceDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class ServiceDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Service
     form_class = ServiceForm
     template_name = "dashboard/pages/service_delete.html"
     permission_required = "core.delete_service"
+    success_message = "The service was deleted successfully."
 
     def get_success_url(self):
         return reverse("dashboard:dashboard")
