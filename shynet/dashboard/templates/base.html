@@ -39,7 +39,7 @@
 
         {% for service in user.owning_services.all %}
         {% url 'dashboard:service' service.uuid as url %}
-        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name url=url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name|truncatechars:20 url=url %}
         {% endfor %}
 
         {% endif %}
@@ -58,7 +58,7 @@
 
         {% for service in user.collaborating_services.all %}
         {% url 'dashboard:service' service.uuid as url %}
-        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name url=url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name|truncatechars:20 url=url %}
         {% endfor %}
 
         <hr class="sep h-8">
