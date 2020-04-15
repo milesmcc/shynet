@@ -98,7 +98,7 @@
             <tbody>
                 {% for referrer in stats.referrers %}
                 <tr>
-                    <td>{{referrer.referrer|default:"Direct"|urldisplay}}</td>
+                    <td>{{referrer.referrer|default:"Direct"|urlize}}</td>
                     <td class="rf">{{referrer.count|intcomma}}</td>
                 </tr>
                 {% endfor %}
@@ -178,7 +178,7 @@
         </table>
     </div>
 </div>
-<div class="card ~neutral !low">
+<div class="card ~neutral !low limited-height py-2">
     {% include 'dashboard/includes/session_list.html' %}
     <hr class="sep h-8">
     <a href="{% url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto">View more sessions

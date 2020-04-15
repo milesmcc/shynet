@@ -68,6 +68,11 @@
 
         {% if user.is_authenticated %}
 
+        {% if user.is_superuser %}
+        {% url 'admin:index' as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label="Admin" url=url %}
+        {% endif %}
+
         {% url 'account_email' as url %}
         {% include 'dashboard/includes/sidebar_portal.html' with label="Emails" url=url %}
 

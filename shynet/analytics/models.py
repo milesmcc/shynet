@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import timezone
 
 from core.models import Service
+from django.shortcuts import reverse
 
 
 def _default_uuid():
@@ -62,6 +63,15 @@ class Session(models.Model):
     def duration(self):
         return self.last_seen - self.start_time
 
+    def __str__(self):
+        return f"{self.identifier if self.identifier != '' else 'Anonymous'} @ {self.service.name} [{str(self.uuid)[:6]}]"
+
+    def get_absolute_url(self):
+        return reverse(
+            "dashboard:service_session",
+            kwargs={"pk": self.service.pk, "session_pk": self.uuid},
+        )
+
 
 class Hit(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE, db_index=True)
@@ -71,7 +81,9 @@ class Hit(models.Model):
     start_time = models.DateTimeField(auto_now_add=True, db_index=True)
     last_seen = models.DateTimeField(auto_now_add=True)
     heartbeats = models.IntegerField(default=0)
-    tracker = models.TextField()  # Tracking pixel or JS
+    tracker = models.TextField(
+        choices=[("JS", "JavaScript"), ("PIXEL", "Pixel (noscript)")]
+    )  # Tracking pixel or JS
 
     # Advanced page information
     location = models.TextField(blank=True, db_index=True)
@@ -89,3 +101,9 @@ class Hit(models.Model):
     @property
     def duration(self):
         return self.last_seen - self.start_time
+
+    def get_absolute_url(self):
+        return reverse(
+            "dashboard:service_session",
+            kwargs={"pk": self.session.service.pk, "session_pk": self.session.pk},
+        )

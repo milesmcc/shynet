@@ -7,6 +7,7 @@ from django.db import models
 from django.db.models.functions import TruncDate
 from django.db.utils import NotSupportedError
 from django.utils import timezone
+from django.shortcuts import reverse
 
 
 def _default_uuid():
@@ -173,3 +174,9 @@ class Service(models.Model):
             ),
             "online": True,
         }
+
+    def get_absolute_url(self):
+        return reverse(
+            "dashboard:service",
+            kwargs={"pk": self.pk},
+        )
