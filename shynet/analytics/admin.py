@@ -44,6 +44,7 @@ class HitAdmin(admin.ModelAdmin):
         "heartbeats",
         "tracker",
         "load_time",
+        "location",
     )
     list_display_links = ("session",)
     search_fields = ("initial", "tracker", "location", "referrer")

@@ -7,8 +7,7 @@ window.onload = function () {
       var xhr = new XMLHttpRequest();
       xhr.open(
         "POST",
-        self.location.protocol +
-          "//{{request.site.domain|default:request.META.HTTP_HOST}}{{endpoint}}",
+        "{{protocol}}://{{request.site.domain|default:request.META.HTTP_HOST}}{{endpoint}}",
         true
       );
       xhr.setRequestHeader("Content-Type", "application/json");

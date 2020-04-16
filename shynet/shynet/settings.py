@@ -205,7 +205,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
 ACCOUNT_USER_DISPLAY = lambda k: k.email
-ACCOUNT_SIGNUPS_ENABLED = os.getenv("SIGNUPS_ENABLED", "False") == True
+ACCOUNT_SIGNUPS_ENABLED = os.getenv("ACCOUNT_SIGNUPS_ENABLED", "False") == "True"
 
 LOGIN_REDIRECT_URL = "/"
 
@@ -247,8 +247,13 @@ else:
 
 # Shynet
 
-ONLY_SUPERUSERS_CREATE = True
 # Can everyone create services, or only superusers?
 # Note that in the current version of Shynet, being able to edit a service allows
 # you to see every registered user on the Shynet instance. This will be changed in
 # a future version.
+ONLY_SUPERUSERS_CREATE = os.getenv("ONLY_SUPERUSERS_CREATE", "True") == "True"
+
+# Should the script use HTTPS to send the POST requests? The hostname is from
+# the django SITE default. (Edit it using the admin panel.)
+SCRIPT_USE_HTTPS = os.getenv("SCRIPT_USE_HTTPS", "True") == "True"
+
