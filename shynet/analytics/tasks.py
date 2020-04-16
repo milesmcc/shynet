@@ -75,12 +75,12 @@ def ingress_request(
             device_type = "OTHER"
             if ua.is_mobile:
                 device_type = "PHONE"
+            elif ua.is_bot or ua.browser.family == "Googlebot":
+                device_type = "ROBOT"
             elif ua.is_tablet:
                 device_type = "TABLET"
             elif ua.is_pc:
                 device_type = "DESKTOP"
-            elif ua.is_bot:
-                device_type = "ROBOT"
             session = Session.objects.create(
                 service=service,
                 ip=ip,
