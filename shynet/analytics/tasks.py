@@ -51,6 +51,10 @@ def ingress_request(
         ip_data = _geoip2_lookup(ip)
         log.debug(f"Found geoip2 data")
 
+        # Validate payload
+        if payload.get("loadTime", 1) <= 0:
+            payload["loadTime"] = None
+
         # Create or update session
         session = (
             Session.objects.filter(
@@ -59,8 +63,10 @@ def ingress_request(
                 ip=ip,
                 user_agent=user_agent,
             )
-            .filter(Q(identifier=identifier) | Q(identifier=""))
             .first()
+            # We used to check for identifiers, but that can cause issues when people
+            # re-open the page in a new tab, for example. It's better to match sessions
+            # solely based on IP and user agent.
         )
         if session is None:
             log.debug("Cannot link to existing session; creating a new one...")
