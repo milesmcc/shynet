@@ -62,8 +62,7 @@ def ingress_request(
                 last_seen__gt=timezone.now() - timezone.timedelta(minutes=10),
                 ip=ip,
                 user_agent=user_agent,
-            )
-            .first()
+            ).first()
             # We used to check for identifiers, but that can cause issues when people
             # re-open the page in a new tab, for example. It's better to match sessions
             # solely based on IP and user agent.
