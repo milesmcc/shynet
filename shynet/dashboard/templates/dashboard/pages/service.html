@@ -98,7 +98,7 @@
             <tbody>
                 {% for referrer in stats.referrers %}
                 <tr>
-                    <td>{{referrer.referrer|default:"Direct"|urlize}}</td>
+                    <td>{{referrer.referrer|default:"Direct"|urlizetrunc:"40"}}</td>
                     <td class="rf">{{referrer.count|intcomma}}</td>
                 </tr>
                 {% endfor %}
