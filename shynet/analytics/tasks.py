@@ -87,7 +87,7 @@ def ingress_request(
                 user_agent=user_agent,
                 identifier=identifier.strip(),
                 browser=ua.browser.family or "",
-                device=ua.device.model or "",
+                device=ua.device.family or ua.device.model or "",
                 device_type=device_type,
                 os=ua.os.family or "",
                 asn=ip_data.get("asn", ""),
