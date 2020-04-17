@@ -5,13 +5,5 @@
 <span class="chip ~positive !high">
     {{stats.currently_online|intcomma}} online
 </span>
-{% elif stats.online == True %}
-<span class="chip ~positive !high">
-    Online
-</span>
-{% elif stats.online == False %}
-<span class="chip ~critical !high">
-    Offline
-</span>
 {% endif %}
 {% endwith %}

@@ -22,6 +22,7 @@ gunicorn = "*"
 psycopg2 = "*"
 redis = "*"
 django-redis-cache = "*"
+pycountry = "*"
 
 [requires]
 python_version = "3.6"

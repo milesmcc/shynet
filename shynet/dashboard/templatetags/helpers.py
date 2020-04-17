@@ -1,5 +1,5 @@
 from urllib.parse import urlparse
-
+import pycountry
 import flag
 from django import template
 from django.utils import timezone
@@ -30,6 +30,12 @@ def flag_emoji(isocode):
     except:
         return ""
 
+@register.filter
+def country_name(isocode):
+    try:
+        return pycountry.countries.get(alpha_2=isocode).name
+    except:
+        return "Unknown"
 
 @register.filter
 def startswith(text, starts):

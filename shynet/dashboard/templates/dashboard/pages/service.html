@@ -109,6 +109,24 @@
         <table class="table">
             <thead class="text-sm">
                 <tr>
+                    <th>Country</th>
+                    <th class="rf">Sessions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for country in stats.countries %}
+                <tr>
+                    <td>{{country.country|flag_emoji}} {{country.country|country_name}}</td>
+                    <td class="rf">{{country.count|intcomma}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card ~neutral !low limited-height py-2">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
                     <th>Operating System</th>
                     <th class="rf">Sessions</th>
                 </tr>
@@ -136,24 +154,6 @@
                 <tr>
                     <td>{{browser.browser|default:"Unknown"}}</td>
                     <td class="rf">{{browser.count|intcomma}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="card ~neutral !low limited-height py-2">
-        <table class="table">
-            <thead class="text-sm">
-                <tr>
-                    <th>Device</th>
-                    <th class="rf">Sessions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for device in stats.devices %}
-                <tr>
-                    <td>{{device.device|default:"Unknown"}}</td>
-                    <td class="rf">{{device.count|intcomma}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

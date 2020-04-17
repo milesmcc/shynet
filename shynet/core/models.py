@@ -63,7 +63,7 @@ class Service(models.Model):
         Hit = apps.get_model("analytics", "Hit")
 
         currently_online = Session.objects.filter(
-            service=self, start_time__gt=timezone.now() - timezone.timedelta(seconds=10)
+            service=self, last_seen__gt=timezone.now() - timezone.timedelta(seconds=10)
         ).count()
 
         sessions = Session.objects.filter(
@@ -89,6 +89,12 @@ class Service(models.Model):
             hits.filter(initial=True)
             .values("referrer")
             .annotate(count=models.Count("referrer"))
+            .order_by("-count")
+        )
+
+        countries = (
+            sessions.values("country")
+            .annotate(count=models.Count("country"))
             .order_by("-count")
         )
 
@@ -165,6 +171,7 @@ class Service(models.Model):
             "avg_hits_per_session": avg_hits_per_session,
             "locations": locations,
             "referrers": referrers,
+            "countries": countries,
             "operating_systems": operating_systems,
             "browsers": browsers,
             "devices": devices,
