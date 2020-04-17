@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 
+from datetime import time, datetime
 from django.utils import timezone
 
 
@@ -9,8 +10,7 @@ class DateRangeMixin:
             found_time = timezone.datetime.strptime(
                 self.request.GET.get("startDate"), "%Y-%m-%d"
             )
-            found_time.replace(hour=0, minute=0)
-            return found_time
+            return timezone.make_aware(datetime.combine(found_time, time.min))
         else:
             return timezone.now() - timezone.timedelta(days=30)
 
@@ -19,8 +19,7 @@ class DateRangeMixin:
             found_time = timezone.datetime.strptime(
                 self.request.GET.get("endDate"), "%Y-%m-%d"
             )
-            found_time.replace(hour=23, minute=59)
-            return found_time
+            return timezone.make_aware(datetime.combine(found_time, time.max))
         else:
             return timezone.now()
 
