@@ -31,10 +31,7 @@ _Note: These screenshots have been edited to hide sensitive data. The "real" Shy
 ![Shynet's homepage](images/homepage.png)
 _Shynet's homepage, where you can see all of your services at a glance._
 
-![Shynet's service view](images/service_view.png)
-_Shynet's service page, where you can see more detailed information about a service._
-
-Not shown: management view, session view, full service view. (You'll need to install Shynet to see those!)
+Not shown: service view, management view, session view, full service view. (You'll need to install Shynet to see those!)
 
 ## Features
 
@@ -119,11 +116,11 @@ EMAIL_HOST: ""
 SERVER_EMAIL: "Shynet <noreply@shynet.example.com>"
 ```
 
-4. Setup the Shynet database by running `docker run &mdash;env-file=<your env file> milesmcc/shynet:latest python manage.py migrate`.
+4. Setup the Shynet database by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py migrate`.
 
-5. Create your admin account by running `docker run &mdash;env-file=<your env file> milesmcc/shynet:latest python manage.py createsuperuser`.
+5. Create your admin account by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py createsuperuser`.
 
-6. Launch the Shynet server by running `docker run &mdash;env-file=<your env file> milesmcc/shynet:latest`.
+6. Launch the Shynet server by running `docker run --env-file=<your env file> milesmcc/shynet:latest`.
 
 7. With the server still running, visit it in a web browser. Go to `http://<your server's location>/admin` and log in with the credentials you setup in step 5. Click on "Sites", then "example.com". Update the values to match your deployment (the domain will be the domain where you'll _eventually_ host Shynet from, and the display name will be used to whitelabel Shynet throughout the management interface). When you're ready, click "Save".
 
@@ -164,4 +161,4 @@ Shynet is made available under the [Apache License, version 2.0](LICENSE).
 
 ---
 
-a17t was created by [Miles McCain](https://miles.land) at the [Recurse Center](https://recurse.com).
+a17t was created by [Miles McCain](https://miles.land) at the [Recurse Center](https://recurse.com) using [a17t](https://a17t.miles.land).
