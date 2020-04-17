@@ -177,7 +177,7 @@ STATIC_ROOT = "compiledstatic/"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Redis
-if not DEBUG:
+if not DEBUG and os.getenv("REDIS_CACHE_LOCATION") is not None:
     CACHES = {
         "default": {
             "BACKEND": "redis_cache.RedisCache",
