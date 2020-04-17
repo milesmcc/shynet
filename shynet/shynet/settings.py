@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "q@@928+gjkhmcdpuwse0awn@#ygm#0etg11jlny+b*^cm5m-x!"
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "onlyusethisindev")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True") == "True"
@@ -161,7 +161,7 @@ LOGGING = {
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "America/New_York"
+TIME_ZONE = os.getenv("TIME_ZONE", "America/New_York")
 
 USE_I18N = True
 
@@ -236,7 +236,7 @@ MESSAGE_TAGS = {
 SERVER_EMAIL = os.getenv("SERVER_EMAIL", "Shynet <noreply@shynet.example.com>")
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
-if DEBUG:
+if DEBUG or os.environ.get("EMAIL_HOST") is None:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 else:
     EMAIL_HOST = os.environ.get("EMAIL_HOST")
