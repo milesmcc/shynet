@@ -74,7 +74,7 @@ def ingress_request(
             device_type = "OTHER"
             if ua.is_mobile:
                 device_type = "PHONE"
-            elif ua.is_bot or ua.browser.family == "Googlebot":
+            elif ua.is_bot or (ua.browser.family or "").strip() == "Googlebot":
                 device_type = "ROBOT"
             elif ua.is_tablet:
                 device_type = "TABLET"
