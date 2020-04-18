@@ -110,10 +110,10 @@ TIME_ZONE="America/New_York" # Change as required
 # The following settings are OPTIONAL and not necessary for most basic deployments
 REDIS_CACHE_LOCATION="redis://redis.default.svc.cluster.local/0" 
 CELERY_BROKER_URL="redis://redis.default.svc.cluster.local/1" # If set, make sure CELERY_TASK_ALWAYS_EAGER is False
-EMAIL_HOST_USER: ""
-EMAIL_HOST_PASSWORD: ""
-EMAIL_HOST: ""
-SERVER_EMAIL: "Shynet <noreply@shynet.example.com>"
+EMAIL_HOST_USER=""
+EMAIL_HOST_PASSWORD=""
+EMAIL_HOST=""
+SERVER_EMAIL="Shynet <noreply@shynet.example.com>"
 ```
 
 4. Setup the Shynet database by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py migrate`.
