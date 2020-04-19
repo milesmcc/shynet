@@ -72,10 +72,10 @@ def ingress_request(
             ua = user_agents.parse(user_agent)
             initial = True
             device_type = "OTHER"
-            if ua.is_mobile:
-                device_type = "PHONE"
-            elif ua.is_bot or (ua.browser.family or "").strip() == "Googlebot":
+            if ua.is_bot or (ua.browser.family or "").strip() == "Googlebot":
                 device_type = "ROBOT"
+            elif ua.is_mobile:
+                device_type = "PHONE"
             elif ua.is_tablet:
                 device_type = "TABLET"
             elif ua.is_pc:
