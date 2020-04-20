@@ -14,6 +14,7 @@ class SessionAdmin(admin.ModelAdmin):
         "uuid",
         "service",
         "start_time",
+        "last_seen",
         "identifier",
         "ip",
         "asn",
