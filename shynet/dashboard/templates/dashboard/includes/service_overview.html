@@ -12,17 +12,24 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div>
                 <p>Sessions</p>
-                <p class="label">{{stats.session_count|intcomma}}</p>
+                <p class="label">
+                    {{stats.session_count|intcomma}}
+                    {% compare stats.compare.session_count stats.session_count "UP" %}
+                </p>
             </div>
             <div>
                 <p>Hits</p>
-                <p class="label">{{stats.hit_count|intcomma}}</p>
+                <p class="label">
+                    {{stats.hit_count|intcomma}}
+                    {% compare stats.compare.hit_count stats.hit_count "UP" %}
+                </p>
             </div>
             <div>
                 <p>Bounce Rate</p>
                 <p class="label">
                     {% if stats.bounce_rate_pct != None %}
                     {{stats.bounce_rate_pct|floatformat:"-1"}}%
+                    {% compare stats.compare.bounce_rate_pct stats.bounce_rate_pct "DOWN" %}
                     {% else %}
                     ?
                     {% endif %}
@@ -33,6 +40,7 @@
                 <p class="label">
                     {% if stats.avg_session_duration != None %}
                     {{stats.avg_session_duration|naturaldelta}}
+                    {% compare stats.compare.avg_session_duration stats.avg_session_duration "UP" %}
                     {% else %}
                     ?
                     {% endif %}

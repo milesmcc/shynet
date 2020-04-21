@@ -1,0 +1,7 @@
+{% load helpers %}
+
+<span
+    class="{{classes}} {% relative_stat_tone start end good good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}"
+    title="Compared against equal period prior">
+    {% percent_change_display start end %}
+</span>

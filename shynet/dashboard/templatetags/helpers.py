@@ -30,12 +30,79 @@ def flag_emoji(isocode):
     except:
         return ""
 
+
 @register.filter
 def country_name(isocode):
     try:
         return pycountry.countries.get(alpha_2=isocode).name
     except:
         return "Unknown"
+
+
+@register.simple_tag
+def relative_stat_tone(
+    start,
+    end,
+    good="UP",
+    good_classes=None,
+    bad_classes=None,
+    neutral_classes=None,
+):
+    good_classes = good_classes or "~positive"
+    bad_classes = bad_classes or "~critical"
+    neutral_classes = neutral_classes or "~neutral"
+    
+    if start == None or end == None or start == end:
+        return neutral_classes
+    if good == "UP":
+        return good_classes if start <= end else bad_classes
+    elif good == "DOWN":
+        return bad_classes if start <= end else good_classes
+    else:
+        return neutral_classes
+
+
+@register.simple_tag
+def percent_change_display(start, end):
+    if start == None or end == None:
+        return SafeString("&Delta; n/a")
+    if start == end:
+        direction = ""
+    else:
+        direction = "&uarr; " if end > start else "&darr; "
+
+    if start == 0 and end != 0:
+        pct_change = "100%"
+    else:
+        change = int(round(100 * abs(end - start) / start))
+        if change > 999:
+            return "> 999%"
+        else:
+            pct_change = str(change) + "%"
+
+    return SafeString(direction + pct_change)
+
+
+@register.inclusion_tag("dashboard/includes/stat_comparison.html")
+def compare(
+    start,
+    end,
+    good,
+    classes="badge",
+    good_classes=None,
+    bad_classes=None,
+    neutral_classes=None,
+):
+    return {
+        "start": start,
+        "end": end,
+        "good": good,
+        "classes": classes,
+        "good_classes": good_classes,
+        "bad_classes": bad_classes,
+        "neutral_classes": neutral_classes,
+    }
+
 
 @register.filter
 def startswith(text, starts):

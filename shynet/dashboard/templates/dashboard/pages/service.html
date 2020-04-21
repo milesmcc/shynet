@@ -12,16 +12,23 @@
 
 {% block service_content %}
 <div class="grid grid-cols-2 gap-6 md:flex justify-between mb-6 card ~neutral !high px-6" id="stats">
+    {% with classes="text-sm font-semibold" good_classes="text-green-400" bad_classes="text-red-400" neutral_classes="text-gray-400" %}
     <article class="">
         <p class="label text-gray-400">Sessions</p>
         <p class="heading">
             {{stats.session_count|intcomma}}
+            <div>
+                {% compare stats.compare.session_count stats.session_count "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+            </div>
         </p>
     </article>
     <article class="">
         <p class="label text-gray-400">Hits</p>
         <p class="heading">
             {{stats.hit_count|intcomma}}
+            <div>
+                {% compare stats.compare.hit_count stats.hit_count "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+            </div>
         </p>
     </article>
     <article class="">
@@ -29,6 +36,9 @@
         <p class="heading">
             {% if stats.avg_load_time %}
             {{stats.avg_load_time|floatformat:"0"}}ms
+            <div>
+                {% compare stats.compare.avg_load_time stats.avg_load_time "DOWN" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+            </div>
             {% else %}
             ?
             {% endif %}
@@ -39,6 +49,9 @@
         <p class="heading">
             {% if stats.bounce_rate_pct %}
             {{stats.bounce_rate_pct|floatformat:"-1"}}%
+            <div>
+                {% compare stats.compare.bounce_rate_pct stats.bounce_rate_pct "DOWN" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+            </div>
             {% else %}
             ?
             {% endif %}
@@ -49,6 +62,9 @@
         <p class="heading">
             {% if stats.avg_session_duration %}
             {{stats.avg_session_duration|naturaldelta}}
+            <div>
+                {% compare stats.compare.avg_session_duration stats.avg_session_duration "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+            </div>
             {% else %}
             ?
             {% endif %}
@@ -59,11 +75,15 @@
         <p class="heading">
             {% if stats.avg_hits_per_session %}
             {{stats.avg_hits_per_session|floatformat:"-1"}}
+            <div>
+                {% compare stats.compare.avg_hits_per_session stats.avg_hits_per_session "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+            </div>
             {% else %}
             ?
             {% endif %}
         </p>
     </article>
+    {% endwith %}
 </div>
 <div class="card ~neutral !low py-0 mb-6">
     {% include 'dashboard/includes/time_chart.html' with data=stats.session_chart_data %}

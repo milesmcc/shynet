@@ -59,6 +59,13 @@ class Service(models.Model):
         if end_time is None:
             end_time = timezone.now()
 
+        main_data = self.get_relative_stats(start_time, end_time)
+        comparison_data = self.get_relative_stats(start_time - (end_time - start_time), start_time)
+        main_data["compare"] = comparison_data
+
+        return main_data
+
+    def get_relative_stats(self, start_time, end_time):
         Session = apps.get_model("analytics", "Session")
         Hit = apps.get_model("analytics", "Hit")
 
