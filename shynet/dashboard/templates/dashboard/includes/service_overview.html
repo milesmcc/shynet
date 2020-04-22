@@ -29,10 +29,10 @@
                 <p class="label">
                     {% if stats.bounce_rate_pct != None %}
                     {{stats.bounce_rate_pct|floatformat:"-1"}}%
-                    {% compare stats.compare.bounce_rate_pct stats.bounce_rate_pct "DOWN" %}
                     {% else %}
                     ?
                     {% endif %}
+                    {% compare stats.compare.bounce_rate_pct stats.bounce_rate_pct "DOWN" %}
                 </p>
             </div>
             <div>
@@ -40,10 +40,10 @@
                 <p class="label">
                     {% if stats.avg_session_duration != None %}
                     {{stats.avg_session_duration|naturaldelta}}
-                    {% compare stats.compare.avg_session_duration stats.avg_session_duration "UP" %}
                     {% else %}
                     ?
                     {% endif %}
+                    {% compare stats.compare.avg_session_duration stats.avg_session_duration "UP" %}
                 </p>
             </div>
         </div>

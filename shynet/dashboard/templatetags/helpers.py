@@ -67,12 +67,14 @@ def percent_change_display(start, end):
     if start == None or end == None:
         return SafeString("&Delta; n/a")
     if start == end:
-        direction = ""
+        direction = "&Delta; "
     else:
         direction = "&uarr; " if end > start else "&darr; "
 
     if start == 0 and end != 0:
         pct_change = "100%"
+    elif start == 0:
+        pct_change = "0%"
     else:
         change = int(round(100 * abs(end - start) / start))
         if change > 999:
