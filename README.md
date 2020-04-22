@@ -113,6 +113,8 @@ ALLOWED_HOSTS="*"
 SIGNUPS_ENABLED=False
 # Change as required
 TIME_ZONE="America/New_York"
+# Set to "False" if you will not be serving content over HTTPS
+SCRIPT_USE_HTTPS=True
 
 # The following settings are OPTIONAL and not necessary for most basic deployments
 REDIS_CACHE_LOCATION="redis://redis.default.svc.cluster.local/0" 
