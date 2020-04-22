@@ -103,6 +103,10 @@
                     <td>{{location.location|default:"Unknown"|urldisplay}}</td>
                     <td class="rf">{{location.count|intcomma}}</td>
                 </tr>
+                {% empty %}
+                <tr>
+                    <td><span class="text-gray-600">No data yet...</span></td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -120,6 +124,10 @@
                 <tr>
                     <td>{{referrer.referrer|default:"Direct"|urldisplay}}</td>
                     <td class="rf">{{referrer.count|intcomma}}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td><span class="text-gray-600">No data yet...</span></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -139,6 +147,10 @@
                     <td>{{country.country|flag_emoji}} {{country.country|country_name}}</td>
                     <td class="rf">{{country.count|intcomma}}</td>
                 </tr>
+                {% empty %}
+                <tr>
+                    <td><span class="text-gray-600">No data yet...</span></td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -156,6 +168,10 @@
                 <tr>
                     <td>{{os.os|default:"Unknown"}}</td>
                     <td class="rf">{{os.count|intcomma}}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td><span class="text-gray-600">No data yet...</span></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -175,6 +191,10 @@
                     <td>{{browser.browser|default:"Unknown"}}</td>
                     <td class="rf">{{browser.count|intcomma}}</td>
                 </tr>
+                {% empty %}
+                <tr>
+                    <td><span class="text-gray-600">No data yet...</span></td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -193,6 +213,10 @@
                     <td>{{device_type.device_type|default:"Unknown"|title}}</td>
                     <td class="rf">{{device_type.count|intcomma}}</td>
                 </tr>
+                {% empty %}
+                <tr>
+                    <td><span class="text-gray-600">No data yet...</span></td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -201,7 +225,7 @@
 <div class="card ~neutral !low limited-height py-2">
     {% include 'dashboard/includes/session_list.html' %}
     <hr class="sep h-8">
-    <a href="{% url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto">View more sessions
+    <a href="{% url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">View more sessions
         &rarr;</a>
 </div>
 {% endblock %}

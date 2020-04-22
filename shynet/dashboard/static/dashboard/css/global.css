@@ -3,11 +3,11 @@
 }
 
 .table {
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 .limited-height {
-    overflow: scroll;
+    overflow: auto;
     max-height: 400px;
 }
 
