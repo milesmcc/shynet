@@ -8,7 +8,8 @@
   <meta name="robots" content="noindex">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {% include 'a17t/head.html' %}
-  <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/litepicker@1.2.0/dist/js/main.js"
+    integrity="sha256-mOlCEHUNWZPYIrc5OFL4Ab2rsJGzIPld3cy1ok7Cfx0=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.18.1/dist/apexcharts.min.js"
     integrity="sha256-RalQXBZdisB04aaBsm+6YZ0b/iRYjX1MZn90m19AnCY=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
@@ -33,7 +34,8 @@
         </span>
       </button>
       <hr class="sep h-4 md:h-8 w-full">
-      <div id="navMenuExpanded" class="bg-white shadow-lg md:shadow-none p-4 hidden rounded-lg md:block md:bg-transparent md:border-none md:p-0 w-full">
+      <div id="navMenuExpanded"
+        class="bg-white shadow-lg md:shadow-none p-4 hidden rounded-lg md:block md:bg-transparent md:border-none md:p-0 w-full">
         {% if user.owning_services.all %}
         <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Services</p>
 

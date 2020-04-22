@@ -92,4 +92,4 @@ def is_file(field):
 def add_class(field, css_class):
     if len(field.errors) > 0:
         css_class += " ~critical"
-    return field.as_widget(attrs={"class": css_class})
+    return field.as_widget(attrs={"class": field.css_classes(extra_classes=css_class)})
