@@ -93,23 +93,31 @@ To install Shynet using the simplest possible setup, follow these instructions. 
 
 2. Have a PostgreSQL server ready to go. This can be on the same machine as the deployment, or elsewhere. You'll just need a username, password, and host. (For info on how to setup a PostgreSQL server on Ubuntu, follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04)).
 
-3. Configure an environment file for Shynet. Be sure to swap out the variables below with the correct values for your setup.
+3. Configure an environment file for Shynet. Be sure to swap out the variables below with the correct values for your setup. (The comments refer to the lines that follow.)
 
 ```env
-DEBUG=False # Don't leak error details to visitors
+# Database
 DB_NAME=<your db name>
 DB_USER=<your db user>
 DB_PASSWORD=<your db user password>
 DB_HOST=<your db host>
+
+# General Django settings
 DJANGO_SECRET_KEY=<your Django secret key; just a random string>
-CELERY_TASK_ALWAYS_EAGER=True # Perform background processes on the main machine; this is what you want for now
-ALLOWED_HOSTS="*" # For better security, set this to your deployment's domain. Comma separated.
-SIGNUPS_ENABLED=False # Set to True (capitalized) if you want people to be able to sign up for your Shynet instance (not recommended)
-TIME_ZONE="America/New_York" # Change as required
+# Don't leak error details to visitors, very important
+DEBUG=False
+CELERY_TASK_ALWAYS_EAGER=True 
+# For better security, set this to your deployment's domain. Comma separated.
+ALLOWED_HOSTS="*"
+# Set to True (capitalized) if you want people to be able to sign up for your Shynet instance (not recommended)
+SIGNUPS_ENABLED=False
+# Change as required
+TIME_ZONE="America/New_York"
 
 # The following settings are OPTIONAL and not necessary for most basic deployments
 REDIS_CACHE_LOCATION="redis://redis.default.svc.cluster.local/0" 
-CELERY_BROKER_URL="redis://redis.default.svc.cluster.local/1" # If set, make sure CELERY_TASK_ALWAYS_EAGER is False
+# If set, make sure CELERY_TASK_ALWAYS_EAGER is False
+CELERY_BROKER_URL="redis://redis.default.svc.cluster.local/1"
 EMAIL_HOST_USER=""
 EMAIL_HOST_PASSWORD=""
 EMAIL_HOST=""
