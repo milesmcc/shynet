@@ -18,7 +18,7 @@
     {% endfor %}
     {% elif field|is_radio %}
     {% if field.auto_id %}
-    <label class="label my-1" for="{{field.auto_id}}">{{ field.label }}</label>
+    <label class="label block" for="{{field.auto_id}}">{{ field.label }}</label>
     {% endif %}
     {% for choice in field %}
     <label class="switch my-1">

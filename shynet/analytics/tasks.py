@@ -42,11 +42,14 @@ def _geoip2_lookup(ip):
 
 @shared_task
 def ingress_request(
-    service_uuid, tracker, time, payload, ip, location, user_agent, identifier=""
+    service_uuid, tracker, time, payload, ip, location, user_agent, dnt=False, identifier=""
 ):
     try:
         service = Service.objects.get(pk=service_uuid, status=Service.ACTIVE)
         log.debug(f"Linked to service {service}")
+
+        if dnt and service.respect_dnt:
+            return
 
         ip_data = _geoip2_lookup(ip)
         log.debug(f"Found geoip2 data")

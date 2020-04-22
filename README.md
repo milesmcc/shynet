@@ -131,9 +131,9 @@ SERVER_EMAIL="Shynet <noreply@shynet.example.com>"
 
 ## FAQ
 
-**Does Shynet respond to Do Not Track (DNT) signals?** It's on the [roadmap](#roadmap). While there isn't any standardized way to handle DNT requests, the plan is to give services the option of ignoring DNT signals entirely, limiting collected data (i.e. not collecting any visitor-related details such as browser, IP, etc.), or excluding DNT requests from analytics entirely.  
+**Does Shynet respond to Do Not Track (DNT) signals?** Yes. While there isn't any standardized way to handle DNT requests, Shynet allows you to specify whether you want to collect any data from users with DNT enabled on a per-service basis. (By default, Shynet will _not_ collect any data from users who specify DNT.)
 
-**Is this GDPR compliant?** I think so, but it also depends on how you use it. If you're worried about GDPR, you should talk to a lawyer about your particular data collection practices. I am not a lawyer.
+**Is this GDPR compliant?** I think so, but it also depends on how you use it. If you're worried about GDPR, you should talk to a lawyer about your particular data collection practices. I'm not a lawyer. (And this isn't legal advice.)
 
 ## Roadmap
 
@@ -145,7 +145,6 @@ The following features are planned:
 * **Better collaboration interface** (the current interface is... a draft)
 * **Data deletion tool** (easily prune user data by specifying an ID or IP)
 * **Differential privacy** (explore and share your data without revealing any personal information)
-* **Do Not Track support** (change tracking behavior in response to DNT signals)   
 
 ## In the Wild
 

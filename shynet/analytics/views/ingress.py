@@ -18,6 +18,7 @@ def ingress(request, service_uuid, identifier, tracker, payload):
     client_ip, is_routable = get_client_ip(request)
     location = request.META.get("HTTP_REFERER", "").strip()
     user_agent = request.META.get("HTTP_USER_AGENT", "").strip()
+    dnt = request.META.get("HTTP_DNT", "0").strip() == "1"
 
     ingress_request.delay(
         service_uuid,
@@ -27,7 +28,8 @@ def ingress(request, service_uuid, identifier, tracker, payload):
         client_ip,
         location,
         user_agent,
-        identifier,
+        dnt=dnt,
+        identifier=identifier,
     )
 
 

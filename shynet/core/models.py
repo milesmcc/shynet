@@ -41,6 +41,7 @@ class Service(models.Model):
     status = models.CharField(
         max_length=2, choices=SERVICE_STATUSES, default=ACTIVE, db_index=True
     )
+    respect_dnt = models.BooleanField(default=True)
 
     class Meta:
         ordering = ["name", "uuid"]
@@ -60,7 +61,9 @@ class Service(models.Model):
             end_time = timezone.now()
 
         main_data = self.get_relative_stats(start_time, end_time)
-        comparison_data = self.get_relative_stats(start_time - (end_time - start_time), start_time)
+        comparison_data = self.get_relative_stats(
+            start_time - (end_time - start_time), start_time
+        )
         main_data["compare"] = comparison_data
 
         return main_data
