@@ -128,7 +128,7 @@ SERVER_EMAIL="Shynet <noreply@shynet.example.com>"
 
 4. Setup the Shynet database by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py migrate`.
 
-5. Create your admin account by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py createsuperuser`.
+5. Create your admin account by running `docker run -i --env-file=<your env file> milesmcc/shynet:latest python manage.py createsuperuser`.
 
 6. Launch the Shynet server by running `docker run --env-file=<your env file> milesmcc/shynet:latest`.
 
