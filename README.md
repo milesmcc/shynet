@@ -140,9 +140,13 @@ CELERY_BROKER_URL=redis://redis.default.svc.cluster.local/1
 
 7. Name your Shynet instance by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py whitelabel "<your instance name>"`. This could be something like "My Shynet Server" or "Acme Analytics"—whatever suits you.
 
-8. Launch the Shynet server by running `docker run --env-file=<your env file> milesmcc/shynet:latest`. You may need to bind Docker's port 8000 (where Shynet runs) to your local port 8000; this can be done using the flag `-p 8000:8000`.
+8. Launch the Shynet server by running `docker run --env-file=<your env file> milesmcc/shynet:latest`. You may need to bind Docker's port 8000 (where Shynet runs) to your local port 8000; this can be done using the flag `-p 8080:8080`.
 
 9. Visit your service's homepage, and verify everything looks right! You should see a login prompt. Log in with the credentials from step 5. You'll probably be prompted to "confirm your email"—if you haven't set up an email server, the confirmation email will be printed to the console instead.
+
+10. Create a service by clicking "+ Create Service" in the top right hand corner. Fill out the options as appropriate. Once you're done, press "create" and you'll be redirected to your new service's analytics page.
+
+11. Finally, click on "Manage" in the top right of the service's page to get the tracking script code. Inject this script on all pages you'd like the service to track.
 
 **Next steps:** while out of the scope of this short guide, next steps include setting up Shynet behind a reverse proxy (be it your own [Nginx server](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) or [Cloudflare](https://cloudflare.com)), making it run in the background, and integrating it on your sites. Integration instructions are available on each service's management page.
 
