@@ -8,7 +8,7 @@ from allauth.account.admin import EmailAddress
 class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
-        fields = ["name", "link", "origins", "respect_dnt", "collaborators"]
+        fields = ["name", "link", "respect_dnt", "collaborators"]
         widgets = {
             "name": forms.TextInput(),
             "origins": forms.TextInput(),
@@ -45,5 +45,5 @@ class ServiceForm(forms.ModelForm):
     def get_initial_for_field(self, field, field_name):
         initial = super(ServiceForm, self).get_initial_for_field(field, field_name)
         if field_name == "collaborators":
-            return ", ".join([user.email for user in initial])
+            return ", ".join([user.email for user in (initial or [])])
         return initial
