@@ -131,3 +131,4 @@ dmypy.json
 # Secrets & env
 secrets.yml
 .vscode
+.DS_Store

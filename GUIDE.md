@@ -5,15 +5,14 @@
 * [Installation](#installation)
   * [Basic Installation](#basic-installation)
   * [Installation with SSL](#installation-with-ssl)
-* [Setting up a reverse proxy](#configuring-a-reverse-proxy)
-  * [Cloudflare](#cloudflare)
-  * [Nginx](#nginx)
-<!--
-* Usage
-  * Adding Shynet tracking to your first website
-  * Adding a new website
-  * Adding a new administrator
--->
+* [How to Use](#how-to-use)
+  * [Basic Usage](#basic-usage)
+    * [Add your first website](#add-your-first-website)
+  * [Advanced Usage](#advanced-usage)
+* [Enhancements](#enhancements)
+  * [Setting up a reverse proxy](#configuring-a-reverse-proxy)
+    * [Cloudflare](#cloudflare)
+    * [Nginx](#nginx)
 
 ## Installation
 
@@ -27,7 +26,7 @@ Before continuing, please be sure to have the latest version of Docker installed
 
 1. Pull the latest version of Shynet using `docker pull milesmcc/shynet:latest`. If you don't have Docker installed, [install it](https://docs.docker.com/get-docker/).
 
-2. Have a PostgreSQL server ready to go. This can be on the same machine as the deployment, or elsewhere. You'll just need a username, password, host, and port (default is `5432`). (For info on how to setup a PostgreSQL server on Ubuntu, follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04)).
+2. Have a PostgreSQL server ready to go. This can be on the same machine as the deployment, or elsewhere. You'll just need a username, password, host, and port. (For info on how to setup a PostgreSQL server on Ubuntu, follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04)).
 
 3. Configure an environment file for Shynet. (For example, create a file called `.env`.) Be sure to swap out the variables below with the correct values for your setup. (The comments refer to the lines that follow. Note that Docker is weird with quotes, so it tends to be better to omit them from your env file.)
 
@@ -37,7 +36,7 @@ DB_NAME=<your db name>
 DB_USER=<your db user>
 DB_PASSWORD=<your db user password>
 DB_HOST=<your db host>
-DB_PORT=<your db port>
+DB_PORT=<your db port; use 5432 if you don't know>
 
 # General Django settings
 DJANGO_SECRET_KEY=<your Django secret key; just a random string>
@@ -194,15 +193,52 @@ ONLY_SUPERUSERS_CREATE=False
 
 16. Finally, click on "Manage" in the top right of the service's page to get the tracking script code. Inject this script on all pages you'd like the service to track.
 
-## Configuring a Reverse Proxy
+
+## How to Use
+
+### Basic Usage
+
+Basic usage will take place on the dashboard of your website after you log in.
+
+#### Add your first website
+
+1. At the top right corner, you will find a button that looks like this:
+
+   * <img src="images/newservice.png" height="50" alt="New Service">
+
+2. Once you click on that, fill in the information for the website you are going to track:
+
+   * <img src="images/newserviceinput.png" alt="New Service Input">
+
+3. You'll be taken to the analytics page for your new service:
+
+   * <img src="images/exampledashboard.png" alt="Example Dashboard for Analytics">
+
+4. At the top right corner, you'll find this button:
+
+   * <img src="images/newservicemanage.png" alt="New Service Manage">
+
+5. After clicking that button you'll be shown some code like so:
+
+   * <img src="images/newservicecode.png" alt="New Service Code">
+
+6. Copy and paste that code and put it between the HTML `<head>` tags on the website you are trying to track.
+7. Go to the website you are trying to track
+8. See if your analytics dashboard is showing any new users
+
+
+
+## Enhancements
+
+### Configuring a Reverse Proxy
 
 A Reverse Proxy can be used for many things, including: DDoS protection, caching files to reduce server load, routing HTTPS and/or HTTP connections, hosting multiple services on a single server, [and more](https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/)!
 
-### Cloudflare
+#### Cloudflare
 
 [Cloudflare](https://www.cloudflare.com/) is a great option because it is free, it will automatically make all your connections go through HTTPS, it offers out-of-the-box security features, acts as a DNS, and requires minimal setup.
 
-#### Set up
+##### Set up
 
 1. [Cloudflare has a how-to guide here](https://support.cloudflare.com/hc/en-us/articles/201720164-Creating-a-Cloudflare-account-and-adding-a-website).
 
@@ -220,11 +256,11 @@ A Reverse Proxy can be used for many things, including: DDoS protection, caching
      * Value: `<your public IP address>`
      * Then: `Block`
 
-### Nginx
+#### Nginx
 
 Nginx is a self hosted, highly configurable webserver. Nginx can be configured to run as a reverse proxy on either the same machine or a remote machine. Since Nginx can be tweaked for just about anything web related, it does have a longer and more rewarding setup.
 
-#### Set up
+##### Set up
 
 > **These commands assume Ubuntu.** If you're installing Nginx on a different platform, the process will be different.
 
@@ -278,4 +314,4 @@ Nginx is a self hosted, highly configurable webserver. Nginx can be configured t
 
 ---
 
-**Next steps:** while out of the scope of this short guide, next steps include setting up Shynet behind a reverse proxy (be it your own [Nginx server](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) or [Cloudflare](https://cloudflare.com)), making it run in the background, and integrating it on your sites. Integration instructions are available on each service's management page.
+**Next steps:** while out of the scope of this short guide, next steps include making Shynet run in the background and integrating it on your sites. Integration instructions are available on each service's management page.
