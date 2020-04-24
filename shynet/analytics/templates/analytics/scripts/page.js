@@ -4,6 +4,9 @@ window.onload = function () {
     Math.random().toString(36).substring(2, 15);
   function sendUpdate() {
     try {
+      if (document.hidden) {
+        return;
+      }
       var xhr = new XMLHttpRequest();
       xhr.open(
         "POST",
@@ -21,8 +24,8 @@ window.onload = function () {
             window.performance.timing.navigationStart,
         })
       );
-    } catch {}
+    } catch { }
   }
-  setInterval(sendUpdate, Number("{{heartbeat_frequency}}"));
+  setInterval(sendUpdate, parseInt("{{heartbeat_frequency}}"));
   sendUpdate();
 };
