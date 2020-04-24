@@ -85,7 +85,7 @@ You can find installation instructions in our [Getting Started Guide](GUIDE.md#i
 
 **Does Shynet respond to Do Not Track (DNT) signals?** Yes. While there isn't any standardized way to handle DNT requests, Shynet allows you to specify whether you want to collect any data from users with DNT enabled on a per-service basis. (By default, Shynet will _not_ collect any data from users who specify DNT.)
 
-**Is this GDPR compliant?** I think so, but it also depends on how you use it. If you're worried about GDPR, you should talk to a lawyer about your particular data collection practices. I'm not a lawyer. (And this isn't legal advice.)
+**Is this GDPR compliant?** It also depends on how you use it. If you're worried about GDPR, you should talk to a lawyer about your particular data collection practices. I'm not a lawyer. (And this isn't legal advice.)
 
 ## Roadmap
 
