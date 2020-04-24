@@ -256,3 +256,7 @@ ONLY_SUPERUSERS_CREATE = os.getenv("ONLY_SUPERUSERS_CREATE", "True") == "True"
 # Should the script use HTTPS to send the POST requests? The hostname is from
 # the django SITE default. (Edit it using the admin panel.)
 SCRIPT_USE_HTTPS = os.getenv("SCRIPT_USE_HTTPS", "True") == "True"
+
+# How frequently should the tracking script "phone home" with a heartbeat, in
+# milliseconds?
+SCRIPT_HEARTBEAT_FREQUENCY = int(os.getenv("SCRIPT_HEARTBEAT_FREQUENCY", "5000"))

@@ -1,11 +1,4 @@
-<p align="center">
-  <h3 align="center">🔭 Shynet 🔭</h3>
-
-  <p align="center">
-     Web analytics that's self hosted, cookie free, privacy friendly, and useful(?) 
-    <br>
-  </p>
-</p>
+# Getting Started
 
 ## Table of Contents
 
@@ -50,6 +43,8 @@ DB_PORT=<your db port>
 DJANGO_SECRET_KEY=<your Django secret key; just a random string>
 # Don't leak error details to visitors, very important
 DEBUG=False
+# Unless you are using an external Celery task queue, make sure this
+# is set to True.
 CELERY_TASK_ALWAYS_EAGER=True 
 # For better security, set this to your deployment's domain. Comma separated.
 ALLOWED_HOSTS=*
@@ -74,6 +69,14 @@ SERVER_EMAIL=Shynet <noreply@shynet.example.com>
 REDIS_CACHE_LOCATION=redis://redis.default.svc.cluster.local/0 
 # If set, make sure CELERY_TASK_ALWAYS_EAGER is False
 CELERY_BROKER_URL=redis://redis.default.svc.cluster.local/1
+
+# Other Shynet settings 
+# How frequently should the monitoring script "phone home" (in ms)?
+SCRIPT_HEARTBEAT_FREQUENCY=5000
+# Should only superusers (admins) be able to create services? This is helpful
+# when you'd like to invite others to your Shynet instance but don't want
+# them to be able to create services of their own.
+ONLY_SUPERUSERS_CREATE=False
 ```
 
 4. Setup the Shynet database by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py migrate`.
@@ -138,6 +141,8 @@ DB_PORT=<your db port>
 DJANGO_SECRET_KEY=<your Django secret key; just a random string>
 # Don't leak error details to visitors, very important
 DEBUG=False
+# Unless you are using an external Celery task queue, make sure this
+# is set to True.
 CELERY_TASK_ALWAYS_EAGER=True 
 # For better security, set this to your deployment's domain. Comma separated.
 ALLOWED_HOSTS=*
@@ -162,6 +167,15 @@ SERVER_EMAIL=Shynet <noreply@shynet.example.com>
 REDIS_CACHE_LOCATION=redis://redis.default.svc.cluster.local/0 
 # If set, make sure CELERY_TASK_ALWAYS_EAGER is False
 CELERY_BROKER_URL=redis://redis.default.svc.cluster.local/1
+
+
+# Other Shynet settings 
+# How frequently should the monitoring script "phone home" (in ms)?
+SCRIPT_HEARTBEAT_FREQUENCY=5000
+# Should only superusers (admins) be able to create services? This is helpful
+# when you'd like to invite others to your Shynet instance but don't want
+# them to be able to create services of their own.
+ONLY_SUPERUSERS_CREATE=False
 ```
 
 9. Setup the Shynet database by running `docker run --env-file=<your env file> milesmcc/shynet:latest-ssl python manage.py migrate`.

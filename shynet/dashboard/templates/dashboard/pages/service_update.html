@@ -23,7 +23,7 @@
     <form class="card ~neutral !low p-0" method="POST">
         {% csrf_token %}
         <div class="p-4">
-            {{form|a17t}}
+            {% include 'dashboard/includes/service_form.html' %}
         </div>
         <div class="section ~neutral !normal p-4 flex justify-between">
             <div>

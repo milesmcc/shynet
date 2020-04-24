@@ -1,14 +1,8 @@
-<p align="center">
-  <h3 align="center">🔭 Shynet 🔭</h3>
+<img src="images/logo.png" height="50" alt="Shynet logo">
 
-  <p align="center">
-     Web analytics that's self hosted, cookie free, privacy friendly, and useful(?) 
-    <br>
-    <br>
-    <a href="#installation"><strong>Getting started »</strong></a>
-    <br>
-  </p>
-</p>
+Modern, privacy-friendly, and cookie-free web analytics.
+
+<br>
 
 ## Motivation
 
@@ -85,7 +79,7 @@ Shynet is pretty simple, but there are a few key terms you need to know in order
 
 ## Installation
 
-You can find installation instructions in our [Getting Started Guide](GUIDE.md#installation)!
+You can find installation instructions in our [Getting Started Guide](GUIDE.md#installation).
 
 ## FAQ
 
@@ -118,4 +112,4 @@ Shynet is made available under the [Apache License, version 2.0](LICENSE).
 
 ---
 
-a17t was created by [Miles McCain](https://miles.land) at the [Recurse Center](https://recurse.com) using [a17t](https://a17t.miles.land).
+Shynet was created by [Miles McCain](https://miles.land) ([@MilesMcCain](https://twitter.com/MilesMcCain)) at the [Recurse Center](https://recurse.com) using [a17t](https://a17t.miles.land).

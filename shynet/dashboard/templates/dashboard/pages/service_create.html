@@ -10,7 +10,7 @@
 <form class="card ~neutral !low p-0 max-w-xl" method="POST">
     {% csrf_token %}
     <div class="p-4">
-        {{form|a17t}}
+        {% include 'dashboard/includes/service_form.html' %}
     </div>
     <div class="section ~urge !normal p-4">
         <button type="submit" class="button ~urge !high">Create</button>

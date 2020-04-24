@@ -1,0 +1,12 @@
+{% load a17t_tags %}
+
+{{form.name|a17t}}
+{{form.link|a17t}}
+{{form.collaborators|a17t}}
+
+<details class="p-4 border rounded">
+    <summary class="cursor-pointer text-sm">Advanced settings</summary>
+    <hr class="sep h-4">
+    {{form.respect_dnt|a17t}}
+    {{form.origins|a17t}}
+</details>

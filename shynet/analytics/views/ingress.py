@@ -8,7 +8,9 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, View
+from django.core.cache import cache
 from ipware import get_client_ip
+from core.models import Service
 
 from ..tasks import ingress_request
 
@@ -58,8 +60,15 @@ class PixelView(View):
 @method_decorator(csrf_exempt, name="dispatch")
 class ScriptView(View):
     def dispatch(self, request, *args, **kwargs):
+        service_uuid = self.kwargs.get("service_uuid")
+        origins = cache.get(f"service_origins_{service_uuid}")
+        if origins is None:
+            service = Service.objects.get(uuid=service_uuid)
+            origins = service.origins
+            cache.set(f"service_origins_{service_uuid}", origins, timeout=3600)
+
         resp = super().dispatch(request, *args, **kwargs)
-        resp["Access-Control-Allow-Origin"] = "*"
+        resp["Access-Control-Allow-Origin"] = origins
         resp["Access-Control-Allow-Methods"] = "GET,HEAD,OPTIONS,POST"
         resp[
             "Access-Control-Allow-Headers"
@@ -82,10 +91,15 @@ class ScriptView(View):
                 },
             )
         )
+        heartbeat_frequency = settings.SCRIPT_HEARTBEAT_FREQUENCY
         return render(
             self.request,
             "analytics/scripts/page.js",
-            context={"endpoint": endpoint, "protocol": protocol},
+            context={
+                "endpoint": endpoint,
+                "protocol": protocol,
+                "heartbeat_frequency": heartbeat_frequency,
+            },
             content_type="application/javascript",
         )
 
