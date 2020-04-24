@@ -74,6 +74,14 @@ SERVER_EMAIL=Shynet <noreply@shynet.example.com>
 REDIS_CACHE_LOCATION=redis://redis.default.svc.cluster.local/0 
 # If set, make sure CELERY_TASK_ALWAYS_EAGER is False
 CELERY_BROKER_URL=redis://redis.default.svc.cluster.local/1
+
+# Other Shynet settings 
+# How frequently should the monitoring script "phone home" (in ms)?
+SCRIPT_HEARTBEAT_FREQUENCY=5000
+# Should only superusers (admins) be able to create services? This is helpful
+# when you'd like to invite others to your Shynet instance but don't want
+# them to be able to create services of their own.
+ONLY_SUPERUSERS_CREATE=False
 ```
 
 4. Setup the Shynet database by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py migrate`.
@@ -162,6 +170,15 @@ SERVER_EMAIL=Shynet <noreply@shynet.example.com>
 REDIS_CACHE_LOCATION=redis://redis.default.svc.cluster.local/0 
 # If set, make sure CELERY_TASK_ALWAYS_EAGER is False
 CELERY_BROKER_URL=redis://redis.default.svc.cluster.local/1
+
+
+# Other Shynet settings 
+# How frequently should the monitoring script "phone home" (in ms)?
+SCRIPT_HEARTBEAT_FREQUENCY=5000
+# Should only superusers (admins) be able to create services? This is helpful
+# when you'd like to invite others to your Shynet instance but don't want
+# them to be able to create services of their own.
+ONLY_SUPERUSERS_CREATE=False
 ```
 
 9. Setup the Shynet database by running `docker run --env-file=<your env file> milesmcc/shynet:latest-ssl python manage.py migrate`.

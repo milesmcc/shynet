@@ -23,6 +23,6 @@ window.onload = function () {
       );
     } catch {}
   }
-  setInterval(sendUpdate, 5000);
+  setInterval(sendUpdate, Number("{{heartbeat_frequency}}"));
   sendUpdate();
 };

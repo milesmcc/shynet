@@ -82,10 +82,15 @@ class ScriptView(View):
                 },
             )
         )
+        heartbeat_frequency = settings.SCRIPT_HEARTBEAT_FREQUENCY
         return render(
             self.request,
             "analytics/scripts/page.js",
-            context={"endpoint": endpoint, "protocol": protocol},
+            context={
+                "endpoint": endpoint,
+                "protocol": protocol,
+                "heartbeat_frequency": heartbeat_frequency,
+            },
             content_type="application/javascript",
         )
 
