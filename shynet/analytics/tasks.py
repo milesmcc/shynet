@@ -42,7 +42,15 @@ def _geoip2_lookup(ip):
 
 @shared_task
 def ingress_request(
-    service_uuid, tracker, time, payload, ip, location, user_agent, dnt=False, identifier=""
+    service_uuid,
+    tracker,
+    time,
+    payload,
+    ip,
+    location,
+    user_agent,
+    dnt=False,
+    identifier="",
 ):
     try:
         service = Service.objects.get(pk=service_uuid, status=Service.ACTIVE)
@@ -78,7 +86,8 @@ def ingress_request(
             if (
                 ua.is_bot
                 or (ua.browser.family or "").strip().lower() == "googlebot"
-                or (ua.device.family or ua.device.model or "").strip().lower() == "spider"
+                or (ua.device.family or ua.device.model or "").strip().lower()
+                == "spider"
             ):
                 device_type = "ROBOT"
             elif ua.is_mobile:

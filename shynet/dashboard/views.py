@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.cache import cache
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, reverse
 from django.utils import timezone
@@ -12,7 +13,6 @@ from django.views.generic import (
     UpdateView,
 )
 from rules.contrib.views import PermissionRequiredMixin
-from django.core.cache import cache
 
 from analytics.models import Session
 from core.models import Service
