@@ -85,71 +85,7 @@ Shynet is pretty simple, but there are a few key terms you need to know in order
 
 ## Installation
 
-To install Shynet using the simplest possible setup, follow these instructions. Instructions for multi-machine deployments will be available soon.
-
-> **These commands assume Ubuntu.** If you're installing Shynet on a different platform, the process will be different.
-
-1. Pull the latest version of Shynet using `docker pull milesmcc/shynet:latest`. If you don't have Docker installed, [install it](https://docs.docker.com/get-docker/).
-
-2. Have a PostgreSQL server ready to go. This can be on the same machine as the deployment, or elsewhere. You'll just need a username, password, and host. (For info on how to setup a PostgreSQL server on Ubuntu, follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04)).
-
-3. Configure an environment file for Shynet. (For example, create a file called `.env`.) Be sure to swap out the variables below with the correct values for your setup. (The comments refer to the lines that follow. Note that Docker is weird with quotes, so it tends to be better to omit them from your env file.)
-
-```
-# Database
-DB_NAME=<your db name>
-DB_USER=<your db user>
-DB_PASSWORD=<your db user password>
-DB_HOST=<your db host>
-
-# General Django settings
-DJANGO_SECRET_KEY=<your Django secret key; just a random string>
-# Don't leak error details to visitors, very important
-DEBUG=False
-CELERY_TASK_ALWAYS_EAGER=True 
-# For better security, set this to your deployment's domain. Comma separated.
-ALLOWED_HOSTS=*
-# Set to True (capitalized) if you want people to be able to sign up for your Shynet instance (not recommended)
-SIGNUPS_ENABLED=False
-# Change as required
-TIME_ZONE=America/New_York
-# Set to "False" if you will not be serving content over HTTPS
-SCRIPT_USE_HTTPS=True
-```
-
-For more advanced deployments, you may consider adding the following settings to your environment file. **The following settings are optional, and not required for simple deployments.**
-
-```env
-# Email settings
-EMAIL_HOST_USER=<your SMTP email user>
-EMAIL_HOST_PASSWORD=<your SMTP email password>
-EMAIL_HOST=<your SMTP email hostname>
-SERVER_EMAIL=Shynet <noreply@shynet.example.com>
-
-# Redis and queue settings; not necessary for single-instance deployments
-REDIS_CACHE_LOCATION=redis://redis.default.svc.cluster.local/0 
-# If set, make sure CELERY_TASK_ALWAYS_EAGER is False
-CELERY_BROKER_URL=redis://redis.default.svc.cluster.local/1
-```
-
-4. Setup the Shynet database by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py migrate`.
-
-5. Create your admin account by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py registeradmin <your email>`. The command will print a temporary password that you'll be able to use to log in.
-
-6. Configure Shynet's hostname (e.g. `shynet.example.com` or `localhost:8000`) by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py hostname "<your hostname>"`. This doesn't affect Shynet's bind port; instead, it determines what hostname to inject into the tracking script. (So you'll want to use the "user-facing" hostname here.)
-
-7. Name your Shynet instance by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py whitelabel "<your instance name>"`. This could be something like "My Shynet Server" or "Acme Analytics"—whatever suits you.
-
-8. Launch the Shynet server by running `docker run --env-file=<your env file> milesmcc/shynet:latest`. You may need to bind Docker's port 8000 (where Shynet runs) to your local port 8000; this can be done using the flag `-p 8080:8080`.
-
-9. Visit your service's homepage, and verify everything looks right! You should see a login prompt. Log in with the credentials from step 5. You'll probably be prompted to "confirm your email"—if you haven't set up an email server, the confirmation email will be printed to the console instead.
-
-10. Create a service by clicking "+ Create Service" in the top right hand corner. Fill out the options as appropriate. Once you're done, press "create" and you'll be redirected to your new service's analytics page.
-
-11. Finally, click on "Manage" in the top right of the service's page to get the tracking script code. Inject this script on all pages you'd like the service to track.
-
-**Next steps:** while out of the scope of this short guide, next steps include setting up Shynet behind a reverse proxy (be it your own [Nginx server](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) or [Cloudflare](https://cloudflare.com)), making it run in the background, and integrating it on your sites. Integration instructions are available on each service's management page.
-
+You can find installation instructions in our [Getting Started Guide](GUIDE.md#installation)!
 
 ## FAQ
 
