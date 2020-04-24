@@ -5,14 +5,14 @@
 * [Installation](#installation)
   * [Basic Installation](#basic-installation)
   * [Installation with SSL](#installation-with-ssl)
+* [Setting up a reverse proxy](#configuring-a-reverse-proxy)
+  * [Cloudflare](#cloudflare)
+  * [Nginx](#nginx)
 <!--
 * Usage
   * Adding Shynet tracking to your first website
   * Adding a new website
   * Adding a new administrator
-* Setting up a reverse proxy
-  * Cloudflare
-  * nginx
 -->
 
 ## Installation
@@ -193,6 +193,88 @@ ONLY_SUPERUSERS_CREATE=False
 15. Create a service by clicking "+ Create Service" in the top right hand corner. Fill out the options as appropriate. Once you're done, press "create" and you'll be redirected to your new service's analytics page.
 
 16. Finally, click on "Manage" in the top right of the service's page to get the tracking script code. Inject this script on all pages you'd like the service to track.
+
+## Configuring a Reverse Proxy
+
+A Reverse Proxy can be used for many things, including: DDoS protection, caching files to reduce server load, routing HTTPS and/or HTTP connections, hosting multiple services on a single server, [and more](https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/)!
+
+### Cloudflare
+
+[Cloudflare](https://www.cloudflare.com/) is a great option because it is free, it will automatically make all your connections go through HTTPS, it offers out-of-the-box security features, acts as a DNS, and requires minimal setup.
+
+#### Set up
+
+1. [Cloudflare has a how-to guide here](https://support.cloudflare.com/hc/en-us/articles/201720164-Creating-a-Cloudflare-account-and-adding-a-website).
+
+2. After following that, here are a few things you should do:
+   * Under the `SSL` Tab > `Overview` > Change your `SSL/TLS Encryption Mode` to `Flexible`
+   * The following will block your admin panel from anyone who isn't on your IP address, though this is optional.
+     * Under the `Firewall` tab > `Overview` > `+ Create Firewall Rule`:
+     * Name: `Admin Panel Restriction`
+     * Field: `URI Path`
+     * Operator: `equals`
+     * Value: `/admin`
+     * Click `AND`
+     * Field: `IP Address`
+     * Operator: `does not equal`
+     * Value: `<your public IP address>`
+     * Then: `Block`
+
+### Nginx
+
+Nginx is a self hosted, highly configurable webserver. Nginx can be configured to run as a reverse proxy on either the same machine or a remote machine. Since Nginx can be tweaked for just about anything web related, it does have a longer and more rewarding setup.
+
+#### Set up
+
+> **These commands assume Ubuntu.** If you're installing Nginx on a different platform, the process will be different.
+
+0. Before we start, if you have a Docker container running, please close it.
+   * Run `docker container ls` to find the container ID
+   * Run `docker stop <container id from the last step>`
+
+1. Update your packages and install Nginx
+   * `sudo apt-get update`
+   * `sudo apt-get install nginx`
+
+2. Disable the default Nginx placeholder
+   * `sudo unlink /etc/nginx/sites-enabled/default`
+
+3. Create the Nginx reverse proxy config file
+   * `cd /etc/nginx/sites-available/`
+   * `vi reverse-proxy.conf` or `nano reverse-proxy.conf`
+   * Paste the following configuration into that file:
+
+   ```nginx
+   # Know what you're pasting! Read the Reference!
+   # Reference: https://nginx.org/en/docs/
+   server {
+       listen 80;
+       location / {
+           proxy_pass http://127.0.0.1:8080;
+       }
+   }
+   ```
+
+   * Save and exit the text editor
+     * `:wq` for vi
+     * `ctrl+x` then `y` for nano
+   * Link Nginx's `sites-enabled` to read the config we just made
+     * `sudo ln -s /etc/nginx/sites-available/reverse-proxy.conf /etc/nginx/sites-enabled/reverse-proxy.conf`
+   * Make sure the config is working
+     * `service nginx configtest`
+     * `service nginx restart`
+
+4. Restart your docker image, but this time use `8080` since that is what Nginx is now looking for
+   * `cd ~/`
+   * `docker run -p 8080:8080 --env-file=<your env file> milesmcc/shynet:latest-ssl`
+
+5. Finally, time to test!
+   * Go to `http://<your site>/admin`
+
+6. If everything is working as expected, please read through some of the following links below to customize Nginx
+   * [How to add SSL/HTTPS to Nginx (Ubuntu 18.04)](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04)
+   * [How to add SSL/HTTPS to Nginx (Ubuntu 16.04)](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04)
+   * [Nginx Documentation](https://nginx.org/en/docs/)
 
 ---
 
