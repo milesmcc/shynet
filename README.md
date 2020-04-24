@@ -40,10 +40,10 @@ Not shown: service view, management view, session view, full service view. (You'
 
 #### Architecture
 
-* **Runs on a single machine** &mdash; Because it's so small, Shynet can easily run as a single docker container on a single small VPS.
-* **...or across a giant Kubernetes cluster** &mdash; For higher traffic installations, Shynet can be deployed with as many parallelized ingress nodes as needed, with Redis caching and separate backend workers for database IO.
-* **Built using Django** &mdash; Shynet is built using Django, so deploying, updating, and migrating can be done without headaches.
-* **Multiple users and sites** &mdash; A single Shynet instance can support multiple users, each tracking multiple different sites.
+* **Runs on a single machine** &mdash; Because it's so small, Shynet can easily run as a single docker container on a single small VPS
+* **...or across a giant Kubernetes cluster** &mdash; For higher traffic installations, Shynet can be deployed with as many parallelized ingress nodes as needed, with Redis caching and separate backend workers for database IO
+* **Built using Django** &mdash; Shynet is built using Django, so deploying, updating, and migrating can be done without headaches
+* **Multiple users and sites** &mdash; A single Shynet instance can support multiple users, each tracking multiple different sites
 
 #### Tracking
 
@@ -70,7 +70,7 @@ Here's the information Shynet can give you about your visitors:
 
 #### Workflow
 * **Collaboration built-in** &mdash; Administrators can easily share services with other users, as well
-* **Accounts (or not)** &mdash; Shynet has a fully featured account management workflow (powered by [Django Allauth](https://github.com/pennersr/django-allauth/)).
+* **Accounts (or not)** &mdash; Shynet has a fully featured account management workflow (powered by [Django Allauth](https://github.com/pennersr/django-allauth/))
 
 ## Recommendations
 
@@ -88,7 +88,7 @@ Shynet is pretty simple, but there are a few key terms you need to know in order
 
 ## Installation
 
-You can find installation instructions in our [Getting Started Guide](GUIDE.md#installation).
+You can find installation instructions in the [Getting Started Guide](GUIDE.md#installation).
 
 ## FAQ
 
