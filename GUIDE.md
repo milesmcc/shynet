@@ -1,11 +1,4 @@
-<p align="center">
-  <h3 align="center">🔭 Shynet 🔭</h3>
-
-  <p align="center">
-     Web analytics that's self hosted, cookie free, privacy friendly, and useful(?) 
-    <br>
-  </p>
-</p>
+# Getting Started
 
 ## Table of Contents
 
