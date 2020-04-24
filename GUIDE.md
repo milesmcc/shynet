@@ -14,6 +14,8 @@
     * [Cloudflare](#cloudflare)
     * [Nginx](#nginx)
 
+---
+
 ## Installation
 
 Installation of Shynet is easy! Follow the [Basic Installation](#basic-installation) guide below if you'd like to run Shynet over HTTP or if you are going to be running it over HTTPS through a reverse proxy. If you'd like to run Shynet over HTTPS without a reverse proxy, skip ahead to [Installation with SSL](#installation-with-ssl) instead.
@@ -193,6 +195,7 @@ ONLY_SUPERUSERS_CREATE=False
 
 16. Finally, click on "Manage" in the top right of the service's page to get the tracking script code. Inject this script on all pages you'd like the service to track.
 
+---
 
 ## How to Use
 
@@ -204,28 +207,29 @@ Basic usage will take place on the dashboard of your website after you log in.
 
 1. At the top right corner, you will find a button that looks like this:
 
-   * <img src="images/newservice.png" height="50" alt="New Service">
+<img src="images/newservice.png" height="50" alt="New Service">
 
 2. Once you click on that, fill in the information for the website you are going to track:
 
-   * <img src="images/newserviceinput.png" alt="New Service Input">
+<img src="images/newserviceinput.png" alt="New Service Input">
 
 3. You'll be taken to the analytics page for your new service:
 
-   * <img src="images/exampledashboard.png" alt="Example Dashboard for Analytics">
+<img src="images/exampledashboard.png" alt="Example Dashboard for Analytics">
 
 4. At the top right corner, you'll find this button:
 
-   * <img src="images/newservicemanage.png" alt="New Service Manage">
+<img src="images/newservicemanage.png" alt="New Service Manage">
 
 5. After clicking that button you'll be shown some code like so:
 
-   * <img src="images/newservicecode.png" alt="New Service Code">
+<img src="images/newservicecode.png" alt="New Service Code">
 
 6. Copy and paste that code and put it between the HTML `<head>` tags on the website you are trying to track.
 7. Go to the website you are trying to track
 8. See if your analytics dashboard is showing any new users
 
+---
 
 
 ## Enhancements
