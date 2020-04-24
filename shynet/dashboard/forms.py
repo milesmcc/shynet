@@ -8,7 +8,7 @@ from allauth.account.admin import EmailAddress
 class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
-        fields = ["name", "link", "respect_dnt", "collaborators"]
+        fields = ["name", "link", "respect_dnt", "origins", "collaborators"]
         widgets = {
             "name": forms.TextInput(),
             "origins": forms.TextInput(),
@@ -28,7 +28,6 @@ class ServiceForm(forms.ModelForm):
         }
 
     collaborators = forms.CharField(help_text="Which users should have read-only access to this service? (Comma separated list of emails.)", required=False)
-
 
     def clean_collaborators(self):
         collaborators = []
