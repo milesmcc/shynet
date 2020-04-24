@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
-import pycountry
+
 import flag
+import pycountry
 from django import template
 from django.utils import timezone
 from django.utils.html import escape
@@ -41,17 +42,12 @@ def country_name(isocode):
 
 @register.simple_tag
 def relative_stat_tone(
-    start,
-    end,
-    good="UP",
-    good_classes=None,
-    bad_classes=None,
-    neutral_classes=None,
+    start, end, good="UP", good_classes=None, bad_classes=None, neutral_classes=None,
 ):
     good_classes = good_classes or "~positive"
     bad_classes = bad_classes or "~critical"
     neutral_classes = neutral_classes or "~neutral"
-    
+
     if start == None or end == None or start == end:
         return neutral_classes
     if good == "UP":

@@ -1,6 +1,6 @@
+from datetime import datetime, time
 from urllib.parse import urlparse
 
-from datetime import time, datetime
 from django.utils import timezone
 
 

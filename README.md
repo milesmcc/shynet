@@ -1,6 +1,15 @@
-<img src="images/logo.png" height="50" alt="Shynet logo">
 
-Modern, privacy-friendly, and cookie-free web analytics.
+<p align="center">
+  <img align="center" src="images/logo.png" height="50" alt="Shynet logo">
+  <br>
+
+  <p align="center">
+    Modern, privacy-friendly, and cookie-free web analytics.
+    <br>
+    <strong><a href="#installation">Getting started »</a></strong>
+  </p>
+  <p align="center"><a href="#screenshots">Screenshots</a> &bull; <a href="#features">Features</a> &bull; <a href="#roadmap">Roadmap</a></p>
+</p>
 
 <br>
 
@@ -31,10 +40,10 @@ Not shown: service view, management view, session view, full service view. (You'
 
 #### Architecture
 
-* **Runs on a single machine** &mdash; Because it's so small, Shynet can easily run as a single docker container on a single small VPS.
-* **...or across a giant Kubernetes cluster** &mdash; For higher traffic installations, Shynet can be deployed with as many parallelized ingress nodes as needed, with Redis caching and separate backend workers for database IO.
-* **Built using Django** &mdash; Shynet is built using Django, so deploying, updating, and migrating can be done without headaches.
-* **Multiple users and sites** &mdash; A single Shynet instance can support multiple users, each tracking multiple different sites.
+* **Runs on a single machine** &mdash; Because it's so small, Shynet can easily run as a single docker container on a single small VPS
+* **...or across a giant Kubernetes cluster** &mdash; For higher traffic installations, Shynet can be deployed with as many parallelized ingress nodes as needed, with Redis caching and separate backend workers for database IO
+* **Built using Django** &mdash; Shynet is built using Django, so deploying, updating, and migrating can be done without headaches
+* **Multiple users and sites** &mdash; A single Shynet instance can support multiple users, each tracking multiple different sites
 
 #### Tracking
 
@@ -61,7 +70,7 @@ Here's the information Shynet can give you about your visitors:
 
 #### Workflow
 * **Collaboration built-in** &mdash; Administrators can easily share services with other users, as well
-* **Accounts (or not)** &mdash; Shynet has a fully featured account management workflow (powered by [Django Allauth](https://github.com/pennersr/django-allauth/)).
+* **Accounts (or not)** &mdash; Shynet has a fully featured account management workflow (powered by [Django Allauth](https://github.com/pennersr/django-allauth/))
 
 ## Recommendations
 
@@ -79,13 +88,13 @@ Shynet is pretty simple, but there are a few key terms you need to know in order
 
 ## Installation
 
-You can find installation instructions in our [Getting Started Guide](GUIDE.md#installation).
+You can find installation instructions in the [Getting Started Guide](GUIDE.md#installation).
 
 ## FAQ
 
 **Does Shynet respond to Do Not Track (DNT) signals?** Yes. While there isn't any standardized way to handle DNT requests, Shynet allows you to specify whether you want to collect any data from users with DNT enabled on a per-service basis. (By default, Shynet will _not_ collect any data from users who specify DNT.)
 
-**Is this GDPR compliant?** It also depends on how you use it. If you're worried about GDPR, you should talk to a lawyer about your particular data collection practices. I'm not a lawyer. (And this isn't legal advice.)
+**Is this GDPR compliant?** It depends on how you use it. If you're worried about GDPR, you should talk to a lawyer about your particular data collection practices. I'm not a lawyer. (And this isn't legal advice.)
 
 ## Roadmap
 

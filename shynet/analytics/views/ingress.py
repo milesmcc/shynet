@@ -2,14 +2,15 @@ import base64
 import json
 
 from django.conf import settings
+from django.core.cache import cache
 from django.http import HttpResponse
 from django.shortcuts import render, reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, View
-from django.core.cache import cache
 from ipware import get_client_ip
+
 from core.models import Service
 
 from ..tasks import ingress_request
