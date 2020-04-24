@@ -12,6 +12,7 @@ from django.views.generic import (
     UpdateView,
 )
 from rules.contrib.views import PermissionRequiredMixin
+from django.core.cache import cache
 
 from analytics.models import Session
 from core.models import Service
@@ -76,6 +77,13 @@ class ServiceUpdateView(
 
     def get_success_url(self):
         return reverse("dashboard:service", kwargs={"pk": self.object.uuid})
+
+    def form_valid(self, *args, **kwargs):
+        resp = super().form_valid(*args, **kwargs)
+        cache.set(
+            f"service_origins_{self.object.uuid}", self.object.origins, timeout=3600
+        )
+        return resp
 
 
 class ServiceDeleteView(
