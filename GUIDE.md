@@ -266,7 +266,7 @@ Nginx is a self hosted, highly configurable webserver. Nginx can be configured t
 
 4. Restart your docker image, but this time use `8080` since that is what Nginx is now looking for
    * `cd ~/`
-   * `docker run -p 8080:8080 --env-file=<your env file> milesmcc/shynet:latest-ssl`
+   * `docker run -p 8080:8080 --env-file=<your env file> milesmcc/shynet:latest`
 
 5. Finally, time to test!
    * Go to `http://<your site>/admin`
