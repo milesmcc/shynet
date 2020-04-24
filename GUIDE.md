@@ -50,6 +50,8 @@ DB_PORT=<your db port>
 DJANGO_SECRET_KEY=<your Django secret key; just a random string>
 # Don't leak error details to visitors, very important
 DEBUG=False
+# Unless you are using an external Celery task queue, make sure this
+# is set to True.
 CELERY_TASK_ALWAYS_EAGER=True 
 # For better security, set this to your deployment's domain. Comma separated.
 ALLOWED_HOSTS=*
@@ -146,6 +148,8 @@ DB_PORT=<your db port>
 DJANGO_SECRET_KEY=<your Django secret key; just a random string>
 # Don't leak error details to visitors, very important
 DEBUG=False
+# Unless you are using an external Celery task queue, make sure this
+# is set to True.
 CELERY_TASK_ALWAYS_EAGER=True 
 # For better security, set this to your deployment's domain. Comma separated.
 ALLOWED_HOSTS=*
