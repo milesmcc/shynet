@@ -174,7 +174,7 @@ CELERY_BROKER_URL=redis://redis.default.svc.cluster.local/1
 
 13. Launch the Shynet server by running `docker run --env-file=<your env file> milesmcc/shynet:latest-ssl`. You may need to bind Docker's port 8080 (where Shynet runs) to your local port 443 (https); this can be done using the flag `-p 443:8080` after `run`.
 
-14. Visit your service's homepage using `https://`, and verify everything looks right! You should see a login prompt. Log in with the credentials from step 5. You'll probably be prompted to "confirm your email"—if you haven't set up an email server, the confirmation email will be printed to the console instead.
+14. Visit your service's homepage using `https://`, and verify everything looks right! You should see a login prompt. Log in with the credentials from step 10. You'll probably be prompted to "confirm your email"—if you haven't set up an email server, the confirmation email will be printed to the console instead.
 
 15. Create a service by clicking "+ Create Service" in the top right hand corner. Fill out the options as appropriate. Once you're done, press "create" and you'll be redirected to your new service's analytics page.
 
