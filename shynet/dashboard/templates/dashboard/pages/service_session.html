@@ -59,8 +59,8 @@
             </p>
         </div>
         <div>
-            <p>Time Zone</p>
-            <p class="label">{{session.time_zone|default:"Unknown"}}</p>
+            <p>IP</p>
+            <p class="label" title="{{session.ip}}">{{session.ip|truncatechars:"16"}}</p>
         </div>
     </div>
 </article>
