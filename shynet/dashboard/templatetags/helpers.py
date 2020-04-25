@@ -3,6 +3,7 @@ from urllib.parse import urlparse
 import flag
 import pycountry
 from django import template
+from django.conf import settings
 from django.utils import timezone
 from django.utils.html import escape
 from django.utils.safestring import SafeString
@@ -80,6 +81,11 @@ def percent_change_display(start, end):
 
     return SafeString(direction + pct_change)
 
+@register.inclusion_tag("dashboard/includes/sidebar_footer.html")
+def sidebar_footer():
+    return {
+        "version": settings.VERSION
+    }
 
 @register.inclusion_tag("dashboard/includes/stat_comparison.html")
 def compare(

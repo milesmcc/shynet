@@ -1,4 +1,4 @@
-{% load static rules %}
+{% load static rules helpers %}
 <!DOCTYPE html>
 
 <html>
@@ -93,6 +93,10 @@
         {% include 'dashboard/includes/sidebar_portal.html' with label="Sign Up" url=url %}
 
         {% endif %}
+
+        <hr class="sep h-8">
+
+        {% sidebar_footer %}
       </div>
     </aside>
     <div class="md:w-10/12">
