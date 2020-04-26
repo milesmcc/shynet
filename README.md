@@ -34,7 +34,10 @@ _Note: These screenshots have been edited to hide sensitive data. The "real" Shy
 ![Shynet's homepage](images/homepage.png)
 _Shynet's homepage, where you can see all of your services at a glance._
 
-Not shown: service view, management view, session view, full service view. (You'll need to install Shynet to see those!)
+![A service page](images/service.png)
+_A real service page, where you can see higher-level details about a site._
+
+Not shown: management view, session view, full service view. (You'll need to install Shynet for yourself to see those!)
 
 ## Features
 
