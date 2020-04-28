@@ -111,7 +111,7 @@ These sites use Shynet to monitor usage without violating visitors' privacy: [Po
 
 ## Contributing
 
-Are you interested in contributing to Shynet? Just send a pull request! Maybe once the project matures there will be more detailed contribution guidelines, but for now just send the code this way. Just know that by contributing, you agree to share all of your contributions under the same license as the project (see [LICENSE](LICENSE)).
+Are you interested in contributing to Shynet? Just send a pull request! Maybe once the project matures there will be more detailed contribution guidelines, but for now just send the code this way and we'll make sure it meets our standards together. Just know that by contributing, you agree to share all of your contributions under the same license as the project (see [LICENSE](LICENSE)). And always be sure to follow the [Code of Conduct](https://github.com/milesmcc/shynet/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
