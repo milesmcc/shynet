@@ -31,7 +31,7 @@ Before continuing, please be sure to have the latest version of Docker installed
 
 3. Configure an environment file for Shynet. (For example, create a file called `.env`.) Be sure to swap out the variables below with the correct values for your setup. (The comments refer to the lines that follow. Note that Docker is weird with quotes, so it tends to be better to omit them from your env file.)
 
-```
+```properties
 # Database
 DB_NAME=<your db name>
 DB_USER=<your db user>
@@ -58,7 +58,7 @@ SCRIPT_USE_HTTPS=True
 
 For more advanced deployments, you may consider adding the following settings to your environment file. **The following settings are optional, and not required for simple deployments.**
 
-```env
+```properties
 # Email settings
 EMAIL_HOST_USER=<your SMTP email user>
 EMAIL_HOST_PASSWORD=<your SMTP email password>
@@ -129,7 +129,7 @@ If you are going to be running Shynet through a reverse proxy, please use the [B
 
 8. Configure an environment file for Shynet. (For example, create a file called `.env`.) Be sure to swap out the variables below with the correct values for your setup. (The comments refer to the lines that follow. Note that Docker is weird with quotes, so it tends to be better to omit them from your env file.)
 
-```
+```properties
 # Database
 DB_NAME=<your db name>
 DB_USER=<your db user>
@@ -156,7 +156,7 @@ SCRIPT_USE_HTTPS=True
 
 For more advanced deployments, you may consider adding the following settings to your environment file. **The following settings are optional, and not required for simple deployments.**
 
-```env
+```properties
 # Email settings
 EMAIL_HOST_USER=<your SMTP email user>
 EMAIL_HOST_PASSWORD=<your SMTP email password>
