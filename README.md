@@ -8,7 +8,7 @@
     <br>
     <strong><a href="#installation">Getting started »</a></strong>
   </p>
-  <p align="center"><a href="#screenshots">Screenshots</a> &bull; <a href="#features">Features</a> &bull; <a href="#roadmap">Roadmap</a></p>
+  <p align="center"><a href="#screenshots">Screenshots</a> &bull; <a href="#features">Features</a> &bull; <a href="https://github.com/milesmcc/a17t">Design</a></p>
 </p>
 
 <br>
@@ -38,6 +38,8 @@ _Shynet's homepage, where you can see all of your services at a glance._
 _A real service page, where you can see higher-level details about a site._
 
 Not shown: management view, session view, full service view. (You'll need to install Shynet for yourself to see those!)
+
+> **Shynet is built using [a17t](https://github.com/milesmcc/a17t),** an atomic design library. Customization and extension is simple; [learn more about a17t](https://github.com/milesmcc/a17t).
 
 ## Features
 
