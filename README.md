@@ -103,14 +103,7 @@ You can find installation instructions in the [Getting Started Guide](GUIDE.md#i
 
 ## Roadmap
 
-The following features are planned:
-
-* **Rollups** (aggregate old data to save space)
-* **Anomaly detection** (get email alerts when you get a traffic spike or dip)
-* **Interactive traffic heatmap** (see where in the world your visitors are coming from)
-* **Better collaboration interface** (the current interface is... a draft)
-* **Data deletion tool** (easily prune user data by specifying an ID or IP)
-* **Differential privacy** (explore and share your data without revealing any personal information)
+To see the upcoming planned features, check out the repository's [roadmap project](https://github.com/milesmcc/shynet/projects/1). Upcoming features include data aggregation through rollups, anomaly detection, detailed data exports, two-factor authentication, and a data deletion tool.
 
 ## In the Wild
 
