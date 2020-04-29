@@ -8,7 +8,7 @@
     <br>
     <strong><a href="#installation">Getting started »</a></strong>
   </p>
-  <p align="center"><a href="#screenshots">Screenshots</a> &bull; <a href="#features">Features</a> &bull; <a href="#roadmap">Roadmap</a></p>
+  <p align="center"><a href="#screenshots">Screenshots</a> &bull; <a href="#features">Features</a> &bull; <a href="https://github.com/milesmcc/a17t">Design</a></p>
 </p>
 
 <br>
@@ -38,6 +38,8 @@ _Shynet's homepage, where you can see all of your services at a glance._
 _A real service page, where you can see higher-level details about a site._
 
 Not shown: management view, session view, full service view. (You'll need to install Shynet for yourself to see those!)
+
+> **Shynet is built using [a17t](https://github.com/milesmcc/a17t),** an atomic design library. Customization and extension is simple; [learn more about a17t](https://github.com/milesmcc/a17t).
 
 ## Features
 
@@ -101,14 +103,7 @@ You can find installation instructions in the [Getting Started Guide](GUIDE.md#i
 
 ## Roadmap
 
-The following features are planned:
-
-* **Rollups** (aggregate old data to save space)
-* **Anomaly detection** (get email alerts when you get a traffic spike or dip)
-* **Interactive traffic heatmap** (see where in the world your visitors are coming from)
-* **Better collaboration interface** (the current interface is... a draft)
-* **Data deletion tool** (easily prune user data by specifying an ID or IP)
-* **Differential privacy** (explore and share your data without revealing any personal information)
+To see the upcoming planned features, check out the repository's [roadmap project](https://github.com/milesmcc/shynet/projects/1). Upcoming features include data aggregation through rollups, anomaly detection, detailed data exports, two-factor authentication, and a data deletion tool.
 
 ## In the Wild
 
@@ -116,7 +111,7 @@ These sites use Shynet to monitor usage without violating visitors' privacy: [Po
 
 ## Contributing
 
-Are you interested in contributing to Shynet? Just send a pull request! Maybe once the project matures there will be more detailed contribution guidelines, but for now just send the code this way. Just know that by contributing, you agree to share all of your contributions under the same license as the project (see [LICENSE](LICENSE)).
+Are you interested in contributing to Shynet? Just send a pull request! Maybe once the project matures there will be more detailed contribution guidelines, but for now just send the code this way and we'll make sure it meets our standards together. Just know that by contributing, you agree to share all of your contributions under the same license as the project (see [LICENSE](LICENSE)). And always be sure to follow the [Code of Conduct](https://github.com/milesmcc/shynet/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
