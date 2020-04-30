@@ -1,0 +1,64 @@
+version: '3'
+services:
+  shynet:
+    image: milesmcc/shynet:latest
+    restart: unless-stopped
+    expose:
+      - 8080
+    environment:
+      # Database Settings
+      - DB_NAME=shynet_DBname
+      - DB_USER=shynet_User
+      - DB_PASSWORD=shynet_RandomPassword
+      # Database connection, relies on DB service
+      - DB_HOST=db
+      - DB_PORT=5432
+      # General Django settings
+      - DJANGO_SECRET_KEY=shynet_OtherRandomPassword
+      # Don't leak error details to visitors, very important
+      - DEBUG=False
+      # Unless you are using an external Celery task queue, make sure this
+      # is set to True.
+      - CELERY_TASK_ALWAYS_EAGER=True 
+      # For better security, set this to your deployment's domain. Comma separated.
+      - ALLOWED_HOSTS=*
+      # Set to True (capitalized) if you want people to be able to sign up for your Shynet instance (not recommended)
+      - SIGNUPS_ENABLED=False
+      # Change as required
+      - TIME_ZONE=America/New_York
+      # Set to "False" if you will not be serving content over HTTPS
+      - SCRIPT_USE_HTTPS=True
+      # Email settings
+      - EMAIL_HOST_USER=youruser@yourhost.example.com
+      - EMAIL_HOST_PASSWORD=youruser_password
+      - EMAIL_HOST=host.email.provider
+      - SERVER_EMAIL=noreply.analytics@shynet.example.com
+      # Redis and queue settings; not necessary for single-instance deployments
+      #- REDIS_CACHE_LOCATION=redis://redis.default.svc.cluster.local/0 
+      # If set, make sure CELERY_TASK_ALWAYS_EAGER is False
+      #- CELERY_BROKER_URL=redis://redis.default.svc.cluster.local/1
+      # How frequently should the monitoring script "phone home" (in ms)?
+      - SCRIPT_HEARTBEAT_FREQUENCY=5000
+      # Should only superusers (admins) be able to create services? This is helpful
+      # when you'd like to invite others to your Shynet instance but don't want
+      # them to be able to create services of their own.
+      - ONLY_SUPERUSERS_CREATE=True
+    networks:
+      - internal
+    depends_on:
+      - db
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=shynet_User
+      - POSTGRES_PASSWORD=shynet_RandomPassword
+      - POSTGRES_DB=shynet_DBname
+    volumes:
+      - shynet_db:/var/lib/postgresql/data
+    networks:
+      - internal
+volumes:
+  shynet_db:
+networks:
+  internal:
