@@ -93,7 +93,8 @@ Shynet is pretty simple, but there are a few key terms you need to know in order
 
 ## Installation
 
-You can find installation instructions in the [Getting Started Guide](GUIDE.md#installation).
+You can find installation instructions in the [Getting Started Guide](GUIDE.md#installation). Out of the box, we support deploying via a simple
+Docker container, docker-compose, or Kubernetes (see [kubernetes](/kubernetes)).
 
 ## FAQ
 
