@@ -132,3 +132,4 @@ dmypy.json
 secrets.yml
 .vscode
 .DS_Store
+compiledstatic/

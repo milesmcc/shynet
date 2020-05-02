@@ -3,6 +3,7 @@ import logging
 
 import geoip2.database
 import user_agents
+from hashlib import sha1
 from celery import shared_task
 from django.conf import settings
 from django.core.cache import cache
@@ -59,29 +60,33 @@ def ingress_request(
         if dnt and service.respect_dnt:
             return
 
-        ip_data = _geoip2_lookup(ip)
-        log.debug(f"Found geoip2 data")
-
         # Validate payload
         if payload.get("loadTime", 1) <= 0:
             payload["loadTime"] = None
 
-        # Create or update session
-        session = (
-            Session.objects.filter(
-                service=service,
-                last_seen__gt=timezone.now() - timezone.timedelta(minutes=10),
-                ip=ip,
-                user_agent=user_agent,
-            ).first()
-            # We used to check for identifiers, but that can cause issues when people
-            # re-open the page in a new tab, for example. It's better to match sessions
-            # solely based on IP and user agent.
+        association_id_hash = sha1()
+        association_id_hash.update(str(ip).encode("utf-8"))
+        association_id_hash.update(str(user_agent).encode("utf-8"))
+        session_cache_path = (
+            f"session_association_{service.pk}_{association_id_hash.hexdigest()}"
         )
+
+        # Create or update session
+        session = None
+        if cache.get(session_cache_path) is not None:
+            cache.touch(session_cache_path, settings.SESSION_MEMORY_TIMEOUT)
+            session = Session.objects.filter(
+                pk=cache.get(session_cache_path), service=service
+            ).first()
         if session is None:
-            log.debug("Cannot link to existing session; creating a new one...")
-            ua = user_agents.parse(user_agent)
             initial = True
+
+            log.debug("Cannot link to existing session; creating a new one...")
+
+            ip_data = _geoip2_lookup(ip)
+            log.debug(f"Found geoip2 data...")
+
+            ua = user_agents.parse(user_agent)
             device_type = "OTHER"
             if (
                 ua.is_bot
@@ -111,9 +116,14 @@ def ingress_request(
                 latitude=ip_data.get("latitude"),
                 time_zone=ip_data.get("time_zone", ""),
             )
+            cache.set(
+                session_cache_path, session.pk, timeout=settings.SESSION_MEMORY_TIMEOUT
+            )
         else:
-            log.debug("Updating old session with new data...")
             initial = False
+
+            log.debug("Updating old session with new data...")
+
             # Update last seen time
             session.last_seen = timezone.now()
             if session.identifier == "" and identifier.strip() != "":
@@ -124,9 +134,10 @@ def ingress_request(
         idempotency = payload.get("idempotency")
         idempotency_path = f"hit_idempotency_{idempotency}"
         hit = None
+
         if idempotency is not None:
             if cache.get(idempotency_path) is not None:
-                cache.touch(idempotency_path, 10 * 60)
+                cache.touch(idempotency_path, settings.SESSION_MEMORY_TIMEOUT)
                 hit = Hit.objects.filter(
                     pk=cache.get(idempotency_path), session=session
                 ).first()
@@ -137,6 +148,7 @@ def ingress_request(
                     hit.heartbeats += 1
                     hit.last_seen = timezone.now()
                     hit.save()
+
         if hit is None:
             log.debug("Hit is a page load; creating new hit...")
             # There is no existing hit; create a new one
@@ -153,7 +165,9 @@ def ingress_request(
             )
             # Set idempotency (if applicable)
             if idempotency is not None:
-                cache.set(idempotency_path, hit.pk, timeout=10 * 60)
+                cache.set(
+                    idempotency_path, hit.pk, timeout=settings.SESSION_MEMORY_TIMEOUT
+                )
     except Exception as e:
         log.exception(e)
         raise e

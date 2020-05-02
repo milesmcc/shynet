@@ -261,3 +261,7 @@ SCRIPT_USE_HTTPS = os.getenv("SCRIPT_USE_HTTPS", "True") == "True"
 # How frequently should the tracking script "phone home" with a heartbeat, in
 # milliseconds?
 SCRIPT_HEARTBEAT_FREQUENCY = int(os.getenv("SCRIPT_HEARTBEAT_FREQUENCY", "5000"))
+
+# How much time can elapse between requests from the same user before a new
+# session is created, in seconds?
+SESSION_MEMORY_TIMEOUT = int(os.getenv("SESSION_MEMORY_TIMEOUT", "1800"))
