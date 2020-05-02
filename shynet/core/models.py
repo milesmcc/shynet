@@ -42,6 +42,7 @@ class Service(models.Model):
         max_length=2, choices=SERVICE_STATUSES, default=ACTIVE, db_index=True
     )
     respect_dnt = models.BooleanField(default=True)
+    collect_ips = models.BooleanField(default=True)
 
     class Meta:
         ordering = ["name", "uuid"]

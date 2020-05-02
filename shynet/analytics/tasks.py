@@ -103,7 +103,7 @@ def ingress_request(
                 device_type = "DESKTOP"
             session = Session.objects.create(
                 service=service,
-                ip=ip,
+                ip=ip if service.collect_ips else None,
                 user_agent=user_agent,
                 identifier=identifier.strip(),
                 browser=ua.browser.family or "",

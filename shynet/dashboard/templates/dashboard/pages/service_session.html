@@ -60,7 +60,7 @@
         </div>
         <div>
             <p>IP</p>
-            <p class="label" title="{{session.ip}}">{{session.ip|truncatechars:"16"}}</p>
+            <p class="label" title="{{session.ip}}">{{session.ip|default:"Not Collected"|truncatechars:"16"}}</p>
         </div>
     </div>
 </article>

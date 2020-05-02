@@ -39,7 +39,7 @@ class Session(models.Model):
         default="OTHER",
     )
     os = models.TextField()
-    ip = models.GenericIPAddressField(db_index=True)
+    ip = models.GenericIPAddressField(db_index=True, null=True)
 
     # GeoIP data
     asn = models.TextField(blank=True)
