@@ -30,4 +30,4 @@ USER appuser
 
 EXPOSE 8080
 
-CMD [ "./webserver.sh" ]
+ENTRYPOINT [ "./entrypoint.sh" ]

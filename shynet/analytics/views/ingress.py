@@ -3,7 +3,8 @@ import json
 
 from django.conf import settings
 from django.core.cache import cache
-from django.http import HttpResponse
+from django.core.exceptions import ValidationError
+from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.shortcuts import render, reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
@@ -35,14 +36,37 @@ def ingress(request, service_uuid, identifier, tracker, payload):
         identifier=identifier,
     )
 
+class ValidateServiceOriginsMixin:
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            service_uuid = self.kwargs.get("service_uuid")
+            origins = cache.get(f"service_origins_{service_uuid}")
 
-class PixelView(View):
+            if origins is None:
+                service = Service.objects.get(uuid=service_uuid)
+                origins = service.origins
+                cache.set(f"service_origins_{service_uuid}", origins, timeout=3600)
+
+            resp = super().dispatch(request, *args, **kwargs)
+            resp["Access-Control-Allow-Origin"] = origins
+            resp["Access-Control-Allow-Methods"] = "GET,HEAD,OPTIONS,POST"
+            resp[
+                "Access-Control-Allow-Headers"
+            ] = "Origin, X-Requested-With, Content-Type, Accept, Authorization, Referer"
+            return resp
+        except Service.DoesNotExist:
+            raise Http404()
+        except ValidationError:
+            return HttpResponseBadRequest()
+
+
+class PixelView(ValidateServiceOriginsMixin, View):
     # Fallback view to serve an unobtrusive 1x1 transparent tracking pixel for browsers with
     # JavaScript disabled.
-    def dispatch(self, request, *args, **kwargs):
+    def get(self, *args, **kwargs):
         # Extract primary data
         ingress(
-            request,
+            self.request,
             self.kwargs.get("service_uuid"),
             self.kwargs.get("identifier", ""),
             "PIXEL",
@@ -59,23 +83,7 @@ class PixelView(View):
 
 
 @method_decorator(csrf_exempt, name="dispatch")
-class ScriptView(View):
-    def dispatch(self, request, *args, **kwargs):
-        service_uuid = self.kwargs.get("service_uuid")
-        origins = cache.get(f"service_origins_{service_uuid}")
-        if origins is None:
-            service = Service.objects.get(uuid=service_uuid)
-            origins = service.origins
-            cache.set(f"service_origins_{service_uuid}", origins, timeout=3600)
-
-        resp = super().dispatch(request, *args, **kwargs)
-        resp["Access-Control-Allow-Origin"] = origins
-        resp["Access-Control-Allow-Methods"] = "GET,HEAD,OPTIONS,POST"
-        resp[
-            "Access-Control-Allow-Headers"
-        ] = "Origin, X-Requested-With, Content-Type, Accept, Authorization, Referer"
-        return resp
-
+class ScriptView(ValidateServiceOriginsMixin, View):
     def get(self, *args, **kwargs):
         protocol = "https" if settings.SCRIPT_USE_HTTPS else "http"
         endpoint = (

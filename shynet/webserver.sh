@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Start Gunicorn processes
 echo Launching Shynet web server...
 exec gunicorn shynet.wsgi:application \

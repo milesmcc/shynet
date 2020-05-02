@@ -1,0 +1,32 @@
+version: '3'
+services:
+  shynet:
+    image: milesmcc/shynet:latest
+    restart: unless-stopped
+    expose:
+      - 8080
+    env_file:
+      # Create a file called '.env' if it doesn't already exist.
+      # You can use `TEMPLATE.env` as a guide.
+      - .env
+    environment:
+      - DB_HOST=db
+    networks:
+      - internal
+    depends_on:
+      - db
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - "POSTGRES_USER=${DB_USER}"
+      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
+      - "POSTGRES_DB=${DB_NAME}"
+    volumes:
+      - shynet_db:/var/lib/postgresql/data
+    networks:
+      - internal
+volumes:
+  shynet_db:
+networks:
+  internal:
