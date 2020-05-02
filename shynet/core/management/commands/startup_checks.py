@@ -14,7 +14,7 @@ from core.models import User
 
 
 class Command(BaseCommand):
-    help = "Performs sanity checks on the Shynet setup"
+    help = "Internal command to perform startup sanity checks."
 
     def check_migrations(self):
         from django.db.migrations.executor import MigrationExecutor

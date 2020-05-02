@@ -93,11 +93,8 @@ Shynet is pretty simple, but there are a few key terms you need to know in order
 
 ## Installation
 
-If you use docker-compose, you can use the docker-compose.yml file to set up shynet and launch it by doing docker-compose up.
-Note that the application will generate a password for you on initial run, which will be output to standard docker logs.
-Also note that this compose file assumes you use a reverse-proxy in front of it, whether Traefik v2, Nginx-Proxy, or a solution on your host.
-
-You can find further installation instructions in the [Getting Started Guide](GUIDE.md#installation).
+You can find installation instructions in the [Getting Started Guide](GUIDE.md#installation). Out of the box, we support deploying via a simple
+Docker container, docker-compose, or Kubernetes (see [kubernetes](/kubernetes)).
 
 ## FAQ
 
