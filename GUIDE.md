@@ -1,4 +1,4 @@
-# Getting Started
+# Usage Guide
 
 ## Table of Contents
 
@@ -9,6 +9,7 @@
   * [Configuring a Reverse Proxy](#configuring-a-reverse-proxy)
     + [Cloudflare](#cloudflare)
     + [Nginx](#nginx)
++ [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -38,7 +39,7 @@ Before continuing, please be sure to have the latest version of Docker installed
 
 ## Updating Your Configuration
 
-When you first setup Shynet, you set a number of environment variables that determine first-run initialization settings (these variables start with `SHYNET_`). Once they're first set, though, changing them won't have any effect. Here's how to update their values:
+When you first setup Shynet, you set a number of environment variables that determine first-run initialization settings (these variables start with `SHYNET_`). Once they're first set, though, changing them won't have any effect. Be sure to run the following commands in the same way that you deploy Shynet (i.e., linked to the same database).
 
 * Create an admin account by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py registeradmin <your email>`. The command will print a temporary password that you'll be able to use to log in.
 
@@ -164,3 +165,23 @@ Nginx is a self hosted, highly configurable webserver. Nginx can be configured t
    * [How to add SSL/HTTPS to Nginx (Ubuntu 18.04)](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04)
    * [How to add SSL/HTTPS to Nginx (Ubuntu 16.04)](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04)
    * [Nginx Documentation](https://nginx.org/en/docs/)
+
+---
+
+## Troubleshooting
+
+Here are solutions for some common issues. If your situation isn't described here or the solution didn't work, feel free to [create an issue](https://github.com/milesmcc/shynet/issues/new) (but be sure to check for duplicate issues first).
+
+#### The admin panel works, but no page views are showing up!
+
+* If you are running a single Shynet webserver instance (i.e., you followed the default installation instructions), verify that you haven't set `CELERY_TASK_ALWAYS_EAGER` to `False` in your environment file.
+* Verify that your cache is properly configured. In single-instance deployments, this means making sure that you haven't set any `REDIS_*` or `CELERY_*` environment variables (those are for more advanced deployments; you'll just want the defaults).
+* If your service is configured to respect Do Not Track (under "Advanced Settings"), verify that your browser isn't sending the `DNT=1` header with your requests (or temporarily disable DNT support in Shynet while testing). Sometimes, an adblocker or privacy browser extension will add this header to requests unexpectedly.
+
+#### Shynet isn't linking different pageviews from the same visitor into a single session!
+
+* Verify that your cache is properly configured. (See #2 above.) In multi-instance deployments, it's critical that all webservers are using the _same_ cache—so make sure you configure a Redis cache if you're using a non-default installation.
+
+#### I changed the `SHYNET_WHITELABEL`/`SHYNET_HOST` environment variable, but nothing happened!
+
+* Those values only affect how your Shynet instance is setup on first run; once it's configured, they have no effect. See [updating your configuration](#updating-your-configuration) for help on how to update your configuration.

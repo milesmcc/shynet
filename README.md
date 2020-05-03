@@ -93,7 +93,7 @@ Shynet is pretty simple, but there are a few key terms you need to know in order
 
 ## Installation
 
-You can find installation instructions in the [Getting Started Guide](GUIDE.md#installation). Out of the box, we support deploying via a simple
+You can find intructions on getting started and usage in the [Usage Guide](GUIDE.md#installation). Out of the box, we support deploying via a simple
 Docker container, docker-compose, or Kubernetes (see [kubernetes](/kubernetes)).
 
 ## FAQ
@@ -101,6 +101,10 @@ Docker container, docker-compose, or Kubernetes (see [kubernetes](/kubernetes)).
 **Does Shynet respond to Do Not Track (DNT) signals?** Yes. While there isn't any standardized way to handle DNT requests, Shynet allows you to specify whether you want to collect any data from users with DNT enabled on a per-service basis. (By default, Shynet will _not_ collect any data from users who specify DNT.)
 
 **Is this GDPR compliant?** It depends on how you use it. If you're worried about GDPR, you should talk to a lawyer about your particular data collection practices. I'm not a lawyer. (And this isn't legal advice.)
+
+## Troubleshooting
+
+Having trouble with Shynet? Check out the [troubleshooting guide](GUIDE.md#troubleshooting), or [create an issue](https://github.com/milesmcc/shynet/issues/new) if you think you found a bug in Shynet itself (or have a feature suggestion).
 
 ## Roadmap
 
