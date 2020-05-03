@@ -1,9 +1,12 @@
 FROM python:3-alpine
 
+# Getting things ready
 WORKDIR /usr/src/shynet
 COPY Pipfile.lock Pipfile ./
-COPY shynet .
 
+# Install dependencies & configure machine
+ARG GF_UID="500"
+ARG GF_GID="500"
 RUN apk update && \
 	apk add gettext curl bash && \
 	# URL from https://github.com/shlinkio/shlink/issues/596 :)
@@ -17,17 +20,16 @@ RUN apk update && \
 	pipenv install --system --deploy && \
 	apk --purge del .build-deps && \
 	rm -rf /var/lib/apt/lists/* && \
-	rm /var/cache/apk/*
-
-ARG GF_UID="500"
-ARG GF_GID="500"
-
-# add group & user
-RUN python manage.py collectstatic --noinput && \
-	python manage.py compilemessages && \
+	rm /var/cache/apk/* && \
 	addgroup --system -g $GF_GID appgroup && \
 	adduser appuser --system --uid $GF_UID -G appgroup
 
+# Install Shynet
+COPY shynet .
+RUN python manage.py collectstatic --noinput && \
+	python manage.py compilemessages
+
+# Launch
 USER appuser
 EXPOSE 8080
 ENTRYPOINT [ "./entrypoint.sh" ]
