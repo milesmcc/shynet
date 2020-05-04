@@ -4,7 +4,7 @@
 echo Launching Shynet web server...
 exec gunicorn shynet.wsgi:application \
     --bind 0.0.0.0:8080 \
-    --workers 3 \
+    --workers ${NUM_WORKERS:-1} \
     --timeout 100 \
     --certfile=cert.pem \
     --keyfile=privkey.pem
