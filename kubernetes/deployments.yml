@@ -16,7 +16,7 @@ spec:
         app: "shynet-webserver"
     spec:
       containers:
-      - name: "covideo-webserver"
+      - name: "shynet-webserver"
         image: "milesmcc/shynet:latest"
         imagePullPolicy: Always
         envFrom:
@@ -41,7 +41,7 @@ spec:
         app: "shynet-celeryworker"
     spec:
       containers:
-      - name: "covideo-celeryworker"
+      - name: "shynet-celeryworker"
         image: "milesmcc/shynet:latest"
         command: ["./celeryworker.sh"]
         imagePullPolicy: Always
@@ -52,32 +52,32 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis
+  name: shynet-redis
 spec:
   ports:
     - port: 6379
       name: redis
   clusterIP: None
   selector:
-    app: redis
+    app: shynet-redis
 ---
 apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
-  name: redis
+  name: shynet-redis
 spec:
   selector:
     matchLabels:
-      app: redis
-  serviceName: redis
+      app: shynet-redis
+  serviceName: shynet-redis
   replicas: 1
   template:
     metadata:
       labels:
-        app: redis
+        app: shynet-redis
     spec:
       containers:
-        - name: redis
+        - name: shynet-redis
           image: redis:latest
           imagePullPolicy: Always
           ports:
