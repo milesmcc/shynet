@@ -109,6 +109,9 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+Vagrantfile
+.vagrant 
+ubuntu-xenial-16.04-cloudimg-console.log
 
 # Spyder project settings
 .spyderproject
