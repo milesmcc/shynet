@@ -4,11 +4,12 @@
 {{form.link|a17t}}
 {{form.collaborators|a17t}}
 
-<details class="p-4 border rounded" {% if form.errors %}open{% endif %}>
+<details {% if form.errors %}open{% endif %}>
     <summary class="cursor-pointer text-sm">Advanced settings</summary>
     <hr class="sep h-4">
     {{form.respect_dnt|a17t}}
     {{form.collect_ips|a17t}}
     {{form.ignored_ips|a17t}}
+    {{form.hide_referrer_regex|a17t}}
     {{form.origins|a17t}}
 </details>

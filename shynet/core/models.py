@@ -1,5 +1,6 @@
 import ipaddress
 import json
+import re
 import uuid
 
 from django.apps import apps
@@ -21,6 +22,13 @@ def _validate_network_list(networks: str):
         _parse_network_list(networks)
     except ValueError as e:
         raise ValidationError(str(e))
+
+
+def _validate_regex(regex: str):
+    try:
+        re.compile(regex)
+    except re.error:
+        raise ValidationError(f"'{regex}' is not valid RegEx")
 
 
 def _parse_network_list(networks: str):
@@ -61,6 +69,9 @@ class Service(models.Model):
     ignored_ips = models.TextField(
         default="", blank=True, validators=[_validate_network_list]
     )
+    hide_referrer_regex = models.TextField(
+        default="", blank=True, validators=[_validate_regex]
+    )
 
     class Meta:
         ordering = ["name", "uuid"]
@@ -70,6 +81,18 @@ class Service(models.Model):
 
     def get_ignored_networks(self):
         return _parse_network_list(self.ignored_ips)
+
+    def get_ignored_referrer_regex(self):
+        if len(self.hide_referrer_regex.strip()) == 0:
+            return re.compile(r".^") # matches nothing
+        else:
+            try:
+                return re.compile(self.hide_referrer_regex)
+            except re.error:
+                # Regexes are validated in the form, but this is an important
+                # fallback to prevent form validation and malformed source
+                # data from causing all service pages to error
+                return re.compile(r".^")
 
     def get_daily_stats(self):
         return self.get_core_stats(
@@ -117,12 +140,17 @@ class Service(models.Model):
             .order_by("-count")
         )
 
-        referrers = (
-            hits.filter(initial=True)
-            .values("referrer")
-            .annotate(count=models.Count("referrer"))
-            .order_by("-count")
-        )
+        referrer_ignore = self.get_ignored_referrer_regex()
+        referrers = [
+            referrer
+            for referrer in (
+                hits.filter(initial=True)
+                .values("referrer")
+                .annotate(count=models.Count("referrer"))
+                .order_by("-count")
+            )
+            if not referrer_ignore.match(referrer["referrer"])
+        ]
 
         countries = (
             sessions.values("country")

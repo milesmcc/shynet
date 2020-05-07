@@ -14,6 +14,7 @@ class ServiceForm(forms.ModelForm):
             "respect_dnt",
             "collect_ips",
             "ignored_ips",
+            "hide_referrer_regex",
             "origins",
             "collaborators",
         ]
@@ -23,12 +24,14 @@ class ServiceForm(forms.ModelForm):
             "ignored_ips": forms.TextInput(),
             "respect_dnt": forms.RadioSelect(choices=[(True, "Yes"), (False, "No")]),
             "collect_ips": forms.RadioSelect(choices=[(True, "Yes"), (False, "No")]),
+            "hide_referrer_regex": forms.TextInput(),
         }
         labels = {
             "origins": "Allowed Hostnames",
             "respect_dnt": "Respect DNT",
             "collect_ips": "Collect IP addresses",
             "ignored_ips": "Ignored IP addresses",
+            "hide_referrer_regex": "Hide specific referrers",
         }
         help_texts = {
             "name": _("What should the service be called?"),
@@ -39,6 +42,7 @@ class ServiceForm(forms.ModelForm):
             "respect_dnt": "Should visitors who have enabled <a href='https://en.wikipedia.org/wiki/Do_Not_Track'>Do Not Track</a> be excluded from all data?",
             "collect_ips": "Should individual IP addresses be collected? IP metadata (location, host, etc) will still be collected.",
             "ignored_ips": "A comma-separated list of IP addresses or IP ranges (IPv4 and IPv6) to exclude from tracking (e.g., '192.168.0.2, 127.0.0.1/32').",
+            "hide_referrer_regex": "Any referrers that match this <a href='https://regexr.com/'>RegEx</a> will not be listed in the referrer summary. Sessions will still be tracked normally. No effect if left blank.",
         }
 
     collaborators = forms.CharField(
