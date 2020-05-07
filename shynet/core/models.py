@@ -84,7 +84,7 @@ class Service(models.Model):
 
     def get_ignored_referrer_regex(self):
         if len(self.hide_referrer_regex.strip()) == 0:
-            return re.compile(r".^") # matches nothing
+            return re.compile(r".^")  # matches nothing
         else:
             try:
                 return re.compile(self.hide_referrer_regex)
