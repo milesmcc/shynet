@@ -114,8 +114,6 @@ A reverse proxy has many benefits. It can be used for DDoS protection, caching f
 
 Nginx is a self hosted, highly configurable webserver. Nginx can be configured to run as a reverse proxy on either the same machine or a remote machine.
 
-##### Set up
-
 > **These commands assume Ubuntu.** If you're installing Nginx on a different platform, the process will be different.
 
 0. Before starting, shut down your Docker containers (if any are running)
@@ -181,6 +179,7 @@ Here are solutions for some common issues. If your situation isn't described her
 #### Shynet isn't linking different pageviews from the same visitor into a single session!
 
 * Verify that your cache is properly configured. (See #2 above.) In multi-instance deployments, it's critical that all webservers are using the _same_ cache—so make sure you configure a Redis cache if you're using a non-default installation.
+* This can happen between Shynet restarts if you're not using an external cache provider (like Redis).
 
 #### I changed the `SHYNET_WHITELABEL`/`SHYNET_HOST` environment variable, but nothing happened!
 
