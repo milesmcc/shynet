@@ -21,7 +21,7 @@ spec:
         imagePullPolicy: Always
         envFrom:
         - secretRef:
-            name: django-settings
+            name: shynet-settings
 ---
 apiVersion: "apps/v1"
 kind: "Deployment"
@@ -47,7 +47,7 @@ spec:
         imagePullPolicy: Always
         envFrom:
         - secretRef:
-            name: django-settings
+            name: shynet-settings
 ---
 apiVersion: v1
 kind: Service
