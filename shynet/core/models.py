@@ -131,12 +131,6 @@ class Service(models.Model):
             .order_by("-count")
         )
 
-        device_types = (
-            sessions.values("device_type")
-            .annotate(count=models.Count("device_type"))
-            .order_by("-count")
-        )
-
         avg_load_time = hits.aggregate(load_time__avg=models.Avg("load_time"))[
             "load_time__avg"
         ]
