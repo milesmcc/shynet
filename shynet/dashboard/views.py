@@ -4,6 +4,7 @@ from django.core.cache import cache
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, reverse
 from django.utils import timezone
+from django.conf import settings
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -84,6 +85,11 @@ class ServiceUpdateView(
             f"service_origins_{self.object.uuid}", self.object.origins, timeout=3600
         )
         return resp
+
+    def get_context_data(self, *args, **kwargs):
+        data = super().get_context_data(*args, **kwargs)
+        data["script_protocol"] = "https://" if settings.SCRIPT_USE_HTTPS else "http://"
+        return data
 
 
 class ServiceDeleteView(
