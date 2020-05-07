@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('analytics', '0002_auto_20200415_1742'),
+        ("analytics", "0002_auto_20200415_1742"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='session',
-            name='ip',
+            model_name="session",
+            name="ip",
             field=models.GenericIPAddressField(db_index=True, null=True),
         ),
     ]

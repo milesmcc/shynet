@@ -23,6 +23,7 @@ psycopg2-binary = "*"
 redis = "*"
 django-redis-cache = "*"
 pycountry = "*"
+ipaddress = "*"
 
 [pipenv]
 allow_prereleases = true

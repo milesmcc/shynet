@@ -1,9 +1,10 @@
+import ipaddress
 import json
 import logging
+from hashlib import sha1
 
 import geoip2.database
 import user_agents
-from hashlib import sha1
 from celery import shared_task
 from django.conf import settings
 from django.core.cache import cache
@@ -59,6 +60,14 @@ def ingress_request(
 
         if dnt and service.respect_dnt:
             return
+
+        try:
+            remote_ip = ipaddress.ip_network(ip)
+            for ignored_network in service.get_ignored_networks():
+                if ignored_network.supernet_of(remote_ip):
+                    return
+        except ValueError as e:
+            log.exception(e)
 
         # Validate payload
         if payload.get("loadTime", 1) <= 0:

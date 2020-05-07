@@ -1,8 +1,10 @@
+import ipaddress
 import json
 import uuid
 
 from django.apps import apps
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.functions import TruncDate
 from django.db.utils import NotSupportedError
@@ -12,6 +14,19 @@ from django.utils import timezone
 
 def _default_uuid():
     return str(uuid.uuid4())
+
+
+def _validate_network_list(networks: str):
+    try:
+        _parse_network_list(networks)
+    except ValueError as e:
+        raise ValidationError(str(e))
+
+
+def _parse_network_list(networks: str):
+    if len(networks.strip()) == 0:
+        return []
+    return [ipaddress.ip_network(network.strip()) for network in networks.split(",")]
 
 
 class User(AbstractUser):
@@ -43,12 +58,18 @@ class Service(models.Model):
     )
     respect_dnt = models.BooleanField(default=True)
     collect_ips = models.BooleanField(default=True)
+    ignored_ips = models.TextField(
+        default="", blank=True, validators=[_validate_network_list]
+    )
 
     class Meta:
         ordering = ["name", "uuid"]
 
     def __str__(self):
         return self.name
+
+    def get_ignored_networks(self):
+        return _parse_network_list(self.ignored_ips)
 
     def get_daily_stats(self):
         return self.get_core_stats(

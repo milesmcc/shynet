@@ -4,7 +4,7 @@ import json
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse, Http404, HttpResponseBadRequest
+from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
@@ -35,6 +35,7 @@ def ingress(request, service_uuid, identifier, tracker, payload):
         dnt=dnt,
         identifier=identifier,
     )
+
 
 class ValidateServiceOriginsMixin:
     def dispatch(self, request, *args, **kwargs):

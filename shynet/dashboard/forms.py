@@ -8,17 +8,27 @@ from core.models import Service, User
 class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
-        fields = ["name", "link", "respect_dnt", "collect_ips", "origins", "collaborators"]
+        fields = [
+            "name",
+            "link",
+            "respect_dnt",
+            "collect_ips",
+            "ignored_ips",
+            "origins",
+            "collaborators",
+        ]
         widgets = {
             "name": forms.TextInput(),
             "origins": forms.TextInput(),
+            "ignored_ips": forms.TextInput(),
             "respect_dnt": forms.RadioSelect(choices=[(True, "Yes"), (False, "No")]),
             "collect_ips": forms.RadioSelect(choices=[(True, "Yes"), (False, "No")]),
         }
         labels = {
             "origins": "Allowed Hostnames",
             "respect_dnt": "Respect DNT",
-            "collect_ips": "Collect IP addresses"
+            "collect_ips": "Collect IP addresses",
+            "ignored_ips": "Ignored IP addresses",
         }
         help_texts = {
             "name": _("What should the service be called?"),
@@ -27,7 +37,8 @@ class ServiceForm(forms.ModelForm):
                 "At what hostnames does the service operate? This sets CORS headers, so use '*' if you're not sure (or don't care)."
             ),
             "respect_dnt": "Should visitors who have enabled <a href='https://en.wikipedia.org/wiki/Do_Not_Track'>Do Not Track</a> be excluded from all data?",
-            "collect_ips": "Should individual IP addresses be collected? IP metadata (location, host, etc) will still be collected."
+            "collect_ips": "Should individual IP addresses be collected? IP metadata (location, host, etc) will still be collected.",
+            "ignored_ips": "A comma-separated list of IP addresses or IP ranges (IPv4 and IPv6) to exclude from tracking (e.g., '192.168.0.2, 127.0.0.1/32').",
         }
 
     collaborators = forms.CharField(

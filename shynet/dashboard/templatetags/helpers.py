@@ -81,11 +81,11 @@ def percent_change_display(start, end):
 
     return SafeString(direction + pct_change)
 
+
 @register.inclusion_tag("dashboard/includes/sidebar_footer.html")
 def sidebar_footer():
-    return {
-        "version": settings.VERSION
-    }
+    return {"version": settings.VERSION}
+
 
 @register.inclusion_tag("dashboard/includes/stat_comparison.html")
 def compare(
