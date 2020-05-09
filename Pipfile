@@ -24,6 +24,7 @@ redis = "*"
 django-redis-cache = "*"
 pycountry = "*"
 ipaddress = "*"
+html2text = "*"
 
 [pipenv]
 allow_prereleases = true
