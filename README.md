@@ -79,7 +79,7 @@ Here's the information Shynet can give you about your visitors:
 
 ## Recommendations
 
-Shynet isn't for everyone. It's great for personal projects and small to medium size websites, but hasn't been tested with ultra-high traffic sites. It's also requires a fair amount of technical know-how to deploy and maintain, so if you need a one-click solution, you're best served with other tools. 
+Shynet isn't for everyone. It's great for personal projects and small to medium size websites, but hasn't been tested with ultra-high traffic sites. It also requires a fair amount of technical know-how to deploy and maintain, so if you need a one-click solution, you're best served with other tools. 
 
 ## Concepts
 
