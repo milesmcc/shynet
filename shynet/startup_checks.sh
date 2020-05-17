@@ -35,7 +35,7 @@ fi
 if [[ -n $SHYNET_WHITELABEL && ${sanity_results[3]} == True ]]; then
   echo "Setting whitelabel..."
   {
-    ./manage.py whitelabel $SHYNET_WHITELABEL && echo "Whitelabel set! Whitelabel: $SHYNET_WHITELABEL"
+    ./manage.py whitelabel "$SHYNET_WHITELABEL" && echo "Whitelabel set! Whitelabel: $SHYNET_WHITELABEL"
   } || {
     echo "Failed to set whitelabel, exiting" & exit 1
   }
