@@ -185,3 +185,7 @@ Here are solutions for some common issues. If your situation isn't described her
 #### I changed the `SHYNET_WHITELABEL`/`SHYNET_HOST` environment variable, but nothing happened!
 
 * Those values only affect how your Shynet instance is setup on first run; once it's configured, they have no effect. See [updating your configuration](#updating-your-configuration) for help on how to update your configuration.
+
+#### Shynet can't connect to my database running on `localhost`/`127.0.0.1`
+
+* The problem is likely that to Shynet, `localhost` points to the local network in the container itself, not on the host machine. Try adding the `--network='host'` option when you run Docker.
