@@ -13,6 +13,9 @@
 
 ---
 
+## Staying Updated
+**If you install Shynet, you should strongly consider enabling notifications when new versions are released.** You can do this under the "Watch" tab on GitHub (above). This will ensure that you are notified when new versions are available, some of which may be security updates. (Shynet will never automatically update itself.)
+
 ## Installation
 
 Installation of Shynet is easy! Follow the [Basic Installation](#basic-installation) guide below if you'd like to run Shynet over HTTP or if you are going to be running it over HTTPS through a reverse proxy. If you'd like to run Shynet over HTTPS without a reverse proxy, skip ahead to [Installation with SSL](#installation-with-ssl) instead.
