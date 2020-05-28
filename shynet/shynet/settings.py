@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.humanize",
+    "health_check",
+    "health_check.db",
+    "health_check.cache",
     "rules.apps.AutodiscoverRulesConfig",
     "a17t",
     "core",
@@ -105,9 +108,7 @@ else:
             "PASSWORD": os.environ.get("DB_PASSWORD"),
             "HOST": os.environ.get("DB_HOST"),
             "PORT": os.environ.get("DB_PORT"),
-            "OPTIONS": {
-                "connect_timeout": 5
-            }
+            "OPTIONS": {"connect_timeout": 5},
         }
     }
 
@@ -210,6 +211,7 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
 ACCOUNT_USER_DISPLAY = lambda k: k.email
 ACCOUNT_SIGNUPS_ENABLED = os.getenv("ACCOUNT_SIGNUPS_ENABLED", "False") == "True"
+ACCOUNT_EMAIL_VERIFICATION = os.getenv("ACCOUNT_EMAIL_VERIFICATION", "none")
 
 LOGIN_REDIRECT_URL = "/"
 

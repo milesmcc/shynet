@@ -25,6 +25,7 @@ django-redis-cache = "*"
 pycountry = "*"
 ipaddress = "*"
 html2text = "*"
+django-health-check = "*"
 
 [pipenv]
 allow_prereleases = true
