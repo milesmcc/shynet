@@ -13,33 +13,12 @@ if [[ ${sanity_results[0]} == True ]]; then
   echo "Database is ready to go."
 fi
 if [[ -n $SHYNET_ADMIN_EMAIL && ${sanity_results[1]} == True ]]; then
-  echo "Creating an admin user..."
-  {
-    temppwd=$( ./manage.py registeradmin $SHYNET_ADMIN_EMAIL ) && echo "Admin user ($SHYNET_ADMIN_EMAIL) created! Password: $temppwd"
-  } || {
-    echo "Failed to create admin, exiting" & exit 1
-  }
-  else
-  echo "Making no changes to admin user."
+  echo "Warning: no admin user available. Consult docs for instructions."
 fi
 if [[ -n $SHYNET_HOST && ${sanity_results[2]} == True ]]; then
-  echo "Setting hostname..."
-  {
-    ./manage.py hostname $SHYNET_HOST && echo "Hostname set to $SHYNET_HOST!"
-  } || {
-    echo "Failed setting hostname, exiting" & exit 1
-  }
-  else
-  echo "Making no changes to hostname."
+  echo "Warning: Shynet's hostname is not set. The script won't work correctly. Consult docs for instructions."
 fi
 if [[ -n $SHYNET_WHITELABEL && ${sanity_results[3]} == True ]]; then
-  echo "Setting whitelabel..."
-  {
-    ./manage.py whitelabel "$SHYNET_WHITELABEL" && echo "Whitelabel set! Whitelabel: $SHYNET_WHITELABEL"
-  } || {
-    echo "Failed to set whitelabel, exiting" & exit 1
-  }
-  else
-  echo "Making no changes to whitelabel."
+  echo "Warning: Shynet's whitelabel is not set. Consult docs for instructions."
 fi
 echo "Startup checks complete!"

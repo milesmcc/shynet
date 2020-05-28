@@ -32,28 +32,23 @@ Before continuing, please be sure to have the latest version of Docker installed
 
 3. Configure an environment file for Shynet, using [this file](/TEMPLATE.env) as a template. (This file is typically named `.env`.) Make sure you set the database settings, or Shynet won't be able to run.
 
-4. Launch the Shynet server by running `docker run --env-file=<your env file> milesmcc/shynet:latest`. Watch the output of the script; if it's the first run, you'll see a temporary password printed that you can use to log in. You may need to bind Docker's port 8080 (where Shynet runs) to your local port 80 (http); this can be done using the flag `-p 80:8080` after `run`.
+4. Launch the Shynet server for the first time by running `docker run --env-file=<your env file> milesmcc/shynet:latest`. Provided you're using the default environment information (i.e., `PERFORM_CHECKS_AND_SETUP` is `True`), you'll see a few warnings about not having an admin user or host setup; these are normal. Don't worry — we'll do this in the next step. You only need to stop if you see a stacktrace about being unable to connect to the database.
 
-5. Visit your service's homepage, and verify everything looks right! You should see a login prompt. Log in with the credentials from step 4. You'll probably be prompted to "confirm your email"—if you haven't set up an email server, the confirmation email will be printed to the console instead.
+5. Create an admin user by running `docker run --env-file=<your env file> milesmcc/shynet:latest ./manage.py registeradmin <your email>`. A temporary password will be printed to the console.
 
-6. Create a service by clicking "+ Create Service" in the top right hand corner. Fill out the options as appropriate. Once you're done, press "create" and you'll be redirected to your new service's analytics page.
+6. Set the hostname of your Shynet instance by running `docker run --env-file=<your env file> milesmcc/shynet:latest ./manage.py hostname <your public hostname>`, where `<your public hostname>` is the _publicly accessible hostname_ of your instance, including port. This setting affects the URL that the tracking script sends its results to, so make sure it's correct. (Example hostnames: `shynet.rmrm.io` or `example.com:8000`.)
 
-7. Finally, click on "Manage" in the top right of the service's page to get the tracking script code. Inject this script on all pages you'd like the service to track.
+7. Set the whitelabel of your Shynet instance by running `docker run --env-file=<your env file> milesmcc/shynet:latest ./manage.py whitelabel <whitelabel>`. While this setting doesn't affect any core operations of Shynet, it lets you rename Shynet to whatever you want. (Example whitelabels: `"My Shynet Instance"` or `"Acme Analytics"`.)
 
-## Updating Your Configuration
+8. Launch your webserver by running `docker run --env-file=<your env file> milesmcc/shynet:latest`. You may need to bind Docker's port 8080 (where Shynet runs) to your local port 80 (http); this can be done using the flag `-p 80:8080` after `run`. Visit your service's homepage, and verify everything looks right! You should see a login prompt. Log in with the credentials from step 5. You'll probably be prompted to "confirm your email"—if you haven't set up an email server, the confirmation email will be printed to the console instead.
 
-When you first setup Shynet, you set a number of environment variables that determine first-run initialization settings (these variables start with `SHYNET_`). Once they're first set, though, changing them won't have any effect. Be sure to run the following commands in the same way that you deploy Shynet (i.e., linked to the same database).
+9. Create a service by clicking "+ Create Service" in the top right hand corner. Fill out the options as appropriate. Once you're done, press "create" and you'll be redirected to your new service's analytics page.
 
-* Create an admin account by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py registeradmin <your email>`. The command will print a temporary password that you'll be able to use to log in.
-
-* Configure Shynet's hostname (e.g. `shynet.example.com` or `localhost:8000`) by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py hostname "<your hostname>"`. This doesn't affect Shynet's bind port; instead, it determines what hostname to inject into the tracking script. (So you'll want to use the "user-facing" hostname here.)
-
-* Name your Shynet instance by running `docker run --env-file=<your env file> milesmcc/shynet:latest python manage.py whitelabel "<your instance name>"`. This could be something like "My Shynet Server" or "Acme Analytics"—whatever suits you.
+10. Finally, click on "Manage" in the top right of the service's page to get the tracking script code. Inject this script on all pages you'd like the service to track.
 
 ---
 
 ## Enhancements
-
 
 ### Installation with SSL
 
@@ -187,7 +182,7 @@ Here are solutions for some common issues. If your situation isn't described her
 
 #### I changed the `SHYNET_WHITELABEL`/`SHYNET_HOST` environment variable, but nothing happened!
 
-* Those values only affect how your Shynet instance is setup on first run; once it's configured, they have no effect. See [updating your configuration](#updating-your-configuration) for help on how to update your configuration.
+* Those values only affect how your Shynet instance is setup on first run; once it's configured, they have no effect. See [updating your configuration](#updating-your-configuration) for help on how to update your configuration. (Note: these environment variables are not present in newer Shynet versions; they have been removed from the guide.)
 
 #### Shynet can't connect to my database running on `localhost`/`127.0.0.1`
 

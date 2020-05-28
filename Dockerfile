@@ -32,4 +32,4 @@ RUN python manage.py collectstatic --noinput && \
 # Launch
 USER appuser
 EXPOSE 8080
-ENTRYPOINT [ "./entrypoint.sh" ]
+CMD [ "./entrypoint.sh" ]
