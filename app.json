@@ -24,11 +24,6 @@
     }
   },
   "env": {
-    "SHYNET_HOST": {
-      "description": "The domain on which you'll be hosting Shynet at. (re-type the heroku app name here)",
-      "value": "your-app.herokuapp.com",
-      "required": false
-    },
     "DB_NAME": {
       "description": "Database name (PostgreSQL)",
       "value": "shynet",
@@ -126,6 +121,11 @@
     "SHYNET_ADMIN_EMAIL": {
       "description": "Your admin user email. A temporary password will be printed to the console on first run.",
       "value": "admin@example.com",
+      "required": false
+    },
+    "SHYNET_HOST": {
+      "description": "The domain on which you'll be hosting Shynet.",
+      "value": "your-app.herokuapp.com",
       "required": false
     },
     "SHYNET_WHITELABEL": {
