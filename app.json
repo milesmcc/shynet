@@ -1,0 +1,137 @@
+{
+  "name": "Shynet",
+  "description":"Modern, privacy-friendly, and detailed web analytics that works without cookies or JS.",
+    "keywords":[
+      "app.json",
+      "shynet",
+      "heroku",
+      "analytics",
+      "privacy",
+      "friendly"
+  ],
+  "website": "https://github.com/milesmcc/shynet",
+  "repository": "https://github.com/milesmcc/shynet",
+  "logo": "https://github.com/milesmcc/shynet/raw/master/images/slogo.png",
+  "success_url": "/",
+  "stack": "container",
+  "addons": [
+    "heroku-postgresql:hobby-dev"
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "env": {
+    "SHYNET_HOST": {
+      "description": "The domain on which you'll be hosting Shynet at. (re-type the heroku app name here)",
+      "value": "your-app.herokuapp.com",
+      "required": false
+    },
+    "DB_NAME": {
+      "description": "Database name (PostgreSQL)",
+      "value": "shynet",
+      "required": false
+    },
+    "DB_USER": {
+      "description": "Database username",
+      "value": "",
+      "required": false
+    },
+    "DB_PASSWORD": {
+      "description": "Database password",
+      "value": "",
+      "required": false
+    },
+    "DB_HOST": {
+      "description": "Database hostname",
+      "value": "",
+      "required": false
+    },
+    "DB_PORT": {
+      "description": "Database port",
+      "value": "5432",
+      "required": false
+    },
+    "EMAIL_HOST": {
+      "description": "SMTP server hostname",
+      "value": "smtp.gmail.com",
+      "required": false
+    },
+    "EMAIL_PORT": {
+      "description": "SMTP server port",
+      "value": "465",
+      "required": false
+    },
+    "EMAIL_HOST_USER": {
+      "description": "SMTP server username",
+      "value": "@gmail.com",
+      "required": false
+    },
+    "EMAIL_HOST_PASSWORD": {
+      "description": "SMTP server password",
+      "value": "",
+      "required": false
+    },
+    "SERVER_EMAIL": {
+      "description": "Sender email address",
+      "value": "<shynet> noreply@shynet.example.com",
+      "required": false
+    },
+    "DJANGO_SECRET_KEY": {
+      "description": "General Django settings",
+      "generator": "secret"
+    },
+    "ALLOWED_HOSTS": {
+      "description": "For better security, set this to your deployment's domain. Comma separated.",
+      "value": "*",
+      "required": false
+    },
+    "SIGNUPS_ENABLED": {
+      "description": "Set to True (capitalized) if you want people to be able to sign up for your Shynet instance (not recommended)",
+      "value": "False",
+      "required": false
+    },
+    "TIME_ZONE": {
+      "description": "The timezone of the admin panel. Affects how dates are displayed.",
+      "value": "America/New_York",
+      "required": false
+    },
+    "SCRIPT_USE_HTTPS": {
+      "description": "Set to 'False' if you will not be serving content over HTTPS",
+      "value": "True",
+      "required": false
+    },
+    "SCRIPT_HEARTBEAT_FREQUENCY": {
+      "description": "How frequently should the monitoring script 'phone home' (in ms)?",
+      "value": "5000",
+      "required": false
+    },
+    "SESSION_MEMORY_TIMEOUT": {
+      "description": "How much time can elapse between requests from the same user before a new session is created, in seconds?",
+      "value": "1800",
+      "required": false
+    },
+    "ONLY_SUPERUSERS_CREATE": {
+      "description": "when you'd like to invite others to your Shynet instance but don't want them to be able to create services of their owShould only superusers (admins) be able to create services? This is helpfuln.",
+      "value": "True",
+      "required": false
+    },
+    "PERFORM_CHECKS_AND_SETUP": {
+      "description": "Whether to perform checks and setup at startup, including applying unapplied migrations. For most setups, the recommended value is True. Defaults to True. Will skip only if value is False.",
+      "value": "True",
+      "required": false
+    },
+    "SHYNET_ADMIN_EMAIL": {
+      "description": "Your admin user email. A temporary password will be printed to the console on first run.",
+      "value": "admin@example.com",
+      "required": false
+    },
+    "SHYNET_WHITELABEL": {
+      "description": "What you'd like to call your Shynet instance.",
+      "value": "shynet-analytics",
+      "required": false
+    }
+  }
+}

@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+# import module sys to get the type of exception
+import sys
+import urllib.parse as urlparse
 
 # Messages
 from django.contrib.messages import constants as messages
@@ -111,6 +114,29 @@ else:
             "OPTIONS": {"connect_timeout": 5},
         }
     }
+
+# Solution to removal of Heroku DB Injection
+if 'DATABASE_URL' in os.environ:
+    if 'DATABASES' not in locals():
+        DATABASES = {}
+    url = urlparse.urlparse(os.environ['DATABASE_URL'])
+
+    # Ensure default database exists.
+    DATABASES['default'] = DATABASES.get('default', {})
+
+    # Update with environment configuration.
+    DATABASES['default'].update({
+        'NAME': url.path[1:],
+        'USER': url.username,
+        'PASSWORD': url.password,
+        'HOST': url.hostname,
+        'PORT': url.port,
+    })
+    if url.scheme == 'postgres':
+      DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+
+    if url.scheme == 'mysql':
+      DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
 
 
 # Password validation

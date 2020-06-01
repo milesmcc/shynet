@@ -10,7 +10,7 @@
     + [Cloudflare](#cloudflare)
     + [Nginx](#nginx)
 + [Troubleshooting](#troubleshooting)
-
++ [Quick Deploy](#quick-deploy)
 ---
 
 ## Staying Updated
@@ -187,3 +187,7 @@ Here are solutions for some common issues. If your situation isn't described her
 #### Shynet can't connect to my database running on `localhost`/`127.0.0.1`
 
 * The problem is likely that to Shynet, `localhost` points to the local network in the container itself, not on the host machine. Try adding the `--network='host'` option when you run Docker.
+
+## Quick Deploy
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/thomasgroch/shynet/tree/features/heroku-quick-deploy&env[SHYNET_HOST]=shynet-demo.herokuapp.com)
