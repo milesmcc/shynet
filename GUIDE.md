@@ -190,4 +190,4 @@ Here are solutions for some common issues. If your situation isn't described her
 
 ## Quick Deploy
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/thomasgroch/shynet/tree/features/heroku-quick-deploy&env[SHYNET_HOST]=shynet-demo.herokuapp.com)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/milesmcc/shynet/tree/master&env[SHYNET_HOST]=shynet-demo.herokuapp.com)
