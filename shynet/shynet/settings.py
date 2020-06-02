@@ -134,9 +134,9 @@ if 'DATABASE_URL' in os.environ:
     })
     if url.scheme == 'postgres':
       DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
-
-    if url.scheme == 'mysql':
-      DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
+    # DEADCODE: mysql not supported for now
+    # if url.scheme == 'mysql':
+      # DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
 
 
 # Password validation

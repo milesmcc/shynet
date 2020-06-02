@@ -10,7 +10,7 @@
     + [Cloudflare](#cloudflare)
     + [Nginx](#nginx)
 + [Troubleshooting](#troubleshooting)
-+ [Quick Deploy](#quick-deploy)
++ [Quick Deploy to Heroku](#quick-deploy-to-heroku)
 ---
 
 ## Staying Updated
@@ -188,6 +188,6 @@ Here are solutions for some common issues. If your situation isn't described her
 
 * The problem is likely that to Shynet, `localhost` points to the local network in the container itself, not on the host machine. Try adding the `--network='host'` option when you run Docker.
 
-## Quick Deploy
+## Quick Deploy to Heroku
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/milesmcc/shynet/tree/master&env[SHYNET_HOST]=shynet-demo.herokuapp.com)
