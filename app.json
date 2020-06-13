@@ -25,66 +25,66 @@
   },
   "env": {
     "DB_NAME": {
-      "description": "Database name (PostgreSQL)",
+      "description": "Postgres database name (not required if using Postgres addon)",
       "value": "shynet",
       "required": false
     },
     "DB_USER": {
-      "description": "Database username",
+      "description": "Postgres database username (not required if using Postgres addon)",
       "value": "",
       "required": false
     },
     "DB_PASSWORD": {
-      "description": "Database password",
+      "description": "Postgres database password (not required if using Postgres addon)",
       "value": "",
       "required": false
     },
     "DB_HOST": {
-      "description": "Database hostname",
+      "description": "Postgres database hostname (not required if using Postgres addon)",
       "value": "",
       "required": false
     },
     "DB_PORT": {
-      "description": "Database port",
+      "description": "Postgres database port (not required if using Postgres addon)",
       "value": "5432",
       "required": false
     },
     "EMAIL_HOST": {
-      "description": "SMTP server hostname",
+      "description": "SMTP server hostname (for sending emails)",
       "value": "smtp.gmail.com",
       "required": false
     },
     "EMAIL_PORT": {
-      "description": "SMTP server port",
+      "description": "SMTP server port (for sending emails)",
       "value": "465",
       "required": false
     },
     "EMAIL_HOST_USER": {
-      "description": "SMTP server username",
+      "description": "SMTP server username (for sending emails)",
       "value": "@gmail.com",
       "required": false
     },
     "EMAIL_HOST_PASSWORD": {
-      "description": "SMTP server password",
+      "description": "SMTP server password (for sending emails)",
       "value": "",
       "required": false
     },
     "SERVER_EMAIL": {
-      "description": "Sender email address",
-      "value": "<shynet> noreply@shynet.example.com",
+      "description": "Email address (for sending emails)",
+      "value": "<Shynet> noreply@shynet.example.com",
       "required": false
     },
     "DJANGO_SECRET_KEY": {
-      "description": "General Django settings",
+      "description": "Django secret key",
       "generator": "secret"
     },
     "ALLOWED_HOSTS": {
-      "description": "For better security, set this to your deployment's domain. Comma separated.",
+      "description": "For better security, set this to your deployment's domain. (Where you will actually host, not embed, Shynet.) Set to '*' to allow serving all domains.",
       "value": "*",
       "required": false
     },
     "SIGNUPS_ENABLED": {
-      "description": "Set to True (capitalized) if you want people to be able to sign up for your Shynet instance (not recommended)",
+      "description": "Set to True (capitalized) if you want people to be able to sign up for your Shynet instance (not recommended).",
       "value": "False",
       "required": false
     },
@@ -94,7 +94,7 @@
       "required": false
     },
     "SCRIPT_USE_HTTPS": {
-      "description": "Set to 'False' if you will not be serving content over HTTPS",
+      "description": "Set to 'False' if you will not be serving Shynet over HTTPS.",
       "value": "True",
       "required": false
     },
@@ -109,28 +109,13 @@
       "required": false
     },
     "ONLY_SUPERUSERS_CREATE": {
-      "description": "when you'd like to invite others to your Shynet instance but don't want them to be able to create services of their owShould only superusers (admins) be able to create services? This is helpfuln.",
+      "description": "Should only superusers (admins) be able to create tracked services?",
       "value": "True",
       "required": false
     },
     "PERFORM_CHECKS_AND_SETUP": {
-      "description": "Whether to perform checks and setup at startup, including applying unapplied migrations. For most setups, the recommended value is True. Defaults to True. Will skip only if value is False.",
+      "description": "Whether to perform checks and setup at startup. Recommended value is 'True' for Heroku users.",
       "value": "True",
-      "required": false
-    },
-    "SHYNET_ADMIN_EMAIL": {
-      "description": "Your admin user email. A temporary password will be printed to the console on first run.",
-      "value": "admin@example.com",
-      "required": false
-    },
-    "SHYNET_HOST": {
-      "description": "The domain on which you'll be hosting Shynet.",
-      "value": "your-app.herokuapp.com",
-      "required": false
-    },
-    "SHYNET_WHITELABEL": {
-      "description": "What you'd like to call your Shynet instance.",
-      "value": "shynet-analytics",
       "required": false
     }
   }
