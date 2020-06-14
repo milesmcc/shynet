@@ -163,6 +163,18 @@ Nginx is a self hosted, highly configurable webserver. Nginx can be configured t
    * [How to add SSL/HTTPS to Nginx (Ubuntu 16.04)](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04)
    * [Nginx Documentation](https://nginx.org/en/docs/)
 
+## Heroku
+
+You may wish to deploy Shynet on Heroku. Note that Heroku's free offerings (namely the free Postgres addon) are unlikely to support running any Shynet instance that records more than a few hundred requests per day &mdash; the database will quickly fill up. In most cases, the more cost-effective option for running Shynet is renting a VPS from a full cloud service provider. However, if you're sure Heroku is the right option for you, or you just want to try Shynet out, you can use the Quick Deploy button then follow the steps below. 
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/milesmcc/shynet/tree/master)
+
+Once you deploy, you'll need to setup an admin user, whitelabel, and hostname before you can use Shynet. Do that with the following commands:
+
+1. `heroku run --app=<your app> ./manage.py registeradmin <your email>`
+2. `heroku run --app=<your app> ./manage.py hostname <the hostname where you will run Shynet>`
+3. `heroku run --app=<your app> ./manage.py whitelabel "<your Shynet instance's name>"`
+
 ---
 
 ## Troubleshooting
@@ -187,13 +199,3 @@ Here are solutions for some common issues. If your situation isn't described her
 #### Shynet can't connect to my database running on `localhost`/`127.0.0.1`
 
 * The problem is likely that to Shynet, `localhost` points to the local network in the container itself, not on the host machine. Try adding the `--network='host'` option when you run Docker.
-
-## Quick Deploy to Heroku
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/milesmcc/shynet/tree/master&env[SHYNET_HOST]=shynet-demo.herokuapp.com)
-
-Once you deploy, you'll need to setup an admin user, whitelabel, and hostname before you can use Shynet. Do that with the following commands:
-
-1. `heroku run --app=<your app> ./manage.py registeradmin <your email>`
-2. `heroku run --app=<your app> ./manage.py hostname <the hostname where you will run Shynet>`
-3. `heroku run --app=<your app> ./manage.py whitelabel "<your Shynet instance's name>"`
