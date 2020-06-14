@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Installation](#installation)
+- [Heroku](#heroku)
 - [Updating Your Configuration](#updating-your-configuration)
 - [Enhancements](#enhancements)
   * [Installation with SSL](#installation-with-ssl)
@@ -10,7 +11,6 @@
     + [Cloudflare](#cloudflare)
     + [Nginx](#nginx)
 + [Troubleshooting](#troubleshooting)
-+ [Quick Deploy to Heroku](#quick-deploy-to-heroku)
 ---
 
 ## Staying Updated
@@ -45,6 +45,18 @@ Before continuing, please be sure to have the latest version of Docker installed
 9. Create a service by clicking "+ Create Service" in the top right hand corner. Fill out the options as appropriate. Once you're done, press "create" and you'll be redirected to your new service's analytics page.
 
 10. Finally, click on "Manage" in the top right of the service's page to get the tracking script code. Inject this script on all pages you'd like the service to track.
+
+## Heroku
+
+You may wish to deploy Shynet on Heroku. Note that Heroku's free offerings (namely the free Postgres addon) are unlikely to support running any Shynet instance that records more than a few hundred requests per day &mdash; the database will quickly fill up. In most cases, the more cost-effective option for running Shynet is renting a VPS from a full cloud service provider. However, if you're sure Heroku is the right option for you, or you just want to try Shynet out, you can use the Quick Deploy button then follow the steps below. 
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/milesmcc/shynet/tree/master)
+
+Once you deploy, you'll need to setup an admin user, whitelabel, and hostname before you can use Shynet. Do that with the following commands:
+
+1. `heroku run --app=<your app> ./manage.py registeradmin <your email>`
+2. `heroku run --app=<your app> ./manage.py hostname <the hostname where you will run Shynet>`
+3. `heroku run --app=<your app> ./manage.py whitelabel "<your Shynet instance's name>"`
 
 ---
 
@@ -162,18 +174,6 @@ Nginx is a self hosted, highly configurable webserver. Nginx can be configured t
    * [How to add SSL/HTTPS to Nginx (Ubuntu 18.04)](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04)
    * [How to add SSL/HTTPS to Nginx (Ubuntu 16.04)](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04)
    * [Nginx Documentation](https://nginx.org/en/docs/)
-
-## Heroku
-
-You may wish to deploy Shynet on Heroku. Note that Heroku's free offerings (namely the free Postgres addon) are unlikely to support running any Shynet instance that records more than a few hundred requests per day &mdash; the database will quickly fill up. In most cases, the more cost-effective option for running Shynet is renting a VPS from a full cloud service provider. However, if you're sure Heroku is the right option for you, or you just want to try Shynet out, you can use the Quick Deploy button then follow the steps below. 
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/milesmcc/shynet/tree/master)
-
-Once you deploy, you'll need to setup an admin user, whitelabel, and hostname before you can use Shynet. Do that with the following commands:
-
-1. `heroku run --app=<your app> ./manage.py registeradmin <your email>`
-2. `heroku run --app=<your app> ./manage.py hostname <the hostname where you will run Shynet>`
-3. `heroku run --app=<your app> ./manage.py whitelabel "<your Shynet instance's name>"`
 
 ---
 
