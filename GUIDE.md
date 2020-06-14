@@ -191,3 +191,9 @@ Here are solutions for some common issues. If your situation isn't described her
 ## Quick Deploy to Heroku
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/milesmcc/shynet/tree/master&env[SHYNET_HOST]=shynet-demo.herokuapp.com)
+
+Once you deploy, you'll need to setup an admin user, whitelabel, and hostname before you can use Shynet. Do that with the following commands:
+
+1. `heroku run --app=<your app> ./manage.py registeradmin <your email>`
+2. `heroku run --app=<your app> ./manage.py hostname <the hostname where you will run Shynet>`
+3. `heroku run --app=<your app> ./manage.py whitelabel "<your Shynet instance's name>"`
