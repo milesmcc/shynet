@@ -61,7 +61,7 @@
     },
     "EMAIL_HOST_USER": {
       "description": "SMTP server username (for sending emails)",
-      "value": "@gmail.com",
+      "value": "",
       "required": false
     },
     "EMAIL_HOST_PASSWORD": {
