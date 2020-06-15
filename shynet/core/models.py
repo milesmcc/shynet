@@ -65,6 +65,7 @@ class Service(models.Model):
         max_length=2, choices=SERVICE_STATUSES, default=ACTIVE, db_index=True
     )
     respect_dnt = models.BooleanField(default=True)
+    ignore_robots = models.BooleanField(default=False)
     collect_ips = models.BooleanField(default=True)
     ignored_ips = models.TextField(
         default="", blank=True, validators=[_validate_network_list]

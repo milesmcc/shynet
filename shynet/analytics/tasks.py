@@ -110,6 +110,8 @@ def ingress_request(
                 device_type = "TABLET"
             elif ua.is_pc:
                 device_type = "DESKTOP"
+            if device_type == "ROBOT" and service.ignore_robots:
+                return
             session = Session.objects.create(
                 service=service,
                 ip=ip if service.collect_ips else None,
