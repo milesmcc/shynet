@@ -83,7 +83,7 @@
       "value": "*",
       "required": false
     },
-    "SIGNUPS_ENABLED": {
+    "ACCOUNT_SIGNUPS_ENABLED": {
       "description": "Set to True (capitalized) if you want people to be able to sign up for your Shynet instance (not recommended).",
       "value": "False",
       "required": false
