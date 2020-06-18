@@ -10,8 +10,8 @@ ARG GF_GID="500"
 RUN apk update && \
 	apk add gettext curl bash && \
 	# URL from https://github.com/shlinkio/shlink/issues/596 :)
-	curl "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key=kKG1ebhL3iWVd0iv&suffix=tar.gz" | tar -xvz -C /tmp && \
-	curl "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=kKG1ebhL3iWVd0iv&suffix=tar.gz" | tar -xvz -C /tmp && \
+	curl -m 180 "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key=kKG1ebhL3iWVd0iv&suffix=tar.gz" | tar -xvz -C /tmp && \
+	curl -m 180 "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=kKG1ebhL3iWVd0iv&suffix=tar.gz" | tar -xvz -C /tmp && \
 	mv /tmp/GeoLite2*/*.mmdb /etc && \
 	apk del curl && \
 	apk add --no-cache postgresql-libs && \
