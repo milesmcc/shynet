@@ -1,6 +1,5 @@
 {
   "name": "shynet",
-  "version": "0.5.2",
   "description": "Modern, privacy-friendly, and cookie-free web analytics.",
   "repository": {
     "type": "git",
