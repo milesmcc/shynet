@@ -1,8 +1,14 @@
-window.onload = function () {
-  var idempotency =
-    Math.random().toString(36).substring(2, 15) +
-    Math.random().toString(36).substring(2, 15);
-  function sendUpdate() {
+// This is a lightweight and privacy-friendly analytics script from Shynet, a self-hosted
+// analytics tool. To give you full visibility into how your data is being monitored, this
+// file is intentionally not minified or obfuscated. To learn more about Shynet (and to view
+// its source code), visit <https://github.com/milesmcc/shynet>.
+//
+// This script only sends the current URL, the referrer URL, and the page load time. That's it!
+
+var Shynet = {
+  idempotency: null,
+  heartbeatTaskId: null,
+  sendHeartbeat: function () {
     try {
       if (document.hidden) {
         return;
@@ -16,7 +22,7 @@ window.onload = function () {
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.send(
         JSON.stringify({
-          idempotency: idempotency,
+          idempotency: Shynet.idempotency,
           referrer: document.referrer,
           location: window.location.href,
           loadTime:
@@ -25,7 +31,15 @@ window.onload = function () {
         })
       );
     } catch { }
+  },
+  newPageLoad: function () {
+    if (Shynet.heartbeatTaskId != null) {
+      clearInterval(Shynet.heartbeatTaskId);
+    }
+    Shynet.idempotency = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    Shynet.heartbeatTaskId = setInterval(Shynet.sendHeartbeat, parseInt("{{heartbeat_frequency}}"));
+    Shynet.sendHeartbeat();
   }
-  setInterval(sendUpdate, parseInt("{{heartbeat_frequency}}"));
-  sendUpdate();
 };
+
+window.addEventListener("load", Shynet.newPageLoad);
