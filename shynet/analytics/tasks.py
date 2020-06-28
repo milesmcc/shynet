@@ -121,11 +121,11 @@ def ingress_request(
                 device=ua.device.family or ua.device.model or "",
                 device_type=device_type,
                 os=ua.os.family or "",
-                asn=ip_data.get("asn", ""),
-                country=ip_data.get("country", ""),
+                asn=ip_data.get("asn") or "",
+                country=ip_data.get("country") or "",
                 longitude=ip_data.get("longitude"),
                 latitude=ip_data.get("latitude"),
-                time_zone=ip_data.get("time_zone", ""),
+                time_zone=ip_data.get("time_zone") or "",
             )
             cache.set(
                 session_cache_path, session.pk, timeout=settings.SESSION_MEMORY_TIMEOUT
