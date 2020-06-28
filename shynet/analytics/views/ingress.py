@@ -1,5 +1,6 @@
 import base64
 import json
+from urllib.parse import urlparse
 
 from django.conf import settings
 from django.core.cache import cache
@@ -49,7 +50,15 @@ class ValidateServiceOriginsMixin:
                 cache.set(f"service_origins_{service_uuid}", origins, timeout=3600)
 
             resp = super().dispatch(request, *args, **kwargs)
-            resp["Access-Control-Allow-Origin"] = origins
+
+            if origins != "*":
+                remote_origin = request.META.get("HTTP_ORIGIN")
+                origins = [origin.strip() for origin in origins.split(",")]
+                if remote_origin in origins:
+                    resp["Access-Control-Allow-Origin"] = remote_origin
+            else:
+                resp["Access-Control-Allow-Origin"] = "*"
+
             resp["Access-Control-Allow-Methods"] = "GET,HEAD,OPTIONS,POST"
             resp[
                 "Access-Control-Allow-Headers"
