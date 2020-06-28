@@ -50,7 +50,7 @@ class ServiceForm(forms.ModelForm):
         }
 
     collaborators = forms.CharField(
-        help_text="Which users should have read-only access to this service? (Comma separated list of emails.)",
+        help_text="Which users on this Shynet instance should have read-only access to this service? (Comma separated list of emails.)",
         required=False,
     )
 
