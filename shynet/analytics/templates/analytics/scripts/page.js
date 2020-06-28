@@ -30,7 +30,7 @@ var Shynet = {
             window.performance.timing.navigationStart,
         })
       );
-    } catch { }
+    } catch (e) { }
   },
   newPageLoad: function () {
     if (Shynet.heartbeatTaskId != null) {
