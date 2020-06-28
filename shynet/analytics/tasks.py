@@ -1,7 +1,7 @@
 import ipaddress
 import json
 import logging
-from hashlib import sha1
+from hashlib import sha256
 
 import geoip2.database
 import user_agents
@@ -73,7 +73,7 @@ def ingress_request(
         if payload.get("loadTime", 1) <= 0:
             payload["loadTime"] = None
 
-        association_id_hash = sha1()
+        association_id_hash = sha256()
         association_id_hash.update(str(ip).encode("utf-8"))
         association_id_hash.update(str(user_agent).encode("utf-8"))
         session_cache_path = (
