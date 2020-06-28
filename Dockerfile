@@ -18,7 +18,7 @@ RUN apk update && \
 	apk add --no-cache postgresql-libs && \
 	apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev && \
 	npm i -P --prefix .. && \
-	pip install pipenv && \
+	pip install pipenv~=2020.6.2 && \
 	pipenv install --system --deploy && \
 	apk --purge del .build-deps && \
 	rm -rf /var/lib/apt/lists/* && \
