@@ -234,7 +234,9 @@ class Service(models.Model):
             "session_chart_data": json.dumps(
                 [
                     {"x": str(key), "y": value}
-                    for key, value in session_chart_data.items()
+                    for key, value in sorted(
+                        session_chart_data.items(), key=lambda k: k[0]
+                    )
                 ]
             ),
             "online": True,
