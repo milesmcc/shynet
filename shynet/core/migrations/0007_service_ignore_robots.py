@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0006_service_hide_referrer_regex'),
+        ("core", "0006_service_hide_referrer_regex"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='service',
-            name='ignore_robots',
+            model_name="service",
+            name="ignore_robots",
             field=models.BooleanField(default=False),
         )
     ]
