@@ -1,0 +1,29 @@
+{
+  "name": "shynet",
+  "version": "0.5.2",
+  "description": "Modern, privacy-friendly, and cookie-free web analytics.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/milesmcc/shynet.git"
+  },
+  "keywords": [
+    "privacy",
+    "analytics",
+    "self-host"
+  ],
+  "author": "R. Miles McCain <shynet@sendmiles.email>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/milesmcc/shynet/issues"
+  },
+  "homepage": "https://github.com/milesmcc/shynet#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.1",
+    "a17t": "^0.1.4",
+    "apexcharts": "^3.19.3",
+    "inter-ui": "^3.13.1",
+    "litepicker": "^1.5.7",
+    "tailwindcss": "^1.4.6",
+    "turbolinks": "^5.2.0"
+  }
+}

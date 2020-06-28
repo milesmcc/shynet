@@ -1,7 +1,9 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/a17t@0.1.3/dist/a17t.css">
-<script async src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'a17t/dist/a17t.css' %}">
+<script async src="{% static '@fortawesome/fontawesome-free/js/all.min.js' %}" data-mutate-approach="sync"></script>
+<link href="{% static 'tailwindcss/dist/tailwind.min.css' %}" rel="stylesheet">
+<link href="{% static 'inter-ui/Inter (web)/inter.css' %}" rel="stylesheet">
 <style>
     :root {
         --family-primary: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";

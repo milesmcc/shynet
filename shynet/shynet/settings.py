@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+
 # import module sys to get the type of exception
 import sys
 import urllib.parse as urlparse
@@ -116,24 +117,26 @@ else:
     }
 
 # Solution to removal of Heroku DB Injection
-if 'DATABASE_URL' in os.environ:
-    if 'DATABASES' not in locals():
+if "DATABASE_URL" in os.environ:
+    if "DATABASES" not in locals():
         DATABASES = {}
-    url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    url = urlparse.urlparse(os.environ["DATABASE_URL"])
 
     # Ensure default database exists.
-    DATABASES['default'] = DATABASES.get('default', {})
+    DATABASES["default"] = DATABASES.get("default", {})
 
     # Update with environment configuration.
-    DATABASES['default'].update({
-        'NAME': url.path[1:],
-        'USER': url.username,
-        'PASSWORD': url.password,
-        'HOST': url.hostname,
-        'PORT': url.port,
-    })
-    if url.scheme == 'postgres':
-      DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+    DATABASES["default"].update(
+        {
+            "NAME": url.path[1:],
+            "USER": url.username,
+            "PASSWORD": url.password,
+            "HOST": url.hostname,
+            "PORT": url.port,
+        }
+    )
+    if url.scheme == "postgres":
+        DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql_psycopg2"
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -202,6 +205,11 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = "compiledstatic/"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_FINDERS = [
+    "npm.finders.NpmFinder",
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
 
 # Redis
 if not DEBUG and os.getenv("REDIS_CACHE_LOCATION") is not None:
@@ -272,6 +280,21 @@ else:
     EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
     EMAIL_USE_SSL = True
+
+# NPM
+
+NPM_ROOT_PATH = "../"
+
+NPM_FILE_PATTERNS = {
+    'a17t': ['dist/a17t.css'],
+    '@fortawesome/fontawesome-free': ['js/all.min.js'],
+    'tailwindcss': ['dist/tailwind.min.css'],
+    'apexcharts': ['dist/apexcharts.min.js'],
+    'litepicker': ['dist/js/main.js'],
+    'turbolinks': ['dist/turbolinks.js'],
+    'stimulus': ['dist/stimulus.umd.js'],
+    'inter-ui': ['Inter (web)/*'],
+}
 
 # Shynet
 

@@ -8,10 +8,10 @@
   <meta name="robots" content="noindex">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {% include 'a17t/head.html' %}
-  <script src="https://cdn.jsdelivr.net/npm/litepicker@1.2.0/dist/js/main.js"
-    integrity="sha256-mOlCEHUNWZPYIrc5OFL4Ab2rsJGzIPld3cy1ok7Cfx0=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.18.1/dist/apexcharts.min.js"
-    integrity="sha256-RalQXBZdisB04aaBsm+6YZ0b/iRYjX1MZn90m19AnCY=" crossorigin="anonymous"></script>
+  <script src="{% static 'apexcharts/dist/apexcharts.min.js'%}"></script>
+  <script src="{% static 'litepicker/dist/js/main.js' %}"></script>
+  <script src="{% static 'turbolinks/dist/turbolinks.js' %}"></script>
+  <script src="{% static 'dashboard/js/base.js' %}"></script>
   <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
   {% block extra_head %}
   {% endblock %}
@@ -72,7 +72,7 @@
 
         {% if user.is_superuser %}
         {% url 'admin:index' as url %}
-        {% include 'dashboard/includes/sidebar_portal.html' with label="Admin" url=url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label="Admin" disable_turbolinks=True url=url %}
         {% endif %}
 
         {% url 'account_email' as url %}
