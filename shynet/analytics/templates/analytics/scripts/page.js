@@ -43,3 +43,12 @@ var Shynet = {
 };
 
 window.addEventListener("load", Shynet.newPageLoad);
+
+{% if script_inject %}
+// The following is script is not part of Shynet, and was instead
+// provided by this site's administrator.
+// 
+// -- START --
+{{script_inject|safe}}
+// -- END --
+{% endif %}

@@ -73,6 +73,7 @@ class Service(models.Model):
     hide_referrer_regex = models.TextField(
         default="", blank=True, validators=[_validate_regex]
     )
+    script_inject = models.TextField(default="", blank=True)
 
     class Meta:
         ordering = ["name", "uuid"]

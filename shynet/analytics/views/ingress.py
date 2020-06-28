@@ -114,11 +114,14 @@ class ScriptView(ValidateServiceOriginsMixin, View):
         return render(
             self.request,
             "analytics/scripts/page.js",
-            context={
-                "endpoint": endpoint,
-                "protocol": protocol,
-                "heartbeat_frequency": heartbeat_frequency,
-            },
+            context=dict(
+                {
+                    "endpoint": endpoint,
+                    "protocol": protocol,
+                    "heartbeat_frequency": heartbeat_frequency,
+                    "script_inject": self.get_script_inject(),
+                }
+            ),
             content_type="application/javascript",
         )
 
@@ -134,3 +137,12 @@ class ScriptView(ValidateServiceOriginsMixin, View):
         return HttpResponse(
             json.dumps({"status": "OK"}), content_type="application/json"
         )
+
+    def get_script_inject(self):
+        service_uuid = self.kwargs.get("service_uuid")
+        script_inject = cache.get(f"script_inject_{service_uuid}")
+        if script_inject == None:
+            service = Service.objects.get(uuid=service_uuid)
+            script_inject = service.script_inject
+            cache.set(f"script_inject_{service_uuid}", script_inject, timeout=3600)
+        return script_inject

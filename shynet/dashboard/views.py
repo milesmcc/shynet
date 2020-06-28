@@ -84,6 +84,9 @@ class ServiceUpdateView(
         cache.set(
             f"service_origins_{self.object.uuid}", self.object.origins, timeout=3600
         )
+        cache.set(
+            f"script_inject_{self.object.uuid}", self.object.script_inject, timeout=3600
+        )
         return resp
 
     def get_context_data(self, *args, **kwargs):
