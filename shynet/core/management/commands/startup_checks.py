@@ -13,7 +13,7 @@ from core.models import User
 
 
 class Command(BaseCommand):
-    help = "Internal command to perform startup sanity checks."
+    help = "Internal command to perform startup checks."
 
     def check_migrations(self):
         from django.db.migrations.executor import MigrationExecutor
