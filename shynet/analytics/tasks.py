@@ -64,7 +64,10 @@ def ingress_request(
         try:
             remote_ip = ipaddress.ip_network(ip)
             for ignored_network in service.get_ignored_networks():
-                if ignored_network.supernet_of(remote_ip):
+                if (
+                    ignored_network.version == remote_ip.version
+                    and ignored_network.supernet_of(remote_ip)
+                ):
                     return
         except ValueError as e:
             log.exception(e)
