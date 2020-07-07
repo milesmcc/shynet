@@ -11,6 +11,7 @@
     + [Cloudflare](#cloudflare)
     + [Nginx](#nginx)
   * [Health Checks](#health-checks)
+  * [Primary Key Integration](#primary-key-integration)
 + [Troubleshooting](#troubleshooting)
 ---
 
@@ -37,7 +38,7 @@ Before continuing, please be sure to have the latest version of Docker installed
 
 5. Create an admin user by running `docker run --env-file=<your env file> milesmcc/shynet:latest ./manage.py registeradmin <your email>`. A temporary password will be printed to the console.
 
-6. Set the hostname of your Shynet instance by running `docker run --env-file=<your env file> milesmcc/shynet:latest ./manage.py hostname <your public hostname>`, where `<your public hostname>` is the _publicly accessible hostname_ of your instance, including port. This setting affects the URL that the tracking script sends its results to, so make sure it's correct. (Example hostnames: `shynet.rmrm.io` or `example.com:8000`.)
+6. Set the hostname of your Shynet instance by running `docker run --env-file=<your env file> milesmcc/shynet:latest ./manage.py hostname <your public hostname>`, where `<your public hostname>` is the _publicly accessible hostname_ of your instance, including port. This setting affects the URL that the tracking script sends its results to, so make sure it's correct. (Example hostnames: `shynet.example.com` or `example.com:8000`.)
 
 7. Set the whitelabel of your Shynet instance by running `docker run --env-file=<your env file> milesmcc/shynet:latest ./manage.py whitelabel <whitelabel>`. While this setting doesn't affect any core operations of Shynet, it lets you rename Shynet to whatever you want. (Example whitelabels: `"My Shynet Instance"` or `"Acme Analytics"`.)
 
@@ -181,6 +182,28 @@ Nginx is a self hosted, highly configurable webserver. Nginx can be configured t
 By default, Shynet includes a default health check endpoint at `/healthz/`. If the instance is running normally, this endpoint will return an HTTP status code of 200; if something is wrong, it will have a non-200 status code. To view the health data as JSON, send your request to `/healthz/?format=json`.
 
 This feature is helpful when running Shynet with Kubernetes, as it allows you to setup [startup readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) that prevent traffic from being sent to your Shynet instances before they are ready.
+
+### Primary-Key Integration
+
+In some cases, it is useful to associate particular users on your platform with their sessions in Shynet. In Shynet, this is called _primary key integration_, and is done by adding an additional element to the Shynet script url for each particular user.
+
+If the Shynet script location (for either the pixel or the script) is, for example, `//shynet.example.com/ingress/your_service_uuid/pixel.gif` and `//shynet.example.com/ingress/your_service_uuid/script.js`, the URLs for primary-key enabled users would be `//shynet.example.com/ingress/your_service_uuid/USER_PRIMARY_KEY/pixel.gif` and `//shynet.example.com/ingress/your_service_uuid/USER_PRIMARY_KEY/script.js`.
+
+Adding this path can be done easily using server-side rendering. For example, here is a Django template that adds users' primary keys to the Shynet tracking script:
+
+```html
+{% if request.user.is_authenticated %}
+<noscript>
+   <img src="//shynet.example.com/ingress/service-uuid/{{request.user.email|urlencode:""}}/pixel.gif">
+</noscript>
+<script src="//shynet.example.com/ingress/service-uuid/{{request.user.email|urlencode:""}}/script.js"></script>
+{% else %}
+<noscript>
+   <img src="//shynet.example.com/ingress/service-uuid/pixel.gif">
+</noscript>
+<script src="//shynet.example.com/ingress/service-uuid/script.js"></script>
+{% endif %}
+```
 
 ---
 
