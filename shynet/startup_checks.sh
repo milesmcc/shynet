@@ -1,8 +1,8 @@
 #!/bin/bash
 # Check if setup is necessary, do setup as needed
 echo "Performing startup checks..."
-sanity_results=( $(./manage.py startup_checks) )
-if [[ ${sanity_results[0]} == True ]]; then
+startup_results=( $(./manage.py startup_checks) )
+if [[ ${startup_results[0]} == True ]]; then
   echo "Running migrations (setting up DB)..."
   {
     ./manage.py migrate && echo "Migrations complete!"
@@ -12,13 +12,13 @@ if [[ ${sanity_results[0]} == True ]]; then
   else
   echo "Database is ready to go."
 fi
-if [[ ${sanity_results[1]} == True ]]; then
+if [[ ${startup_results[1]} == True ]]; then
   echo "Warning: no admin user available. Consult docs for instructions."
 fi
-if [[ ${sanity_results[2]} == True ]]; then
+if [[ ${startup_results[2]} == True ]]; then
   echo "Warning: Shynet's hostname is not set. The script won't work correctly. Consult docs for instructions."
 fi
-if [[ ${sanity_results[3]} == True ]]; then
+if [[ ${startup_results[3]} == True ]]; then
   echo "Warning: Shynet's whitelabel is not set. Consult docs for instructions."
 fi
 echo "Startup checks complete!"
