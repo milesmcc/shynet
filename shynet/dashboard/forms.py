@@ -31,7 +31,7 @@ class ServiceForm(forms.ModelForm):
             "script_inject": forms.Textarea(attrs={'class':'font-mono', 'rows': 5})
         }
         labels = {
-            "origins": "Allowed Hostnames",
+            "origins": "Allowed Origins",
             "respect_dnt": "Respect DNT",
             "collect_ips": "Collect IP addresses",
             "ignored_ips": "Ignored IP addresses",
@@ -43,7 +43,7 @@ class ServiceForm(forms.ModelForm):
             "name": _("What should the service be called?"),
             "link": _("What's the service's primary URL?"),
             "origins": _(
-                "At what hostnames does the service operate? This sets CORS headers, so use '*' if you're not sure (or don't care)."
+                "At what origins does the service operate? Use commas to separate multiple values. This sets CORS headers, so use '*' if you're not sure (or don't care)."
             ),
             "respect_dnt": "Should visitors who have enabled <a href='https://en.wikipedia.org/wiki/Do_Not_Track'>Do Not Track</a> be excluded from all data?",
             "collect_ips": "Should individual IP addresses be collected? IP metadata (location, host, etc) will still be collected.",
