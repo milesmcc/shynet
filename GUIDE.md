@@ -12,6 +12,7 @@
     + [Nginx](#nginx)
   * [Health Checks](#health-checks)
   * [Primary Key Integration](#primary-key-integration)
+  * [Usage with Single-Page Applications](#usage-with-single-page-applications)
 + [Troubleshooting](#troubleshooting)
 ---
 
