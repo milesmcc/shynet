@@ -6,13 +6,13 @@
 <div class="mr-2">{% include 'dashboard/includes/date_range.html' %}</div>
 {% has_perm 'core.change_service' user object as can_update %}
 {% if can_update %}
-<a href="{% url 'dashboard:service_update' service.uuid %}" class="button field ~neutral w-auto">Manage &rarr;</a>
+<a href="{% url 'dashboard:service_update' service.uuid %}" class="button field bg-neutral-000 w-auto">Manage &rarr;</a>
 {% endif %}
 {% endblock %}
 
 {% block service_content %}
 <div class="grid grid-cols-2 gap-6 md:flex justify-between mb-6 card ~neutral !high px-6" id="stats">
-    {% with classes="text-sm font-semibold" good_classes="text-green-400" bad_classes="text-red-400" neutral_classes="text-gray-400" %}
+    {% with classes="text-sm font-semibold" good_classes="text-positive-400" bad_classes="text-critical-400" neutral_classes="text-gray-400" %}
     <article class="">
         <p class="label text-gray-400">Sessions</p>
         <p class="heading">

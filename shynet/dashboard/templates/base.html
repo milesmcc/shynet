@@ -7,7 +7,7 @@
   <title>{% block head_title %}Privacy-oriented analytics{% endblock %} | {{request.site.name}}</title>
   <meta name="robots" content="noindex">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  {% include 'a17t/head.html' %}
+  {% include 'a17t/includes/head.html' %}
   <script src="{% static 'apexcharts/dist/apexcharts.min.js'%}"></script>
   <script src="{% static 'litepicker/dist/js/main.js' %}"></script>
   <script src="{% static 'turbolinks/dist/turbolinks.js' %}"></script>
@@ -17,14 +17,14 @@
   {% endblock %}
 </head>
 
-<body class="bg-gray-200 min-h-full">
+<body class="bg-neutral-200 min-h-full">
   {% block body %}
 
   <section class="max-w-screen-xl mx-auto px-4 py-4 md:py-12 md:flex">
     <aside class="mb-8 md:w-2/12 md:pr-6 relative flex flex-wrap md:block justify-between items-center overflow-x-hidden">
       <a class="icon ~urge ml-2 md:ml-6 md:mb-8 md:mt-3" href="{% url 'dashboard:dashboard' %}">
-        <i class="fas fa-binoculars fa-3x text-purple-600 hidden md:block"></i>
-        <i class="fas fa-binoculars fa-2x text-purple-600 md:hidden"></i>
+        <i class="fas fa-binoculars fa-3x text-urge-600 hidden md:block"></i>
+        <i class="fas fa-binoculars fa-2x text-urge-600 md:hidden"></i>
       </a>
 
       <button class="button ~neutral !low md:hidden"
@@ -35,7 +35,7 @@
       </button>
       <hr class="sep h-4 md:h-8 w-full">
       <div id="navMenuExpanded"
-        class="bg-white shadow-lg md:shadow-none p-4 hidden rounded-lg md:block md:bg-transparent md:border-none md:p-0 w-full">
+        class="bg-neutral-000 shadow-lg md:shadow-none p-4 hidden rounded-lg md:block md:bg-transparent md:border-none md:p-0 w-full">
         {% if user.owning_services.all %}
         <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Services</p>
 

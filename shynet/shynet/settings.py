@@ -286,9 +286,8 @@ else:
 NPM_ROOT_PATH = "../"
 
 NPM_FILE_PATTERNS = {
-    "a17t": ["dist/a17t.css"],
+    "a17t": ["dist/a17t.css", "dist/tailwind.css"],
     "@fortawesome/fontawesome-free": ["js/all.min.js"],
-    "tailwindcss": ["dist/tailwind.min.css"],
     "apexcharts": ["dist/apexcharts.min.js"],
     "litepicker": ["dist/js/main.js"],
     "turbolinks": ["dist/turbolinks.js"],

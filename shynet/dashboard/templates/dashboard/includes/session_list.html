@@ -13,7 +13,7 @@
         <tr>
             <td>
                 <a href="{% url 'dashboard:service_session' object.pk session.pk %}"
-                    class="font-medium text-purple-700">
+                    class="font-medium text-urge-700">
                     {{session.start_time|date:"M j Y, g:i a"|capfirst}}
                     {% if session.is_currently_active %}
                     <span class="badge ~positive">Online</span>
