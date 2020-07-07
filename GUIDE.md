@@ -10,6 +10,7 @@
   * [Configuring a Reverse Proxy](#configuring-a-reverse-proxy)
     + [Cloudflare](#cloudflare)
     + [Nginx](#nginx)
+  * [Health Checks](#health-checks)
 + [Troubleshooting](#troubleshooting)
 ---
 
@@ -174,6 +175,12 @@ Nginx is a self hosted, highly configurable webserver. Nginx can be configured t
    * [How to add SSL/HTTPS to Nginx (Ubuntu 18.04)](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04)
    * [How to add SSL/HTTPS to Nginx (Ubuntu 16.04)](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04)
    * [Nginx Documentation](https://nginx.org/en/docs/)
+
+### Health Checks
+
+By default, Shynet includes a default health check endpoint at `/healthz/`. If the instance is running normally, this endpoint will return an HTTP status code of 200; if something is wrong, it will have a non-200 status code. To view the health data as JSON, send your request to `/healthz/?format=json`.
+
+This feature is helpful when running Shynet with Kubernetes, as it allows you to setup [startup readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) that prevent traffic from being sent to your Shynet instances before they are ready.
 
 ---
 
