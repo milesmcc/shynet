@@ -31,7 +31,7 @@ class ServiceForm(forms.ModelForm):
             "script_inject": forms.Textarea(attrs={'class':'font-mono', 'rows': 5})
         }
         labels = {
-            "origins": "Allowed Origins",
+            "origins": "Allowed origins",
             "respect_dnt": "Respect DNT",
             "collect_ips": "Collect IP addresses",
             "ignored_ips": "Ignored IP addresses",
