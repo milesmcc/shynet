@@ -5,7 +5,7 @@
 - [Installation](#installation)
 - [Heroku](#heroku)
 - [Updating Your Configuration](#updating-your-configuration)
-- [Enhancements](#enhancements)
+- [Advanced Usage](#advanced-usage)
   * [Installation with SSL](#installation-with-ssl)
   * [Configuring a Reverse Proxy](#configuring-a-reverse-proxy)
     + [Cloudflare](#cloudflare)
@@ -62,7 +62,7 @@ Once you deploy, you'll need to setup an admin user, whitelabel, and hostname be
 
 ---
 
-## Enhancements
+## Advanced Usage
 
 ### Installation with SSL
 
@@ -204,6 +204,12 @@ Adding this path can be done easily using server-side rendering. For example, he
 <script src="//shynet.example.com/ingress/service-uuid/script.js"></script>
 {% endif %}
 ```
+
+### Usage with Single-Page Applications
+
+In a single-page application, the page never reloads. (That's the entire point of single-page applications, after all!) Unfortunately, this also means that Shynet will not automatically recognize and track when the user navigates between pages _within_ your application.
+
+Fortunately, Shynet offers a simple method you can call from anywhere within your JavaScript to indicate that a new page has been loaded: `Shynet.newPageLoad()`. Add this method call to the code that handles routing in your app, and you'll be ready to go.
 
 ---
 
