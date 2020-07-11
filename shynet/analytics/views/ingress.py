@@ -87,7 +87,7 @@ class PixelView(ValidateServiceOriginsMixin, View):
             "R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
         )
         resp = HttpResponse(data, content_type="image/gif")
-        resp["Cache-Control"] = "no-cache"
+        resp["Cache-Control"] = "no-cache, no-store, must-revalidate"
         resp["Access-Control-Allow-Origin"] = "*"
         return resp
 
