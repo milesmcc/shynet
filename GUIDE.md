@@ -64,19 +64,7 @@ Once you deploy, you'll need to setup an admin user, whitelabel, and hostname be
 
 ## Render
 
-[Render](https://render.com) is a modern cloud platform to build and run all your apps and websites with free SSL, a global CDN, private networks and auto deploys from Git. Every Render service automatically includes:
-
-- No limits on simultaneous connections or connection duration.
-- No forced restarts.
-- Automatic [pull request previews](https://render.com/docs/pull-request-previews).
-- Infrastructure as Code with [`render.yaml`](https://render.com/docs/infrastructure-as-code).
-- [Fully managed PostgreSQL](https://render.com/docs/databases).
-- [Private networking](https://render.com/docs/private-services), load balancing, and service discovery.
-- HTTP health checks and [zero downtime deploys](https://render.com/docs/zero-downtime-deploys).
-- Free, unlimited [custom domains](https://render.com/docs/custom-domains) and [teams](https://render.com/docs/teams).
-- Persistent storage with [Render Disks](https://render.com/docs/disks).
-
-To deploy Shynet, click the `Deploy to Render` button and follow the steps below.
+[Render](https://render.com) is a modern cloud platform to build and run all your apps and websites with free SSL, a global CDN, private networks and auto deploys from Git. To deploy Shynet, click the `Deploy to Render` button and follow the steps below.
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/shynet)
 
