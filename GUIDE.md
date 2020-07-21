@@ -4,6 +4,7 @@
 
 - [Installation](#installation)
 - [Heroku](#heroku)
+- [Render](#render)
 - [Updating Your Configuration](#updating-your-configuration)
 - [Advanced Usage](#advanced-usage)
   * [Installation with SSL](#installation-with-ssl)
@@ -60,6 +61,20 @@ Once you deploy, you'll need to setup an admin user, whitelabel, and hostname be
 1. `heroku run --app=<your app> ./manage.py registeradmin <your email>`
 2. `heroku run --app=<your app> ./manage.py hostname <the hostname where you will run Shynet>`
 3. `heroku run --app=<your app> ./manage.py whitelabel "<your Shynet instance's name>"`
+
+## Render
+
+[Render](https://render.com) is a modern cloud platform to build and run all your apps and websites with free SSL, a global CDN, private networks and auto deploys from Git. To deploy Shynet, click the `Deploy to Render` button and follow the steps below.
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/shynet)
+
+Once your deploy has completed, use the **Render Shell** to configure your app:
+
+1. Set your email: `./manage.py registeradmin your-email@example.com`
+1. Add your onrender.com domain: `./manage.py hostname your-shynet-domain.onrender.com`
+1. Set your whitelabel: `./manage.py whitelabel "Your Shynet Instance Name"`
+
+See the [Render docs](https://render.com/docs/deploy-shynet) for more information on deploying your application on Render.
 
 ---
 
