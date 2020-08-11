@@ -18,19 +18,16 @@
 ---
 
 ## Staying Updated
+
 **If you install Shynet, you should strongly consider enabling notifications when new versions are released.** You can do this under the "Watch" tab on GitHub (above). This will ensure that you are notified when new versions are available, some of which may be security updates. (Shynet will never automatically update itself.)
 
 ## Installation
 
-Installation of Shynet is easy! Follow the [Basic Installation](#basic-installation) guide below if you'd like to run Shynet over HTTP or if you are going to be running it over HTTPS through a reverse proxy. If you'd like to run Shynet over HTTPS without a reverse proxy, skip ahead to [Installation with SSL](#installation-with-ssl) instead.
-
-
-If you're running this on a fresh server, or don't want to deal with too much configration right now, follow the [Quick Install](#quick-install) guide below. 
+Installation of Shynet is easy! Follow the [Basic Installation](#basic-installation) guide or the [Basic Installation with Docker Compose](#basic-installation-with-docker-compose) below for a minimal installation, or if you are going to be running Shynet over HTTPS through a reverse proxy. If you'd like to run Shynet over HTTPS without a reverse proxy, skip ahead to [Installation with SSL](#installation-with-ssl) instead.
 
 > **These commands assume Ubuntu.** If you're installing Shynet on a different platform, the process will be different.
 
 Before continuing, please be sure to have the latest version of Docker installed.
-
 
 ### Basic Installation
 
@@ -55,27 +52,25 @@ Before continuing, please be sure to have the latest version of Docker installed
 10. Finally, click on "Manage" in the top right of the service's page to get the tracking script code. Inject this script on all pages you'd like the service to track.
 
 
-### Quick Install
+### Basic Installation with Docker Compose
 
 > Make sure you have `docker-compose` installed. If not, [install it](https://docs.docker.com/compose/install/) 
 
 1. Clone the repository.
 
-2. Using [this file](/TEMPLATE.env) as a template, confiure the environment for your shynet instance, and place the modified config in a file called `.env` in the root of the repository. Do NOT change the port number at the end, you can set the public facing port in the next step. 
+2. Using [TEMPLATE.env](/TEMPLATE.env) as a template, confiure the environment for your Shynet instance and place the modified config in a file called `.env` in the root of the repository. Do _not_ change the port number at the end; you can set the public facing port in the next step. 
 
-3. Replace `example.com` with your hostname, on line 2 of the `nginx.conf` file located in the root of the repository. Also, in the `docker-compose.yml` file, set the port number by replacing `8080` in line 38 ( `- 8080:80` ) with whatever local port you want to bind it to. \
-e.g. Set it to `- 80:80` so that your site will be available at http://hostname.
+3. On line 2 of the `nginx.conf` file located in the root of the repository, replace `example.com` with your hostname. Then, in the `docker-compose.yml` file, set the port number by replacing `8080` in line 38 ( `- 8080:80` ) with whatever local port you want to bind it to. For example, set the port number to `- 80:80` if you want your site will be available via HTTP (port 80) at `http://<your hostname>`.
 
-4. Launch the Shynet server for the first time by running `docker-compose up -d`. \
-If you get an error like "permission denied" or "Couldn't connect to Docker daemon", either prefix the command with `sudo`, or add your user to the `docker` group.
+4. Launch the Shynet server for the first time by running `docker-compose up -d`. If you get an error like "permission denied" or "Couldn't connect to Docker daemon", either prefix the command with `sudo` or add your user to the `docker` group.
 
 5. Create an admin user by running `docker exec -it shynet_main ./manage.py registeradmin <your email>`. A temporary password will be printed to the console.
 
-6. Set the hostname of your Shynet instance by running `docker exec -it shynet_main ./manage.py hostname <your public hostname>`, where <your public hostname> is the same you set in Step 3. This setting affects the URL that the tracking script sends its results to, so make sure it's correct. (Example hostnames: shynet.example.com or example.com:8000.)
+6. Set the hostname of your Shynet instance by running `docker exec -it shynet_main ./manage.py hostname <your public hostname>`, where `<your public hostname>` is the same as the hostname you set in step 3. This setting affects the URL that the tracking script sends its results to, so make sure it's correct. (Example hostnames: shynet.example.com or example.com:8000.)
 
 7. Set the whitelabel of your Shynet instance by running `docker exec -it shynet_main ./manage.py whitelabel <whitelabel>`. While this setting doesn't affect any core operations of Shynet, it lets you rename Shynet to whatever you want. (Example whitelabels: "My Shynet Instance" or "Acme Analytics".)
 
-Your site should now be accessible at `http://hostname:port`. After this, you can follow steps 9-10 of the [Basic Installation](#basic-installation) guide below to get up and running. 
+Your site should now be accessible at `http://hostname:port`. Now you can follow steps 9-10 of the [Basic Installation](#basic-installation) guide above to get Shynet integrated on your sites.
 
 ## Heroku
 
