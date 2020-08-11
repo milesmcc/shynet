@@ -20,6 +20,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         site = Site.objects.get(pk=settings.SITE_ID)
         site.domain = options.get("hostname")
+        if options.get("hostname").lower().startswith("http"):
+            self.stdout.write(
+                self.style.WARNING(
+                    f"Warning: the hostname '{options.get('hostname')}' starts with `http`. You almost certainly don't want this. The hostname is supposed to be the raw domain name of your Shynet instance, without `http://` or `https://`. For example, if your Shynet instance will eventually be hosted at `https://analytics.example.com`, the hostname should be `analytics.example.com`."
+                )
+            )
         site.save()
         self.stdout.write(
             self.style.SUCCESS(
