@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
-from django.http import Http404, HttpResponse, HttpResponseBadRequest
+from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import render, reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
@@ -53,9 +53,14 @@ class ValidateServiceOriginsMixin:
 
             if origins != "*":
                 remote_origin = request.META.get("HTTP_ORIGIN")
-                origins = [origin.strip() for origin in origins.split(",")]
+                if remote_origin is None and request.META.get("HTTP_REFERER") is not None:
+                    parsed = urlparse(request.META.get("HTTP_REFERER"))
+                    remote_origin = f"{parsed.scheme}://{parsed.netloc}".lower()
+                origins = [origin.strip().lower() for origin in origins.split(",")]
                 if remote_origin in origins:
                     resp["Access-Control-Allow-Origin"] = remote_origin
+                else:
+                    return HttpResponseForbidden()
             else:
                 resp["Access-Control-Allow-Origin"] = "*"
 
