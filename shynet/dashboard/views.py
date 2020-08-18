@@ -139,6 +139,9 @@ class ServiceSessionView(LoginRequiredMixin, PermissionRequiredMixin, DetailView
     context_object_name = "session"
     permission_required = "core.view_service"
 
+    def get_permission_object(self, **kwargs):
+        return self.get_object().service
+
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data["object"] = get_object_or_404(Service, pk=self.kwargs.get("pk"))
