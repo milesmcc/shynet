@@ -279,7 +279,8 @@ else:
     EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 465))
     EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-    EMAIL_USE_SSL = True
+    EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL")
+    EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS")
 
 # NPM
 
