@@ -29,7 +29,7 @@ class DashboardView(LoginRequiredMixin, DateRangeMixin, TemplateView):
         data = super().get_context_data(**kwargs)
         data["services"] = Service.objects.filter(
             Q(owner=self.request.user) | Q(collaborators__in=[self.request.user])
-        )
+        ).distinct()
         for service in data["services"]:
             service.stats = service.get_core_stats(data["start_date"], data["end_date"])
         return data
