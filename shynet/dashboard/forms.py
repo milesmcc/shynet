@@ -60,6 +60,7 @@ class ServiceForm(forms.ModelForm):
 
     def clean_collaborators(self):
         collaborators = []
+        users_to_emails = {} # maps users to the email they are listed under as a collaborator
         for collaborator_email in self.cleaned_data["collaborators"].split(","):
             email = collaborator_email.strip()
             if email == "":
@@ -69,6 +70,10 @@ class ServiceForm(forms.ModelForm):
             ).first()
             if collaborator_email_linked is None:
                 raise forms.ValidationError(f"Email '{email}' is not registered")
+            user = collaborator_email_linked.user
+            if user in collaborators:
+                raise forms.ValidationError(f"The emails '{email}' and '{users_to_emails[user]}' both correspond to the same user")
+            users_to_emails[user] = email
             collaborators.append(collaborator_email_linked.user)
         return collaborators
 
