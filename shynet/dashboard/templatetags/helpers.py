@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 
+import os
 import flag
 import pycountry
 from django import template
@@ -84,7 +85,8 @@ def percent_change_display(start, end):
 
 @register.inclusion_tag("dashboard/includes/sidebar_footer.html")
 def sidebar_footer():
-    return {"version": settings.VERSION}
+    return {"version": "" if settings.SHOW_SHYNET_VERSION
+            else settings.VERSION}
 
 
 @register.inclusion_tag("dashboard/includes/stat_comparison.html")

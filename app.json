@@ -1,13 +1,13 @@
 {
   "name": "Shynet",
-  "description":"Modern, privacy-friendly, and detailed web analytics that works without cookies or JS.",
-    "keywords":[
-      "app.json",
-      "shynet",
-      "heroku",
-      "analytics",
-      "privacy",
-      "friendly"
+  "description": "Modern, privacy-friendly, and detailed web analytics that works without cookies or JS.",
+  "keywords": [
+    "app.json",
+    "shynet",
+    "heroku",
+    "analytics",
+    "privacy",
+    "friendly"
   ],
   "website": "https://github.com/milesmcc/shynet",
   "repository": "https://github.com/milesmcc/shynet",
@@ -115,6 +115,11 @@
     },
     "PERFORM_CHECKS_AND_SETUP": {
       "description": "Whether to perform checks and setup at startup. Recommended value is 'True' for Heroku users.",
+      "value": "True",
+      "required": false
+    },
+    "SHOW_SHYNET_VERSION": {
+      "description": "Set to 'False' if you do not want the version to be displayed on the frontend.",
       "value": "True",
       "required": false
     }

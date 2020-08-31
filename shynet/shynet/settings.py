@@ -315,3 +315,6 @@ SCRIPT_HEARTBEAT_FREQUENCY = int(os.getenv("SCRIPT_HEARTBEAT_FREQUENCY", "5000")
 # How much time can elapse between requests from the same user before a new
 # session is created, in seconds?
 SESSION_MEMORY_TIMEOUT = int(os.getenv("SESSION_MEMORY_TIMEOUT", "1800"))
+
+# Should the Shynet version information be displayed?
+SHOW_SHYNET_VERSION = os.getenv("SHOW_SHYNET_VERSION", "True") == "True"
