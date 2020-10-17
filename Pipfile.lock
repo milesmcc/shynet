@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f9ab7bf92fe2342e3d221ab34ac957bf217638062da0554b2328502650515741"
+            "sha256": "73fbc4a0251ccae805550aa48b70ec9f668bee6fa4ff9503e023b3854a06bce8"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -103,11 +103,10 @@
         },
         "django-redis-cache": {
             "hashes": [
-                "sha256:9b2c45a1bc0f295bccd56c2542d937665ae98f3325f20b3d82fc620e14395d52",
-                "sha256:e72691539be99c0b2dd64ac380e26f4d2be5c53c1b2d26845dd279ae38b47477"
+                "sha256:9a2eebef421d996a82098a19d17ff6b321265cd73178fa398913019764e8394a"
             ],
             "index": "pypi",
-            "version": "==2.1.3"
+            "version": "==3.0.0"
         },
         "emoji-country-flag": {
             "hashes": [
@@ -273,13 +272,6 @@
             ],
             "index": "pypi",
             "version": "==2.2"
-        },
-        "six": {
-            "hashes": [
-                "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259",
-                "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"
-            ],
-            "version": "==1.15.0"
         },
         "sqlparse": {
             "hashes": [
