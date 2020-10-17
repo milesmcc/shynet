@@ -3,9 +3,6 @@ name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
-[pipenv]
-allow_prereleases = true
-
 [packages]
 django = "~=3.0"
 django-allauth = "~=0.42.0"
@@ -26,6 +23,3 @@ pycountry = "~=19.8.18"
 html2text = "~=2020.1.16"
 django-health-check = "~=3.12.1"
 django-npm = "~=1.0.0"
-
-[dev-packages]
-black = "*"
