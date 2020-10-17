@@ -84,8 +84,8 @@ def percent_change_display(start, end):
 
 @register.inclusion_tag("dashboard/includes/sidebar_footer.html")
 def sidebar_footer():
-    return {"version": "" if settings.SHOW_SHYNET_VERSION
-            else settings.VERSION}
+    return {"version": settings.VERSION if settings.SHOW_SHYNET_VERSION
+            else ""}
 
 
 @register.inclusion_tag("dashboard/includes/stat_comparison.html")
