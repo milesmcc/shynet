@@ -9,7 +9,6 @@ from celery import shared_task
 from django.conf import settings
 from django.core.cache import cache
 from django.db.models import Q
-from django.utils import timezone
 
 from core.models import Service
 
@@ -123,6 +122,8 @@ def ingress_request(
                 browser=ua.browser.family or "",
                 device=ua.device.family or ua.device.model or "",
                 device_type=device_type,
+                start_time=time,
+                last_seen=time,
                 os=ua.os.family or "",
                 asn=ip_data.get("asn") or "",
                 country=ip_data.get("country") or "",
@@ -139,7 +140,7 @@ def ingress_request(
             log.debug("Updating old session with new data...")
 
             # Update last seen time
-            session.last_seen = timezone.now()
+            session.last_seen = time
             if session.identifier == "" and identifier.strip() != "":
                 session.identifier = identifier.strip()
             session.save()
@@ -160,7 +161,7 @@ def ingress_request(
                     # this is a heartbeat.
                     log.debug("Hit is a heartbeat; updating old hit with new data...")
                     hit.heartbeats += 1
-                    hit.last_seen = timezone.now()
+                    hit.last_seen = time
                     hit.save()
 
         if hit is None:
@@ -176,6 +177,8 @@ def ingress_request(
                 location=payload.get("location", location),
                 referrer=payload.get("referrer", ""),
                 load_time=payload.get("loadTime"),
+                start_time=time,
+                last_seen=time,
             )
             # Set idempotency (if applicable)
             if idempotency is not None:

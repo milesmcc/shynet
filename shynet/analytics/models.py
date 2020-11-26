@@ -20,8 +20,8 @@ class Session(models.Model):
     identifier = models.TextField(blank=True, db_index=True)
 
     # Time
-    start_time = models.DateTimeField(auto_now_add=True, db_index=True)
-    last_seen = models.DateTimeField(auto_now_add=True)
+    start_time = models.DateTimeField(default=timezone.now, db_index=True)
+    last_seen = models.DateTimeField(default=timezone.now)
 
     # Core request information
     user_agent = models.TextField()
@@ -78,8 +78,8 @@ class Hit(models.Model):
     initial = models.BooleanField(default=True, db_index=True)
 
     # Base request information
-    start_time = models.DateTimeField(auto_now_add=True, db_index=True)
-    last_seen = models.DateTimeField(auto_now_add=True)
+    start_time = models.DateTimeField(default=timezone.now, db_index=True)
+    last_seen = models.DateTimeField(default=timezone.now)
     heartbeats = models.IntegerField(default=0)
     tracker = models.TextField(
         choices=[("JS", "JavaScript"), ("PIXEL", "Pixel (noscript)")]
