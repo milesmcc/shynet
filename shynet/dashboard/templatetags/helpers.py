@@ -129,6 +129,24 @@ def iconify(text):
         "firefox": "firefox.com",
         "opera": "opera.com",
         "unknown": "example.com",
+        "linux": "kernel.org",
+        "ios": "www.apple.com",
+        "mac": "www.apple.com",
+        "macos": "www.apple.com",
+        "mac os x": "www.apple.com",
+        "android": "android.com",
+        "chrome os": "chrome.com",
+        "ubuntu": "ubuntu.com",
+        "fedora": "getfedora.org",
+        "mobile safari": "www.apple.com",
+        "chrome mobile ios": "chrome.com",
+        "chrome mobile": "chrome.com",
+        "samsung internet": "samsung.com",
+        "google": "google.com",
+        "chrome mobile webview": "chrome.com",
+        "firefox mobile": "firefox.com",
+        "edge mobile": "microsoft.com",
+        "chromium": "chromium.org"
     }
 
     domain = None
