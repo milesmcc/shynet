@@ -84,8 +84,7 @@ def percent_change_display(start, end):
 
 @register.inclusion_tag("dashboard/includes/sidebar_footer.html")
 def sidebar_footer():
-    return {"version": settings.VERSION if settings.SHOW_SHYNET_VERSION
-            else ""}
+    return {"version": settings.VERSION if settings.SHOW_SHYNET_VERSION else ""}
 
 
 @register.inclusion_tag("dashboard/includes/stat_comparison.html")
@@ -117,11 +116,41 @@ def startswith(text, starts):
 
 
 @register.filter
+def iconify(text):
+    if not settings.SHOW_THIRD_PARTY_ICONS:
+        return ""
+
+    text = text.lower()
+    icons = {
+        "chrome": "chrome.com",
+        "safari": "www.apple.com",
+        "windows": "windows.com",
+        "edge": "microsoft.com",
+        "firefox": "firefox.com",
+        "opera": "opera.com",
+        "unknown": "example.com",
+    }
+
+    domain = None
+    if text.startswith("http"):
+        domain = urlparse(text).netloc
+    elif text in icons:
+        domain = icons[text]
+    else:
+        # This fallback works better than you'd think!
+        domain = text + ".com"
+
+    return SafeString(
+        f'<span class="icon mr-1"><img src="https://icons.duckduckgo.com/ip3/{domain}.ico"></span>'
+    )
+
+
+@register.filter
 def urldisplay(url):
     if url.startswith("http"):
         display_url = url.replace("http://", "").replace("https://", "")
         return SafeString(
-            f"<a href='{url}' title='{url}' rel='nofollow'>{escape(display_url if len(display_url) < 40 else display_url[:40] + '...')}</a>"
+            f"<a href='{url}' title='{url}' rel='nofollow' class='flex items-center'>{iconify(url)} {escape(display_url if len(display_url) < 40 else display_url[:40] + '...')}</a>"
         )
     else:
         return url

@@ -17,18 +17,18 @@
         <p class="label text-gray-400">Sessions</p>
         <p class="heading">
             {{stats.session_count|intcomma}}
-            <div>
-                {% compare stats.compare.session_count stats.session_count "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
-            </div>
+        <div>
+            {% compare stats.compare.session_count stats.session_count "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+        </div>
         </p>
     </article>
     <article class="">
         <p class="label text-gray-400">Hits</p>
         <p class="heading">
             {{stats.hit_count|intcomma}}
-            <div>
-                {% compare stats.compare.hit_count stats.hit_count "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
-            </div>
+        <div>
+            {% compare stats.compare.hit_count stats.hit_count "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+        </div>
         </p>
     </article>
     <article class="">
@@ -39,9 +39,9 @@
             {% else %}
             ?
             {% endif %}
-            <div>
-                {% compare stats.compare.avg_load_time stats.avg_load_time "DOWN" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
-            </div>
+        <div>
+            {% compare stats.compare.avg_load_time stats.avg_load_time "DOWN" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+        </div>
         </p>
     </article>
     <article class="">
@@ -52,9 +52,9 @@
             {% else %}
             ?
             {% endif %}
-            <div>
-                {% compare stats.compare.bounce_rate_pct stats.bounce_rate_pct "DOWN" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
-            </div>
+        <div>
+            {% compare stats.compare.bounce_rate_pct stats.bounce_rate_pct "DOWN" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+        </div>
         </p>
     </article>
     <article class="">
@@ -65,9 +65,9 @@
             {% else %}
             ?
             {% endif %}
-            <div>
-                {% compare stats.compare.avg_session_duration stats.avg_session_duration "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
-            </div>
+        <div>
+            {% compare stats.compare.avg_session_duration stats.avg_session_duration "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+        </div>
         </p>
     </article>
     <article class="">
@@ -78,9 +78,9 @@
             {% else %}
             ?
             {% endif %}
-            <div>
-                {% compare stats.compare.avg_hits_per_session stats.avg_hits_per_session "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
-            </div>
+        <div>
+            {% compare stats.compare.avg_hits_per_session stats.avg_hits_per_session "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+        </div>
         </p>
     </article>
     {% endwith %}
@@ -166,7 +166,7 @@
             <tbody>
                 {% for os in stats.operating_systems %}
                 <tr>
-                    <td>{{os.os|default:"Unknown"}}</td>
+                    <td class="flex items-center">{{os.os|iconify}}<span>{{os.os|default:"Unknown"}}</span></td>
                     <td class="rf">{{os.count|intcomma}}</td>
                 </tr>
                 {% empty %}
@@ -188,7 +188,8 @@
             <tbody>
                 {% for browser in stats.browsers %}
                 <tr>
-                    <td>{{browser.browser|default:"Unknown"}}</td>
+                    <td class="flex items-center">
+                        {{browser.browser|iconify}}<span>{{browser.browser|default:"Unknown"}}</span></td>
                     <td class="rf">{{browser.count|intcomma}}</td>
                 </tr>
                 {% empty %}
@@ -225,7 +226,8 @@
 <div class="card ~neutral !low limited-height py-2">
     {% include 'dashboard/includes/session_list.html' %}
     <hr class="sep h-8">
-    <a href="{% url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">View more sessions
+    <a href="{% url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">View more
+        sessions
         &rarr;</a>
 </div>
 {% endblock %}

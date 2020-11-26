@@ -8,6 +8,7 @@
 <div class="md:flex justify-between items-center" id="heading">
     <a class="flex items-center mb-4 md:mb-0" href="{% url 'dashboard:service' object.uuid %}">
         <h3 class="heading leading-none mr-4">
+            {{object.link|iconify}}
             {{object.name}}
         </h3>
         <div class='text-3xl'>
