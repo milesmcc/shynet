@@ -6,7 +6,7 @@
         <div class="flex items-center mb-4 md:mb-0">
             <h3 class="heading text-xl md:text-2xl mr-2 mb-1 text-urge-600 flex items-center">
                 {{object.link|iconify}}
-                {{object.name}}
+                <span>{{object.name}}</span>
             </h3>
             {% include 'dashboard/includes/stats_status_chip.html' %}
         </div>
