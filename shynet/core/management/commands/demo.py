@@ -37,7 +37,7 @@ REFERRERS = [
     "",
     "",
     "",
-    ""
+    "",
 ]
 
 USER_AGENTS = [
@@ -45,7 +45,7 @@ USER_AGENTS = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/43.4",
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
     "Mozilla/5.0 (iPhone; CPU iPhone OS 11_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko)",
-    "Version/10.0 Mobile/14E304 Safari/602.1"
+    "Version/10.0 Mobile/14E304 Safari/602.1",
 ]
 
 
@@ -70,7 +70,9 @@ class Command(BaseCommand):
         owner = User.objects.get(email=options.get("owner_email"))
         service = Service.objects.create(name=options.get("name"), owner=owner)
 
-        print(f"Created demo service `{service.name}` (uuid: `{service.uuid}`, owner: {owner})")
+        print(
+            f"Created demo service `{service.name}` (uuid: `{service.uuid}`, owner: {owner})"
+        )
 
         # Go through each day requested, creating sessions and hits
         for days in range(options.get("days")):
@@ -78,12 +80,13 @@ class Command(BaseCommand):
             print(f"Populating info for {day}...")
             avg = options.get("avg")
             deviation = options.get("deviation")
-            ips = [".".join(map(str, (random.randint(0, 255) for _ in range(4)))) for _ in range(avg)]
+            ips = [
+                ".".join(map(str, (random.randint(0, 255) for _ in range(4))))
+                for _ in range(avg)
+            ]
 
             n = avg + random.randrange(-1 * deviation * avg, deviation * avg)
-            for _ in range(
-                n
-            ):
+            for _ in range(n):
                 time = day + timedelta(
                     hours=random.randrange(0, 23),
                     minutes=random.randrange(0, 59),
@@ -92,14 +95,20 @@ class Command(BaseCommand):
                 ip = random.choice(ips)
                 load_time = random.normalvariate(options.get("load_time"), 500)
                 referrer = random.choice(REFERRERS)
-                location = "https://example.com" + random.choice(LOCATIONS).replace("{rand}", str(random.randint(0, n)))
+                location = "https://example.com" + random.choice(LOCATIONS).replace(
+                    "{rand}", str(random.randint(0, n))
+                )
                 user_agent = random.choice(USER_AGENTS)
-                ingress_request(service.uuid, "JS", time, {"loadTime": load_time, "referrer": referrer}, ip, location, user_agent)
+                ingress_request(
+                    service.uuid,
+                    "JS",
+                    time,
+                    {"loadTime": load_time, "referrer": referrer},
+                    ip,
+                    location,
+                    user_agent,
+                )
 
             print(f"Created {n} demo hits on {day}!")
 
-        self.stdout.write(
-            self.style.SUCCESS(
-                f"Successfully created demo data!"
-            )
-        )
+        self.stdout.write(self.style.SUCCESS(f"Successfully created demo data!"))

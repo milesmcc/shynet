@@ -18,7 +18,7 @@ class ServiceForm(forms.ModelForm):
             "hide_referrer_regex",
             "origins",
             "collaborators",
-            "script_inject"
+            "script_inject",
         ]
         widgets = {
             "name": forms.TextInput(),
@@ -28,7 +28,7 @@ class ServiceForm(forms.ModelForm):
             "collect_ips": forms.RadioSelect(choices=[(True, "Yes"), (False, "No")]),
             "ignore_robots": forms.RadioSelect(choices=[(True, "Yes"), (False, "No")]),
             "hide_referrer_regex": forms.TextInput(),
-            "script_inject": forms.Textarea(attrs={'class':'font-mono', 'rows': 5})
+            "script_inject": forms.Textarea(attrs={"class": "font-mono", "rows": 5}),
         }
         labels = {
             "origins": "Allowed origins",
@@ -60,7 +60,9 @@ class ServiceForm(forms.ModelForm):
 
     def clean_collaborators(self):
         collaborators = []
-        users_to_emails = {} # maps users to the email they are listed under as a collaborator
+        users_to_emails = (
+            {}
+        )  # maps users to the email they are listed under as a collaborator
         for collaborator_email in self.cleaned_data["collaborators"].split(","):
             email = collaborator_email.strip()
             if email == "":
@@ -72,7 +74,9 @@ class ServiceForm(forms.ModelForm):
                 raise forms.ValidationError(f"Email '{email}' is not registered")
             user = collaborator_email_linked.user
             if user in collaborators:
-                raise forms.ValidationError(f"The emails '{email}' and '{users_to_emails[user]}' both correspond to the same user")
+                raise forms.ValidationError(
+                    f"The emails '{email}' and '{users_to_emails[user]}' both correspond to the same user"
+                )
             users_to_emails[user] = email
             collaborators.append(collaborator_email_linked.user)
         return collaborators

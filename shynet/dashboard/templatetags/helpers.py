@@ -146,7 +146,7 @@ def iconify(text):
         "chrome mobile webview": "chrome.com",
         "firefox mobile": "firefox.com",
         "edge mobile": "microsoft.com",
-        "chromium": "chromium.org"
+        "chromium": "chromium.org",
     }
 
     domain = None

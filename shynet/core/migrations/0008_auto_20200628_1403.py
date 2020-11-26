@@ -6,18 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0007_service_ignore_robots'),
+        ("core", "0007_service_ignore_robots"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='service',
-            name='script_inject',
-            field=models.TextField(blank=True, default=''),
+            model_name="service",
+            name="script_inject",
+            field=models.TextField(blank=True, default=""),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='first_name',
-            field=models.CharField(blank=True, max_length=150, verbose_name='first name'),
+            model_name="user",
+            name="first_name",
+            field=models.CharField(
+                blank=True, max_length=150, verbose_name="first name"
+            ),
         ),
     ]
