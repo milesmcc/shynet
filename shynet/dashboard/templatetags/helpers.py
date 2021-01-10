@@ -73,7 +73,7 @@ def percent_change_display(start, end):
     elif start == 0:
         pct_change = "0%"
     else:
-        change = int(round(100 * abs(end - start) / start))
+        change = int(round(100 * abs(end - start) / max(start, 1)))
         if change > 999:
             return "> 999%"
         else:
