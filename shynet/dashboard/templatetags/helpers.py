@@ -61,25 +61,28 @@ def relative_stat_tone(
 
 @register.simple_tag
 def percent_change_display(start, end):
-    if start == None or end == None:
-        return SafeString("&Delta; n/a")
-    if start == end:
-        direction = "&Delta; "
-    else:
-        direction = "&uarr; " if end > start else "&darr; "
-
-    if start == 0 and end != 0:
-        pct_change = "100%"
-    elif start == 0:
-        pct_change = "0%"
-    else:
-        change = int(round(100 * abs(end - start) / max(start, 1)))
-        if change > 999:
-            return "> 999%"
+    try:
+        if start == None or end == None:
+            return SafeString("&Delta; n/a")
+        if start == end:
+            direction = "&Delta; "
         else:
-            pct_change = str(change) + "%"
+            direction = "&uarr; " if end > start else "&darr; "
 
-    return SafeString(direction + pct_change)
+        if start == 0 and end != 0:
+            pct_change = "100%"
+        elif start == 0:
+            pct_change = "0%"
+        else:
+            change = int(round(100 * abs(end - start) / max(start, 1)))
+            if change > 999:
+                return "> 999%"
+            else:
+                pct_change = str(change) + "%"
+
+        return SafeString(direction + pct_change)
+    except: # TODO: filter for specific issues
+        return SafeString("&Delta; ?")
 
 
 @register.inclusion_tag("dashboard/includes/sidebar_footer.html")
