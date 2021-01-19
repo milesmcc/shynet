@@ -321,3 +321,6 @@ SHOW_SHYNET_VERSION = os.getenv("SHOW_SHYNET_VERSION", "True") == "True"
 
 # Should Shynet show third-party icons in the dashboard?
 SHOW_THIRD_PARTY_ICONS = os.getenv("SHOW_THIRD_PARTY_ICONS", "True") == "True"
+
+# Should Shynet never collect any IP?
+BLOCK_ALL_IPS = os.getenv("BLOCK_ALL_IPS", "False") == "True"
