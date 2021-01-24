@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: "shynet-webserver"
-        image: "milesmcc/shynet:latest"
+        image: "milesmcc/shynet:dev"
         imagePullPolicy: Always
         envFrom:
         - secretRef:
@@ -42,7 +42,7 @@ spec:
     spec:
       containers:
       - name: "shynet-celeryworker"
-        image: "milesmcc/shynet:latest"
+        image: "milesmcc/shynet:dev"
         command: ["./celeryworker.sh"]
         imagePullPolicy: Always
         envFrom:
