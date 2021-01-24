@@ -100,7 +100,7 @@ def compare(
 ):
     if isinstance(start, timedelta):
         start = start.seconds
-    
+
     if isinstance(end, timedelta):
         end = end.seconds
 

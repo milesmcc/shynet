@@ -58,7 +58,9 @@ class Session(models.Model):
 
     @property
     def is_currently_active(self):
-        return timezone.now() - self.last_seen < timezone.timedelta(milliseconds=settings.SCRIPT_HEARTBEAT_FREQUENCY * 2)
+        return timezone.now() - self.last_seen < timezone.timedelta(
+            milliseconds=settings.SCRIPT_HEARTBEAT_FREQUENCY * 2
+        )
 
     @property
     def duration(self):

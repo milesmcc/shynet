@@ -53,11 +53,13 @@ class ServiceForm(forms.ModelForm):
         }
 
     collect_ips = forms.BooleanField(
-        help_text="IP address collection is disabled globally by your administrator." if settings.BLOCK_ALL_IPS else "Should individual IP addresses be collected? IP metadata (location, host, etc) will still be collected.",
+        help_text="IP address collection is disabled globally by your administrator."
+        if settings.BLOCK_ALL_IPS
+        else "Should individual IP addresses be collected? IP metadata (location, host, etc) will still be collected.",
         widget=forms.RadioSelect(choices=[(True, "Yes"), (False, "No")]),
         initial=False if settings.BLOCK_ALL_IPS else True,
         required=False,
-        disabled=settings.BLOCK_ALL_IPS
+        disabled=settings.BLOCK_ALL_IPS,
     )
 
     def clean_collect_ips(self):

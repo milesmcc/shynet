@@ -80,7 +80,9 @@ def ingress_request(
         association_id_hash.update(str(user_agent).encode("utf-8"))
         if settings.AGGRESSIVE_HASH_SALTING:
             association_id_hash.update(str(service.pk).encode("utf-8"))
-            association_id_hash.update(str(timezone.now().date().isoformat()).encode("utf-8"))
+            association_id_hash.update(
+                str(timezone.now().date().isoformat()).encode("utf-8")
+            )
         session_cache_path = (
             f"session_association_{service.pk}_{association_id_hash.hexdigest()}"
         )
