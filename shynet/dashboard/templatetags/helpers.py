@@ -1,3 +1,4 @@
+from datetime import timedelta
 from urllib.parse import urlparse
 
 import flag
@@ -61,28 +62,25 @@ def relative_stat_tone(
 
 @register.simple_tag
 def percent_change_display(start, end):
-    try:
-        if start == None or end == None:
-            return SafeString("&Delta; n/a")
-        if start == end:
-            direction = "&Delta; "
-        else:
-            direction = "&uarr; " if end > start else "&darr; "
+    if start == None or end == None:
+        return SafeString("&Delta; n/a")
+    if start == end:
+        direction = "&Delta; "
+    else:
+        direction = "&uarr; " if end > start else "&darr; "
 
-        if start == 0 and end != 0:
-            pct_change = "100%"
-        elif start == 0:
-            pct_change = "0%"
+    if start == 0 and end != 0:
+        pct_change = "100%"
+    elif start == 0:
+        pct_change = "0%"
+    else:
+        change = int(round(100 * abs(end - start) / max(start, 1)))
+        if change > 999:
+            return "> 999%"
         else:
-            change = int(round(100 * abs(end - start) / max(start, 1)))
-            if change > 999:
-                return "> 999%"
-            else:
-                pct_change = str(change) + "%"
+            pct_change = str(change) + "%"
 
-        return SafeString(direction + pct_change)
-    except: # TODO: filter for specific issues
-        return SafeString("&Delta; ?")
+    return SafeString(direction + pct_change)
 
 
 @register.inclusion_tag("dashboard/includes/sidebar_footer.html")
@@ -100,6 +98,12 @@ def compare(
     bad_classes=None,
     neutral_classes=None,
 ):
+    if isinstance(start, timedelta):
+        start = start.seconds
+    
+    if isinstance(end, timedelta):
+        end = end.seconds
+
     return {
         "start": start,
         "end": end,
