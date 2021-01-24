@@ -139,3 +139,6 @@ secrets.yml
 .vscode
 .DS_Store
 compiledstatic/
+
+# Pycharm
+.idea
