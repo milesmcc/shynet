@@ -324,3 +324,6 @@ SHOW_THIRD_PARTY_ICONS = os.getenv("SHOW_THIRD_PARTY_ICONS", "True") == "True"
 
 # Should Shynet never collect any IP?
 BLOCK_ALL_IPS = os.getenv("BLOCK_ALL_IPS", "False") == "True"
+
+# Include date and service ID in salt?
+AGGRESSIVE_HASH_SALTING = os.getenv("AGGRESSIVE_HASH_SALTING", "False") == True

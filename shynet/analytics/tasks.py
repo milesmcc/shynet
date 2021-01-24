@@ -1,5 +1,4 @@
 import ipaddress
-import json
 import logging
 from hashlib import sha256
 
@@ -9,6 +8,7 @@ from celery import shared_task
 from django.conf import settings
 from django.core.cache import cache
 from django.db.models import Q
+from django.utils import timezone
 
 from core.models import Service
 
@@ -78,6 +78,9 @@ def ingress_request(
         association_id_hash = sha256()
         association_id_hash.update(str(ip).encode("utf-8"))
         association_id_hash.update(str(user_agent).encode("utf-8"))
+        if settings.AGGRESSIVE_HASH_SALTING:
+            association_id_hash.update(str(service.pk).encode("utf-8"))
+            association_id_hash.update(str(timezone.now().date().isoformat()).encode("utf-8"))
         session_cache_path = (
             f"session_association_{service.pk}_{association_id_hash.hexdigest()}"
         )
