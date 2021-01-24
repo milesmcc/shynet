@@ -1,6 +1,7 @@
 import json
 import uuid
 
+from django.conf import settings
 from django.db import models
 from django.shortcuts import reverse
 from django.utils import timezone
@@ -57,7 +58,7 @@ class Session(models.Model):
 
     @property
     def is_currently_active(self):
-        return timezone.now() - self.last_seen < timezone.timedelta(seconds=10)
+        return timezone.now() - self.last_seen < timezone.timedelta(milliseconds=settings.SCRIPT_HEARTBEAT_FREQUENCY * 2)
 
     @property
     def duration(self):
