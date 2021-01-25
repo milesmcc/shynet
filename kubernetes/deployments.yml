@@ -61,7 +61,7 @@ spec:
   selector:
     app: shynet-redis
 ---
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: shynet-redis
@@ -83,3 +83,37 @@ spec:
           ports:
             - containerPort: 6379
               name: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shynet-webserver-service  
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+  selector:
+    app: shynet-webserver
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: shynet-webserver-ingress
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: shynet.rmrm.io
+    http:
+      paths:
+      - backend:
+          serviceName: shynet-webserver-service
+          servicePort: 8080
+        path: /
+  - host: shynet-beta.rmrm.io
+    http:
+      paths:
+      - backend:
+          serviceName: shynet-webserver-service
+          servicePort: 8080
+        path: /
