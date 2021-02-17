@@ -15,7 +15,7 @@
     <div class="card ~neutral !high font-mono text-sm">
         {% filter force_escape %}<noscript><img
                 src="{{script_protocol}}{{request.site.domain}}{% url 'ingress:endpoint_pixel' object.uuid %}"></noscript>
-        <script src="{{script_protocol}}{{request.site.domain}}{% url 'ingress:endpoint_script' object.uuid %}"></script>
+        <script defer src="{{script_protocol}}{{request.site.domain}}{% url 'ingress:endpoint_script' object.uuid %}"></script>
         {% endfilter %}
     </div>
     <hr class="sep h-4">
