@@ -21,7 +21,6 @@
     "a17t": "^0.5.1",
     "apexcharts": "^3.24.0",
     "inter-ui": "^3.15.0",
-    "litepicker": "^1.5.7",
-    "turbolinks": "^5.2.0"
+    "litepicker": "^1.5.7"
   }
 }
