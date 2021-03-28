@@ -22,7 +22,7 @@ class Session(models.Model):
 
     # Time
     start_time = models.DateTimeField(default=timezone.now, db_index=True)
-    last_seen = models.DateTimeField(default=timezone.now)
+    last_seen = models.DateTimeField(default=timezone.now, db_index=True)
 
     # Core request information
     user_agent = models.TextField()
@@ -53,6 +53,7 @@ class Session(models.Model):
         ordering = ["-start_time"]
         indexes = [
             models.Index(fields=["service", "-start_time"]),
+            models.Index(fields=["service", "-last_seen"]),
             models.Index(fields=["service", "identifier"]),
         ]
 
