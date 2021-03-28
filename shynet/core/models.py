@@ -133,7 +133,7 @@ class Service(models.Model):
         )
         hit_count = hits.count()
 
-        bounces = sessions.annotate(hit_count=models.Count("hit")).filter(hit_count=1)
+        bounces = sessions.filter(is_bounce=True)
         bounce_count = bounces.count()
 
         locations = (

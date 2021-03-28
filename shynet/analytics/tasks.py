@@ -186,6 +186,10 @@ def ingress_request(
                 last_seen=time,
                 service=service
             )
+
+            # Recalculate whether the session is a bounce
+            session.recalculate_bounce()
+
             # Set idempotency (if applicable)
             if idempotency is not None:
                 cache.set(

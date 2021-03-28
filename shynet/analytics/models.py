@@ -49,6 +49,8 @@ class Session(models.Model):
     latitude = models.FloatField(null=True)
     time_zone = models.TextField(blank=True)
 
+    is_bounce = models.BooleanField(default=True, db_index=True)
+
     class Meta:
         ordering = ["-start_time"]
         indexes = [
@@ -75,6 +77,12 @@ class Session(models.Model):
             "dashboard:service_session",
             kwargs={"pk": self.service.pk, "session_pk": self.uuid},
         )
+
+    def recalculate_bounce(self):
+        bounce = self.hit_set.count() == 1
+        if bounce != self.is_bounce:
+            self.is_bounce = bounce
+            self.save()
 
 
 class Hit(models.Model):
