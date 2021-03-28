@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "debug_toolbar"
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,7 @@ MIDDLEWARE = [
     "django.contrib.sites.middleware.CurrentSiteMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "shynet.urls"
@@ -246,6 +248,10 @@ ACCOUNT_EMAIL_VERIFICATION = os.getenv("ACCOUNT_EMAIL_VERIFICATION", "none")
 LOGIN_REDIRECT_URL = "/"
 
 SITE_ID = 1
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 # Celery
 
