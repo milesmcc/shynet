@@ -83,7 +83,7 @@ class Hit(models.Model):
 
     # Base request information
     start_time = models.DateTimeField(default=timezone.now, db_index=True)
-    last_seen = models.DateTimeField(default=timezone.now)
+    last_seen = models.DateTimeField(default=timezone.now, db_index=True)
     heartbeats = models.IntegerField(default=0)
     tracker = models.TextField(
         choices=[("JS", "JavaScript"), ("PIXEL", "Pixel (noscript)")]
@@ -92,7 +92,7 @@ class Hit(models.Model):
     # Advanced page information
     location = models.TextField(blank=True, db_index=True)
     referrer = models.TextField(blank=True, db_index=True)
-    load_time = models.FloatField(null=True)
+    load_time = models.FloatField(null=True, db_index=True)
 
     class Meta:
         ordering = ["-start_time"]
