@@ -15,9 +15,9 @@ def pagination(
     before_current_pages=4,
     after_current_pages=4,
 ):
-    url_parameters = "".join(
+    url_parameters = urlencode(
         [
-            f"&{urlencode(key)}={urlencode(value)}"
+            (key, value)
             for key, value in request.GET.items()
             if key != "page"
         ]

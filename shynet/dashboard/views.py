@@ -22,16 +22,24 @@ from .forms import ServiceForm
 from .mixins import DateRangeMixin
 
 
-class DashboardView(LoginRequiredMixin, DateRangeMixin, TemplateView):
+class DashboardView(
+    LoginRequiredMixin, DateRangeMixin, ListView
+):
+    model = Service
     template_name = "dashboard/pages/dashboard.html"
+    paginate_by = 5
+
+    def get_queryset(self):
+        return Service.objects.filter(
+            Q(owner=self.request.user) | Q(collaborators__in=[self.request.user])
+        ).distinct()
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data["services"] = Service.objects.filter(
-            Q(owner=self.request.user) | Q(collaborators__in=[self.request.user])
-        ).distinct()
-        for service in data["services"]:
-            service.stats = service.get_core_stats(data["start_date"], data["end_date"])
+
+        for service in data["object_list"]:
+            service.stats = service.get_core_stats(self.get_start_date(), self.get_end_date())
+
         return data
 
 
