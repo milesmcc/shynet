@@ -94,10 +94,15 @@ class Hit(models.Model):
     referrer = models.TextField(blank=True, db_index=True)
     load_time = models.FloatField(null=True, db_index=True)
 
+    # While not necessary, we store the root service directly for performance.
+    # It makes querying much easier; no need for inner joins.
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, db_index=True)
+
     class Meta:
         ordering = ["-start_time"]
         indexes = [
             models.Index(fields=["session", "-start_time"]),
+            models.Index(fields=["service", "-start_time"]),
             models.Index(fields=["session", "location"]),
             models.Index(fields=["session", "referrer"]),
         ]
@@ -109,5 +114,5 @@ class Hit(models.Model):
     def get_absolute_url(self):
         return reverse(
             "dashboard:service_session",
-            kwargs={"pk": self.session.service.pk, "session_pk": self.session.pk},
+            kwargs={"pk": self.service.pk, "session_pk": self.session.pk},
         )

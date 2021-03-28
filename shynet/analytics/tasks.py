@@ -184,6 +184,7 @@ def ingress_request(
                 load_time=payload.get("loadTime"),
                 start_time=time,
                 last_seen=time,
+                service=service
             )
             # Set idempotency (if applicable)
             if idempotency is not None:
