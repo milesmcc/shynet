@@ -18,7 +18,7 @@ import urllib.parse as urlparse
 from django.contrib.messages import constants as messages
 
 # Increment on new releases
-VERSION = "v0.8.1"
+VERSION = "v0.8.2alpha"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
