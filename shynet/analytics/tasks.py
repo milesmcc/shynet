@@ -184,7 +184,7 @@ def ingress_request(
                 load_time=payload.get("loadTime"),
                 start_time=time,
                 last_seen=time,
-                service=service
+                service=service,
             )
 
             # Recalculate whether the session is a bounce

@@ -22,9 +22,7 @@ from .forms import ServiceForm
 from .mixins import DateRangeMixin
 
 
-class DashboardView(
-    LoginRequiredMixin, DateRangeMixin, ListView
-):
+class DashboardView(LoginRequiredMixin, DateRangeMixin, ListView):
     model = Service
     template_name = "dashboard/pages/dashboard.html"
     paginate_by = 5
@@ -38,7 +36,9 @@ class DashboardView(
         data = super().get_context_data(**kwargs)
 
         for service in data["object_list"]:
-            service.stats = service.get_core_stats(self.get_start_date(), self.get_end_date())
+            service.stats = service.get_core_stats(
+                self.get_start_date(), self.get_end_date()
+            )
 
         return data
 

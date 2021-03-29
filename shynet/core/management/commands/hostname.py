@@ -14,7 +14,8 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "hostname", type=str,
+            "hostname",
+            type=str,
         )
 
     def handle(self, *args, **options):

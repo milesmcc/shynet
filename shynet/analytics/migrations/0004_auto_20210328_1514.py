@@ -7,32 +7,40 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('analytics', '0003_auto_20200502_1227'),
+        ("analytics", "0003_auto_20200502_1227"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='hit',
-            name='last_seen',
+            model_name="hit",
+            name="last_seen",
             field=models.DateTimeField(default=django.utils.timezone.now),
         ),
         migrations.AlterField(
-            model_name='hit',
-            name='start_time',
-            field=models.DateTimeField(db_index=True, default=django.utils.timezone.now),
+            model_name="hit",
+            name="start_time",
+            field=models.DateTimeField(
+                db_index=True, default=django.utils.timezone.now
+            ),
         ),
         migrations.AlterField(
-            model_name='session',
-            name='last_seen',
-            field=models.DateTimeField(db_index=True, default=django.utils.timezone.now),
+            model_name="session",
+            name="last_seen",
+            field=models.DateTimeField(
+                db_index=True, default=django.utils.timezone.now
+            ),
         ),
         migrations.AlterField(
-            model_name='session',
-            name='start_time',
-            field=models.DateTimeField(db_index=True, default=django.utils.timezone.now),
+            model_name="session",
+            name="start_time",
+            field=models.DateTimeField(
+                db_index=True, default=django.utils.timezone.now
+            ),
         ),
         migrations.AddIndex(
-            model_name='session',
-            index=models.Index(fields=['service', '-last_seen'], name='analytics_s_service_10bb96_idx'),
+            model_name="session",
+            index=models.Index(
+                fields=["service", "-last_seen"], name="analytics_s_service_10bb96_idx"
+            ),
         ),
     ]

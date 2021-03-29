@@ -244,4 +244,7 @@ class Service(models.Model):
         }
 
     def get_absolute_url(self):
-        return reverse("dashboard:service", kwargs={"pk": self.pk},)
+        return reverse(
+            "dashboard:service",
+            kwargs={"pk": self.pk},
+        )

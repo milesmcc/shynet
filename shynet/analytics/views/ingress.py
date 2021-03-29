@@ -112,7 +112,9 @@ class ScriptView(ValidateServiceOriginsMixin, View):
         endpoint = (
             reverse(
                 "ingress:endpoint_script",
-                kwargs={"service_uuid": self.kwargs.get("service_uuid"),},
+                kwargs={
+                    "service_uuid": self.kwargs.get("service_uuid"),
+                },
             )
             if self.kwargs.get("identifier") == None
             else reverse(

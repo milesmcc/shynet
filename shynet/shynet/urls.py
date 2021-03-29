@@ -18,7 +18,7 @@ from django.urls import include, path
 import debug_toolbar
 
 urlpatterns = [
-    path('__debug__/', include(debug_toolbar.urls)),
+    path("__debug__/", include(debug_toolbar.urls)),
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("ingress/", include(("analytics.ingress_urls", "ingress")), name="ingress"),

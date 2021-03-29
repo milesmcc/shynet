@@ -5,19 +5,23 @@ from ..models import Session, Hit
 from django.db import migrations, models
 from django.db.models import Subquery, OuterRef
 
+
 def update_bounce_stats(_a, _b):
-    Session.objects.all().annotate(hit_count=models.Count("hit")).filter(hit_count__gt=1).update(is_bounce=False)
+    Session.objects.all().annotate(hit_count=models.Count("hit")).filter(
+        hit_count__gt=1
+    ).update(is_bounce=False)
+
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('analytics', '0007_auto_20210328_1634'),
+        ("analytics", "0007_auto_20210328_1634"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='session',
-            name='is_bounce',
+            model_name="session",
+            name="is_bounce",
             field=models.BooleanField(db_index=True, default=True),
         ),
         migrations.RunPython(update_bounce_stats, lambda: ()),

@@ -60,7 +60,9 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["-start_time"],},
+            options={
+                "ordering": ["-start_time"],
+            },
         ),
         migrations.CreateModel(
             name="Hit",
@@ -90,7 +92,9 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["-start_time"],},
+            options={
+                "ordering": ["-start_time"],
+            },
         ),
         migrations.AddIndex(
             model_name="session",

@@ -16,11 +16,7 @@ def pagination(
     after_current_pages=4,
 ):
     url_parameters = urlencode(
-        [
-            (key, value)
-            for key, value in request.GET.items()
-            if key != "page"
-        ]
+        [(key, value) for key, value in request.GET.items() if key != "page"]
     )
 
     before = max(page.number - before_current_pages - 1, 0)

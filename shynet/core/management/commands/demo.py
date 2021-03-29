@@ -54,15 +54,18 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "name", type=str,
+            "name",
+            type=str,
         )
         parser.add_argument("owner_email", type=str)
         parser.add_argument(
-            "avg", type=int,
+            "avg",
+            type=int,
         )
         parser.add_argument("deviation", type=float, default=0.4)
         parser.add_argument(
-            "days", type=int,
+            "days",
+            type=int,
         )
         parser.add_argument("load_time", type=float, default=1000)
 

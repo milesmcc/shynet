@@ -44,7 +44,12 @@ def country_name(isocode):
 
 @register.simple_tag
 def relative_stat_tone(
-    start, end, good="UP", good_classes=None, bad_classes=None, neutral_classes=None,
+    start,
+    end,
+    good="UP",
+    good_classes=None,
+    bad_classes=None,
+    neutral_classes=None,
 ):
     good_classes = good_classes or "~positive"
     bad_classes = bad_classes or "~critical"

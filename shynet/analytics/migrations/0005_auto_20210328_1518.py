@@ -7,18 +7,20 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('analytics', '0004_auto_20210328_1514'),
+        ("analytics", "0004_auto_20210328_1514"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='hit',
-            name='last_seen',
-            field=models.DateTimeField(db_index=True, default=django.utils.timezone.now),
+            model_name="hit",
+            name="last_seen",
+            field=models.DateTimeField(
+                db_index=True, default=django.utils.timezone.now
+            ),
         ),
         migrations.AlterField(
-            model_name='hit',
-            name='load_time',
+            model_name="hit",
+            name="load_time",
             field=models.FloatField(db_index=True, null=True),
         ),
     ]

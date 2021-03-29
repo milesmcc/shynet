@@ -5,34 +5,36 @@ from django.db import migrations, models
 import django.db.models.deletion
 from django.db.models import Subquery, OuterRef
 
-def add_service_to_hits(_a, _b):
-    service = Session.objects.filter(
-        pk=OuterRef('session')
-    ).values_list(
-        'service'
-    )[:1]
 
-    Hit.objects.update(
-        service=Subquery(service)
-    )
+def add_service_to_hits(_a, _b):
+    service = Session.objects.filter(pk=OuterRef("session")).values_list("service")[:1]
+
+    Hit.objects.update(service=Subquery(service))
+
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0008_auto_20200628_1403'),
-        ('analytics', '0005_auto_20210328_1518'),
+        ("core", "0008_auto_20200628_1403"),
+        ("analytics", "0005_auto_20210328_1518"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='hit',
-            name='service',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='core.service'),
+            model_name="hit",
+            name="service",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="core.service",
+            ),
         ),
         migrations.RunPython(add_service_to_hits, lambda: ()),
         migrations.AlterField(
-            model_name='hit',
-            name='service',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.service'),
+            model_name="hit",
+            name="service",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="core.service"
+            ),
         ),
     ]

@@ -14,7 +14,8 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "email", type=str,
+            "email",
+            type=str,
         )
 
     def handle(self, *args, **options):

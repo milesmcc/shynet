@@ -11,6 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelOptions(
-            name="service", options={"ordering": ["name", "uuid"]},
+            name="service",
+            options={"ordering": ["name", "uuid"]},
         ),
     ]
