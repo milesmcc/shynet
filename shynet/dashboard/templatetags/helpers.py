@@ -172,7 +172,7 @@ def iconify(text):
         domain = text + ".com"
 
     return SafeString(
-        f'<span class="icon mr-1"><img src="https://icons.duckduckgo.com/ip3/{domain}.ico"></span>'
+        f'<span class="icon mr-1" flex-none><img src="https://icons.duckduckgo.com/ip3/{domain}.ico"></span>'
     )
 
 
