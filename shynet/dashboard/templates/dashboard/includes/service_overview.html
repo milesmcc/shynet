@@ -3,14 +3,15 @@
 <a class="card ~neutral !low service mb-6 p-0" href="{% contextual_url 'dashboard:service' object.uuid %}">
     {% with stats=object.stats %}
     <div class="p-4 md:flex justify-between">
-        <div class="flex items-center mb-4 md:mb-0">
+        <div class="flex items-center mb-4 md:mb-0 md:flex-1 md:min-w-0">
+            <h3 class="heading text-xl md:text-2xl mr-2 mb-1 text-urge-600 flex items-center truncate">
             <h3 class="heading text-xl md:text-2xl mr-2 mb-1 text-urge-600 flex items-center">
                 {{object.link|iconify}}
                 <span>{{object.name}}</span>
             </h3>
             {% include 'dashboard/includes/stats_status_chip.html' %}
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-3 lg:gap-6 md:flex-none">
             <div>
                 <p>Sessions</p>
                 <p class="label">
