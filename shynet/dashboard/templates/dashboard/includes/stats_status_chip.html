@@ -2,7 +2,7 @@
 
 {% with stats=object.get_daily_stats %}
 {% if stats.currently_online > 0 %}
-<span class="chip ~positive !high">
+<span class="chip ~positive !high whitespace-nowrap">
     {{stats.currently_online|intcomma}} online
 </span>
 {% endif %}
