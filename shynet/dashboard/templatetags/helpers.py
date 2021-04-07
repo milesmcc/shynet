@@ -172,7 +172,7 @@ def iconify(text):
         domain = text + ".com"
 
     return SafeString(
-        f'<span class="icon mr-1"><img src="https://icons.duckduckgo.com/ip3/{domain}.ico"></span>'
+        f'<span class="icon mr-1 flex-none"><img src="https://icons.duckduckgo.com/ip3/{domain}.ico"></span>'
     )
 
 
@@ -181,7 +181,7 @@ def urldisplay(url):
     if url.startswith("http"):
         display_url = url.replace("http://", "").replace("https://", "")
         return SafeString(
-            f"<a href='{url}' title='{url}' rel='nofollow' class='flex items-center'>{iconify(url)} {escape(display_url if len(display_url) < 40 else display_url[:40] + '...')}</a>"
+            f"<a href='{url}' title='{url}' rel='nofollow' class='flex items-center mr-1'>{iconify(url)}<span class='truncate'>{escape(display_url)}</span></a>"
         )
     else:
         return url
