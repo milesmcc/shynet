@@ -93,10 +93,10 @@
     </article>
     {% endwith %}
 </div>
-{% endif %}
-<div class="card ~neutral !low py-0 mb-6">
+<div class="card overflow-visible ~neutral !low py-0 mb-6">
     {% include 'dashboard/includes/time_chart.html' with data=stats.session_chart_data %}
 </div>
+{% endif %}
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div class="card ~neutral !low limited-height py-2">
         <table class="table">
@@ -234,7 +234,7 @@
 </div>
 <div class="card ~neutral !low limited-height py-2">
     {% include 'dashboard/includes/session_list.html' %}
-    <hr class="sep h-8">
+    <hr class="sep h-8 md:h-12">
     <a href="{% contextual_url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">View more
         sessions
         &rarr;</a>

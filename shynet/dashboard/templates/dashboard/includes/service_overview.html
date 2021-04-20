@@ -1,13 +1,12 @@
 {% load humanize helpers %}
 
-<a class="card ~neutral !low service mb-6 p-0" href="{% contextual_url 'dashboard:service' object.uuid %}">
+<a class="card chart-card overflow-visible ~neutral !low service mb-6 p-0" href="{% contextual_url 'dashboard:service' object.uuid %}">
     {% with stats=object.stats %}
-    <div class="p-4 md:flex justify-between">
-        <div class="flex items-center mb-4 md:mb-0 md:flex-1 md:min-w-0">
-            <h3 class="heading text-xl md:text-2xl mr-2 mb-1 text-urge-600 flex items-center truncate">
-            <h3 class="heading text-xl md:text-2xl mr-2 mb-1 text-urge-600 flex items-center">
+    <div class="p-4 md:flex justify-between overflow-none">
+        <div class="flex items-center mb-4 md:mb-0 md:flex-1 md:min-w-0 truncate pr-0 md:pr-2">
+            <h3 class="heading text-xl md:text-2xl mr-2 mb-1 text-urge-600 flex items-center truncate" title="{{object.name}}">
                 {{object.link|iconify}}
-                <span>{{object.name}}</span>
+                <span class="truncate">{{object.name}}</span>
             </h3>
             {% include 'dashboard/includes/stats_status_chip.html' %}
         </div>

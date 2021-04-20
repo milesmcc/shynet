@@ -15,6 +15,10 @@
     text-align: right !important;
 }
 
+.chart-card .apexcharts-svg {
+    border-radius: 0 0 var(--border-radius-lg,.5rem) var(--border-radius-lg,.5rem);
+}
+
 :root {
     --color-neutral-000: white;
     --color-neutral-50: #F8FAFC;
