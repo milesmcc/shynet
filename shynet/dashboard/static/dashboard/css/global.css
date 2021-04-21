@@ -19,6 +19,10 @@
     border-radius: 0 0 var(--border-radius-lg,.5rem) var(--border-radius-lg,.5rem);
 }
 
+.max-w-0 {
+    max-width: 0;
+}
+
 :root {
     --color-neutral-000: white;
     --color-neutral-50: #F8FAFC;
