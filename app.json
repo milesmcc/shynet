@@ -122,6 +122,11 @@
       "description": "Set to 'False' if you do not want the version to be displayed on the frontend.",
       "value": "True",
       "required": false
+    },
+    "LOCATION_URL": {
+      "description": "Custom location url to link to in frontend.",
+      "value": "https://www.openstreetmap.org/?mlat=$LATITUDE$&mlon=$LONGITUDE$",
+      "required": false
     }
   }
 }

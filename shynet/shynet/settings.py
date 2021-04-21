@@ -339,3 +339,6 @@ BLOCK_ALL_IPS = os.getenv("BLOCK_ALL_IPS", "False") == "True"
 
 # Include date and service ID in salt?
 AGGRESSIVE_HASH_SALTING = os.getenv("AGGRESSIVE_HASH_SALTING", "False") == "True"
+
+# What location url should be linked to in the frontend?
+LOCATION_URL = os.getenv("LOCATION_URL", "https://www.openstreetmap.org/?mlat=$LATITUDE$&mlon=$LONGITUDE$")

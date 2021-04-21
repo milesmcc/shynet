@@ -51,7 +51,7 @@
             <p>Location</p>
             <p class="label">
                 {% if session.latitude %}
-                <a href="https://www.google.com/maps/search/?api=1&query={{session.latitude}},{{session.longitude}}">Open
+                <a href="{{session|locationUrl}}" target="_blank">Open
                     in Maps &nearr;</a>
                 {% else %}
                 Unknown
