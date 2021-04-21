@@ -72,7 +72,7 @@
         </div>
         <div class="md:flex card ~neutral !low flex-grow justify-between">
             <div class="mb-4 md:mb-0 md:w-1/2">
-                <p class="label font-medium text-lg">{{hit.location|default:"Unknown"|urlize}}</p>
+                <p class="label font-medium text-lg truncate">{{hit.location|default:"Unknown"|urlize}}</p>
                 {% if hit.referrer %}
                 <p>via {{hit.referrer|urlize}}<p>
                 {% endif %}
