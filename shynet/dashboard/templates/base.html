@@ -10,7 +10,10 @@
   {% include 'a17t/includes/head.html' %}
   <link rel="icon" type="image/png" href="{% static 'dashboard/images/icon.png' %}">
   <script src="{% static 'apexcharts/dist/apexcharts.min.js'%}"></script>
-  <script src="{% static 'litepicker/dist/js/main.js' %}"></script>
+  <script src="{% static 'litepicker/dist/nocss/litepicker.js' %}"></script>
+  <script src="{% static 'litepicker/dist/plugins/ranges.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'litepicker/dist/css/litepicker.css' %}">
+
   <script src="{% static 'dashboard/js/base.js' %}"></script>
   <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
   {% block extra_head %}
