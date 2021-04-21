@@ -16,7 +16,7 @@
 }
 
 .chart-card .apexcharts-svg {
-    border-radius: 0 0 var(--border-radius-lg,.5rem) var(--border-radius-lg,.5rem);
+    border-radius: 0 0 var(--border-radius-lg, 0.5rem) var(--border-radius-lg, 0.5rem);
 }
 
 .max-w-0 {
