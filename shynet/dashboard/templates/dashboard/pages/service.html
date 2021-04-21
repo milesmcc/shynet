@@ -153,7 +153,7 @@
             <tbody>
                 {% for country in stats.countries %}
                 <tr>
-                    <td>{{country.country|flag_emoji}} {{country.country|country_name}}</td>
+                    <td><span class="{{country.country|flag_class}}"></span></span>{{country.country|country_name}}</td>
                     <td class="rf">{{country.count|intcomma}}</td>
                 </tr>
                 {% empty %}

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f8c76565a776f1bd36364077a86d6c16fccc522d9d2024bb9b51be5cb9f8b4b5"
+            "sha256": "c51ea0205c9ffe753b9ef5249cd49c2338bb50768ae104113bfb7b97b5f9d70c"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -115,14 +115,6 @@
             ],
             "index": "pypi",
             "version": "==3.0.0"
-        },
-        "emoji-country-flag": {
-            "hashes": [
-                "sha256:338f5e374119dcde093cfeaa8ca3af372d4b8d984d89a7fb2fb0db0011662560",
-                "sha256:a3a068191294294143d8ef294fdfe9792c5c243753eac130798bf2fa5de38185"
-            ],
-            "index": "pypi",
-            "version": "==1.2.4"
         },
         "geoip2": {
             "hashes": [
