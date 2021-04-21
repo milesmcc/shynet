@@ -22,6 +22,6 @@
     "apexcharts": "^3.24.0",
     "flag-icon-css": "^3.5.0",
     "inter-ui": "^3.15.0",
-    "litepicker": "^1.5.7"
+    "litepicker": "^2.0.11"
   }
 }
