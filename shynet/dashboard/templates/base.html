@@ -62,7 +62,7 @@
 
         {% for service in user.collaborating_services.all %}
         {% contextual_url 'dashboard:service' service.uuid as url %}
-        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name|truncatechars:2 url=url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name url=url %}
         {% endfor %}
 
         <hr class="sep h-8">
