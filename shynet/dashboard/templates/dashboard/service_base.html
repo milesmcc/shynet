@@ -6,8 +6,8 @@
 
 {% block content %}
 <div class="md:flex justify-between items-center" id="heading">
-    <a class="flex items-center mb-4 md:mb-0 flex-1" href="{% contextual_url 'dashboard:service' object.uuid %}">
-        <h3 class="heading items-center mr-4 md:mr-2 flex flex-1 w-0">
+    <a class="flex items-center mb-4 md:mb-0 truncate" href="{% contextual_url 'dashboard:service' object.uuid %}">
+        <h3 class="heading items-center mr-4 md:mr-2 flex truncate">
             {{object.link|iconify}}
             <span class="flex-1 truncate ml-2" title="{{object.name}}">{{object.name}}</span>
         </h3>
