@@ -24,12 +24,12 @@
         maxDate: new Date(),
         startDate: Date.parse(document.getElementById("startDate").getAttribute("value")),
         endDate: Date.parse(document.getElementById("endDate").getAttribute("value")),
-        onSelect: function (startDate, endDate) {
-            document.getElementById("startDate").setAttribute("value", startDate.getFullYear() +
-                "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate());
-            document.getElementById("endDate").setAttribute("value", endDate.getFullYear() + "-" +
-                (endDate.getMonth() + 1) + "-" + endDate.getDate());
-            document.getElementById("datePicker").submit();
-        }
+    });
+    picker.on('selected', (startDate, endDate) => {
+        document.getElementById("startDate").setAttribute("value", startDate.getFullYear() +
+            "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate());
+        document.getElementById("endDate").setAttribute("value", endDate.getFullYear() + "-" +
+            (endDate.getMonth() + 1) + "-" + endDate.getDate());
+        document.getElementById("datePicker").submit();
     });
 </script>
