@@ -27,7 +27,7 @@
                 <span class="text-gray-600">&mdash;</span>
                 {% endif %}
             </td>
-            <td>{{session.country|flag_emoji}} {{session.asn|default:"Unknown"}}</td>
+            <td><span class="{{session.country|flag_class}}"></span>{{session.asn|default:"Unknown"}}</td>
             <td class="rf">{{session.duration|naturaldelta}}</td>
             <td class="rf">{{session.hit_set.count|intcomma}}</td>
         </tr>

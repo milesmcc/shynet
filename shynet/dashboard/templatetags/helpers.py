@@ -1,7 +1,6 @@
 from datetime import timedelta
 from urllib.parse import urlparse
 
-import flag
 import pycountry
 from django import template
 from django.conf import settings
@@ -27,11 +26,11 @@ def naturaldelta(timedelta):
 
 
 @register.filter
-def flag_emoji(isocode):
-    try:
-        return flag.flag(isocode)
-    except:
-        return ""
+def flag_class(isocode):
+    if isocode:
+        return "mr-1 flag-icon flag-icon-" + isocode.lower()
+    else:
+        return "hidden"
 
 
 @register.filter

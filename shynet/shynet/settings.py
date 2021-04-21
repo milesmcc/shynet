@@ -306,6 +306,7 @@ NPM_FILE_PATTERNS = {
     "stimulus": [os.path.join("dist", "stimulus.umd.js")],
     "inter-ui": [os.path.join("Inter (web)", "*")],
     "@fortawesome": [os.path.join("fontawesome-free", "js", "all.min.js")],
+    "flag-icon-css": [os.path.join("css", "flag-icon.min.css"), os.path.join("flags", "*")],
 }
 
 # Shynet
