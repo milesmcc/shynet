@@ -225,3 +225,6 @@ def contextual_url(*args, **kwargs):
     urlnode = url_tag(*args, **kwargs)
     return ContextualURLNode(urlnode)
     
+@register.filter
+def location_url(session):
+    return settings.LOCATION_URL.replace("$LATITUDE", str(session.latitude)).replace("$LONGITUDE", str(session.longitude))
