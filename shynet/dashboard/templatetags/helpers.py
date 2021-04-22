@@ -42,6 +42,14 @@ def country_name(isocode):
         return "Unknown"
 
 
+@register.filter
+def datamap_id(isocode):
+    try:
+        return pycountry.countries.get(alpha_2=isocode).alpha_3
+    except:
+        return "UNKNOWN"
+
+
 @register.simple_tag
 def relative_stat_tone(
     start,
