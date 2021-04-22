@@ -1,14 +1,11 @@
-import json
-
 from datetime import datetime, time
-from urllib.parse import urlparse
 
 from django.utils import timezone
 
 
 class DateRangeMixin:
     def get_start_date(self):
-        if self.request.GET.get("startDate") != None:
+        if self.request.GET.get("startDate") is not None:
             found_time = timezone.datetime.strptime(
                 self.request.GET.get("startDate"), "%Y-%m-%d"
             )
@@ -17,7 +14,7 @@ class DateRangeMixin:
             return timezone.now() - timezone.timedelta(days=30)
 
     def get_end_date(self):
-        if self.request.GET.get("endDate") != None:
+        if self.request.GET.get("endDate") is not None:
             found_time = timezone.datetime.strptime(
                 self.request.GET.get("endDate"), "%Y-%m-%d"
             )
