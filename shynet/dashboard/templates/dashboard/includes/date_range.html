@@ -24,6 +24,16 @@
         maxDate: new Date(),
         startDate: Date.parse(document.getElementById("startDate").getAttribute("value")),
         endDate: Date.parse(document.getElementById("endDate").getAttribute("value")),
+        ranges: {
+            customRanges: {
+                {% for date_range in date_ranges %}
+                    '{{ date_range.name }}': [
+                        new Date('{{ date_range.start.isoformat }}'),
+                        new Date('{{ date_range.end.isoformat }}')
+                    ],
+                {% endfor %}
+            }
+        }
     });
     picker.on('selected', (startDate, endDate) => {
         document.getElementById("startDate").setAttribute("value", startDate.getFullYear() +
