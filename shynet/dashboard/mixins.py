@@ -25,16 +25,10 @@ class DateRangeMixin:
     def get_date_ranges(self):
         now = timezone.now()
         return [
-            {'name': 'Today', 'start': now, 'end': now},
             {
                 'name': 'Yesterday',
                 'start': now - timezone.timedelta(days=1),
                 'end': now - timezone.timedelta(days=1),
-            },
-            {
-                'name': 'Last 7 days',
-                'start': now - timezone.timedelta(days=7),
-                'end': now,
             },
             {
                 'name': 'Last 30 days',
@@ -60,11 +54,6 @@ class DateRangeMixin:
                 'name': 'This year',
                 'start': now.replace(day=1, month=1),
                 'end': now,
-            },
-            {
-                'name': 'Last year',
-                'start': now.replace(day=1, month=1, year=now.year - 1),
-                'end': now.replace(day=1, month=1) - timezone.timedelta(days=1),
             },
         ]
 
