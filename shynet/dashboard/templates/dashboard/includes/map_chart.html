@@ -1,50 +1,60 @@
 {% load helpers %}
 
-<div id="map-chart" class="relative h-full w-full"></div>
+<div id="map-chart" class="relative w-full h-full"></div>
 <script>
+
+    // Colors
+    const lightBlue = "#8992ff";
+    const highlightBlue = "#3948ff";
+    const white = "#ffffff";
     
-    // Handle data
+    // Data maps
+    const countryMapData = {};
+    const countryMapColors = {};
     const countryMap = {
-        {% for country in stats.countries %}"{{country.country|datamap_id}}": {{country.count}},
+        {% for country in countries %}"{{country.country|safe|datamap_id}}": {{country.count}},
         {% endfor %}
     };
+
+    // Max session count will be full opacity
+    const maxSessionCount = Math.max(...Object.values(countryMap));
+
+    // Color scale starts from opacity 0.1 - 1.0, 0 sessions gets opacity 0
+    const minPercentage = 0.1
+
+    // Loop over country map and transform data for Datamaps use
     const keys = Object.keys(countryMap);
     const length = keys.length;
-    const countryMapMapData = {}
-    const countryMapColors = {}
-    const max = Math.max(...Object.values(countryMap));
-    const minPercentage = 0.2
-
     for (let i = 0; i < length; i++) {
-        countryMapMapData[keys[i]] = {
-            sessionCount: countryMap[keys[i]]
-        }
-        countryMapColors[keys[i]] = `rgba(78,66,255, ${countryMap[keys[i]] === 0 ? 0 : minPercentage + (countryMap[keys[i]] / max * (1 - minPercentage))})`
+        countryMapData[keys[i]] = {
+            sessionCount: countryMap[keys[i]],
+            color: `rgba(78,66,255, ${countryMap[keys[i]] === 0 ? 0 : minPercentage + (countryMap[keys[i]] / maxSessionCount * (1 - minPercentage))})`
+        };
+        countryMapColors[keys[i]] = countryMapData[keys[i]].color;
     }
 
-    // Map
+    // Create datamap
     const map = new Datamap({
         element: document.getElementById('map-chart'),
         projection: 'mercator',
+        responsive: true,
         geographyConfig: {
-            borderColor: "#8992ff",
-            highlightBorderColor: '#3948ff',
-            highlightFillColor: '#3948ff',
-            popupTemplate: function(geography, data) {
-                return '<div class="hoverinfo"><strong>' + geography.properties.name + '</strong>: ' +  data.sessionCount + ' sessions</div>'
-            }
+            borderColor: lightBlue,
+            highlightBorderColor: highlightBlue,
+            highlightBorderWidth: 1.5,
+            highlightFillColor: (geography) => geography.color || white,
+            highlightFillOpacity: 0.9,
+            popupTemplate: (geography, data) => '<div class="hoverinfo"><strong>' + geography.properties.name + '</strong>: ' +  data.sessionCount + ' sessions</div>'
+    
         },
         fills: {
-            defaultFill: '#ffffff'
+            defaultFill: white
         },
-        data: countryMapMapData,
-        responsive: true
+        data: countryMapData,
+        aspectRatio: 0.68
     });
+    map.updateChoropleth(countryMapColors);
     
-    map.updateChoropleth(countryMapColors)
+    // Handle resize TODO: debounce?
     window.onresize = () => map.resize();
-
-    console.log(countryMap, countryMapMapData, countryMapColors)
-    console.log(map)
-    
 </script>

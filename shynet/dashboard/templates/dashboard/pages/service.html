@@ -223,8 +223,9 @@
         </table>
     </div>
 </div>
-<div class="card ~neutral !low mb-6 overflow-visible" style="padding: 0; padding-bottom: 56.25%; height: 0;">
-    {% include 'dashboard/includes/map_chart.html' %}
+<div class="card ~neutral !low p-0 mb-6 overflow-visible">
+    <p class="text-sm font-semibold mx-4 p-2 pt-4" style="border-bottom-width: 1px;">GeoIP Map</p>
+    {% include 'dashboard/includes/map_chart.html' with countries=stats.countries %}
 </div>
 <div class="card ~neutral !low limited-height py-2">
     {% include 'dashboard/includes/session_list.html' %}
