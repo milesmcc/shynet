@@ -4,6 +4,7 @@ import re
 import uuid
 
 from django.apps import apps
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -11,6 +12,11 @@ from django.db.models.functions import TruncDate
 from django.db.utils import NotSupportedError
 from django.shortcuts import reverse
 from django.utils import timezone
+
+
+ACTIVE_USER_TIMEDELTA = timezone.timedelta(
+    milliseconds=settings.SCRIPT_HEARTBEAT_FREQUENCY * 2
+)
 
 
 def _default_uuid():
@@ -120,7 +126,7 @@ class Service(models.Model):
         Hit = apps.get_model("analytics", "Hit")
 
         currently_online = Session.objects.filter(
-            service=self, last_seen__gt=timezone.now() - timezone.timedelta(seconds=10)
+            service=self, last_seen__gt=timezone.now() - ACTIVE_USER_TIMEDELTA
         ).count()
 
         sessions = Session.objects.filter(
