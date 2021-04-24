@@ -21,9 +21,11 @@
 {% for object in object_list|dictsortreversed:"stats.session_count" %}
 {% include 'dashboard/includes/service_overview.html' %}
 {% empty %}
-<p>You don't have any services on {{request.site.name|default:"Shynet"}} yet.</p>
+<p class="aside ~urge !high">You don't have any services yet. {% if can_create %}Get started by <a href="{% url 'dashboard:service_create' %}" class="underline">creating one</a>.{% endif %}</p>
 {% endfor %}
 
+{% if object_list %}
 {% pagination page_obj request %}
+{% endif %}
 
 {% endblock %}
