@@ -132,6 +132,10 @@ class Service(models.Model):
             service=self, start_time__lt=end_time, start_time__gt=start_time
         )
         hit_count = hits.count()
+        hits = Hit.objects.filter(
+            service=self
+        )
+        has_hits = hits.exists()
 
         bounces = sessions.filter(is_bounce=True)
         bounce_count = bounces.count()
@@ -218,6 +222,7 @@ class Service(models.Model):
             "currently_online": currently_online,
             "session_count": session_count,
             "hit_count": hit_count,
+            "has_hits": has_hits,
             "avg_hits_per_session": hit_count / (max(session_count, 1)),
             "bounce_rate_pct": bounce_count * 100 / session_count
             if session_count > 0

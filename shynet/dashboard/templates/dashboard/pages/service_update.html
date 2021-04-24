@@ -12,12 +12,7 @@
 <div class="max-w-xl content">
     <h5>Installation</h5>
     <p>Place the following snippet at the end of the <code>&lt;body&gt;</code> tag on any page you'd like to track.</p>
-    <div class="card ~neutral !high font-mono text-sm">
-        {% filter force_escape %}<noscript><img
-                src="{{script_protocol}}{{request.site.domain}}{% url 'ingress:endpoint_pixel' object.uuid %}"></noscript>
-        <script defer src="{{script_protocol}}{{request.site.domain}}{% url 'ingress:endpoint_script' object.uuid %}"></script>
-        {% endfilter %}
-    </div>
+    {% include 'dashboard/includes/service_snippet.html' %}
     <hr class="sep h-4">
     <h5>Settings</h5>
     <form class="card ~neutral !low p-0" method="POST">
