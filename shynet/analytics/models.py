@@ -1,12 +1,10 @@
-import json
 import uuid
 
-from django.conf import settings
 from django.db import models
 from django.shortcuts import reverse
 from django.utils import timezone
 
-from core.models import Service
+from core.models import Service, ACTIVE_USER_TIMEDELTA
 
 
 def _default_uuid():
@@ -61,9 +59,7 @@ class Session(models.Model):
 
     @property
     def is_currently_active(self):
-        return timezone.now() - self.last_seen < timezone.timedelta(
-            milliseconds=settings.SCRIPT_HEARTBEAT_FREQUENCY * 2
-        )
+        return timezone.now() - self.last_seen < ACTIVE_USER_TIMEDELTA
 
     @property
     def duration(self):
