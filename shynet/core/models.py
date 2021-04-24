@@ -132,10 +132,8 @@ class Service(models.Model):
             service=self, start_time__lt=end_time, start_time__gt=start_time
         )
         hit_count = hits.count()
-        hits = Hit.objects.filter(
-            service=self
-        )
-        has_hits = hits.exists()
+
+        has_hits = Hit.objects.filter(service=self).exists()
 
         bounces = sessions.filter(is_bounce=True)
         bounce_count = bounces.count()
