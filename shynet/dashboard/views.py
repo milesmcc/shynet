@@ -66,6 +66,7 @@ class ServiceView(
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
+        data["script_protocol"] = "https://" if settings.SCRIPT_USE_HTTPS else "http://"
         data["stats"] = self.object.get_core_stats(data["start_date"], data["end_date"])
         data["object_list"] = Session.objects.filter(
             service=self.get_object(),

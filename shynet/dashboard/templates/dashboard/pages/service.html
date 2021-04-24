@@ -13,15 +13,12 @@
 {% block service_content %}
 {% if not stats.has_hits %}
 <div class="content mb-6">
-    <h5>Get started</h5>
     <p>
-        It seems that you have not recorded any data yet!
-        <br>
-        Get started by placing the following snippet at the end of the <code>&lt;body&gt;</code> tag on any page you'd like to track.
+        This service hasn't collected any data yet. To get started, place the following code snippet at the end of the <code>&lt;body&gt;</code> tag on any page you'd like to track.
     </p>
     {% include 'dashboard/includes/service_snippet.html' %}
 </div>
-{% endif %}
+{% else %}
 <div class="grid grid-cols-2 gap-6 md:flex justify-between mb-6 card ~neutral !high px-6" id="stats">
     {% with classes="text-sm font-semibold" good_classes="text-positive-400" bad_classes="text-critical-400" neutral_classes="text-gray-400" %}
     <article class="">
@@ -96,6 +93,7 @@
     </article>
     {% endwith %}
 </div>
+{% endif %}
 <div class="card ~neutral !low py-0 mb-6">
     {% include 'dashboard/includes/time_chart.html' with data=stats.session_chart_data %}
 </div>
