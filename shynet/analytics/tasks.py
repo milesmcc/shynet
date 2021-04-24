@@ -39,6 +39,9 @@ def _geoip2_lookup(ip):
         }
     except geoip2.errors.AddressNotFoundError:
         return {}
+    except FileNotFoundError as e:
+        log.exception("Unable to perform GeoIP lookup: %s", e)
+        return {}
 
 
 @shared_task
@@ -58,6 +61,7 @@ def ingress_request(
         log.debug(f"Linked to service {service}")
 
         if dnt and service.respect_dnt:
+            log.debug("Ignoring because of DNT")
             return
 
         try:
@@ -67,6 +71,7 @@ def ingress_request(
                     ignored_network.version == remote_ip.version
                     and ignored_network.supernet_of(remote_ip)
                 ):
+                    log.debug("Ignoring because of ignored IP")
                     return
         except ValueError as e:
             log.exception(e)
@@ -197,4 +202,5 @@ def ingress_request(
                 )
     except Exception as e:
         log.exception(e)
+        print(e)
         raise e
