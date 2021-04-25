@@ -6,6 +6,9 @@
         },
         tooltip: {
             shared: false,
+            x: {
+                format: '{{tooltip_format|default:"MMM d"}}',
+            },
         },
         colors: ["#805AD5"],
         chart: {
@@ -63,6 +66,9 @@
         },
         xaxis: {
             type: "datetime",
+            labels: {
+                datetimeUTC: false
+            },
         },
         stroke: {
             width: 1.5,

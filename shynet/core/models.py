@@ -7,7 +7,7 @@ from django.apps import apps
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models.functions import TruncDate
+from django.db.models.functions import TruncDate, TruncHour
 from django.db.utils import NotSupportedError
 from django.shortcuts import reverse
 from django.utils import timezone
@@ -119,8 +119,10 @@ class Service(models.Model):
         Session = apps.get_model("analytics", "Session")
         Hit = apps.get_model("analytics", "Hit")
 
+        tz_now = timezone.now()
+
         currently_online = Session.objects.filter(
-            service=self, last_seen__gt=timezone.now() - timezone.timedelta(seconds=10)
+            service=self, last_seen__gt=tz_now - timezone.timedelta(seconds=10)
         ).count()
 
         sessions = Session.objects.filter(
@@ -202,17 +204,32 @@ class Service(models.Model):
         if session_count == 0:
             avg_session_duration = None
 
-        session_chart_data = {
-            k["date"]: k["count"]
-            for k in sessions.annotate(date=TruncDate("start_time"))
-            .values("date")
-            .annotate(count=models.Count("uuid"))
-            .order_by("date")
-        }
-        for day_offset in range((end_time - start_time).days + 1):
-            day = (start_time + timezone.timedelta(days=day_offset)).date()
-            if day not in session_chart_data:
-                session_chart_data[day] = 0
+        if end_time.day == start_time.day:
+            session_chart_tooltip_format = "MM/dd HH:mm"
+            session_chart_data = {
+                k["hour"]: k["count"]
+                for k in sessions.annotate(hour=TruncHour("start_time"))
+                .values("hour")
+                .annotate(count=models.Count("uuid"))
+                .order_by("hour")
+            }
+            for hour_offset in range(int((end_time - start_time).seconds / 3600) + 1):
+                hour = (start_time + timezone.timedelta(hours=hour_offset))
+                if hour not in session_chart_data:
+                    session_chart_data[hour] = 0 if hour < tz_now else None
+        else:
+            session_chart_tooltip_format = "MMM d"
+            session_chart_data = {
+                k["date"]: k["count"]
+                for k in sessions.annotate(date=TruncDate("start_time"))
+                .values("date")
+                .annotate(count=models.Count("uuid"))
+                .order_by("date")
+            }
+            for day_offset in range((end_time - start_time).days + 1):
+                day = (start_time + timezone.timedelta(days=day_offset)).date()
+                if day not in session_chart_data:
+                    session_chart_data[day] = 0 if day < tz_now.date() else None
 
         return {
             "currently_online": currently_online,
@@ -240,6 +257,7 @@ class Service(models.Model):
                     )
                 ]
             ),
+            "session_chart_tooltip_format": session_chart_tooltip_format,
             "online": True,
         }
 

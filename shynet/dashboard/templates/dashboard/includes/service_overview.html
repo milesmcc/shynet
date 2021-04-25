@@ -51,7 +51,7 @@
     </div>
     <hr class="sep h-4">
     <div style="bottom: -1px;">
-        {% include 'dashboard/includes/time_chart.html' with data=stats.session_chart_data sparkline=True height=100 name=object.uuid %}
+        {% include 'dashboard/includes/time_chart.html' with data=stats.session_chart_data sparkline=True height=100 name=object.uuid tooltip_format=stats.session_chart_tooltip_format %}
     </div>
     {% endwith %}
 </a>
