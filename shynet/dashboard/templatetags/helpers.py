@@ -186,5 +186,5 @@ def urldisplay(url):
         return url
 
 @register.filter
-def locationUrl(session):
+def location_url(session):
     return settings.LOCATION_URL.replace("$LATITUDE$", str(session.latitude)).replace("$LONGITUDE$", str(session.longitude))
