@@ -27,12 +27,12 @@ var Shynet = {
         true
       );
       xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.onload(function () { 
+      xhr.onload = function () { 
         Shynet.skipHeartbeat = false;
-      });
-      xhr.onerror(function () { 
+      };
+      xhr.onerror = function () { 
         Shynet.skipHeartbeat = false;
-      });
+      };
       xhr.send(
         JSON.stringify({
           idempotency: Shynet.idempotency,
@@ -43,7 +43,7 @@ var Shynet = {
             window.performance.timing.navigationStart,
         })
       );
-    } catch (e) { }
+    } catch (e) {}
   },
   newPageLoad: function () {
     if (Shynet.heartbeatTaskId != null) {
