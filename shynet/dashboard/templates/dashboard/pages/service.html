@@ -94,7 +94,7 @@
     {% endwith %}
 </div>
 <div class="card overflow-visible ~neutral !low py-0 mb-6">
-    {% include 'dashboard/includes/time_chart.html' with data=stats.session_chart_data %}
+    {% include 'dashboard/includes/time_chart.html' with data=stats.session_chart_data tooltip_format=stats.session_chart_tooltip_format granularity=stats.session_chart_granularity click_zoom=True %}
 </div>
 {% endif %}
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
