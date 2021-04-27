@@ -205,7 +205,7 @@ class Service(models.Model):
             avg_session_duration = None
 
         # Show hourly chart for date ranges of 3 days or less, otherwise daily chart
-        if end_time.day <= start_time.day + 2:
+        if (end_time - start_time).days <= 3:
             session_chart_tooltip_format = "MM/dd HH:mm"
             session_chart_data = {
                 k["hour"]: k["count"]
