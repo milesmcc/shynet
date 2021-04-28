@@ -205,7 +205,7 @@ class Service(models.Model):
             avg_session_duration = None
 
         # Show hourly chart for date ranges of 3 days or less, otherwise daily chart
-        if (end_time - start_time).days <= 3:
+        if (end_time - start_time).days < 3:
             session_chart_tooltip_format = "MM/dd HH:mm"
             session_chart_data = {
                 k["hour"]: k["count"]
@@ -214,10 +214,10 @@ class Service(models.Model):
                 .annotate(count=models.Count("uuid"))
                 .order_by("hour")
             }
-            for hour_offset in range(int((end_time - start_time).seconds / 3600) + 1):
+            for hour_offset in range(int((end_time - start_time).total_seconds() / 3600) + 1):
                 hour = (start_time + timezone.timedelta(hours=hour_offset))
                 if hour not in session_chart_data:
-                    session_chart_data[hour] = 0 if hour < tz_now else None
+                    session_chart_data[hour] = 0 if hour <= tz_now else None
         else:
             session_chart_tooltip_format = "MMM d"
             session_chart_data = {
@@ -230,7 +230,7 @@ class Service(models.Model):
             for day_offset in range((end_time - start_time).days + 1):
                 day = (start_time + timezone.timedelta(days=day_offset)).date()
                 if day not in session_chart_data:
-                    session_chart_data[day] = 0 if day < tz_now.date() else None
+                    session_chart_data[day] = 0 if day <= tz_now.date() else None
 
         return {
             "currently_online": currently_online,
