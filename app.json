@@ -125,7 +125,7 @@
     },
     "LOCATION_URL": {
       "description": "Custom location url to link to in frontend.",
-      "value": "https://www.openstreetmap.org/?mlat=$LATITUDE$&mlon=$LONGITUDE$",
+      "value": "https://www.openstreetmap.org/?mlat=$LATITUDE&mlon=$LONGITUDE",
       "required": false
     }
   }
