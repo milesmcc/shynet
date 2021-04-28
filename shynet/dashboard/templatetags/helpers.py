@@ -184,3 +184,8 @@ def urldisplay(url):
         )
     else:
         return url
+
+
+@register.filter
+def percent(value, total):
+    return value / total * 100
