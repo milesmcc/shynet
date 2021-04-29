@@ -188,5 +188,9 @@ def urldisplay(url):
 
 @register.filter
 def percent(value, total):
+    if total == 0:
+        return "N/A"
+
     percent = value / total
+
     return f'{percent:.1%}'
