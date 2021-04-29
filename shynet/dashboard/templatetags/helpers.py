@@ -188,4 +188,5 @@ def urldisplay(url):
 
 @register.filter
 def percent(value, total):
-    return value / total * 100
+    percent = value / total
+    return f'{percent:.1%}'
