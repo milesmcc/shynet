@@ -193,4 +193,7 @@ def percent(value, total):
 
     percent = value / total
 
+    if percent < 0.001:
+        return "<0.1%"
+
     return f'{percent:.1%}'
