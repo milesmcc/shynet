@@ -347,3 +347,6 @@ AGGRESSIVE_HASH_SALTING = os.getenv("AGGRESSIVE_HASH_SALTING", "False") == "True
 
 # What location url should be linked to in the frontend?
 LOCATION_URL = os.getenv("LOCATION_URL", "https://www.openstreetmap.org/?mlat=$LATITUDE&mlon=$LONGITUDE")
+
+# How many services should be displayed on dashboard page?
+DASHBOARD_PAGE_SIZE = int(os.getenv("DASHBOARD_PAGE_SIZE", "5"))
