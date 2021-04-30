@@ -145,7 +145,14 @@
                 {% for country in stats.countries %}
                 <tr>
                     <td>{{country.country|flag_emoji}} {{country.country|country_name}}</td>
-                    <td class="rf">{{country.count|intcomma}}</td>
+                    <td class="rf">
+                        <div class="flex justify-end items-center">
+                            {{country.count|intcomma}}
+                            <div class="text-xs" style="min-width: 48px">
+                                ({{country.count|percent:stats.session_count}})
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
