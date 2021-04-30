@@ -25,7 +25,7 @@ from .mixins import DateRangeMixin
 class DashboardView(LoginRequiredMixin, DateRangeMixin, ListView):
     model = Service
     template_name = "dashboard/pages/dashboard.html"
-    paginate_by = 5
+    paginate_by = settings.DASHBOARD_PAGE_SIZE
 
     def get_queryset(self):
         return Service.objects.filter(

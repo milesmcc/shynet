@@ -339,3 +339,5 @@ BLOCK_ALL_IPS = os.getenv("BLOCK_ALL_IPS", "False") == "True"
 
 # Include date and service ID in salt?
 AGGRESSIVE_HASH_SALTING = os.getenv("AGGRESSIVE_HASH_SALTING", "False") == "True"
+
+DASHBOARD_PAGE_SIZE = os.getenv("DASHBOARD_PAGE_SIZE", 5)
