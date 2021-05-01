@@ -207,6 +207,7 @@ class Service(models.Model):
         # Show hourly chart for date ranges of 3 days or less, otherwise daily chart
         if (end_time - start_time).days < 3:
             session_chart_tooltip_format = "MM/dd HH:mm"
+            session_chart_granularity = "hourly"
             session_chart_data = {
                 k["hour"]: k["count"]
                 for k in sessions.annotate(hour=TruncHour("start_time"))
@@ -220,6 +221,7 @@ class Service(models.Model):
                     session_chart_data[hour] = 0 if hour <= tz_now else None
         else:
             session_chart_tooltip_format = "MMM d"
+            session_chart_granularity = "daily"
             session_chart_data = {
                 k["date"]: k["count"]
                 for k in sessions.annotate(date=TruncDate("start_time"))
@@ -259,6 +261,7 @@ class Service(models.Model):
                 ]
             ),
             "session_chart_tooltip_format": session_chart_tooltip_format,
+            "session_chart_granularity": session_chart_granularity,
             "online": True,
         }
 

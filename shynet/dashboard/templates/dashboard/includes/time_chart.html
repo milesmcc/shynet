@@ -37,6 +37,14 @@
                     stops: [0, 75, 100]
                 },
             },
+            {% if granularity == "daily" and click_zoom %}
+            events: {
+                markerClick: function(event, chartContext, { seriesIndex, dataPointIndex, w: {config}}) {
+                    const day = config.series[seriesIndex].data[dataPointIndex].x
+                    window.location.href = `?startDate=${day}&endDate=${day}`
+                },
+            },
+            {% endif %}
         },
         grid: {
             padding: {
