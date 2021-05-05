@@ -26,9 +26,9 @@ class DateRangeMixin:
         now = timezone.now()
         return [
             {
-                'name': 'Yesterday',
-                'start': now - timezone.timedelta(days=1),
-                'end': now - timezone.timedelta(days=1),
+                'name': 'Last 3 days',
+                'start': now - timezone.timedelta(days=2),
+                'end': now,
             },
             {
                 'name': 'Last 30 days',
