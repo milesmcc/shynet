@@ -32,12 +32,12 @@ class DateRangeMixin:
             },
             {
                 'name': 'Last 30 days',
-                'start': now - timezone.timedelta(days=30),
+                'start': now - timezone.timedelta(days=29),
                 'end': now,
             },
             {
                 'name': 'Last 90 days',
-                'start': now - timezone.timedelta(days=90),
+                'start': now - timezone.timedelta(days=89),
                 'end': now,
             },
             {
