@@ -184,3 +184,7 @@ def urldisplay(url):
         )
     else:
         return url
+
+@register.filter
+def add_string(arg1, arg2):
+    return f"{str(arg1)}{str(arg2)}"

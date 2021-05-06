@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="md:flex justify-between items-center" id="heading">
-    <a class="flex items-center mb-4 md:mb-0" href="{% url 'dashboard:service' object.uuid %}">
+    <a class="flex items-center mb-4 md:mb-0" href="{% url 'dashboard:service' object.uuid %}{{date_query_params}}">
         <h3 class="heading leading-none mr-4">
             {{object.link|iconify}}
             {{object.name}}
