@@ -12,7 +12,7 @@
         {% for session in object_list %}
         <tr>
             <td>
-                <a href="{% url 'dashboard:service_session' object.pk session.pk %}"
+                <a href="{% url 'dashboard:service_session' object.pk session.pk %}{{date_query_params}}"
                     class="font-medium text-urge-700">
                     {{session.start_time|date:"M j Y, g:i a"|capfirst}}
                     {% if session.is_currently_active %}

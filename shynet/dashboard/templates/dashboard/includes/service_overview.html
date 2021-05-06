@@ -1,6 +1,6 @@
 {% load humanize helpers %}
 
-<a class="card ~neutral !low service mb-6 p-0" href="{% url 'dashboard:service' object.uuid %}">
+<a class="card ~neutral !low service mb-6 p-0" href="{% url 'dashboard:service' object.uuid %}{{date_query_params}}">
     {% with stats=object.stats %}
     <div class="p-4 md:flex justify-between">
         <div class="flex items-center mb-4 md:mb-0">
