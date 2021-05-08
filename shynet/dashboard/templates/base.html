@@ -42,7 +42,9 @@
 
         {% for service in user.owning_services.all %}
         {% url 'dashboard:service' service.uuid as url %}
-        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name|truncatechars:16 url=url icon=service.link|iconify %}
+        {% with url_full=date_query_params|default:''|prepend_string:url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name|truncatechars:16 url=url_full icon=service.link|iconify %}
+        {% endwith %}
         {% endfor %}
 
         {% endif %}

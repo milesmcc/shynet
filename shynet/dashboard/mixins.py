@@ -25,7 +25,6 @@ class DateRangeMixin:
         else:
             return timezone.now()
 
-
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data["start_date"] = self.get_start_date()
