@@ -100,8 +100,28 @@
             <tbody>
                 {% for location in stats.locations %}
                 <tr>
-                    <td>{{location.location|default:"Unknown"|urldisplay}}</td>
-                    <td class="rf">{{location.count|intcomma}}</td>
+                    <td colspan="2">
+                        <div class="flex flex-col">
+                            <div class="flex justify-between">
+                                <div class="flex items-center">
+                                    {{location.location|default:"Unknown"|urldisplay}}
+                                </div>
+                                <span>
+                                    {{location.count|intcomma}}
+                                </span>
+                            </div>
+                            <progress
+                                class="progress ~urge h-1 opacity-75"
+                                value="{{location.count|divide:stats.hit_count}}"
+                                max="1"
+                            >
+                                {{location.count|percent:stats.hit_count}}
+                            </progress>
+                            <div class="text-xs" style="min-width: 48px">
+                                {{location.count|percent:stats.hit_count}}
+                            </div>
+                        <div>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -122,12 +142,28 @@
             <tbody>
                 {% for referrer in stats.referrers %}
                 <tr>
-                    <td>{{referrer.referrer|default:"Direct"|urldisplay}}</td>
-                    <td class="rf">{{referrer.count|intcomma}}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td><span class="text-gray-600">No data yet...</span></td>
+                    <td colspan="2">
+                        <div class="flex flex-col">
+                            <div class="flex justify-between">
+                                <div class="flex items-center">
+                                    {{referrer.referrer|default:"Direct"|urldisplay}}
+                                </div>
+                                <span>
+                                    {{referrer.count|intcomma}}
+                                </span>
+                            </div>
+                            <progress
+                                class="progress ~urge h-1 opacity-75"
+                                value="{{referrer.count|divide:stats.session_count}}"
+                                max="1"
+                            >
+                                {{referrer.count|percent:stats.session_count}}
+                            </progress>
+                            <div class="text-xs" style="min-width: 48px">
+                                {{referrer.count|percent:stats.session_count}}
+                            </div>
+                        <div>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -144,14 +180,27 @@
             <tbody>
                 {% for country in stats.countries %}
                 <tr>
-                    <td>{{country.country|flag_emoji}} {{country.country|country_name}}</td>
-                    <td class="rf">
-                        <div class="flex justify-end items-center">
-                            {{country.count|intcomma}}
-                            <div class="text-xs" style="min-width: 48px">
-                                ({{country.count|percent:stats.session_count}})
+                    <td colspan="2">
+                        <div class="flex flex-col">
+                            <div class="flex justify-between">
+                                <div class="flex items-center">
+                                    {{country.country|flag_emoji}} {{country.country|country_name}}
+                                </div>
+                                <span>
+                                    {{country.count|intcomma}}
+                                </span>
                             </div>
-                        </div>
+                            <progress
+                                class="progress ~urge h-1 opacity-75"
+                                value="{{country.count|divide:stats.session_count}}"
+                                max="1"
+                            >
+                                {{country.count|percent:stats.session_count}}
+                            </progress>
+                            <div class="text-xs" style="min-width: 48px">
+                                {{country.count|percent:stats.session_count}}
+                            </div>
+                        <div>
                     </td>
                 </tr>
                 {% empty %}
@@ -173,14 +222,27 @@
             <tbody>
                 {% for os in stats.operating_systems %}
                 <tr>
-                    <td class="flex items-center">{{os.os|iconify}}<span>{{os.os|default:"Unknown"}}</span></td>
-                    <td class="rf">
-                        <div class="flex justify-end items-center">
-                            {{os.count|intcomma}}
-                            <div class="text-xs" style="min-width: 48px">
-                                ({{os.count|percent:stats.session_count}})
+                    <td colspan="2">
+                        <div class="flex flex-col">
+                            <div class="flex justify-between">
+                                <div class="flex items-center">
+                                    {{os.os|iconify}}<span>{{os.os|default:"Unknown"}}
+                                </div>
+                                <span>
+                                    {{os.count|intcomma}}
+                                </span>
                             </div>
-                        </div>
+                            <progress
+                                class="progress ~urge h-1 opacity-75"
+                                value="{{os.count|divide:stats.session_count}}"
+                                max="1"
+                            >
+                                {{os.count|percent:stats.session_count}}
+                            </progress>
+                            <div class="text-xs" style="min-width: 48px">
+                                {{os.count|percent:stats.session_count}}
+                            </div>
+                        <div>
                     </td>
                 </tr>
                 {% empty %}
@@ -202,15 +264,27 @@
             <tbody>
                 {% for browser in stats.browsers %}
                 <tr>
-                    <td class="flex items-center">
-                        {{browser.browser|iconify}}<span>{{browser.browser|default:"Unknown"}}</span></td>
-                    <td class="rf">
-                        <div class="flex justify-end items-center">
-                            {{browser.count|intcomma}}
-                            <div class="text-xs" style="min-width: 48px">
-                                ({{browser.count|percent:stats.session_count}})
+                    <td colspan="2">
+                        <div class="flex flex-col">
+                            <div class="flex justify-between">
+                                <div class="flex items-center">
+                                    {{browser.browser|iconify}}<span>{{browser.browser|default:"Unknown"}}</span>
+                                </div>
+                                <span>
+                                    {{browser.count|intcomma}}
+                                </span>
                             </div>
-                        </div>
+                            <progress
+                                class="progress ~urge h-1 opacity-75"
+                                value="{{browser.count|divide:stats.session_count}}"
+                                max="1"
+                            >
+                                {{browser.count|percent:stats.session_count}}
+                            </progress>
+                            <div class="text-xs" style="min-width: 48px">
+                                {{browser.count|percent:stats.session_count}}
+                            </div>
+                        <div>
                     </td>
                 </tr>
                 {% empty %}
@@ -232,14 +306,27 @@
             <tbody>
                 {% for device_type in stats.device_types %}
                 <tr>
-                    <td>{{device_type.device_type|default:"Unknown"|title}}</td>
-                    <td class="rf">
-                        <div class="flex justify-end items-center">
-                            {{device_type.count|intcomma}}
-                            <div class="text-xs" style="min-width: 48px">
-                                ({{device_type.count|percent:stats.session_count}})
+                    <td colspan="2">
+                        <div class="flex flex-col">
+                            <div class="flex justify-between">
+                                <span>
+                                    {{device_type.device_type|default:"Unknown"|title}}
+                                </span>
+                                <span>
+                                    {{device_type.count|intcomma}}
+                                </span>
                             </div>
-                        </div>
+                            <progress
+                                class="progress ~urge h-1 opacity-75"
+                                value="{{device_type.count|divide:stats.session_count}}"
+                                max="1"
+                            >
+                                {{device_type.count|percent:stats.session_count}}
+                            </progress>
+                            <div class="text-xs" style="min-width: 48px">
+                                {{device_type.count|percent:stats.session_count}}
+                            </div>
+                        <div>
                     </td>
                 </tr>
                 {% empty %}

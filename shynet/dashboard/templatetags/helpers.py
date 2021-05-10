@@ -197,3 +197,11 @@ def percent(value, total):
         return "<0.1%"
 
     return f'{percent:.1%}'
+
+
+@register.filter
+def divide(value, divider):
+    if divider == 0:
+        return 0
+
+    return value / divider
