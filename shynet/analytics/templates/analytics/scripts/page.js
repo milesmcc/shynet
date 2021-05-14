@@ -11,11 +11,7 @@ var Shynet = {
   skipHeartbeat: false,
   sendHeartbeat: function () {
     try {
-      if (document.hidden) {
-        return;
-      }
-      if (Shynet.skipHeartbeat) {
-        console.warn("Heartbeat skipped due to lack of server response");
+      if (document.hidden || Shynet.skipHeartbeat) {
         return;
       }
 
