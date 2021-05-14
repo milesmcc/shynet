@@ -13,7 +13,7 @@ from django.db.utils import NotSupportedError
 from django.shortcuts import reverse
 from django.utils import timezone
 
-
+# How long a session a needs to go without an update to no longer be considered 'active' (i.e., currently online)
 ACTIVE_USER_TIMEDELTA = timezone.timedelta(
     milliseconds=settings.SCRIPT_HEARTBEAT_FREQUENCY * 2
 )
