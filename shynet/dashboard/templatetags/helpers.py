@@ -1,5 +1,6 @@
 from datetime import timedelta
 from urllib.parse import urlparse
+import urllib
 
 import flag
 import pycountry
@@ -8,6 +9,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.html import escape
 from django.utils.safestring import SafeString
+from django.template.defaulttags import url as url_tag
 
 register = template.Library()
 
@@ -185,6 +187,42 @@ def urldisplay(url):
     else:
         return url
 
-@register.filter
-def prepend_string(arg1, arg2):
-    return f"{str(arg2)}{str(arg1)}"
+class ContextualURLNode(template.Node):
+    """Extension of the Django URLNode to support including contextual parameters in URL outputs. In other words, URLs generated will keep the start and end date parameters."""
+
+    CONTEXT_PARAMS = ["startDate", "endDate"]
+
+    def __init__(self, urlnode):
+        self.urlnode = urlnode
+
+    def __repr__(self):
+        return self.urlnode.__repr__()
+
+    def render(self, context):
+        url = self.urlnode.render(context)
+        if self.urlnode.asvar:
+            url = context[self.urlnode.asvar]
+
+        url_parts = list(urlparse(url))
+        query = dict(urllib.parse.parse_qsl(url_parts[4]))
+
+        query.update({
+            param: context.request.GET.get(param) for param in self.CONTEXT_PARAMS if param in context.request.GET and param not in query
+        })
+
+        url_parts[4] = urllib.parse.urlencode(query)
+
+        url_final = urllib.parse.urlunparse(url_parts)
+
+        if self.urlnode.asvar:
+            context[self.urlnode.asvar] = url_final
+            return ''
+        else:
+            return url_final
+
+
+@register.tag
+def contextual_url(*args, **kwargs):
+    urlnode = url_tag(*args, **kwargs)
+    return ContextualURLNode(urlnode)
+    

@@ -41,10 +41,8 @@
         <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Services</p>
 
         {% for service in user.owning_services.all %}
-        {% url 'dashboard:service' service.uuid as url %}
-        {% with url_full=date_query_params|default:''|prepend_string:url %}
-        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name|truncatechars:16 url=url_full icon=service.link|iconify %}
-        {% endwith %}
+        {% contextual_url 'dashboard:service' service.uuid as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name|truncatechars:16 url=url icon=service.link|iconify %}
         {% endfor %}
 
         {% endif %}
@@ -62,7 +60,7 @@
         <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Collaborations</p>
 
         {% for service in user.collaborating_services.all %}
-        {% url 'dashboard:service' service.uuid as url %}
+        {% contextual_url 'dashboard:service' service.uuid as url %}
         {% include 'dashboard/includes/sidebar_portal.html' with label=service.name|truncatechars:20 url=url %}
         {% endfor %}
 
