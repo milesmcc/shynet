@@ -6,7 +6,7 @@
 <div class="mr-2">{% include 'dashboard/includes/date_range.html' %}</div>
 {% has_perm 'core.change_service' user object as can_update %}
 {% if can_update %}
-<a href="{% url 'dashboard:service_update' service.uuid %}" class="button field bg-neutral-000 w-auto">Manage &rarr;</a>
+<a href="{% contextual_url 'dashboard:service_update' service.uuid %}" class="button field bg-neutral-000 w-auto">Manage &rarr;</a>
 {% endif %}
 {% endblock %}
 
@@ -235,7 +235,7 @@
 <div class="card ~neutral !low limited-height py-2">
     {% include 'dashboard/includes/session_list.html' %}
     <hr class="sep h-8">
-    <a href="{% url 'dashboard:service_session_list' service.uuid %}{{date_query_params}}" class="button ~neutral w-auto mb-2">View more
+    <a href="{% contextual_url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">View more
         sessions
         &rarr;</a>
 </div>
