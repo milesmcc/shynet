@@ -236,3 +236,24 @@ def location_url(session):
     return settings.LOCATION_URL.replace("$LATITUDE", str(session.latitude)).replace(
         "$LONGITUDE", str(session.longitude)
     )
+
+
+@register.filter
+def percent(value, total):
+    if total == 0:
+        return "N/A"
+
+    percent = value / total
+
+    if percent < 0.001:
+        return "<0.1%"
+
+    return f'{percent:.1%}'
+
+
+@register.filter
+def divide(value, divider):
+    if divider == 0:
+        return 0
+
+    return value / divider
