@@ -109,8 +109,24 @@
             <tbody>
                 {% for location in stats.locations %}
                 <tr>
-                    <td class="truncate w-full max-w-0">{{location.location|default:"Unknown"|urldisplay}}</td>
-                    <td class="rf">{{location.count|intcomma}}</td>
+                    <td class="truncate w-full max-w-0 relative">
+                        <div
+                            class="absolute h-6"
+                            style="width: {{location.count|percent:stats.hit_count}}; top: 8px; left: 8px; background-color: var(--color-urge-200-fallback)"
+                        >
+                        </div>
+                        <div class="absolute" style="top: 8px; left: 8px">
+                            {{location.location|default:"Unknown"|urldisplay}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex justify-end items-center">
+                            {{location.count|intcomma}}
+                            <span class="text-xs rf" style="min-width: 48px">
+                                ({{location.count|percent:stats.hit_count}})
+                            </span>
+                        </div>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -131,8 +147,24 @@
             <tbody>
                 {% for referrer in stats.referrers %}
                 <tr>
-                    <td class="truncate w-full max-w-0">{{referrer.referrer|default:"Direct"|urldisplay}}</td>
-                    <td class="rf">{{referrer.count|intcomma}}</td>
+                    <td class="truncate w-full max-w-0 relative">
+                        <div
+                            class="absolute h-6"
+                            style="width: {{referrer.count|percent:stats.session_count}}; top: 8px; left: 8px; background-color: var(--color-urge-200-fallback)"
+                        >
+                        </div>
+                        <div class="absolute" style="top: 8px; left: 8px">
+                            {{referrer.referrer|default:"Direct"|urldisplay}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex justify-end items-center">
+                            {{referrer.count|intcomma}}
+                            <span class="text-xs rf" style="min-width: 48px">
+                                ({{referrer.count|percent:stats.session_count}})
+                            </span>
+                        </div>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -153,10 +185,24 @@
             <tbody>
                 {% for country in stats.countries %}
                 <tr>
-                    <td class="truncate w-full max-w-0" title="{{country.country|country_name}}">
-                        <span class="{{country.country|flag_class}}"></span> {{country.country|country_name}}
+                    <td class="truncate w-full max-w-0 relative" title="{{country.country|country_name}}">
+                        <div
+                            class="absolute h-6"
+                            style="width: {{country.count|percent:stats.session_count}}; top: 8px; left: 8px; background-color: var(--color-urge-200-fallback)"
+                        >
+                        </div>
+                        <div class="absolute" style="top: 8px; left: 8px">
+                            <span class="{{country.country|flag_class}}"></span> {{country.country|country_name}}
+                        </div>
                     </td>
-                    <td class="rf">{{country.count|intcomma}}</td>
+                    <td>
+                        <div class="flex justify-end items-center">
+                            {{country.count|intcomma}}
+                            <span class="text-xs rf" style="min-width: 48px">
+                                ({{country.count|percent:stats.session_count}})
+                            </span>
+                        </div>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -177,10 +223,24 @@
             <tbody>
                 {% for os in stats.operating_systems %}
                 <tr>
-                    <td class="flex items-center truncate w-full max-w-0" title="{{os.os|default:'Unknown'}}">
-                        {{os.os|iconify}}<span>{{os.os|default:"Unknown"}}</span>
+                    <td class="flex items-center truncate w-full max-w-0 relative" title="{{os.os|default:'Unknown'}}">
+                        <div
+                            class="absolute h-6"
+                            style="width: {{os.count|percent:stats.session_count}}; top: 8px; left: 8px; background-color: var(--color-urge-200-fallback)"
+                        >
+                        </div>
+                        <div class="absolute" style="top: 8px; left: 8px">
+                            {{os.os|iconify}}<span>{{os.os|default:"Unknown"}}</span>
+                        </div>
                     </td>
-                    <td class="rf">{{os.count|intcomma}}</td>
+                    <td>
+                        <div class="flex justify-end items-center">
+                            {{os.count|intcomma}}
+                            <span class="text-xs rf" style="min-width: 48px">
+                                ({{os.count|percent:stats.session_count}})
+                            </span>
+                        </div>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -207,8 +267,8 @@
                             style="width: {{browser.count|percent:stats.session_count}}; top: 8px; left: 8px; background-color: var(--color-urge-200-fallback)"
                         >
                         </div>
-                        <span class="absolute" style="top: 8px; left: 8px">
-                            {{browser.browser|iconify}}<span>{{browser.browser|default:"Unknown"}}</span></td>
+                        <div class="absolute" style="top: 8px; left: 8px">
+                            {{browser.browser|iconify}}<span>{{browser.browser|default:"Unknown"}}</span>
                         </div>
                     </td>
                     <td>
@@ -245,7 +305,7 @@
                             style="width: {{device_type.count|percent:stats.session_count}}; top: 8px; left: 8px; background-color: var(--color-urge-200-fallback)"
                         >
                         </div>
-                        <span class="absolute" style="top: 8px; left: 8px">
+                        <div class="absolute" style="top: 8px; left: 8px">
                             {{device_type.device_type|default:"Unknown"|title}}
                         </div>
                     </td>
