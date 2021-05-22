@@ -240,7 +240,7 @@
     <p class="text-sm font-semibold mx-4 p-2 pt-4" style="border-bottom-width: 1px;">GeoIP Map</p>
     {% include 'dashboard/includes/map_chart.html' with countries=stats.countries %}
 </div>
-<div class="card ~neutral !low limited-height py-2">
+<div class="card ~neutral !low py-2">
     {% include 'dashboard/includes/session_list.html' %}
     <hr class="sep h-8 md:h-12">
     <a href="{% contextual_url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">View more
