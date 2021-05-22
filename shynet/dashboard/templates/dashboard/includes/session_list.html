@@ -12,7 +12,7 @@
         {% for session in object_list %}
         <tr>
             <td>
-                <a href="{% url 'dashboard:service_session' object.pk session.pk %}"
+                <a href="{% contextual_url 'dashboard:service_session' object.pk session.pk %}"
                     class="font-medium text-urge-700">
                     {{session.start_time|date:"M j Y, g:i a"|capfirst}}
                     {% if session.is_currently_active %}
@@ -27,7 +27,7 @@
                 <span class="text-gray-600">&mdash;</span>
                 {% endif %}
             </td>
-            <td>{{session.country|flag_emoji}} {{session.asn|default:"Unknown"}}</td>
+            <td><span class="{{session.country|flag_class}}"></span>{{session.asn|default:"Unknown"}}</td>
             <td class="rf">{{session.duration|naturaldelta}}</td>
             <td class="rf">{{session.hit_set.count|intcomma}}</td>
         </tr>

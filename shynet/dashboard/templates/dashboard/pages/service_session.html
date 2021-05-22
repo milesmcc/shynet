@@ -5,7 +5,7 @@
 {% block head_title %}{{object.name}} Session{% endblock %}
 
 {% block service_actions %}
-<a href="{% url 'dashboard:service' object.uuid %}" class="button field bg-neutral-000 w-auto">Analytics &rarr;</a>
+<a href="{% contextual_url 'dashboard:service' object.uuid %}" class="button field bg-neutral-000 w-auto">Analytics &rarr;</a>
 {% endblock %}
 
 {% block service_content %}
@@ -21,7 +21,7 @@
                 {{session.last_seen|date:"g:i a"}}{% if session.is_currently_active %} <span class="chip ~positive !high text-base">Online</span>{% endif %}</p>
         </div>
     </div>
-    <hr class="sep h-8">
+    <hr class="sep h-8 md:h-12">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-gray-400 font-medium">
         <div>
             <p>Browser</p>
@@ -45,13 +45,13 @@
         </div>
         <div>
             <p>Country</p>
-            <p class="label">{{session.country|flag_emoji}} {{session.country|country_name}}</p>
+            <p class="label"><span class="{{session.country|flag_class}}"></span>{{session.country|country_name}}</p>
         </div>
         <div>
             <p>Location</p>
             <p class="label">
                 {% if session.latitude %}
-                <a href="https://www.google.com/maps/search/?api=1&query={{session.latitude}},{{session.longitude}}">Open
+                <a href="{{session|location_url}}" target="_blank">Open
                     in Maps &nearr;</a>
                 {% else %}
                 Unknown
@@ -72,7 +72,7 @@
         </div>
         <div class="md:flex card ~neutral !low flex-grow justify-between">
             <div class="mb-4 md:mb-0 md:w-1/2">
-                <p class="label font-medium text-lg">{{hit.location|default:"Unknown"|urlize}}</p>
+                <p class="label font-medium text-lg truncate">{{hit.location|default:"Unknown"|urlize}}</p>
                 {% if hit.referrer %}
                 <p>via {{hit.referrer|urlize}}<p>
                 {% endif %}

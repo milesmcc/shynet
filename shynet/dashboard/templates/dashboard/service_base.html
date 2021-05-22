@@ -6,21 +6,21 @@
 
 {% block content %}
 <div class="md:flex justify-between items-center" id="heading">
-    <a class="flex items-center mb-4 md:mb-0" href="{% url 'dashboard:service' object.uuid %}">
-        <h3 class="heading leading-none mr-4">
+    <a class="flex items-center mb-4 md:mb-0 truncate" href="{% contextual_url 'dashboard:service' object.uuid %}">
+        <h3 class="heading items-center mr-4 md:mr-2 flex truncate">
             {{object.link|iconify}}
-            {{object.name}}
+            <span class="flex-1 truncate ml-2" title="{{object.name}}">{{object.name}}</span>
         </h3>
-        <div class='text-3xl'>
+        <div class="text-3xl md:mr-2">
             {% include 'dashboard/includes/stats_status_chip.html' %}
         </div>
     </a>
-    <div class="flex items-center">
+    <div class="flex items-center flex-none">
         {% block service_actions %}
         {% endblock %}
     </div>
 </div>
-<hr class="sep h-8">
+<hr class="sep h-8 md:h-12">
 {% block service_content %}
 {% endblock %}
 {% endblock %}

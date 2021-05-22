@@ -8,11 +8,14 @@
 var Shynet = {
   idempotency: null,
   heartbeatTaskId: null,
+  skipHeartbeat: false,
   sendHeartbeat: function () {
     try {
-      if (document.hidden) {
+      if (document.hidden || Shynet.skipHeartbeat) {
         return;
       }
+
+      Shynet.skipHeartbeat = true;
       var xhr = new XMLHttpRequest();
       xhr.open(
         "POST",
@@ -20,6 +23,12 @@ var Shynet = {
         true
       );
       xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onload = function () { 
+        Shynet.skipHeartbeat = false;
+      };
+      xhr.onerror = function () { 
+        Shynet.skipHeartbeat = false;
+      };
       xhr.send(
         JSON.stringify({
           idempotency: Shynet.idempotency,
@@ -30,13 +39,14 @@ var Shynet = {
             window.performance.timing.navigationStart,
         })
       );
-    } catch (e) { }
+    } catch (e) {}
   },
   newPageLoad: function () {
     if (Shynet.heartbeatTaskId != null) {
       clearInterval(Shynet.heartbeatTaskId);
     }
     Shynet.idempotency = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    Shynet.skipHeartbeat = false;
     Shynet.heartbeatTaskId = setInterval(Shynet.sendHeartbeat, parseInt("{{heartbeat_frequency}}"));
     Shynet.sendHeartbeat();
   }

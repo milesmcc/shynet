@@ -6,11 +6,11 @@
 
 {% block service_actions %}
 <div class="mr-2">{% include 'dashboard/includes/date_range.html' %}</div>
-<a href="{% url 'dashboard:service' object.uuid %}" class="button field ~neutral bg-neutral-000 w-auto">Analytics &rarr;</a>
+<a href="{% contextual_url 'dashboard:service' object.uuid %}" class="button field ~neutral bg-neutral-000 w-auto">Analytics &rarr;</a>
 {% endblock %}
 
 {% block service_content %}
-<div class="card ~neutral !low mb-8 pt-2 max-w-full overflow-x-scroll">
+<div class="card ~neutral !low mb-8 pt-2 max-w-full overflow-x-auto">
     {% include 'dashboard/includes/session_list.html' %}
 </div>
 {% pagination page_obj request %}

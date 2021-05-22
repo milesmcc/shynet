@@ -10,33 +10,36 @@
   {% include 'a17t/includes/head.html' %}
   <link rel="icon" type="image/png" href="{% static 'dashboard/images/icon.png' %}">
   <script src="{% static 'apexcharts/dist/apexcharts.min.js'%}"></script>
-  <script src="{% static 'litepicker/dist/js/main.js' %}"></script>
+  <script src="{% static 'litepicker/dist/nocss/litepicker.js' %}"></script>
+  <script src="{% static 'litepicker/dist/plugins/ranges.js' %}"></script>
   <script src="{% static 'd3/d3.min.js' %}"></script>
   <script src="{% static 'topojson/build/topojson.min.js' %}"></script>
   <script src="{% static 'datamaps/dist/datamaps.world.min.js' %}"></script>
   <script src="{% static 'dashboard/js/base.js' %}"></script>
   <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+  <link rel="stylesheet" href="{% static 'flag-icon-css/css/flag-icon.min.css' %}">
+  <link rel="stylesheet" href="{% static 'litepicker/dist/css/litepicker.css' %}">
   {% block extra_head %}
   {% endblock %}
 </head>
 
-<body class="bg-neutral-100 min-h-full">
+<body class="bg-neutral-100 min-h-full overflow-x-hidden">
   {% block body %}
 
   <section class="max-w-screen-xl mx-auto px-4 py-4 md:py-12 md:flex">
     <aside
-      class="mb-8 md:w-2/12 md:pr-6 relative flex flex-wrap md:block justify-between items-center overflow-x-hidden">
+      class="mb-2 md:w-2/12 md:pr-6 relative flex flex-wrap md:block justify-between items-center overflow-x-hidden">
       <a class="icon ~urge ml-2 md:ml-6 md:mb-8 md:mt-3" href="{% url 'dashboard:dashboard' %}">
         <i class="fas fa-binoculars fa-3x text-urge-600 hidden md:block"></i>
         <i class="fas fa-binoculars fa-2x text-urge-600 md:hidden"></i>
       </a>
 
-      <button class="button ~neutral !low md:hidden"
+      <a tabindex="0" role="button" class="button ~neutral !low md:hidden"
         onclick="document.getElementById('navMenuExpanded').classList.toggle('hidden')">
         <span class="icon">
           <i class="fas fa-bars"></i>
         </span>
-      </button>
+      </a>
       <hr class="sep h-4 md:h-8 w-full">
       <div id="navMenuExpanded"
         class="bg-neutral-000 shadow-lg md:shadow-none p-4 hidden rounded-lg md:block md:bg-transparent md:border-none md:p-0 w-full">
@@ -44,8 +47,8 @@
         <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Services</p>
 
         {% for service in user.owning_services.all %}
-        {% url 'dashboard:service' service.uuid as url %}
-        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name|truncatechars:16 url=url icon=service.link|iconify %}
+        {% contextual_url 'dashboard:service' service.uuid as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name url=url icon=service.link|iconify %}
         {% endfor %}
 
         {% endif %}
@@ -63,8 +66,8 @@
         <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Collaborations</p>
 
         {% for service in user.collaborating_services.all %}
-        {% url 'dashboard:service' service.uuid as url %}
-        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name|truncatechars:20 url=url %}
+        {% contextual_url 'dashboard:service' service.uuid as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name url=url %}
         {% endfor %}
 
         <hr class="sep h-8">

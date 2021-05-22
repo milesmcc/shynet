@@ -6,11 +6,19 @@
 <div class="mr-2">{% include 'dashboard/includes/date_range.html' %}</div>
 {% has_perm 'core.change_service' user object as can_update %}
 {% if can_update %}
-<a href="{% url 'dashboard:service_update' service.uuid %}" class="button field bg-neutral-000 w-auto">Manage &rarr;</a>
+<a href="{% contextual_url 'dashboard:service_update' service.uuid %}" class="button field bg-neutral-000 w-auto">Manage &rarr;</a>
 {% endif %}
 {% endblock %}
 
 {% block service_content %}
+{% if not stats.has_hits %}
+<div class="content mb-6">
+    <p>
+        This service hasn't collected any data yet. To get started, place the following code snippet at the end of the <code>&lt;body&gt;</code> tag on any page you'd like to track.
+    </p>
+    {% include 'dashboard/includes/service_snippet.html' %}
+</div>
+{% else %}
 <div class="grid grid-cols-2 gap-6 md:flex justify-between mb-6 card ~neutral !high px-6" id="stats">
     {% with classes="text-sm font-semibold" good_classes="text-positive-400" bad_classes="text-critical-400" neutral_classes="text-gray-400" %}
     <article class="">
@@ -85,9 +93,10 @@
     </article>
     {% endwith %}
 </div>
-<div class="card ~neutral !low py-0 mb-6">
-    {% include 'dashboard/includes/time_chart.html' with data=stats.session_chart_data %}
+<div class="card overflow-visible ~neutral !low py-0 mb-6">
+    {% include 'dashboard/includes/time_chart.html' with data=stats.session_chart_data tooltip_format=stats.session_chart_tooltip_format granularity=stats.session_chart_granularity click_zoom=True %}
 </div>
+{% endif %}
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div class="card ~neutral !low limited-height py-2">
         <table class="table">
@@ -100,7 +109,7 @@
             <tbody>
                 {% for location in stats.locations %}
                 <tr>
-                    <td>{{location.location|default:"Unknown"|urldisplay}}</td>
+                    <td class="truncate w-full max-w-0">{{location.location|default:"Unknown"|urldisplay}}</td>
                     <td class="rf">{{location.count|intcomma}}</td>
                 </tr>
                 {% empty %}
@@ -122,7 +131,7 @@
             <tbody>
                 {% for referrer in stats.referrers %}
                 <tr>
-                    <td>{{referrer.referrer|default:"Direct"|urldisplay}}</td>
+                    <td class="truncate w-full max-w-0">{{referrer.referrer|default:"Direct"|urldisplay}}</td>
                     <td class="rf">{{referrer.count|intcomma}}</td>
                 </tr>
                 {% empty %}
@@ -144,7 +153,9 @@
             <tbody>
                 {% for country in stats.countries %}
                 <tr>
-                    <td>{{country.country|flag_emoji}} {{country.country|country_name}}</td>
+                    <td class="truncate w-full max-w-0" title="{{country.country|country_name}}">
+                        <span class="{{country.country|flag_class}}"></span> {{country.country|country_name}}
+                    </td>
                     <td class="rf">{{country.count|intcomma}}</td>
                 </tr>
                 {% empty %}
@@ -166,7 +177,9 @@
             <tbody>
                 {% for os in stats.operating_systems %}
                 <tr>
-                    <td class="flex items-center">{{os.os|iconify}}<span>{{os.os|default:"Unknown"}}</span></td>
+                    <td class="flex items-center truncate w-full max-w-0" title="{{os.os|default:'Unknown'}}">
+                        {{os.os|iconify}}<span>{{os.os|default:"Unknown"}}</span>
+                    </td>
                     <td class="rf">{{os.count|intcomma}}</td>
                 </tr>
                 {% empty %}
@@ -188,7 +201,7 @@
             <tbody>
                 {% for browser in stats.browsers %}
                 <tr>
-                    <td class="flex items-center">
+                    <td class="flex items-center truncate w-full max-w-0" title="{{browser.browser|default:'Unknown'}}">
                         {{browser.browser|iconify}}<span>{{browser.browser|default:"Unknown"}}</span></td>
                     <td class="rf">{{browser.count|intcomma}}</td>
                 </tr>
@@ -211,7 +224,7 @@
             <tbody>
                 {% for device_type in stats.device_types %}
                 <tr>
-                    <td>{{device_type.device_type|default:"Unknown"|title}}</td>
+                    <td class="truncate w-full max-w-0">{{device_type.device_type|default:"Unknown"|title}}</td>
                     <td class="rf">{{device_type.count|intcomma}}</td>
                 </tr>
                 {% empty %}
@@ -229,8 +242,8 @@
 </div>
 <div class="card ~neutral !low limited-height py-2">
     {% include 'dashboard/includes/session_list.html' %}
-    <hr class="sep h-8">
-    <a href="{% url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">View more
+    <hr class="sep h-8 md:h-12">
+    <a href="{% contextual_url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">View more
         sessions
         &rarr;</a>
 </div>

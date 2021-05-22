@@ -4,8 +4,8 @@
 
 {% block content %}
 <div class="md:flex justify-between items-center">
-    <div>
-        <h4 class="heading">{{request.site.name|default:"Dashboard"}}</h4>
+    <div class="flex-1 truncate display-none md:display-block mr-4 md:mb-0 mb-4" title="{{request.site.name|default:"Dashboard"}}">
+        <h4 class="heading truncate">{{request.site.name|default:"Dashboard"}}</h4>
     </div>
     <div class="flex items-center">
         <div class="mr-1">
@@ -17,13 +17,15 @@
         {% endif %}
     </div>
 </div>
-<hr class="sep">
+<hr class="sep h-8 md:h-12">
 {% for object in object_list|dictsortreversed:"stats.session_count" %}
 {% include 'dashboard/includes/service_overview.html' %}
 {% empty %}
-<p>You don't have any services on {{request.site.name|default:"Shynet"}} yet.</p>
+<p class="aside ~urge !high">You don't have any services yet. {% if can_create %}Get started by <a href="{% url 'dashboard:service_create' %}" class="underline">creating one</a>.{% endif %}</p>
 {% endfor %}
 
+{% if object_list %}
 {% pagination page_obj request %}
+{% endif %}
 
 {% endblock %}

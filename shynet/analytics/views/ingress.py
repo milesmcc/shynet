@@ -54,7 +54,7 @@ class ValidateServiceOriginsMixin:
                 origins = service.origins
                 cache.set(f"service_origins_{service_uuid}", origins, timeout=3600)
 
-            resp = super().dispatch(request, *args, **kwargs)
+            allow_origin = "*"
 
             if origins != "*":
                 remote_origin = request.META.get("HTTP_ORIGIN")
@@ -66,12 +66,12 @@ class ValidateServiceOriginsMixin:
                     remote_origin = f"{parsed.scheme}://{parsed.netloc}".lower()
                 origins = [origin.strip().lower() for origin in origins.split(",")]
                 if remote_origin in origins:
-                    resp["Access-Control-Allow-Origin"] = remote_origin
+                    allow_origin = remote_origin
                 else:
                     return HttpResponseForbidden()
-            else:
-                resp["Access-Control-Allow-Origin"] = "*"
 
+            resp = super().dispatch(request, *args, **kwargs)
+            resp["Access-Control-Allow-Origin"] = allow_origin
             resp["Access-Control-Allow-Methods"] = "GET,HEAD,OPTIONS,POST"
             resp[
                 "Access-Control-Allow-Headers"

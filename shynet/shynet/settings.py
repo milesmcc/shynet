@@ -18,7 +18,7 @@ import urllib.parse as urlparse
 from django.contrib.messages import constants as messages
 
 # Increment on new releases
-VERSION = "v0.8.2"
+VERSION = "v0.9.1"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -301,11 +301,16 @@ NPM_ROOT_PATH = "../"
 NPM_FILE_PATTERNS = {
     "a17t": [os.path.join("dist", "a17t.css"), os.path.join("dist", "tailwind.css")],
     "apexcharts": [os.path.join("dist", "apexcharts.min.js")],
-    "litepicker": [os.path.join("dist", "js", "main.js")],
+    "litepicker": [
+        os.path.join("dist", "nocss", "litepicker.js"),
+        os.path.join("dist", "css", "litepicker.css"),
+        os.path.join("dist", "plugins", "ranges.js"),
+    ],
     "turbolinks": [os.path.join("dist", "turbolinks.js")],
     "stimulus": [os.path.join("dist", "stimulus.umd.js")],
     "inter-ui": [os.path.join("Inter (web)", "*")],
     "@fortawesome": [os.path.join("fontawesome-free", "js", "all.min.js")],
+    "flag-icon-css": [os.path.join("css", "flag-icon.min.css"), os.path.join("flags", "*")],
     "datamaps": [os.path.join("dist", "datamaps.world.min.js")],
     "d3": ["d3.min.js"],
     "topojson": [os.path.join("build", "topojson.min.js")],
@@ -342,3 +347,9 @@ BLOCK_ALL_IPS = os.getenv("BLOCK_ALL_IPS", "False") == "True"
 
 # Include date and service ID in salt?
 AGGRESSIVE_HASH_SALTING = os.getenv("AGGRESSIVE_HASH_SALTING", "False") == "True"
+
+# What location url should be linked to in the frontend?
+LOCATION_URL = os.getenv("LOCATION_URL", "https://www.openstreetmap.org/?mlat=$LATITUDE&mlon=$LONGITUDE")
+
+# How many services should be displayed on dashboard page?
+DASHBOARD_PAGE_SIZE = int(os.getenv("DASHBOARD_PAGE_SIZE", "5"))

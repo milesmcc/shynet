@@ -2,32 +2,48 @@
     <input type="hidden" name="startDate" value="{{start_date.isoformat}}" id="startDate">
     <input type="hidden" name="endDate" value="{{end_date.isoformat}}" id="endDate">
 </form>
-<input type="input" id="rangePicker" placeholder="Date range" class="input ~neutral bg-neutral-000 cursor-pointer" readonly>
+<input type="input" id="rangePicker" placeholder="Date range" class="input ~neutral bg-neutral-000 cursor-pointer w-auto" readonly>
 <style>
     :root {
-        --litepickerMonthButtonHover: var(--color-urge);
-        --litepickerDayColorHover: var(--color-urge);
-        --litepickerDayIsTodayColor: var(--color-urge);
-        --litepickerDayIsInRange: var(--color-urge-normal-fill);
-        --litepickerDayIsStartBg: var(--color-urge);
-        --litepickerDayIsEndBg: var(--color-urge);
-        --litepickerButtonApplyBg: var(--color-urge);
+        --litepicker-button-prev-month-color-hover: var(--color-urge);
+        --litepicker-button-next-month-color-hover: var(--color-urge);
+        --litepicker-day-color-hover: var(--color-urge);
+        --litepicker-is-today-color: var(--color-urge);
+        --litepicker-is-in-range-color: var(--color-urge-normal-fill);
+        --litepicker-is-start-color-bg: var(--color-urge);
+        --litepicker-is-end-color-bg: var(--color-urge);
+        --litepicker-button-apply-color-bg: var(--color-urge);
+    }
+
+    .litepicker .container__predefined-ranges, .litepicker .container__months {
+        box-shadow: var(--fallback-box-shadow-normal) !important;
     }
 </style>
 <script>
     var picker = new Litepicker({
         element: document.getElementById('rangePicker'),
+        plugins: ['ranges'],
         singleMode: false,
-        format: 'MMM D, YYYY',
+        format: "MMM DD 'YY",
         maxDate: new Date(),
         startDate: Date.parse(document.getElementById("startDate").getAttribute("value")),
         endDate: Date.parse(document.getElementById("endDate").getAttribute("value")),
-        onSelect: function (startDate, endDate) {
-            document.getElementById("startDate").setAttribute("value", startDate.getFullYear() +
-                "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate());
-            document.getElementById("endDate").setAttribute("value", endDate.getFullYear() + "-" +
-                (endDate.getMonth() + 1) + "-" + endDate.getDate());
-            document.getElementById("datePicker").submit();
+        ranges: {
+            customRanges: {
+                {% for date_range in date_ranges %}
+                    '{{ date_range.name }}': [
+                        new Date('{{ date_range.start.isoformat }}'),
+                        new Date('{{ date_range.end.isoformat }}')
+                    ],
+                {% endfor %}
+            }
         }
+    });
+    picker.on('selected', (startDate, endDate) => {
+        document.getElementById("startDate").setAttribute("value", startDate.getFullYear() +
+            "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate());
+        document.getElementById("endDate").setAttribute("value", endDate.getFullYear() + "-" +
+            (endDate.getMonth() + 1) + "-" + endDate.getDate());
+        document.getElementById("datePicker").submit();
     });
 </script>

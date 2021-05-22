@@ -1,13 +1,14 @@
 from datetime import timedelta
 from urllib.parse import urlparse
+import urllib
 
-import flag
 import pycountry
 from django import template
 from django.conf import settings
 from django.utils import timezone
 from django.utils.html import escape
 from django.utils.safestring import SafeString
+from django.template.defaulttags import url as url_tag
 
 register = template.Library()
 
@@ -27,11 +28,11 @@ def naturaldelta(timedelta):
 
 
 @register.filter
-def flag_emoji(isocode):
-    try:
-        return flag.flag(isocode)
-    except:
-        return ""
+def flag_class(isocode):
+    if isocode:
+        return "mr-1 flag-icon flag-icon-" + isocode.lower()
+    else:
+        return "hidden"
 
 
 @register.filter
@@ -179,7 +180,7 @@ def iconify(text):
         domain = text + ".com"
 
     return SafeString(
-        f'<span class="icon mr-1"><img src="https://icons.duckduckgo.com/ip3/{domain}.ico"></span>'
+        f'<span class="icon mr-1 flex-none"><img src="https://icons.duckduckgo.com/ip3/{domain}.ico"></span>'
     )
 
 
@@ -188,7 +189,50 @@ def urldisplay(url):
     if url.startswith("http"):
         display_url = url.replace("http://", "").replace("https://", "")
         return SafeString(
-            f"<a href='{url}' title='{url}' rel='nofollow' class='flex items-center'>{iconify(url)} {escape(display_url if len(display_url) < 40 else display_url[:40] + '...')}</a>"
+            f"<a href='{url}' title='{url}' rel='nofollow' class='flex items-center mr-1'>{iconify(url)}<span class='truncate'>{escape(display_url)}</span></a>"
         )
     else:
         return url
+
+class ContextualURLNode(template.Node):
+    """Extension of the Django URLNode to support including contextual parameters in URL outputs. In other words, URLs generated will keep the start and end date parameters."""
+
+    CONTEXT_PARAMS = ["startDate", "endDate"]
+
+    def __init__(self, urlnode):
+        self.urlnode = urlnode
+
+    def __repr__(self):
+        return self.urlnode.__repr__()
+
+    def render(self, context):
+        url = self.urlnode.render(context)
+        if self.urlnode.asvar:
+            url = context[self.urlnode.asvar]
+
+        url_parts = list(urlparse(url))
+        query = dict(urllib.parse.parse_qsl(url_parts[4]))
+
+        query.update({
+            param: context.request.GET.get(param) for param in self.CONTEXT_PARAMS if param in context.request.GET and param not in query
+        })
+
+        url_parts[4] = urllib.parse.urlencode(query)
+
+        url_final = urllib.parse.urlunparse(url_parts)
+
+        if self.urlnode.asvar:
+            context[self.urlnode.asvar] = url_final
+            return ''
+        else:
+            return url_final
+
+
+@register.tag
+def contextual_url(*args, **kwargs):
+    urlnode = url_tag(*args, **kwargs)
+    return ContextualURLNode(urlnode)
+    
+@register.filter
+def location_url(session):
+    return settings.LOCATION_URL.replace("$LATITUDE", str(session.latitude)).replace("$LONGITUDE", str(session.longitude))

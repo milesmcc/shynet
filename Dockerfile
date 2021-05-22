@@ -1,4 +1,4 @@
-FROM python:3-alpine
+FROM python:alpine3.12
 
 # Getting things ready
 WORKDIR /usr/src/shynet
