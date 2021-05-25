@@ -115,7 +115,7 @@
                             style="width: {{location.count|percent:stats.hit_count}}; top: 8px; left: 8px; background-color: var(--color-urge-200-fallback)"
                         >
                         </div>
-                        <div class="absolute" style="top: 8px; left: 8px">
+                        <div class="relative">
                             {{location.location|default:"Unknown"|urldisplay}}
                         </div>
                     </td>
@@ -153,7 +153,7 @@
                             style="width: {{referrer.count|percent:stats.session_count}}; top: 8px; left: 8px; background-color: var(--color-urge-200-fallback)"
                         >
                         </div>
-                        <div class="absolute" style="top: 8px; left: 8px">
+                        <div class="relative">
                             {{referrer.referrer|default:"Direct"|urldisplay}}
                         </div>
                     </td>
@@ -191,7 +191,7 @@
                             style="width: {{country.count|percent:stats.session_count}}; top: 8px; left: 8px; background-color: var(--color-urge-200-fallback)"
                         >
                         </div>
-                        <div class="absolute" style="top: 8px; left: 8px">
+                        <div class="relative">
                             <span class="{{country.country|flag_class}}"></span> {{country.country|country_name}}
                         </div>
                     </td>
@@ -229,7 +229,7 @@
                             style="width: {{os.count|percent:stats.session_count}}; top: 8px; left: 8px; background-color: var(--color-urge-200-fallback)"
                         >
                         </div>
-                        <div class="absolute" style="top: 8px; left: 8px">
+                        <div class="relative">
                             {{os.os|iconify}}<span>{{os.os|default:"Unknown"}}</span>
                         </div>
                     </td>
@@ -267,7 +267,7 @@
                             style="width: {{browser.count|percent:stats.session_count}}; top: 8px; left: 8px; background-color: var(--color-urge-200-fallback)"
                         >
                         </div>
-                        <div class="absolute" style="top: 8px; left: 8px">
+                        <div class="relative">
                             {{browser.browser|iconify}}<span>{{browser.browser|default:"Unknown"}}</span>
                         </div>
                     </td>
@@ -305,7 +305,7 @@
                             style="width: {{device_type.count|percent:stats.session_count}}; top: 8px; left: 8px; background-color: var(--color-urge-200-fallback)"
                         >
                         </div>
-                        <div class="absolute" style="top: 8px; left: 8px">
+                        <div class="relative">
                             {{device_type.device_type|default:"Unknown"|title}}
                         </div>
                     </td>
