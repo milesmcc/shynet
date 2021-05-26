@@ -111,7 +111,7 @@
                 <tr>
                     <td class="truncate w-full max-w-0 relative">
                         {% include 'dashboard/includes/bar.html' with count=location.count max=stats.locations.0.count total=stats.hit_count %}
-                        <div class="relative">
+                        <div class="relative flex items-center">
                             {{location.location|default:"Unknown"|urldisplay}}
                         </div>
                     </td>
@@ -145,7 +145,7 @@
                 <tr>
                     <td class="truncate w-full max-w-0 relative">
                         {% include 'dashboard/includes/bar.html' with count=referrer.count max=stats.referrers.0.count total=stats.session_count %}
-                        <div class="relative">
+                        <div class="relative flex items-center">
                             {{referrer.referrer|default:"Direct"|urldisplay}}
                         </div>
                     </td>
@@ -179,7 +179,7 @@
                 <tr>
                     <td class="truncate w-full max-w-0 relative" title="{{country.country|country_name}}">
                         {% include 'dashboard/includes/bar.html' with count=country.count max=stats.countries.0.count total=stats.session_count %}
-                        <div class="relative">
+                        <div class="relative flex items-center">
                             <span class="{{country.country|flag_class}}"></span> {{country.country|country_name}}
                         </div>
                     </td>
@@ -213,7 +213,7 @@
                 <tr>
                     <td class="flex items-center truncate w-full max-w-0 relative" title="{{os.os|default:'Unknown'}}">
                         {% include 'dashboard/includes/bar.html' with count=os.count max=stats.operating_systems.0.count total=stats.session_count %}
-                        <div class="relative">
+                        <div class="relative flex items-center">
                             {{os.os|iconify}}<span>{{os.os|default:"Unknown"}}</span>
                         </div>
                     </td>
@@ -248,7 +248,7 @@
                     <td class="flex items-center truncate w-full max-w-0 relative" title="{{browser.browser|default:'Unknown'}}">
                         {% include 'dashboard/includes/bar.html' with count=browser.count max=stats.browsers.0.count total=stats.session_count %}
                         </div>
-                        <div class="relative">
+                        <div class="relative flex items-center">
                             {{browser.browser|iconify}}<span>{{browser.browser|default:"Unknown"}}</span>
                         </div>
                     </td>
@@ -282,7 +282,7 @@
                 <tr>
                     <td class="truncate w-full max-w-0 relative">
                         {% include 'dashboard/includes/bar.html' with count=device_type.count max=stats.device_types.0.count total=stats.session_count %}
-                        <div class="relative">
+                        <div class="relative flex items-center">
                             {{device_type.device_type|default:"Unknown"|title}}
                         </div>
                     </td>
