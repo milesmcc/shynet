@@ -357,4 +357,7 @@ LOCATION_URL = os.getenv(
 DASHBOARD_PAGE_SIZE = int(os.getenv("DASHBOARD_PAGE_SIZE", "5"))
 
 # Should background bars be scaled to full width?
-USE_RELATIVE_MAX_IN_BAR_VISUALIZATION = True
+USE_RELATIVE_MAX_IN_BAR_VISUALIZATION = (
+    os.getenv("USE_RELATIVE_MAX_IN_BAR_VISUALIZATION", "True") == "True"
+)
+True
