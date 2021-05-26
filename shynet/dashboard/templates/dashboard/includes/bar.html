@@ -1,7 +1,15 @@
 {% load helpers %}
 
-<div
-    class="absolute h-6"
-    style="width: {{count|percent:total}}; top: 6px; left: 6px; height: calc(100% - 12px); background-color: var(--color-urge-200-fallback)"
->
-</div>
+{% if use_relative_max %}
+    <div
+        class="absolute h-6"
+        style="width: {{count|percent:max}}; top: 6px; left: 6px; height: calc(100% - 12px); background-color: var(--color-urge-200-fallback)"
+    >
+    </div>
+{% else %}
+    <div
+        class="absolute h-6"
+        style="width: {{count|percent:total}}; top: 6px; left: 6px; height: calc(100% - 12px); background-color: var(--color-urge-200-fallback)"
+    >
+    </div>
+{% endif %}

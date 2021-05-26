@@ -73,6 +73,7 @@ class ServiceView(
             start_time__lt=self.get_end_date(),
             start_time__gt=self.get_start_date(),
         ).order_by("-start_time")[:10]
+        data["use_relative_max"] = settings.USE_RELATIVE_MAX_IN_BAR_VISUALIZATION
         return data
 
 
