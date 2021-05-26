@@ -110,11 +110,7 @@
                 {% for location in stats.locations %}
                 <tr>
                     <td class="truncate w-full max-w-0 relative">
-                        <div
-                            class="absolute h-6"
-                            style="width: {{location.count|percent:stats.hit_count}}; top: 6px; left: 6px; height: calc(100% - 12px); background-color: var(--color-urge-200-fallback)"
-                        >
-                        </div>
+                        {% include 'dashboard/includes/bar.html' with count=location.count max=stats.locations.0.count total=stats.hit_count %}
                         <div class="relative">
                             {{location.location|default:"Unknown"|urldisplay}}
                         </div>
@@ -148,11 +144,7 @@
                 {% for referrer in stats.referrers %}
                 <tr>
                     <td class="truncate w-full max-w-0 relative">
-                        <div
-                            class="absolute h-6"
-                            style="width: {{referrer.count|percent:stats.session_count}}; top: 6px; left: 6px; height: calc(100% - 12px); background-color: var(--color-urge-200-fallback)"
-                        >
-                        </div>
+                        {% include 'dashboard/includes/bar.html' with count=referrer.count max=stats.referrers.0.count total=stats.session_count %}
                         <div class="relative">
                             {{referrer.referrer|default:"Direct"|urldisplay}}
                         </div>
@@ -186,11 +178,7 @@
                 {% for country in stats.countries %}
                 <tr>
                     <td class="truncate w-full max-w-0 relative" title="{{country.country|country_name}}">
-                        <div
-                            class="absolute h-6"
-                            style="width: {{country.count|percent:stats.session_count}}; top: 6px; left: 6px; height: calc(100% - 12px); background-color: var(--color-urge-200-fallback)"
-                        >
-                        </div>
+                        {% include 'dashboard/includes/bar.html' with count=country.count max=stats.countries.0.count total=stats.session_count %}
                         <div class="relative">
                             <span class="{{country.country|flag_class}}"></span> {{country.country|country_name}}
                         </div>
@@ -224,11 +212,7 @@
                 {% for os in stats.operating_systems %}
                 <tr>
                     <td class="flex items-center truncate w-full max-w-0 relative" title="{{os.os|default:'Unknown'}}">
-                        <div
-                            class="absolute h-6"
-                            style="width: {{os.count|percent:stats.session_count}}; top: 6px; left: 6px; height: calc(100% - 12px); background-color: var(--color-urge-200-fallback)"
-                        >
-                        </div>
+                        {% include 'dashboard/includes/bar.html' with count=os.count max=stats.operating_systems.0.count total=stats.session_count %}
                         <div class="relative">
                             {{os.os|iconify}}<span>{{os.os|default:"Unknown"}}</span>
                         </div>
@@ -262,10 +246,7 @@
                 {% for browser in stats.browsers %}
                 <tr>
                     <td class="flex items-center truncate w-full max-w-0 relative" title="{{browser.browser|default:'Unknown'}}">
-                        <div
-                            class="absolute h-6"
-                            style="width: {{browser.count|percent:stats.session_count}}; top: 6px; left: 6px; height: calc(100% - 12px); background-color: var(--color-urge-200-fallback)"
-                        >
+                        {% include 'dashboard/includes/bar.html' with count=browser.count max=stats.browsers.0.count total=stats.session_count %}
                         </div>
                         <div class="relative">
                             {{browser.browser|iconify}}<span>{{browser.browser|default:"Unknown"}}</span>
@@ -300,11 +281,7 @@
                 {% for device_type in stats.device_types %}
                 <tr>
                     <td class="truncate w-full max-w-0 relative">
-                        <div
-                            class="absolute h-6"
-                            style="width: {{device_type.count|percent:stats.session_count}}; top: 6px; left: 6px; height: calc(100% - 12px); background-color: var(--color-urge-200-fallback)"
-                        >
-                        </div>
+                        {% include 'dashboard/includes/bar.html' with count=device_type.count max=stats.device_types.0.count total=stats.session_count %}
                         <div class="relative">
                             {{device_type.device_type|default:"Unknown"|title}}
                         </div>
