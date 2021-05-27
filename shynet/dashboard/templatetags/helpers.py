@@ -249,3 +249,19 @@ def percent(value, total):
         return "<0.1%"
 
     return f'{percent:.1%}'
+
+
+@register.simple_tag
+def bar_width(count, max, total):
+    if total == 0 or max == 0:
+        return "0"
+
+    if settings.USE_RELATIVE_MAX_IN_BAR_VISUALIZATION:
+        percent = count / max
+    else:
+        percent = count / total
+
+    if percent < 0.001:
+        return "0"
+
+    return f'{percent:.1%}'
