@@ -179,8 +179,8 @@
                 <tr>
                     <td class="truncate w-full max-w-0 relative" title="{{country.country|country_name}}">
                         {% include 'dashboard/includes/bar.html' with count=country.count max=stats.countries.0.count total=stats.session_count %}
-                        <div class="relative flex flex-none items-center">
-                            <span class="{{country.country|flag_class}}"></span> {{country.country|country_name}}
+                        <div class="relative flex items-center">
+                            <span class="flex-none {{country.country|flag_class}}"></span> {{country.country|country_name}}
                         </div>
                     </td>
                     <td>
