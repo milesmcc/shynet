@@ -5,12 +5,14 @@
             enabled: false
         },
         tooltip: {
-            shared: false,
+            shared: true,
             x: {
                 format: '{{tooltip_format|default:"MMM d"}}',
             },
         },
-        colors: ["#805AD5"],
+        legend: {
+            show: false,
+        },
         chart: {
             zoom: {
                 enabled: false,
@@ -18,7 +20,7 @@
             toolbar: {
                 show: false,
             },
-            type: 'area',
+            type: 'line',
             height: {{height|default:"200"}},
             offsetY: -1,
             animations: {
@@ -27,20 +29,10 @@
             sparkline: {
                 enabled: {% if sparkline %}true{% else %}false{% endif %},
             },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shadeIntensity: 1,
-                    inverseColors: false,
-                    opacityFrom: 0.8,
-                    opacityTo: 0,
-                    stops: [0, 75, 100]
-                },
-            },
             {% if granularity == "daily" and click_zoom %}
             events: {
                 markerClick: function(event, chartContext, { seriesIndex, dataPointIndex, w: {config}}) {
-                    const day = config.series[seriesIndex].data[dataPointIndex].x
+                    const day = config.labels[dataPointIndex]
                     window.location.href = `?startDate=${day}&endDate=${day}`
                 },
             },
@@ -79,12 +71,21 @@
             },
         },
         stroke: {
-            width: 1.5,
+            width: 2,
+            curve: 'smooth',
         },
         series: [{
-            name: "{{unit|default:'Sessions'}}",
-            data: {{data|safe}}
-        }]
+            name: "Hits",
+            type: 'area',
+            color: "#ddd6fe",
+            data: {{data.hits|safe}}
+        }, {
+            name: "Sessions",
+            type: 'line',
+            color: "#805AD5",
+            data: {{data.sessions|safe}}
+        }],
+        labels: {{data.labels|safe}}
     };
     var triggerMatchesChart = new ApexCharts(document.querySelector("#chart{{name|default:'Main'}}"), triggerMatchesChartOptions);
     triggerMatchesChart.render();

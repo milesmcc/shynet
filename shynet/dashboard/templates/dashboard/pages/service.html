@@ -94,7 +94,7 @@
     {% endwith %}
 </div>
 <div class="card overflow-visible ~neutral !low py-0 mb-6">
-    {% include 'dashboard/includes/time_chart.html' with data=stats.session_chart_data tooltip_format=stats.session_chart_tooltip_format granularity=stats.session_chart_granularity click_zoom=True %}
+    {% include 'dashboard/includes/time_chart.html' with data=stats.chart_data tooltip_format=stats.chart_tooltip_format granularity=stats.chart_granularity click_zoom=True %}
 </div>
 {% endif %}
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -109,8 +109,20 @@
             <tbody>
                 {% for location in stats.locations %}
                 <tr>
-                    <td class="truncate w-full max-w-0">{{location.location|default:"Unknown"|urldisplay}}</td>
-                    <td class="rf">{{location.count|intcomma}}</td>
+                    <td class="truncate w-full max-w-0 relative">
+                        {% include 'dashboard/includes/bar.html' with count=location.count max=stats.locations.0.count total=stats.hit_count %}
+                        <div class="relative flex items-center">
+                            {{location.location|default:"Unknown"|urldisplay}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex justify-end items-center">
+                            {{location.count|intcomma}}
+                            <span class="text-xs rf" style="min-width: 48px">
+                                ({{location.count|percent:stats.hit_count}})
+                            </span>
+                        </div>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -135,8 +147,20 @@
             <tbody>
                 {% for referrer in stats.referrers %}
                 <tr>
-                    <td class="truncate w-full max-w-0">{{referrer.referrer|default:"Direct"|urldisplay}}</td>
-                    <td class="rf">{{referrer.count|intcomma}}</td>
+                    <td class="truncate w-full max-w-0 relative">
+                        {% include 'dashboard/includes/bar.html' with count=referrer.count max=stats.referrers.0.count total=stats.session_count %}
+                        <div class="relative flex items-center">
+                            {{referrer.referrer|default:"Direct"|urldisplay}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex justify-end items-center">
+                            {{referrer.count|intcomma}}
+                            <span class="text-xs rf" style="min-width: 48px">
+                                ({{referrer.count|percent:stats.session_count}})
+                            </span>
+                        </div>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -157,10 +181,20 @@
             <tbody>
                 {% for os in stats.operating_systems %}
                 <tr>
-                    <td class="flex items-center truncate w-full max-w-0" title="{{os.os|default:'Unknown'}}">
-                        {{os.os|iconify}}<span>{{os.os|default:"Unknown"}}</span>
+                    <td class="flex items-center truncate w-full max-w-0 relative" title="{{os.os|default:'Unknown'}}">
+                        {% include 'dashboard/includes/bar.html' with count=os.count max=stats.operating_systems.0.count total=stats.session_count %}
+                        <div class="relative flex items-center">
+                            {{os.os|iconify}}<span>{{os.os|default:"Unknown"}}</span>
+                        </div>
                     </td>
-                    <td class="rf">{{os.count|intcomma}}</td>
+                    <td>
+                        <div class="flex justify-end items-center">
+                            {{os.count|intcomma}}
+                            <span class="text-xs rf" style="min-width: 48px">
+                                ({{os.count|percent:stats.session_count}})
+                            </span>
+                        </div>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -181,9 +215,21 @@
             <tbody>
                 {% for browser in stats.browsers %}
                 <tr>
-                    <td class="flex items-center truncate w-full max-w-0" title="{{browser.browser|default:'Unknown'}}">
-                        {{browser.browser|iconify}}<span>{{browser.browser|default:"Unknown"}}</span></td>
-                    <td class="rf">{{browser.count|intcomma}}</td>
+                    <td class="flex items-center truncate w-full max-w-0 relative" title="{{browser.browser|default:'Unknown'}}">
+                        {% include 'dashboard/includes/bar.html' with count=browser.count max=stats.browsers.0.count total=stats.session_count %}
+                        </div>
+                        <div class="relative flex items-center">
+                            {{browser.browser|iconify}}<span>{{browser.browser|default:"Unknown"}}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex justify-end items-center">
+                            {{browser.count|intcomma}}
+                            <span class="text-xs rf" style="min-width: 48px">
+                                ({{browser.count|percent:stats.session_count}})
+                            </span>
+                        </div>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -204,8 +250,20 @@
             <tbody>
                 {% for device_type in stats.device_types %}
                 <tr>
-                    <td class="truncate w-full max-w-0">{{device_type.device_type|default:"Unknown"|title}}</td>
-                    <td class="rf">{{device_type.count|intcomma}}</td>
+                    <td class="truncate w-full max-w-0 relative">
+                        {% include 'dashboard/includes/bar.html' with count=device_type.count max=stats.device_types.0.count total=stats.session_count %}
+                        <div class="relative flex items-center">
+                            {{device_type.device_type|default:"Unknown"|title}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex justify-end items-center">
+                            {{device_type.count|intcomma}}
+                            <span class="text-xs rf" style="min-width: 48px">
+                                ({{device_type.count|percent:stats.session_count}})
+                            </span>
+                        </div>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>

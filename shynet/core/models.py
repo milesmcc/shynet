@@ -198,6 +198,36 @@ class Service(models.Model):
 
         avg_hits_per_session = hit_count / session_count if session_count > 0 else None
 
+        avg_session_duration = self._get_avg_session_duration(sessions, session_count)
+
+        chart_data, chart_tooltip_format, chart_granularity = self._get_chart_data(
+            sessions, hits, start_time, end_time, tz_now
+        )
+        return {
+            "currently_online": currently_online,
+            "session_count": session_count,
+            "hit_count": hit_count,
+            "has_hits": has_hits,
+            "bounce_rate_pct": bounce_count * 100 / session_count
+            if session_count > 0
+            else None,
+            "avg_session_duration": avg_session_duration,
+            "avg_load_time": avg_load_time,
+            "avg_hits_per_session": avg_hits_per_session,
+            "locations": locations,
+            "referrers": referrers,
+            "countries": countries,
+            "operating_systems": operating_systems,
+            "browsers": browsers,
+            "devices": devices,
+            "device_types": device_types,
+            "chart_data": chart_data,
+            "chart_tooltip_format": chart_tooltip_format,
+            "chart_granularity": chart_granularity,
+            "online": True,
+        }
+
+    def _get_avg_session_duration(self, sessions, session_count):
         try:
             avg_session_duration = sessions.annotate(
                 duration=models.F("last_seen") - models.F("start_time")
@@ -212,67 +242,71 @@ class Service(models.Model):
         if session_count == 0:
             avg_session_duration = None
 
+        return avg_session_duration
+
+    def _get_chart_data(self, sessions, hits, start_time, end_time, tz_now):
         # Show hourly chart for date ranges of 3 days or less, otherwise daily chart
         if (end_time - start_time).days < 3:
-            session_chart_tooltip_format = "MM/dd HH:mm"
-            session_chart_granularity = "hourly"
-            session_chart_data = {
-                k["hour"]: k["count"]
-                for k in sessions.annotate(hour=TruncHour("start_time"))
+            chart_tooltip_format = "MM/dd HH:mm"
+            chart_granularity = "hourly"
+            sessions_per_hour = (
+                sessions.annotate(hour=TruncHour("start_time"))
                 .values("hour")
                 .annotate(count=models.Count("uuid"))
                 .order_by("hour")
+            )
+            chart_data = {
+                k["hour"]: {"sessions": k["count"]} for k in sessions_per_hour
             }
-            for hour_offset in range(int((end_time - start_time).total_seconds() / 3600) + 1):
-                hour = (start_time + timezone.timedelta(hours=hour_offset))
-                if hour not in session_chart_data:
-                    session_chart_data[hour] = 0 if hour <= tz_now else None
+            hits_per_hour = (
+                hits.annotate(hour=TruncHour("start_time"))
+                .values("hour")
+                .annotate(count=models.Count("id"))
+                .order_by("hour")
+            )
+            for k in hits_per_hour:
+                if k["hour"] not in chart_data:
+                    chart_data[k["hour"]] = {"hits": k["count"], "sessions": 0}
+                else:
+                    chart_data[k["hour"]]["hits"] = k["count"]
+
+            hours_range = range(int((end_time - start_time).total_seconds() / 3600) + 1)
+            for hour_offset in hours_range:
+                hour = start_time + timezone.timedelta(hours=hour_offset)
+                if hour not in chart_data and hour <= tz_now:
+                    chart_data[hour] = {"sessions": 0, "hits": 0}
         else:
-            session_chart_tooltip_format = "MMM d"
-            session_chart_granularity = "daily"
-            session_chart_data = {
-                k["date"]: k["count"]
-                for k in sessions.annotate(date=TruncDate("start_time"))
+            chart_tooltip_format = "MMM d"
+            chart_granularity = "daily"
+            sessions_per_day = (
+                sessions.annotate(date=TruncDate("start_time"))
                 .values("date")
                 .annotate(count=models.Count("uuid"))
                 .order_by("date")
-            }
+            )
+            chart_data = {k["date"]: {"sessions": k["count"]} for k in sessions_per_day}
+            hits_per_day = (
+                hits.annotate(date=TruncDate("start_time"))
+                .values("date")
+                .annotate(count=models.Count("id"))
+                .order_by("date")
+            )
+            for k in hits_per_day:
+                chart_data[k["date"]]["hits"] = k["count"]
+
             for day_offset in range((end_time - start_time).days + 1):
                 day = (start_time + timezone.timedelta(days=day_offset)).date()
-                if day not in session_chart_data:
-                    session_chart_data[day] = 0 if day <= tz_now.date() else None
+                if day not in chart_data and day <= tz_now.date():
+                    chart_data[day] = {"sessions": 0, "hits": 0}
 
-        return {
-            "currently_online": currently_online,
-            "session_count": session_count,
-            "hit_count": hit_count,
-            "has_hits": has_hits,
-            "avg_hits_per_session": hit_count / (max(session_count, 1)),
-            "bounce_rate_pct": bounce_count * 100 / session_count
-            if session_count > 0
-            else None,
-            "avg_session_duration": avg_session_duration,
-            "avg_load_time": avg_load_time,
-            "avg_hits_per_session": avg_hits_per_session,
-            "locations": locations,
-            "referrers": referrers,
-            "countries": countries,
-            "operating_systems": operating_systems,
-            "browsers": browsers,
-            "devices": devices,
-            "device_types": device_types,
-            "session_chart_data": json.dumps(
-                [
-                    {"x": str(key), "y": value}
-                    for key, value in sorted(
-                        session_chart_data.items(), key=lambda k: k[0]
-                    )
-                ]
-            ),
-            "session_chart_tooltip_format": session_chart_tooltip_format,
-            "session_chart_granularity": session_chart_granularity,
-            "online": True,
+        chart_data = sorted(chart_data.items(), key=lambda k: k[0])
+        chart_data = {
+            'sessions': [v['sessions'] for k, v in chart_data],
+            'hits': [v['hits'] for k, v in chart_data],
+            'labels': [str(k) for k, v in chart_data],
         }
+
+        return chart_data, chart_tooltip_format, chart_granularity
 
     def get_absolute_url(self):
         return reverse(

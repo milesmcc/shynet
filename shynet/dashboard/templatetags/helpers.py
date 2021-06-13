@@ -194,6 +194,7 @@ def urldisplay(url):
     else:
         return url
 
+
 class ContextualURLNode(template.Node):
     """Extension of the Django URLNode to support including contextual parameters in URL outputs. In other words, URLs generated will keep the start and end date parameters."""
 
@@ -213,9 +214,13 @@ class ContextualURLNode(template.Node):
         url_parts = list(urlparse(url))
         query = dict(urllib.parse.parse_qsl(url_parts[4]))
 
-        query.update({
-            param: context.request.GET.get(param) for param in self.CONTEXT_PARAMS if param in context.request.GET and param not in query
-        })
+        query.update(
+            {
+                param: context.request.GET.get(param)
+                for param in self.CONTEXT_PARAMS
+                if param in context.request.GET and param not in query
+            }
+        )
 
         url_parts[4] = urllib.parse.urlencode(query)
 
@@ -232,7 +237,39 @@ class ContextualURLNode(template.Node):
 def contextual_url(*args, **kwargs):
     urlnode = url_tag(*args, **kwargs)
     return ContextualURLNode(urlnode)
-    
+
+
 @register.filter
 def location_url(session):
-    return settings.LOCATION_URL.replace("$LATITUDE", str(session.latitude)).replace("$LONGITUDE", str(session.longitude))
+    return settings.LOCATION_URL.replace("$LATITUDE", str(session.latitude)).replace(
+        "$LONGITUDE", str(session.longitude)
+    )
+
+
+@register.filter
+def percent(value, total):
+    if total == 0:
+        return "N/A"
+
+    percent = value / total
+
+    if percent < 0.001:
+        return "<0.1%"
+
+    return f'{percent:.1%}'
+
+
+@register.simple_tag
+def bar_width(count, max, total):
+    if total == 0 or max == 0:
+        return "0"
+
+    if settings.USE_RELATIVE_MAX_IN_BAR_VISUALIZATION:
+        percent = count / max
+    else:
+        percent = count / total
+
+    if percent < 0.001:
+        return "0"
+
+    return f'{percent:.1%}'
