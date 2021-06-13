@@ -1,17 +1,13 @@
-name: Build docker images
+name: Build edge Docker images
 
 on:
   push:
-    tags:
-      - "*"
     branches:
       - master
 
 jobs:
   publish_to_docker_hub:
-
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -20,8 +16,7 @@ jobs:
         id: prep
         run: |
           DOCKER_IMAGE=milesmcc/shynet
-          VERSION=${GITHUB_REF#refs/tags/}
-          TAGS="${DOCKER_IMAGE}:${VERSION},${DOCKER_IMAGE}:latest"
+          TAGS="${DOCKER_IMAGE}:edge"
           echo ::set-output name=tags::${TAGS}
           
       - name: Set up QEMU
