@@ -132,6 +132,10 @@
             </tbody>
         </table>
     </div>
+    <div class="card ~neutral !low force-limited-height py-2 overflow-y-hidden">
+        <p class="text-sm font-semibold mx-2 p-2 border-b mb-2">Sessions by Geography</p>
+        {% include 'dashboard/includes/map_chart.html' with countries=stats.countries %}
+    </div>
     <div class="card ~neutral !low limited-height py-2">
         <table class="table">
             <thead class="text-sm">
@@ -154,40 +158,6 @@
                             {{referrer.count|intcomma}}
                             <span class="text-xs rf" style="min-width: 48px">
                                 ({{referrer.count|percent:stats.session_count}})
-                            </span>
-                        </div>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td><span class="text-gray-600">No data yet...</span></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="card ~neutral !low limited-height py-2">
-        <table class="table">
-            <thead class="text-sm">
-                <tr>
-                    <th>Country</th>
-                    <th class="rf">Sessions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for country in stats.countries %}
-                <tr>
-                    <td class="truncate w-full max-w-0 relative" title="{{country.country|country_name}}">
-                        {% include 'dashboard/includes/bar.html' with count=country.count max=stats.countries.0.count total=stats.session_count %}
-                        <div class="relative flex items-center">
-                            <span class="flex-none {{country.country|flag_class}}"></span> {{country.country|country_name}}
-                        </div>
-                    </td>
-                    <td>
-                        <div class="flex justify-end items-center">
-                            {{country.count|intcomma}}
-                            <span class="text-xs rf" style="min-width: 48px">
-                                ({{country.count|percent:stats.session_count}})
                             </span>
                         </div>
                     </td>
@@ -304,7 +274,7 @@
         </table>
     </div>
 </div>
-<div class="card ~neutral !low limited-height py-2">
+<div class="card ~neutral !low py-2">
     {% include 'dashboard/includes/session_list.html' %}
     <hr class="sep h-8 md:h-12">
     <a href="{% contextual_url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">View more

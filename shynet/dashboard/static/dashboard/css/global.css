@@ -11,6 +11,11 @@
     max-height: 400px;
 }
 
+.force-limited-height {
+    max-height: 400px;
+    overflow: hidden;
+}
+
 .rf {
     text-align: right !important;
 }

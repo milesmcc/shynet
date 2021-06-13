@@ -1,0 +1,59 @@
+{% load helpers %}
+
+<div id="map-chart" class="relative"></div>
+<script>
+    // Colors
+    const lightBlue = "#C4B5FD";
+    const highlightBlue = "#8B5CF6";
+    const white = "#ffffff";
+    
+    // Data maps
+    const countryMapData = {};
+    const countryMapColors = {};
+    const countryMap = {
+        {% for country in countries %}"{{country.country|safe|datamap_id}}": {{country.count}},
+        {% endfor %}
+    };
+
+    // Max session count will be full opacity
+    const maxSessionCount = Math.max(...Object.values(countryMap));
+
+    // Color scale starts from opacity 0.1 - 1.0, 0 sessions gets opacity 0
+    const minPercentage = 0.1
+
+    // Loop over country map and transform data for Datamaps use
+    const keys = Object.keys(countryMap);
+    const length = keys.length;
+    for (let i = 0; i < length; i++) {
+        countryMapData[keys[i]] = {
+            sessionCount: countryMap[keys[i]],
+            color: `rgba(124, 58, 237, ${countryMap[keys[i]] === 0 ? 0 : minPercentage + (countryMap[keys[i]] / maxSessionCount * (1 - minPercentage))})`
+        };
+        countryMapColors[keys[i]] = countryMapData[keys[i]].color;
+    }
+
+    // Create datamap
+    const map = new Datamap({
+        element: document.getElementById('map-chart'),
+        projection: 'mercator',
+        responsive: true,
+        geographyConfig: {
+            borderColor: lightBlue,
+            highlightBorderColor: highlightBlue,
+            highlightBorderWidth: 1.5,
+            highlightFillColor: (geography) => geography.color || white,
+            highlightFillOpacity: 0.9,
+            popupTemplate: (geography, data) => '<div class="hoverinfo"><strong>' + geography.properties.name + '</strong>: ' +  data.sessionCount + ' sessions</div>'
+    
+        },
+        fills: {
+            defaultFill: white
+        },
+        data: countryMapData,
+        aspectRatio: 0.68
+    });
+    map.updateChoropleth(countryMapColors);
+    
+    // Handle resize. TODO: debounce?
+    window.onresize = () => map.resize();
+</script>
