@@ -3,8 +3,8 @@
 <div id="map-chart" class="relative"></div>
 <script>
     // Colors
-    const lightBlue = "#8992ff";
-    const highlightBlue = "#3948ff";
+    const lightBlue = "#ac89ff";
+    const highlightBlue = "#b339ff";
     const white = "#ffffff";
     
     // Data maps
@@ -27,7 +27,7 @@
     for (let i = 0; i < length; i++) {
         countryMapData[keys[i]] = {
             sessionCount: countryMap[keys[i]],
-            color: `rgba(78,66,255, ${countryMap[keys[i]] === 0 ? 0 : minPercentage + (countryMap[keys[i]] / maxSessionCount * (1 - minPercentage))})`
+            color: `rgba(132, 23, 207, ${countryMap[keys[i]] === 0 ? 0 : minPercentage + (countryMap[keys[i]] / maxSessionCount * (1 - minPercentage))})`
         };
         countryMapColors[keys[i]] = countryMapData[keys[i]].color;
     }
