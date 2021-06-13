@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - "*"
+    branches:
+      - master
 
 jobs:
   publish_to_docker_hub:
