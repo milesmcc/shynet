@@ -1,8 +1,7 @@
 {% load helpers %}
 
-<div id="map-chart" class="relative w-full h-full"></div>
+<div id="map-chart" class="relative"></div>
 <script>
-
     // Colors
     const lightBlue = "#8992ff";
     const highlightBlue = "#3948ff";
@@ -55,6 +54,6 @@
     });
     map.updateChoropleth(countryMapColors);
     
-    // Handle resize TODO: debounce?
+    // Handle resize. TODO: debounce?
     window.onresize = () => map.resize();
 </script>

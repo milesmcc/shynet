@@ -120,6 +120,10 @@
             </tbody>
         </table>
     </div>
+    <div class="card ~neutral !low force-limited-height py-2 overflow-y-hidden">
+        <p class="text-sm font-semibold mx-2 p-2 border-b mb-2">Sessions by Geography</p>
+        {% include 'dashboard/includes/map_chart.html' with countries=stats.countries %}
+    </div>
     <div class="card ~neutral !low limited-height py-2">
         <table class="table">
             <thead class="text-sm">
@@ -133,30 +137,6 @@
                 <tr>
                     <td class="truncate w-full max-w-0">{{referrer.referrer|default:"Direct"|urldisplay}}</td>
                     <td class="rf">{{referrer.count|intcomma}}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td><span class="text-gray-600">No data yet...</span></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="card ~neutral !low limited-height py-2">
-        <table class="table">
-            <thead class="text-sm">
-                <tr>
-                    <th>Country</th>
-                    <th class="rf">Sessions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for country in stats.countries %}
-                <tr>
-                    <td class="truncate w-full max-w-0" title="{{country.country|country_name}}">
-                        <span class="{{country.country|flag_class}}"></span> {{country.country|country_name}}
-                    </td>
-                    <td class="rf">{{country.count|intcomma}}</td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -235,10 +215,6 @@
             </tbody>
         </table>
     </div>
-</div>
-<div class="card ~neutral !low p-0 mb-6 overflow-visible">
-    <p class="text-sm font-semibold mx-4 p-2 pt-4" style="border-bottom-width: 1px;">GeoIP Map</p>
-    {% include 'dashboard/includes/map_chart.html' with countries=stats.countries %}
 </div>
 <div class="card ~neutral !low py-2">
     {% include 'dashboard/includes/session_list.html' %}
