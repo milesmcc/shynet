@@ -132,6 +132,11 @@
       "description": "How many services should be displayed on dashboard page?",
       "value": "5",
       "required": false
+    },
+    "USE_RELATIVE_MAX_IN_BAR_VISUALIZATION": {
+      "description": "Should background bars be scaled to full width?",
+      "value": "True",
+      "required": false
     }
   }
 }
