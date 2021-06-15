@@ -141,17 +141,27 @@
             <thead class="text-sm">
                 <tr>
                     <th>Country</th>
-                    <th class="rf">Sessions</th>
+                    <th colspan="2" class="rf">Sessions</th>
                     <th class="rf"><span onclick="document.getElementById('card-grid').classList.remove('geo-card--use-table-view'); geoMap.resize()" class="float-right select-none p-0 button ~urge !low">map</span></th>
                 </tr>
             </thead>
             <tbody>
                 {% for country in stats.countries %}
                 <tr>
-                    <td colspan="2" class="truncate w-full max-w-0" title="{{country.country|country_name}}">
-                        <span class="{{country.country|flag_class}}"></span> {{country.country|country_name}}
+                    <td colspan="2" class="truncate w-full max-w-0 relative" title="{{country.country|country_name}}">
+                        {% include 'dashboard/includes/bar.html' with count=country.count max=stats.countries.0.count total=stats.session_count %}
+                        <div class="relative flex items-center">
+                            <span class="flex-none {{country.country|flag_class}}"></span> <span class="truncate">{{country.country|country_name}}</span>
+                        </div>
                     </td>
-                    <td class="rf">{{country.count|intcomma}}</td>
+                    <td colspan="2">
+                        <div class="flex justify-end items-center">
+                            {{country.count|intcomma}}
+                            <span class="text-xs rf" style="min-width: 48px">
+                                ({{country.count|percent:stats.session_count}})
+                            </span>
+                        </div>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
