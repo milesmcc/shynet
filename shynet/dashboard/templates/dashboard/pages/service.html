@@ -184,7 +184,7 @@
                     <td class="flex items-center truncate w-full max-w-0 relative" title="{{os.os|default:'Unknown'}}">
                         {% include 'dashboard/includes/bar.html' with count=os.count max=stats.operating_systems.0.count total=stats.session_count %}
                         <div class="relative flex items-center">
-                            {{os.os|iconify}}<span>{{os.os|default:"Unknown"}}</span>
+                            {{os.os|iconify}}<span class="truncate">{{os.os|default:"Unknown"}}</span>
                         </div>
                     </td>
                     <td>
@@ -219,7 +219,7 @@
                         {% include 'dashboard/includes/bar.html' with count=browser.count max=stats.browsers.0.count total=stats.session_count %}
                         </div>
                         <div class="relative flex items-center">
-                            {{browser.browser|iconify}}<span>{{browser.browser|default:"Unknown"}}</span>
+                            {{browser.browser|iconify}}<span class="truncate">{{browser.browser|default:"Unknown"}}</span>
                         </div>
                     </td>
                     <td>
@@ -253,7 +253,7 @@
                     <td class="truncate w-full max-w-0 relative">
                         {% include 'dashboard/includes/bar.html' with count=device_type.count max=stats.device_types.0.count total=stats.session_count %}
                         <div class="relative flex items-center">
-                            {{device_type.device_type|default:"Unknown"|title}}
+                            <span class="truncate">{{device_type.device_type|default:"Unknown"|title}}</span>
                         </div>
                     </td>
                     <td>
@@ -274,7 +274,7 @@
         </table>
     </div>
 </div>
-<div class="card ~neutral !low py-2">
+<div class="card ~neutral !low py-2 overflow-auto">
     {% include 'dashboard/includes/session_list.html' %}
     <hr class="sep h-8 md:h-12">
     <a href="{% contextual_url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">View more

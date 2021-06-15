@@ -189,7 +189,7 @@ def urldisplay(url):
     if url.startswith("http"):
         display_url = url.replace("http://", "").replace("https://", "")
         return SafeString(
-            f"<a href='{url}' title='{url}' rel='nofollow' class='flex items-center mr-1'>{iconify(url)}<span class='truncate'>{escape(display_url)}</span></a>"
+            f"<a href='{url}' title='{url}' rel='nofollow' class='flex items-center mr-1 truncate'>{iconify(url)}<span class='truncate'>{escape(display_url)}</span></a>"
         )
     else:
         return url
