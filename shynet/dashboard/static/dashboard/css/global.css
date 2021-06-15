@@ -11,11 +11,6 @@
     max-height: 400px;
 }
 
-.force-limited-height {
-    max-height: 400px;
-    overflow: hidden;
-}
-
 .rf {
     text-align: right !important;
 }
@@ -26,6 +21,18 @@
 
 .max-w-0 {
     max-width: 0;
+}
+
+.geo-table {
+    display: none;
+}
+
+.geo-card--use-table-view .geo-map {
+    display: none;
+}
+
+.geo-card--use-table-view .geo-table {
+    display: inline-block
 }
 
 :root {
