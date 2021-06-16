@@ -133,28 +133,37 @@
         </table>
     </div>
     <div class="geo-map card ~neutral !low py-2 overflow-y-hidden">
-        <p class="text-sm font-semibold p-2 border-b mb-2" style="color: var(--color-title)">Sessions by Geography <span onclick="document.getElementById('card-grid').classList.add('geo-card--use-table-view')" class="float-right select-none p-0 button ~urge !low">table</span></p>
+        <p class="text-sm font-semibold p-2 border-b mb-2" style="color: var(--color-title)">
+            Sessions by Geography &nbsp
+            <span onclick="document.getElementById('card-grid').classList.add('geo-card--use-table-view')" class="text-xs select-none p-0 button ~urge !low">
+                (switch to table view)
+            </span>
+        </p>
         {% include 'dashboard/includes/map_chart.html' with countries=stats.countries %}
     </div>
     <div class="geo-table card ~neutral !low limited-height py-2">
         <table class="table">
             <thead class="text-sm">
                 <tr>
-                    <th>Country</th>
-                    <th colspan="2" class="rf">Sessions</th>
-                    <th class="rf"><span onclick="document.getElementById('card-grid').classList.remove('geo-card--use-table-view'); geoMap.resize()" class="float-right select-none p-0 button ~urge !low">map</span></th>
+                    <th>
+                        Country &nbsp
+                        <span onclick="document.getElementById('card-grid').classList.remove('geo-card--use-table-view'); geoMap.resize()" class="text-xs select-none p-0 button ~urge !low">
+                            (switch to map view)
+                        </span>
+                    </th>
+                    <th class="rf">Sessions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for country in stats.countries %}
                 <tr>
-                    <td colspan="2" class="truncate w-full max-w-0 relative" title="{{country.country|country_name}}">
+                    <td class="truncate w-full max-w-0 relative" title="{{country.country|country_name}}">
                         {% include 'dashboard/includes/bar.html' with count=country.count max=stats.countries.0.count total=stats.session_count %}
                         <div class="relative flex items-center">
                             <span class="flex-none {{country.country|flag_class}}"></span> <span class="truncate">{{country.country|country_name}}</span>
                         </div>
                     </td>
-                    <td colspan="2">
+                    <td>
                         <div class="flex justify-end items-center">
                             {{country.count|intcomma}}
                             <span class="text-xs rf" style="min-width: 48px">
