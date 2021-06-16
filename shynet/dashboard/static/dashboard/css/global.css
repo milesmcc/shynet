@@ -23,6 +23,10 @@
     max-width: 0;
 }
 
+.min-w-48 {
+    min-width: 48px
+}
+
 .geo-table {
     display: none;
 }
