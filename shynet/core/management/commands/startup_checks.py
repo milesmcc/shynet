@@ -38,12 +38,6 @@ class Command(BaseCommand):
         admin, hostname, whitelabel = [True] * 3
         if not migration:
             admin = not User.objects.all().exists()
-            hostname = (
-                not Site.objects.filter(domain__isnull=False)
-                .exclude(domain__exact="")
-                .exclude(domain__exact="example.com")
-                .exists()
-            )
             whitelabel = (
                 not Site.objects.filter(name__isnull=False)
                 .exclude(name__exact="")
@@ -52,5 +46,5 @@ class Command(BaseCommand):
             )
 
         self.stdout.write(
-            self.style.SUCCESS(f"{migration} {admin} {hostname} {whitelabel}")
+            self.style.SUCCESS(f"{migration} {admin} {whitelabel}")
         )
