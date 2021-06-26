@@ -19,7 +19,7 @@ var Shynet = {
       var xhr = new XMLHttpRequest();
       xhr.open(
         "POST",
-        "{{protocol}}://{{request.site.domain|default:request.META.HTTP_HOST}}{{endpoint}}",
+        "{{protocol}}://{{request.get_host|default:request.META.HTTP_HOST}}{{endpoint}}",
         true
       );
       xhr.setRequestHeader("Content-Type", "application/json");
