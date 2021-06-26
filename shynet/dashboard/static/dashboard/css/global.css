@@ -24,7 +24,7 @@
 }
 
 .min-w-48 {
-    min-width: 48px
+    min-width: 48px;
 }
 
 .geo-table {
@@ -36,7 +36,7 @@
 }
 
 .geo-card--use-table-view .geo-table {
-    display: inline-block
+    display: inline-block;
 }
 
 :root {
