@@ -35,7 +35,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         migration = self.check_migrations()
 
-        admin, hostname, whitelabel = [True] * 3
+        admin, whitelabel = [True] * 2
         if not migration:
             admin = not User.objects.all().exists()
             whitelabel = (
