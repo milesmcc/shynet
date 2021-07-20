@@ -118,6 +118,7 @@ If you are going to be running Shynet through a reverse proxy, please see [Confi
 
 4. We are going to move the SSL certificates to the Shynet repo with with command below. Replace `<domain>` with the domain name you used in step 3.
    * `cp /etc/letsencrypt/live/<domain>/{cert,privkey}.pem ~/shynet/shynet/`
+   * `chmod 644 ~/shynet/shynet/privkey.pem`
 
 5. With that, we are going to replace the `webserver.sh` with `ssl.webserver.sh` to enable the use of SSL certificates. The original `webserver.sh` will be backed up to `backup.webserver.sh`
    * `mv ~/shynet/shynet/webserver.sh ~/shynet/shynet/backup.webserver.sh`
