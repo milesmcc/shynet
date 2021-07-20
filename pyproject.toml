@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "shynet"
+version = "0.10.0"
+description = "Modern, privacy-friendly, and cookie-free web analytics."
+authors = ["R. Miles McCain <github@sendmiles.email>"]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Django = "^3.2.5"
+django-allauth = "^0.45.0"
+geoip2 = "^4.2.0"
+whitenoise = "^5.3.0"
+celery = "^5.1.2"
+django-ipware = "^3.0.2"
+PyYAML = "^5.4.1"
+user-agents = "^2.2.0"
+rules = "^3.0"
+gunicorn = "^20.1.0"
+psycopg2-binary = "^2.9.1"
+redis = "^3.5.3"
+django-redis-cache = "^3.0.0"
+pycountry = "^20.7.3"
+html2text = "^2020.1.16"
+django-health-check = "^3.16.4"
+django-npm = "^1.0.0"
+python-dotenv = "^0.18.0"
+
+[tool.poetry.dev-dependencies]
+django-debug-toolbar = "^3.2.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import pkg_resources
+from dotenv import load_dotenv
 
 # import module sys to get the type of exception
 import sys
@@ -17,8 +19,11 @@ import urllib.parse as urlparse
 # Messages
 from django.contrib.messages import constants as messages
 
+# Load environment variables
+load_dotenv()
+
 # Increment on new releases
-VERSION = "v0.10.0"
+VERSION = pkg_resources.get_distribution('shynet').version
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -57,9 +62,8 @@ INSTALLED_APPS = [
     "analytics",
     "allauth",
     "allauth.account",
-    "allauth.socialaccount",
-    "debug_toolbar",
-]
+    "allauth.socialaccount"
+] + (["debug_toolbar"] if DEBUG else [])
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -71,8 +75,7 @@ MIDDLEWARE = [
     "django.contrib.sites.middleware.CurrentSiteMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
-]
+] + (["debug_toolbar.middleware.DebugToolbarMiddleware"] if DEBUG else [])
 
 ROOT_URLCONF = "shynet.urls"
 
