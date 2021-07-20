@@ -292,7 +292,10 @@ class Service(models.Model):
                 .order_by("date")
             )
             for k in hits_per_day:
-                chart_data[k["date"]]["hits"] = k["count"]
+                if k["date"] not in chart_data:
+                    chart_data[k["date"]] = {"hits": k["count"], "sessions": 0}
+                else:
+                    chart_data[k["date"]]["hits"] = k["count"]
 
             for day_offset in range((end_time - start_time).days + 1):
                 day = (start_time + timezone.timedelta(days=day_offset)).date()
