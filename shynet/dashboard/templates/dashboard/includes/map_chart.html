@@ -33,7 +33,7 @@
     }
 
     // Create datamap
-    const map = new Datamap({
+    var geoMap = new Datamap({
         element: document.getElementById('map-chart'),
         projection: 'mercator',
         responsive: true,
@@ -52,8 +52,15 @@
         data: countryMapData,
         aspectRatio: 0.68
     });
-    map.updateChoropleth(countryMapColors);
+    geoMap.updateChoropleth(countryMapColors);
     
-    // Handle resize. TODO: debounce?
-    window.onresize = () => map.resize();
+    let debounceTimeout
+    const debounce = (func, debounce) => {
+        return function(event){
+            if(debounceTimeout) clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(func,debounce,event);
+        };
+    }
+
+    window.addEventListener("resize",debounce(() => geoMap.resize(), 100))
 </script>

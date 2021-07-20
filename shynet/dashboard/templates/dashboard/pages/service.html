@@ -97,7 +97,7 @@
     {% include 'dashboard/includes/time_chart.html' with data=stats.chart_data tooltip_format=stats.chart_tooltip_format granularity=stats.chart_granularity click_zoom=True %}
 </div>
 {% endif %}
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div id="card-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div class="card ~neutral !low limited-height py-2">
         <table class="table">
             <thead class="text-sm">
@@ -118,7 +118,7 @@
                     <td>
                         <div class="flex justify-end items-center">
                             {{location.count|intcomma}}
-                            <span class="text-xs rf" style="min-width: 48px">
+                            <span class="text-xs rf min-w-48">
                                 ({{location.count|percent:stats.hit_count}})
                             </span>
                         </div>
@@ -132,9 +132,53 @@
             </tbody>
         </table>
     </div>
-    <div class="card ~neutral !low force-limited-height py-2 overflow-y-hidden">
-        <p class="text-sm font-semibold mx-2 p-2 border-b mb-2">Sessions by Geography</p>
+    <div class="geo-map card ~neutral !low py-2 overflow-y-hidden">
+        <p class="text-sm font-semibold p-2 border-b mb-2" style="color: var(--color-title)">
+            Sessions by Geography &nbsp
+            <button onclick="document.getElementById('card-grid').classList.add('geo-card--use-table-view')" class="text-xs select-none p-0 button ~urge !low">
+                (view table)
+            </button>
+        </p>
         {% include 'dashboard/includes/map_chart.html' with countries=stats.countries %}
+    </div>
+    <div class="geo-table card ~neutral !low limited-height py-2">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
+                    <th>
+                        Country &nbsp
+                        <button onclick="document.getElementById('card-grid').classList.remove('geo-card--use-table-view'); geoMap.resize()" class="text-xs select-none p-0 button ~urge !low">
+                            (view map)
+                        </button>
+                    </th>
+                    <th class="rf">Sessions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for country in stats.countries %}
+                <tr>
+                    <td class="truncate w-full max-w-0 relative" title="{{country.country|country_name}}">
+                        {% include 'dashboard/includes/bar.html' with count=country.count max=stats.countries.0.count total=stats.session_count %}
+                        <div class="relative flex items-center">
+                            <span class="flex-none {{country.country|flag_class}}"></span> <span class="truncate">{{country.country|country_name}}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex justify-end items-center">
+                            {{country.count|intcomma}}
+                            <span class="text-xs rf min-w-48">
+                                ({{country.count|percent:stats.session_count}})
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td><span class="text-gray-600">No data yet...</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     <div class="card ~neutral !low limited-height py-2">
         <table class="table">
@@ -156,7 +200,7 @@
                     <td>
                         <div class="flex justify-end items-center">
                             {{referrer.count|intcomma}}
-                            <span class="text-xs rf" style="min-width: 48px">
+                            <span class="text-xs rf min-w-48">
                                 ({{referrer.count|percent:stats.session_count}})
                             </span>
                         </div>
@@ -190,7 +234,7 @@
                     <td>
                         <div class="flex justify-end items-center">
                             {{os.count|intcomma}}
-                            <span class="text-xs rf" style="min-width: 48px">
+                            <span class="text-xs rf min-w-48">
                                 ({{os.count|percent:stats.session_count}})
                             </span>
                         </div>
@@ -225,7 +269,7 @@
                     <td>
                         <div class="flex justify-end items-center">
                             {{browser.count|intcomma}}
-                            <span class="text-xs rf" style="min-width: 48px">
+                            <span class="text-xs rf min-w-48">
                                 ({{browser.count|percent:stats.session_count}})
                             </span>
                         </div>
@@ -259,7 +303,7 @@
                     <td>
                         <div class="flex justify-end items-center">
                             {{device_type.count|intcomma}}
-                            <span class="text-xs rf" style="min-width: 48px">
+                            <span class="text-xs rf min-w-48">
                                 ({{device_type.count|percent:stats.session_count}})
                             </span>
                         </div>
