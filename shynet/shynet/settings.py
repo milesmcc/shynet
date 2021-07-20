@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import pkg_resources
 from dotenv import load_dotenv
 
 # import module sys to get the type of exception
@@ -23,7 +22,7 @@ from django.contrib.messages import constants as messages
 load_dotenv()
 
 # Increment on new releases
-VERSION = pkg_resources.get_distribution('shynet').version
+VERSION = "0.11.0"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
