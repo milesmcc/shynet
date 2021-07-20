@@ -41,15 +41,13 @@ Before continuing, please be sure to have the latest version of Docker installed
 
 5. Create an admin user by running `docker run --env-file=<your env file> milesmcc/shynet:latest ./manage.py registeradmin <your email>`. A temporary password will be printed to the console.
 
-6. Set the hostname of your Shynet instance by running `docker run --env-file=<your env file> milesmcc/shynet:latest ./manage.py hostname <your public hostname>`, where `<your public hostname>` is the _publicly accessible hostname_ of your instance, including port. This setting affects the URL that the tracking script sends its results to, so make sure it's correct. (Example hostnames: `shynet.example.com` or `example.com:8000`.)
+6. Set the whitelabel of your Shynet instance by running `docker run --env-file=<your env file> milesmcc/shynet:latest ./manage.py whitelabel <whitelabel>`. While this setting doesn't affect any core operations of Shynet, it lets you rename Shynet to whatever you want. (Example whitelabels: `"My Shynet Instance"` or `"Acme Analytics"`.)
 
-7. Set the whitelabel of your Shynet instance by running `docker run --env-file=<your env file> milesmcc/shynet:latest ./manage.py whitelabel <whitelabel>`. While this setting doesn't affect any core operations of Shynet, it lets you rename Shynet to whatever you want. (Example whitelabels: `"My Shynet Instance"` or `"Acme Analytics"`.)
+7. Launch your webserver by running `docker run --env-file=<your env file> milesmcc/shynet:latest`. You may need to bind Docker's port 8080 (where Shynet runs) to your local port 80 (http); this can be done using the flag `-p 80:8080` after `run`. Visit your service's homepage, and verify everything looks right! You should see a login prompt. Log in with the credentials from step 5. You'll probably be prompted to "confirm your email"—if you haven't set up an email server, the confirmation email will be printed to the console instead.
 
-8. Launch your webserver by running `docker run --env-file=<your env file> milesmcc/shynet:latest`. You may need to bind Docker's port 8080 (where Shynet runs) to your local port 80 (http); this can be done using the flag `-p 80:8080` after `run`. Visit your service's homepage, and verify everything looks right! You should see a login prompt. Log in with the credentials from step 5. You'll probably be prompted to "confirm your email"—if you haven't set up an email server, the confirmation email will be printed to the console instead.
+8. Create a service by clicking "+ Create Service" in the top right hand corner. Fill out the options as appropriate. Once you're done, press "create" and you'll be redirected to your new service's analytics page.
 
-9. Create a service by clicking "+ Create Service" in the top right hand corner. Fill out the options as appropriate. Once you're done, press "create" and you'll be redirected to your new service's analytics page.
-
-10. Finally, click on "Manage" in the top right of the service's page to get the tracking script code. Inject this script on all pages you'd like the service to track.
+9. Finally, click on "Manage" in the top right of the service's page to get the tracking script code. Inject this script on all pages you'd like the service to track.
 
 
 ### Basic Installation with Docker Compose
@@ -66,9 +64,7 @@ Before continuing, please be sure to have the latest version of Docker installed
 
 5. Create an admin user by running `docker exec -it shynet_main ./manage.py registeradmin <your email>`. A temporary password will be printed to the console.
 
-6. Set the hostname of your Shynet instance by running `docker exec -it shynet_main ./manage.py hostname <your public hostname>`, where `<your public hostname>` is the same as the hostname you set in step 3. This setting affects the URL that the tracking script sends its results to, so make sure it's correct. (Example hostnames: shynet.example.com or example.com:8000.)
-
-7. Set the whitelabel of your Shynet instance by running `docker exec -it shynet_main ./manage.py whitelabel <whitelabel>`. While this setting doesn't affect any core operations of Shynet, it lets you rename Shynet to whatever you want. (Example whitelabels: "My Shynet Instance" or "Acme Analytics".)
+6. Set the whitelabel of your Shynet instance by running `docker exec -it shynet_main ./manage.py whitelabel <whitelabel>`. While this setting doesn't affect any core operations of Shynet, it lets you rename Shynet to whatever you want. (Example whitelabels: "My Shynet Instance" or "Acme Analytics".)
 
 Your site should now be accessible at `http://hostname:port`. Now you can follow steps 9-10 of the [Basic Installation](#basic-installation) guide above to get Shynet integrated on your sites.
 
@@ -78,11 +74,10 @@ You may wish to deploy Shynet on Heroku. Note that Heroku's free offerings (name
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/milesmcc/shynet/tree/master)
 
-Once you deploy, you'll need to setup an admin user, whitelabel, and hostname before you can use Shynet. Do that with the following commands:
+Once you deploy, you'll need to setup an admin user and whitelabel before you can use Shynet. Do that with the following commands:
 
 1. `heroku run --app=<your app> ./manage.py registeradmin <your email>`
-2. `heroku run --app=<your app> ./manage.py hostname <the hostname where you will run Shynet>`
-3. `heroku run --app=<your app> ./manage.py whitelabel "<your Shynet instance's name>"`
+2. `heroku run --app=<your app> ./manage.py whitelabel "<your Shynet instance's name>"`
 
 ## Render
 
@@ -93,8 +88,7 @@ Once you deploy, you'll need to setup an admin user, whitelabel, and hostname be
 Once your deploy has completed, use the **Render Shell** to configure your app:
 
 1. Set your email: `./manage.py registeradmin your-email@example.com`
-1. Add your onrender.com domain: `./manage.py hostname your-shynet-domain.onrender.com`
-1. Set your whitelabel: `./manage.py whitelabel "Your Shynet Instance Name"`
+2. Set your whitelabel: `./manage.py whitelabel "Your Shynet Instance Name"`
 
 See the [Render docs](https://render.com/docs/deploy-shynet) for more information on deploying your application on Render.
 

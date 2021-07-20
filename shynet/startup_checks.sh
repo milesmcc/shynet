@@ -16,9 +16,6 @@ if [[ ${startup_results[1]} == True ]]; then
   echo "Warning: no admin user available. Consult docs for instructions."
 fi
 if [[ ${startup_results[2]} == True ]]; then
-  echo "Warning: Shynet's hostname is not set. The script won't work correctly. Consult docs for instructions."
-fi
-if [[ ${startup_results[3]} == True ]]; then
   echo "Warning: Shynet's whitelabel is not set. Consult docs for instructions."
 fi
 echo "Startup checks complete!"
