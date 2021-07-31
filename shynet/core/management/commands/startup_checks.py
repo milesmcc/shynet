@@ -45,6 +45,4 @@ class Command(BaseCommand):
                 .exists()
             )
 
-        self.stdout.write(
-            self.style.SUCCESS(f"{migration} {admin} {whitelabel}")
-        )
+        self.stdout.write(self.style.SUCCESS(f"{migration} {admin} {whitelabel}"))

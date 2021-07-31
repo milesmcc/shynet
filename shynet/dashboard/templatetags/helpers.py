@@ -228,7 +228,7 @@ class ContextualURLNode(template.Node):
 
         if self.urlnode.asvar:
             context[self.urlnode.asvar] = url_final
-            return ''
+            return ""
         else:
             return url_final
 
@@ -256,7 +256,7 @@ def percent(value, total):
     if percent < 0.001:
         return "<0.1%"
 
-    return f'{percent:.1%}'
+    return f"{percent:.1%}"
 
 
 @register.simple_tag
@@ -272,4 +272,4 @@ def bar_width(count, max, total):
     if percent < 0.001:
         return "0"
 
-    return f'{percent:.1%}'
+    return f"{percent:.1%}"

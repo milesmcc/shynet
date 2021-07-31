@@ -26,34 +26,34 @@ class DateRangeMixin:
         now = timezone.now()
         return [
             {
-                'name': 'Last 3 days',
-                'start': now - timezone.timedelta(days=2),
-                'end': now,
+                "name": "Last 3 days",
+                "start": now - timezone.timedelta(days=2),
+                "end": now,
             },
             {
-                'name': 'Last 30 days',
-                'start': now - timezone.timedelta(days=29),
-                'end': now,
+                "name": "Last 30 days",
+                "start": now - timezone.timedelta(days=29),
+                "end": now,
             },
             {
-                'name': 'Last 90 days',
-                'start': now - timezone.timedelta(days=89),
-                'end': now,
+                "name": "Last 90 days",
+                "start": now - timezone.timedelta(days=89),
+                "end": now,
             },
             {
-                'name': 'This month',
-                'start': now.replace(day=1),
-                'end': now,
+                "name": "This month",
+                "start": now.replace(day=1),
+                "end": now,
             },
             {
-                'name': 'Last month',
-                'start': now.replace(day=1, month=now.month - 1),
-                'end': now.replace(day=1, month=now.month) - timezone.timedelta(days=1),
+                "name": "Last month",
+                "start": now.replace(day=1, month=now.month - 1),
+                "end": now.replace(day=1, month=now.month) - timezone.timedelta(days=1),
             },
             {
-                'name': 'This year',
-                'start': now.replace(day=1, month=1),
-                'end': now,
+                "name": "This year",
+                "start": now.replace(day=1, month=1),
+                "end": now,
             },
         ]
 

@@ -304,9 +304,9 @@ class Service(models.Model):
 
         chart_data = sorted(chart_data.items(), key=lambda k: k[0])
         chart_data = {
-            'sessions': [v['sessions'] for k, v in chart_data],
-            'hits': [v['hits'] for k, v in chart_data],
-            'labels': [str(k) for k, v in chart_data],
+            "sessions": [v["sessions"] for k, v in chart_data],
+            "hits": [v["hits"] for k, v in chart_data],
+            "labels": [str(k) for k, v in chart_data],
         }
 
         return chart_data, chart_tooltip_format, chart_granularity
