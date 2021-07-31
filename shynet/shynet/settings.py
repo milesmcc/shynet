@@ -61,8 +61,9 @@ INSTALLED_APPS = [
     "analytics",
     "allauth",
     "allauth.account",
-    "allauth.socialaccount"
-] + (["debug_toolbar"] if DEBUG else [])
+    "allauth.socialaccount",
+    "debug_toolbar",
+]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -74,7 +75,8 @@ MIDDLEWARE = [
     "django.contrib.sites.middleware.CurrentSiteMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-] + (["debug_toolbar.middleware.DebugToolbarMiddleware"] if DEBUG else [])
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+]
 
 ROOT_URLCONF = "shynet.urls"
 
