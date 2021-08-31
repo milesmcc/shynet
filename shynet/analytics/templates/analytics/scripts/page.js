@@ -49,10 +49,43 @@ var Shynet = {
     Shynet.skipHeartbeat = false;
     Shynet.heartbeatTaskId = setInterval(Shynet.sendHeartbeat, parseInt("{{heartbeat_frequency}}"));
     Shynet.sendHeartbeat();
+  },
+
+  sendEvent: function(event_listener, type) {
+    try {
+      var xhr = new XMLHttpRequest();
+      xhr.open(
+        "POST",
+        "{{protocol}}://{{request.get_host}}{{endpoint}}/event/"+event_listener,
+        true
+      );
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(
+        JSON.stringify({
+          event_type: type,
+          location: window.location.href,
+          element: element
+        })
+      );
+    } catch (e) {}
   }
 };
 
 window.addEventListener("load", Shynet.newPageLoad);
+
+document.querySelectorAll("[class*='shynet-event--']").forEach(element => {
+  element.className.split(' ').forEach(className => {
+    if (/^shynet-event--'([a-z]+)--([\w]+[\w-]*)$/.test(className)) {
+
+      // Events have the format shynet--<event>--<event-listener>
+      // Like shynet-event--click--github-button
+      const [, event, event_listener] = className.split('--');
+      const listener = () => sendEvent(event_listener, event);
+
+      element.addEventListener(event, listener, true);
+    }
+  });
+}
 
 {% if script_inject %}
 // The following is script is not part of Shynet, and was instead
