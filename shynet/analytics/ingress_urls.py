@@ -11,6 +11,12 @@ urlpatterns = [
         "<service_uuid>/script.js", ingress.ScriptView.as_view(), name="endpoint_script"
     ),
     path(
+        "<service_uuid>/event", ingress.EventView.as_view(), name="endpoint_events"
+    ),
+    path(
+        "<service_uuid>/<identifier>/event", ingress.EventView.as_view(), name="endpoint_events_id"
+    ),
+    path(
         "<service_uuid>/<identifier>/pixel.gif",
         ingress.PixelView.as_view(),
         name="endpoint_pixel_id",

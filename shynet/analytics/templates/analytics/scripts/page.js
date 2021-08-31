@@ -51,18 +51,19 @@ var Shynet = {
     Shynet.sendHeartbeat();
   },
 
-  sendEvent: function(event_listener, type) {
+  sendEvent: function(event_tracker, type) {
     try {
       var xhr = new XMLHttpRequest();
       xhr.open(
         "POST",
-        "{{protocol}}://{{request.get_host}}{{endpoint}}/event/"+event_listener,
+        "{{protocol}}://{{request.get_host}}{{event_endpoint}}",
         true
       );
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.send(
         JSON.stringify({
           event_type: type,
+          event_tracker: event_tracker,
           location: window.location.href,
           element: element
         })
@@ -79,13 +80,13 @@ document.querySelectorAll("[class*='shynet-event--']").forEach(element => {
 
       // Events have the format shynet--<event>--<event-listener>
       // Like shynet-event--click--github-button
-      const [, event, event_listener] = className.split('--');
-      const listener = () => sendEvent(event_listener, event);
+      const [, event, event_tracker] = className.split('--');
+      const listener = () => sendEvent(event_tracker, event);
 
       element.addEventListener(event, listener, true);
     }
   });
-}
+})
 
 {% if script_inject %}
 // The following is script is not part of Shynet, and was instead

@@ -20,7 +20,7 @@ from ipware import get_client_ip
 
 from core.models import Service
 
-from ..tasks import ingress_request
+from ..tasks import ingress_request, ingress_event
 
 
 def ingress(request, service_uuid, identifier, tracker, payload):
@@ -41,6 +41,26 @@ def ingress(request, service_uuid, identifier, tracker, payload):
         dnt=dnt,
         identifier=identifier,
     )
+
+
+def event(request, service_uuid, identifier, payload):
+    time = timezone.now()
+    client_ip, is_routable = get_client_ip(request)
+    location = request.META.get("HTTP_REFERER", "").strip()
+    user_agent = request.META.get("HTTP_USER_AGENT", "").strip()
+    dnt = request.META.get("HTTP_DNT", "0").strip() == "1"
+
+    ingress_event.delay(
+        service_uuid,
+        time,
+        payload,
+        client_ip,
+        location,
+        user_agent,
+        dnt=dnt,
+        identifier=identifier,
+    )
+
 
 
 class ValidateServiceOriginsMixin:
@@ -125,6 +145,24 @@ class ScriptView(ValidateServiceOriginsMixin, View):
                 },
             )
         )
+
+        event_endpoint = (
+            reverse(
+                "ingress:endpoint_events",
+                kwargs={
+                    "service_uuid": self.kwargs.get("service_uuid")
+                },
+            )
+            if self.kwargs.get("identifier") == None
+            else reverse(
+                "ingress:endpoint_events_id",
+                kwargs={
+                    "service_uuid": self.kwargs.get("service_uuid"),
+                    "identifier": self.kwargs.get("identifier")
+                },
+            )
+        )
+
         heartbeat_frequency = settings.SCRIPT_HEARTBEAT_FREQUENCY
         return render(
             self.request,
@@ -132,6 +170,7 @@ class ScriptView(ValidateServiceOriginsMixin, View):
             context=dict(
                 {
                     "endpoint": endpoint,
+                    "event_endpoint": event_endpoint,
                     "protocol": protocol,
                     "heartbeat_frequency": heartbeat_frequency,
                     "script_inject": self.get_script_inject(),
@@ -161,3 +200,19 @@ class ScriptView(ValidateServiceOriginsMixin, View):
             script_inject = service.script_inject
             cache.set(f"script_inject_{service_uuid}", script_inject, timeout=3600)
         return script_inject
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class EventView(ValidateServiceOriginsMixin, View):
+    def post(self, *args, **kwargs):
+        payload = json.loads(self.request.body)
+        event(
+            self.request,
+            self.kwargs.get("service_uuid"),
+            self.kwargs.get("identifier", ""),
+            "EVENT",
+            payload,
+        )
+        return HttpResponse(
+            json.dumps({"status": "OK"}), content_type="application/json"
+        )
