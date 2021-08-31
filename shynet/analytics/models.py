@@ -120,3 +120,57 @@ class Hit(models.Model):
             "dashboard:service_session",
             kwargs={"pk": self.service.pk, "session_pk": self.session.pk},
         )
+
+
+class EventListener(models.Model):
+    """
+    An event class is type of event (eg. button-click) to attach
+    to elements to the page.
+    """
+    name = models.TextField(blank=False, db_index=True)
+    service = models.ForeignKey(
+        Service, on_delete=models.CASCADE,
+        db_index=True
+    )
+
+
+class Event(models.Model):
+    """
+    An event is a realization of an EventListener (eg. an instance
+    of a button press). It is associated with a session, similarly
+    than with a hit.
+    """
+    session = models.ForeignKey(
+        Session, on_delete=models.CASCADE,
+        db_index=True
+    )
+    event = models.ForeignKey(
+        EventListener, on_delete=models.CASCADE,
+        db_index=True
+    )
+
+    # Base request information
+
+    # An event is assumed to be immediate.
+    event_time = models.DateTimeField(default=timezone.now, db_index=True)
+    location = models.TextField(blank=True, db_index=True)
+
+    # Not necessary, but following same pattern as the Hit mode.
+    service = models.ForeignKey(
+        Service, on_delete=models.CASCADE,
+        db_index=True
+    )
+
+    class Meta:
+        ordering = ["-event_time"]
+        indexes = [
+            models.Index(fields=["session", "-event_time"]),
+            models.Index(fields=["service", "-event_time"]),
+            models.Index(fields=["session", "location"]),
+        ]
+
+    def get_absolute_url(self):
+        return reverse(
+            "dashboard:service_session",
+            kwargs={"pk": self.service.pk, "session_pk": self.session.pk},
+        )
