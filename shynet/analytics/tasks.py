@@ -204,18 +204,3 @@ def ingress_request(
         log.exception(e)
         print(e)
         raise e
-
-
-@shared_task
-def ingress_event(
-    service_uuid,
-    tracker,
-    time,
-    payload,
-    ip,
-    location,
-    user_agent,
-    dnt=False,
-    identifier="",
-):
-    log.debug("Got event")

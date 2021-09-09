@@ -83,20 +83,37 @@ class Session(models.Model):
 
 class Hit(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE, db_index=True)
-    initial = models.BooleanField(default=True, db_index=True)
+
+    type = models.TextField(
+        choices=[("visit", "Visit"), ("event", "Event")],
+        default="visit"
+    )  # Tracking pixel or JS
 
     # Base request information
     start_time = models.DateTimeField(default=timezone.now, db_index=True)
     last_seen = models.DateTimeField(default=timezone.now, db_index=True)
+
+    # TODO: rename heartbeats field so it can be used to count events,
+    # as well as page heartbeats
     heartbeats = models.IntegerField(default=0)
-    tracker = models.TextField(
-        choices=[("JS", "JavaScript"), ("PIXEL", "Pixel (noscript)")]
-    )  # Tracking pixel or JS
 
     # Advanced page information
     location = models.TextField(blank=True, db_index=True)
-    referrer = models.TextField(blank=True, db_index=True)
+
+    # -- Visit specific Fields
+    initial = models.BooleanField(default=True, db_index=True)
+    tracker = models.TextField(
+        choices=[("JS", "JavaScript"), ("PIXEL", "Pixel (noscript)")]
+    )  # Tracking pixel or JS
     load_time = models.FloatField(null=True, db_index=True)
+    referrer = models.TextField(blank=True, db_index=True)
+
+    # -- Event specific fields
+    event = models.ForeignKey(
+        'EventListener', on_delete=models.CASCADE,
+        db_index=True,
+        null=True
+    )
 
     # While not necessary, we store the root service directly for performance.
     # It makes querying much easier; no need for inner joins.
@@ -124,53 +141,12 @@ class Hit(models.Model):
 
 class EventListener(models.Model):
     """
-    An event class is type of event (eg. button-click) to attach
-    to elements to the page.
+    An EventListener is type of event (eg. button-click) to attach
+    to elements to the page. We can chose to accept all kinds of events
+    or pre-create the events and reject any event that is not pre-created
     """
     name = models.TextField(blank=False, db_index=True)
     service = models.ForeignKey(
         Service, on_delete=models.CASCADE,
         db_index=True
     )
-
-
-class Event(models.Model):
-    """
-    An event is a realization of an EventListener (eg. an instance
-    of a button press). It is associated with a session, similarly
-    than with a hit.
-    """
-    session = models.ForeignKey(
-        Session, on_delete=models.CASCADE,
-        db_index=True
-    )
-    event = models.ForeignKey(
-        EventListener, on_delete=models.CASCADE,
-        db_index=True
-    )
-
-    # Base request information
-
-    # An event is assumed to be immediate.
-    event_time = models.DateTimeField(default=timezone.now, db_index=True)
-    location = models.TextField(blank=True, db_index=True)
-
-    # Not necessary, but following same pattern as the Hit mode.
-    service = models.ForeignKey(
-        Service, on_delete=models.CASCADE,
-        db_index=True
-    )
-
-    class Meta:
-        ordering = ["-event_time"]
-        indexes = [
-            models.Index(fields=["session", "-event_time"]),
-            models.Index(fields=["service", "-event_time"]),
-            models.Index(fields=["session", "location"]),
-        ]
-
-    def get_absolute_url(self):
-        return reverse(
-            "dashboard:service_session",
-            kwargs={"pk": self.service.pk, "session_pk": self.session.pk},
-        )

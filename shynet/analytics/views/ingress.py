@@ -20,10 +20,10 @@ from ipware import get_client_ip
 
 from core.models import Service
 
-from ..tasks import ingress_request, ingress_event
+from ..tasks import ingress_request
 
 
-def ingress(request, service_uuid, identifier, tracker, payload):
+def ingress(request, type, service_uuid, identifier, tracker, payload):
     time = timezone.now()
     client_ip, is_routable = get_client_ip(request)
     location = request.META.get("HTTP_REFERER", "").strip()
@@ -41,27 +41,6 @@ def ingress(request, service_uuid, identifier, tracker, payload):
         dnt=dnt,
         identifier=identifier,
     )
-
-
-def event(request, service_uuid, identifier, payload):
-    time = timezone.now()
-    client_ip, is_routable = get_client_ip(request)
-    location = request.META.get("HTTP_REFERER", "").strip()
-    user_agent = request.META.get("HTTP_USER_AGENT", "").strip()
-    dnt = request.META.get("HTTP_DNT", "0").strip() == "1"
-
-    ingress_event.delay(
-        service_uuid,
-        time,
-        payload,
-        client_ip,
-        location,
-        user_agent,
-        dnt=dnt,
-        identifier=identifier,
-    )
-
-
 
 class ValidateServiceOriginsMixin:
     def dispatch(self, request, *args, **kwargs):
@@ -110,6 +89,7 @@ class PixelView(ValidateServiceOriginsMixin, View):
         # Extract primary data
         ingress(
             self.request,
+            'visit',
             self.kwargs.get("service_uuid"),
             self.kwargs.get("identifier", ""),
             "PIXEL",
@@ -183,6 +163,7 @@ class ScriptView(ValidateServiceOriginsMixin, View):
         payload = json.loads(self.request.body)
         ingress(
             self.request,
+            'visit',
             self.kwargs.get("service_uuid"),
             self.kwargs.get("identifier", ""),
             "JS",
@@ -206,8 +187,9 @@ class ScriptView(ValidateServiceOriginsMixin, View):
 class EventView(ValidateServiceOriginsMixin, View):
     def post(self, *args, **kwargs):
         payload = json.loads(self.request.body)
-        event(
+        ingress(
             self.request,
+            'event',
             self.kwargs.get("service_uuid"),
             self.kwargs.get("identifier", ""),
             "EVENT",
