@@ -33,6 +33,7 @@ COPY shynet .
 
 # Launch
 EXPOSE 8080
+HEALTHCHECK CMD bash -c 'wget -o /dev/null -O /dev/null --header "Host: ${ALLOWED_HOSTS%,*}" "http://127.0.0.1:$PORT/healthz/?format=json"'
 CMD [ "./entrypoint.sh" ]
 
 # ----- PRODUCTION DEVELOPMENT IMAGE
