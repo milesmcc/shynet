@@ -10,9 +10,9 @@ jobs:
       db:
         image: postgres:12.3-alpine
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: github_actions
+          POSTGRES_USER: shynet_db_user
+          POSTGRES_PASSWORD: shynet_db_user_password
+          POSTGRES_DB: shynet_db
         ports:
           - 5432:5432
     strategy:
@@ -33,9 +33,6 @@ jobs:
         run: poetry install
         
       - name: Django Testing project
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: github_actions
         run: |
+          cp TEMPLATE.env .env
           poetry run ./shynet/manage.py test
