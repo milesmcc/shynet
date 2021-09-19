@@ -5,6 +5,7 @@ services:
       - ./shynet:/usr/src/shynet
     build: 
       target: development
+    image: milesmcc/shynet:development
     command: ./dev_entrypoint.sh
     ports:
       - 8080:8080
