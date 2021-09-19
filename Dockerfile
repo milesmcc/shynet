@@ -1,4 +1,4 @@
-FROM python:alpine3.14
+FROM python:alpine3.14 as base
 
 # Getting things ready
 WORKDIR /usr/src/shynet
@@ -17,6 +17,7 @@ RUN curl -m 180 "https://download.maxmind.com/app/geoip_download?edition_id=GeoL
 	mv /tmp/GeoLite2*/*.mmdb /etc && \
 	apk del curl
 
+
 # Move dependency files
 COPY poetry.lock pyproject.toml ./
 COPY package.json package-lock.json ../
@@ -28,23 +29,45 @@ RUN apk add --no-cache postgresql-libs && \
 	npm i -P --prefix .. && \
 	pip install poetry==1.1.7
 
+COPY shynet .
+
+# Launch
+EXPOSE 8080
+CMD [ "./entrypoint.sh" ]
+
+# ----- PRODUCTION DEVELOPMENT IMAGE
+FROM base as development
+# DEVELOPMENT TARGET INSTALLS DEV DEPENDENCIES AND
+# DOESN'T CLEANUP AFTER ITSLEF
+
+# Install Python dependencies with dev dependencies
+RUN poetry config virtualenvs.create false && \
+    poetry install --no-interaction --no-ansi
+
+# Collect static messages and translations
+RUN python manage.py collectstatic --noinput && \
+	python manage.py compilemessages
+
+
+# ----- PRODUCTION IMAGE
+FROM base as production
+# DEVELOPMENT TARGET DOES NOT INSTALL DEV DEPENDENCIES AND
+# CLEANSUP AFTER ITSELF
+
 # Install Python dependencies
 RUN poetry config virtualenvs.create false && \
     poetry install --no-dev --no-interaction --no-ansi
 
-# Cleanup dependencies & setup user group
-RUN apk --purge del .build-deps && \
-	rm -rf /var/lib/apt/lists/* && \
-	rm /var/cache/apk/* && \
-	addgroup --system -g $GF_GID appgroup && \
-	adduser appuser --system --uid $GF_UID -G appgroup
-
-# Install Shynet
-COPY shynet .
+# Collect static messages and translations
 RUN python manage.py collectstatic --noinput && \
 	python manage.py compilemessages
 
-# Launch
+# Cleanup dependencies & setup user group
+RUN apk --purge del .build-deps && \
+	rm -rf /var/lib/apt/lists/* && \
+	rm /var/cache/apk/* && 
+
+# In production change default user from Root to appuser
+RUN addgroup --system -g $GF_GID appgroup && \
+	adduser appuser --system --uid $GF_UID -G appgroup
 USER appuser
-EXPOSE 8080
-CMD [ "./entrypoint.sh" ]

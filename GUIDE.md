@@ -54,19 +54,29 @@ Before continuing, please be sure to have the latest version of Docker installed
 
 > Make sure you have `docker-compose` installed. If not, [install it](https://docs.docker.com/compose/install/) 
 
+**NOTE**
+There are 3 docker compose files, following [docker-compose extends](https://docs.docker.com/compose/extends/) practices. `docker-compose.yaml` contains all the shared configurations. `docker-compose.override.yaml` contains all the development configurations and setup a development environment with docker compose (mount the code in the container and auto-reloading). `docker-compose.prod.yaml` has the necessary additions for production setup using nginx.
+
+Note that when you do `docker-compose up`, docker-compose will automatically pickup the base + override file. If you want to deploy to production, make sure you pass the appropriate flags.
+
+**For development you do not need to specify the `-f` flags. For production make sure you use both `-f docker-compose.yml -f docker-compose.prod.yml`
+
 1. Clone the repository.
 
 2. Using [TEMPLATE.env](/TEMPLATE.env) as a template, confiure the environment for your Shynet instance and place the modified config in a file called `.env` in the root of the repository. Do _not_ change the port number at the end; you can set the public facing port in the next step. 
 
-3. On line 2 of the `nginx.conf` file located in the root of the repository, replace `example.com` with your hostname. Then, in the `docker-compose.yml` file, set the port number by replacing `8080` in line 38 ( `- 8080:80` ) with whatever local port you want to bind it to. For example, set the port number to `- 80:80` if you want your site will be available via HTTP (port 80) at `http://<your hostname>`.
+3. On line 2 of the `nginx.conf` file located in the root of the repository, replace `example.com` with your hostname. Then, in the `docker-compose.prod.yml` file, set the port number by replacing `8080` in line 38 ( `- 8080:80` ) with whatever local port you want to bind it to. For example, set the port number to `- 80:80` if you want your site will be available via HTTP (port 80) at `http://<your hostname>`.
 
-4. Launch the Shynet server for the first time by running `docker-compose up -d`. If you get an error like "permission denied" or "Couldn't connect to Docker daemon", either prefix the command with `sudo` or add your user to the `docker` group.
+4. Launch the Shynet server for the first time by running `docker-compose  -f docker-compose.yml -f docker-compose.prod.yml up -d`. If you get an error like "permission denied" or "Couldn't connect to Docker daemon", either prefix the command with `sudo` or add your user to the `docker` group.
 
-5. Create an admin user by running `docker exec -it shynet_main ./manage.py registeradmin <your email>`. A temporary password will be printed to the console.
+5. Create an admin user by running `docker exec -it -f docker-compose.yml -f docker-compose.prod.yml shynet_main ./manage.py registeradmin <your email>`. A temporary password will be printed to the console.
 
-6. Set the whitelabel of your Shynet instance by running `docker exec -it shynet_main ./manage.py whitelabel <whitelabel>`. While this setting doesn't affect any core operations of Shynet, it lets you rename Shynet to whatever you want. (Example whitelabels: "My Shynet Instance" or "Acme Analytics".)
+6. Set the whitelabel of your Shynet instance by running `docker exec -it -f docker-compose.yml -f docker-compose.prod.yml shynet_main ./manage.py whitelabel <whitelabel>`. While this setting doesn't affect any core operations of Shynet, it lets you rename Shynet to whatever you want. (Example whitelabels: "My Shynet Instance" or "Acme Analytics".)
 
 Your site should now be accessible at `http://hostname:port`. Now you can follow steps 9-10 of the [Basic Installation](#basic-installation) guide above to get Shynet integrated on your sites.
+
+**OPTIONAL**
+You can also enable a celery worker as a separate deployment by un-commenting the lines in `docker-compose.prod.yml` 
 
 ## Heroku
 

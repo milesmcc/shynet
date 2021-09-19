@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  shynet:
+    volumes:
+      - ./shynet:/usr/src/shynet
+    build: 
+      target: development
+    command: ./dev_entrypoint.sh
+    ports:
+      - 8080:8080
