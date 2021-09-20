@@ -66,9 +66,9 @@ RUN python manage.py collectstatic --noinput && \
 # Cleanup dependencies & setup user group
 RUN apk --purge del .build-deps && \
 	rm -rf /var/lib/apt/lists/* && \
-	rm /var/cache/apk/* && 
+	rm /var/cache/apk/*
 
 # In production change default user from Root to appuser
-RUN addgroup --system -g $GF_GID appgroup && \
-	adduser appuser --system --uid $GF_UID -G appgroup
+RUN addgroup --system -g "$GF_GID" appgroup && \
+	adduser appuser --system --uid "$GF_UID" -G appgroup
 USER appuser
