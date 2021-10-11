@@ -1,3 +1,9 @@
 from django.contrib import admin
+from api.models import ApiToken
 
-# Register your models here.
+
+class ApiTokenAdmin(admin.ModelAdmin):
+    list_display = ("name", "user", "value")
+
+
+admin.site.register(ApiToken, ApiTokenAdmin)
