@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "core",
     "dashboard.apps.DashboardConfig",
     "analytics",
+    "api",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
