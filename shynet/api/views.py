@@ -15,9 +15,10 @@ class DashboardApiView(ApiTokenRequiredMixin, DateRangeMixin, View):
             Q(owner=request.user) | Q(collaborators__in=[request.user])
         ).distinct()
 
+        minimal = request.GET.get('minimal').lower() in ('1', 'true')
         start = self.get_start_date()
         end = self.get_end_date()
-        services_data = [s.get_core_stats(start, end) for s in services]
+        services_data = [s.get_core_stats(start, end, minimal) for s in services]
         for service_data in services_data:
             for key, value in service_data.items():
                 if isinstance(value, QuerySet):
