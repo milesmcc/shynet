@@ -15,16 +15,35 @@ class DashboardApiView(ApiTokenRequiredMixin, DateRangeMixin, View):
             Q(owner=request.user) | Q(collaborators__in=[request.user])
         ).distinct()
 
-        minimal = request.GET.get('minimal').lower() in ('1', 'true')
+        uuid = request.GET.get('uuid')
+        if uuid:
+            services = services.filter(uuid=uuid)
+
+        minimal = request.GET.get('minimal', '0').lower() in ('1', 'true')
         start = self.get_start_date()
         end = self.get_end_date()
-        services_data = [s.get_core_stats(start, end, minimal) for s in services]
-        for service_data in services_data:
-            for key, value in service_data.items():
-                if isinstance(value, QuerySet):
-                    service_data[key] = list(value)
-            for key, value in service_data['compare'].items():
-                if isinstance(value, QuerySet):
-                    service_data['compare'][key] = list(value)
+        services_data = [
+            {
+                'name': s.name,
+                'uuid': s.uuid,
+                'link': s.link,
+                'stats': s.get_core_stats(start, end, minimal),
+            }
+            for s in services
+        ]
+
+        if not minimal:
+            services_data = self._convert_querysets_to_lists(services_data)
 
         return JsonResponse(data={'services': services_data})
+
+    def _convert_querysets_to_lists(self, services_data):
+        for service_data in services_data:
+            for key, value in service_data['stats'].items():
+                if isinstance(value, QuerySet):
+                    service_data['stats'][key] = list(value)
+            for key, value in service_data['stats']['compare'].items():
+                if isinstance(value, QuerySet):
+                    service_data['stats']['compare'][key] = list(value)
+
+        return service_data
