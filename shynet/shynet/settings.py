@@ -299,7 +299,7 @@ else:
     EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS")
 
 # Auto fields
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # NPM
 
