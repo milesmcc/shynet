@@ -7,7 +7,6 @@ from dashboard.views import DashboardView
 
 
 class QuestionModelTests(TestCase):
-
     def setUp(self):
         # Every test needs access to the request factory.
         self.factory = RequestFactory()
@@ -23,12 +22,11 @@ class QuestionModelTests(TestCase):
         THEN: It's redirected to login page with NEXT url to dashboard
         """
         login_url = settings.LOGIN_URL
-        response = self.client.get(reverse('dashboard:dashboard'))
+        response = self.client.get(reverse("dashboard:dashboard"))
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
-            response.url,
-            f"{login_url}?next={reverse('dashboard:dashboard')}"
+            response.url, f"{login_url}?next={reverse('dashboard:dashboard')}"
         )
 
     def tests_authenticated_dashboard_view(self):
@@ -37,7 +35,7 @@ class QuestionModelTests(TestCase):
         WHEN: Accessing the dashboard view
         THEN: It should respond with 200 and render the view
         """
-        request = self.factory.get(reverse('dashboard:dashboard'))
+        request = self.factory.get(reverse("dashboard:dashboard"))
         request.user = self.user
 
         # Use this syntax for class-based views.

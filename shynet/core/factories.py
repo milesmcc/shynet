@@ -33,4 +33,5 @@ class UserFactory(DjangoModelFactory):
 class ServiceFactory(DjangoModelFactory):
     class Meta:
         model = Service
+
     name = factory.Faker("company")
