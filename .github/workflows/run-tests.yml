@@ -1,0 +1,37 @@
+name: Run tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:12.3-alpine
+        env:
+          POSTGRES_USER: shynet_db_user
+          POSTGRES_PASSWORD: shynet_db_user_password
+          POSTGRES_DB: shynet_db
+        ports:
+          - 5432:5432
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.9]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run image
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: 1.1.6
+      - name: Install dependencies 
+        run: poetry install
+        
+      - name: Django Testing project
+        run: |
+          cp TEMPLATE.env .env
+          poetry run ./shynet/manage.py test
