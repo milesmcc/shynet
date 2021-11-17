@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.contrib.auth.models import AnonymousUser
-from .models import ApiToken
+
+from core.models import User
 
 
 class ApiTokenRequiredMixin:
@@ -10,11 +11,9 @@ class ApiTokenRequiredMixin:
             return AnonymousUser()
 
         token = token.split(' ')[1]
-        api_token = ApiToken.objects.filter(value=token).first()
-        if not api_token:
-            return AnonymousUser()
+        user = User.objects.filter(api_token=token).first()
 
-        return api_token.user
+        return user if user else AnonymousUser()
 
     def dispatch(self, request, *args, **kwargs):
         request.user = self._get_user_by_token(request)

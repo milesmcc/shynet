@@ -88,6 +88,9 @@
         {% url 'account_set_password' as url %}
         {% include 'dashboard/includes/sidebar_portal.html' with label="Security" url=url %}
 
+        {% url 'dashboard:api_settings' as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label="API" url=url %}
+
         {% url 'account_logout' as url %}
         {% include 'dashboard/includes/sidebar_portal.html' with label="Sign Out" url=url %}
 

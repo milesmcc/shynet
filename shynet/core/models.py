@@ -1,7 +1,8 @@
 import ipaddress
-import json
 import re
 import uuid
+
+from secrets import token_urlsafe
 
 from django.apps import apps
 from django.conf import settings
@@ -43,9 +44,14 @@ def _parse_network_list(networks: str):
     return [ipaddress.ip_network(network.strip()) for network in networks.split(",")]
 
 
+def _default_api_token():
+    return token_urlsafe(32)
+
+
 class User(AbstractUser):
     username = models.TextField(default=_default_uuid, unique=True)
     email = models.EmailField(unique=True)
+    api_token = models.TextField(default=_default_api_token, unique=True)
 
     def __str__(self):
         return self.email

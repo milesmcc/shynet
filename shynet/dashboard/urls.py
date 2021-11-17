@@ -1,6 +1,4 @@
-from django.contrib import admin
-from django.urls import include, path
-from django.views.generic import RedirectView
+from django.urls import path
 
 from . import views
 
@@ -27,5 +25,15 @@ urlpatterns = [
         "service/<pk>/sessions/<session_pk>/",
         views.ServiceSessionView.as_view(),
         name="service_session",
+    ),
+    path(
+        "api-settings/",
+        views.ApiSettingsView.as_view(),
+        name="api_settings",
+    ),
+    path(
+        "api-token-refresh/",
+        views.RefreshApiTokenView.as_view(),
+        name="api_token_refresh",
     ),
 ]

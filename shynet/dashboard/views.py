@@ -3,8 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.cache import cache
 from django.db.models import Q
-from django.shortcuts import get_object_or_404, reverse
-from django.utils import timezone
+from django.shortcuts import get_object_or_404, reverse, redirect
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -12,11 +11,12 @@ from django.views.generic import (
     ListView,
     TemplateView,
     UpdateView,
+    View,
 )
 from rules.contrib.views import PermissionRequiredMixin
 
 from analytics.models import Session
-from core.models import Service
+from core.models import Service, _default_api_token
 
 from .forms import ServiceForm
 from .mixins import DateRangeMixin
@@ -155,3 +155,14 @@ class ServiceSessionView(LoginRequiredMixin, PermissionRequiredMixin, DetailView
         data = super().get_context_data(**kwargs)
         data["object"] = get_object_or_404(Service, pk=self.kwargs.get("pk"))
         return data
+
+
+class ApiSettingsView(LoginRequiredMixin, TemplateView):
+    template_name = "dashboard/pages/api_settings.html"
+
+
+class RefreshApiTokenView(LoginRequiredMixin, View):
+    def get(self, request):
+        request.user.api_token = _default_api_token()
+        request.user.save()
+        return redirect('dashboard:api_settings')
