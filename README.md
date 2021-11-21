@@ -8,7 +8,7 @@
     <br>
     <strong><a href="#installation">Getting started »</a></strong>
   </p>
-  <p align="center"><a href="#screenshots">Screenshots</a> &bull; <a href="#features">Features</a> &bull; <a href="https://github.com/milesmcc/a17t">Design</a></p>
+  <p align="center"><a href="#screenshots">Screenshots</a> &bull; <a href="#features">Features</a> &bull; <a href="https://miles.land/officehours/">Office Hours</a></p>
 </p>
 
 <br>
