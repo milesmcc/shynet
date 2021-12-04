@@ -56,7 +56,7 @@ Before continuing, please be sure to have the latest version of Docker installed
 
 1. Clone the repository.
 
-2. Using [TEMPLATE.env](/TEMPLATE.env) as a template, confiure the environment for your Shynet instance and place the modified config in a file called `.env` in the root of the repository. Do _not_ change the port number at the end; you can set the public facing port in the next step. 
+2. Using [TEMPLATE.env](/TEMPLATE.env) as a template, configure the environment for your Shynet instance and place the modified config in a file called `.env` in the root of the repository. Do _not_ change the port number at the end; you can set the public facing port in the next step. 
 
 3. On line 2 of the `nginx.conf` file located in the root of the repository, replace `example.com` with your hostname. Then, in the `docker-compose.yml` file, set the port number by replacing `8080` in line 38 ( `- 8080:80` ) with whatever local port you want to bind it to. For example, set the port number to `- 80:80` if you want your site will be available via HTTP (port 80) at `http://<your hostname>`.
 
