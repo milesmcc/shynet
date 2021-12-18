@@ -35,7 +35,7 @@ Before continuing, please be sure to have the latest version of Docker installed
 
 2. Have a PostgreSQL server ready to go. This can be on the same machine as the deployment, or elsewhere. You'll just need a username, password, host, and port. (For info on how to setup a PostgreSQL server on Ubuntu, follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04)).
 
-3. Configure an environment file for Shynet, using [this file](/TEMPLATE.env) as a template. (This file is typically named `.env`.) Make sure you set the database settings, or Shynet won't be able to run.
+3. Configure an environment file for Shynet, using [this file](/TEMPLATE.env) as a template. (This file is typically named `.env`.) Make sure you set the database settings, or Shynet won't be able to run. Also consider setting `ALLOWED_HOSTS` inside the environment file to your deployment's domain for better security.
 
 4. Launch the Shynet server for the first time by running `docker run --env-file=<your env file> milesmcc/shynet:latest`. Provided you're using the default environment information (i.e., `PERFORM_CHECKS_AND_SETUP` is `True`), you'll see a few warnings about not having an admin user or host setup; these are normal. Don't worry — we'll do this in the next step. You only need to stop if you see a stacktrace about being unable to connect to the database.
 
