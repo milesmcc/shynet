@@ -7,7 +7,6 @@
 - [Render](#render)
 - [Updating Your Configuration](#updating-your-configuration)
 - [Advanced Usage](#advanced-usage)
-  * [Installation with SSL](#installation-with-ssl)
   * [Configuring a Reverse Proxy](#configuring-a-reverse-proxy)
     + [Cloudflare](#cloudflare)
     + [Nginx](#nginx)
