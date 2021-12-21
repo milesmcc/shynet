@@ -6,7 +6,7 @@
 <div class="mr-2">{% include 'dashboard/includes/date_range.html' %}</div>
 {% has_perm 'core.change_service' user object as can_update %}
 {% if can_update %}
-<a href="{% contextual_url 'dashboard:service_update' service.uuid %}" class="button field bg-neutral-000 w-auto">Manage &rarr;</a>
+<a href="{% contextual_url 'dashboard:service_update' service.uuid %}" class="button field !low bg-neutral-000 w-auto">Manage &rarr;</a>
 {% endif %}
 {% endblock %}
 

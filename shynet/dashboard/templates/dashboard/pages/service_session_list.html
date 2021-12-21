@@ -6,7 +6,7 @@
 
 {% block service_actions %}
 <div class="mr-2">{% include 'dashboard/includes/date_range.html' %}</div>
-<a href="{% contextual_url 'dashboard:service' object.uuid %}" class="button field ~neutral bg-neutral-000 w-auto">Analytics &rarr;</a>
+<a href="{% contextual_url 'dashboard:service' object.uuid %}" class="button field ~neutral !low bg-neutral-000 w-auto">Analytics &rarr;</a>
 {% endblock %}
 
 {% block service_content %}

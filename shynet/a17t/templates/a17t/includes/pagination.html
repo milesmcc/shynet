@@ -1,23 +1,23 @@
 <nav class="flex w-full flex-wrap items-center justify-between" role="navigation" aria-label="pagination">
     <div class="w-full md:w-auto mb-2">
         {% if page.has_previous %}
-        <a href="?page={{ page.previous_page_number }}&{{url_parameters}}" class="button field bg-neutral-000 w-auto mr-1">Previous</a>
+        <a href="?page={{ page.previous_page_number }}&{{url_parameters}}" class="button field !low bg-neutral-000 w-auto mr-1">Previous</a>
         {% else %}
-        <a class="button field bg-neutral-000 w-auto mr-1" disabled>Previous</a>
+        <a class="button field !low bg-neutral-000 w-auto mr-1" disabled>Previous</a>
         {% endif %}
         {% if page.has_next %}
-        <a href="?page={{ page.next_page_number }}&{{url_parameters}}" class="button field bg-neutral-000 w-auto">Next</a>
+        <a href="?page={{ page.next_page_number }}&{{url_parameters}}" class="button field !low bg-neutral-000 w-auto">Next</a>
         {% else %}
-        <a class="button field bg-neutral-000 w-auto" disabled>Next</a>
+        <a class="button field !low bg-neutral-000 w-auto" disabled>Next</a>
         {% endif %}
     </div>
 
     <ul class="pagination-list w-full md:w-auto mb-2 flex">
         {% for pnum in begin %}
         {% ifequal page.number pnum %}
-        <li><a class="button field w-auto mx-1 text-white bg-neutral-700">{{ pnum }}</a></li>
+        <li><a class="button field !low w-auto mx-1 text-white bg-neutral-700">{{ pnum }}</a></li>
         {% else %}
-        <li><a class="button field bg-neutral-000 w-auto mx-1" href="?page={{ pnum }}&{{url_parameters}}">{{ pnum }}</a></li>
+        <li><a class="button field !low bg-neutral-000 w-auto mx-1" href="?page={{ pnum }}&{{url_parameters}}">{{ pnum }}</a></li>
         {% endifequal %}
         {% endfor %}
 
@@ -25,9 +25,9 @@
         <li><span class="pagination-ellipsis">&hellip;</span></li>
         {% for pnum in middle %}
         {% ifequal page.number pnum %}
-        <li><a class="button field w-auto mx-1 text-white bg-neutral-700">{{ pnum }}</a></li>
+        <li><a class="button field !low w-auto mx-1 text-white bg-neutral-700">{{ pnum }}</a></li>
         {% else %}
-        <li><a class="button field bg-neutral-000 w-auto mx-1" href="?page={{ pnum }}&{{url_parameters}}">{{ pnum }}</a></li>
+        <li><a class="button field !low bg-neutral-000 w-auto mx-1" href="?page={{ pnum }}&{{url_parameters}}">{{ pnum }}</a></li>
         {% endifequal %}
         {% endfor %}
         {% endif %}
@@ -36,9 +36,9 @@
         <li><span class="pagination-ellipsis">&hellip;</span></li>
         {% for pnum in end %}
         {% ifequal page.number pnum %}
-        <li><a class="button field w-auto mx-1 text-white bg-neutral-700">{{ pnum }}</a></li>
+        <li><a class="button field !low w-auto mx-1 text-white bg-neutral-700">{{ pnum }}</a></li>
         {% else %}
-        <li><a class="button field bg-neutral-000 w-auto mx-1" href="?page={{ pnum }}&{{url_parameters}}">{{ pnum }}</a></li>
+        <li><a class="button field !low bg-neutral-000 w-auto mx-1" href="?page={{ pnum }}&{{url_parameters}}">{{ pnum }}</a></li>
         {% endifequal %}
         {% endfor %}
         {% endif %}
