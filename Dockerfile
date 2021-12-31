@@ -41,6 +41,10 @@ RUN apk --purge del .build-deps && \
 
 # Install Shynet
 COPY shynet .
+
+# Build Tailwind CSS and build static files
+COPY tailwind.config.js .
+RUN npx tailwindcss -i ./a17t/static/a17t/css/tailwind.css -o ./a17t/static/a17t/dist/tailwind.css --jit --minify
 RUN python manage.py collectstatic --noinput && \
 	python manage.py compilemessages
 

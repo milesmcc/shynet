@@ -18,7 +18,8 @@
   "homepage": "https://github.com/milesmcc/shynet#readme",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
-    "a17t": "^0.5.1",
+    "a17t": "^0.10.1",
+    "tailwindcss": "^3.0.1",
     "apexcharts": "^3.24.0",
     "datamaps": "^0.5.9",
     "flag-icon-css": "^3.5.0",

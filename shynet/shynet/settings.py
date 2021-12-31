@@ -306,15 +306,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 NPM_ROOT_PATH = "../"
 
 NPM_FILE_PATTERNS = {
-    "a17t": [os.path.join("dist", "a17t.css"), os.path.join("dist", "tailwind.css")],
     "apexcharts": [os.path.join("dist", "apexcharts.min.js")],
     "litepicker": [
         os.path.join("dist", "nocss", "litepicker.js"),
         os.path.join("dist", "css", "litepicker.css"),
         os.path.join("dist", "plugins", "ranges.js"),
     ],
-    "turbolinks": [os.path.join("dist", "turbolinks.js")],
-    "stimulus": [os.path.join("dist", "stimulus.umd.js")],
     "inter-ui": [os.path.join("Inter (web)", "*")],
     "@fortawesome": [os.path.join("fontawesome-free", "js", "all.min.js")],
     "datamaps": [os.path.join("dist", "datamaps.world.min.js")],

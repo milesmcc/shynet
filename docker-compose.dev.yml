@@ -1,0 +1,46 @@
+version: '3'
+services:
+  shynet:
+    container_name: shynet_main
+    build: .
+    restart: unless-stopped
+    expose:
+      - 8080
+    env_file:
+      # Create a file called '.env' if it doesn't already exist.
+      # You can use `TEMPLATE.env` as a guide.
+      - .env
+    environment:
+      - DB_HOST=db
+    networks:
+      - internal
+    depends_on:
+      - db
+  db:
+    container_name: shynet_database
+    image: postgres
+    restart: always
+    environment:
+      - "POSTGRES_USER=${DB_USER}"
+      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
+      - "POSTGRES_DB=${DB_NAME}"
+    volumes:
+      - shynet_db:/var/lib/postgresql/data
+    networks:
+      - internal
+  webserver:
+    container_name: shynet_webserver
+    image: nginx
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf    
+    ports:
+      - 8080:80
+    depends_on:
+      - shynet
+    networks:
+      - internal
+volumes:
+  shynet_db:
+networks:
+  internal:
