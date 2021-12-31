@@ -1,18 +1,20 @@
-<form method="GET" id="datePicker">
-    <input type="hidden" name="startDate" value="{{start_date.isoformat}}" id="startDate">
-    <input type="hidden" name="endDate" value="{{end_date.isoformat}}" id="endDate">
-</form>
-<input type="input" id="rangePicker" placeholder="Date range" class="input ~neutral !low bg-neutral-000 cursor-pointer" style="max-width: 200px;" readonly>
+<div class="~urge">
+    <form method="GET" id="datePicker" class="~urge">
+        <input type="hidden" name="startDate" value="{{start_date.isoformat}}" id="startDate">
+        <input type="hidden" name="endDate" value="{{end_date.isoformat}}" id="endDate">
+    </form>
+    <input type="input" id="rangePicker" placeholder="Date range" class="button ~neutral @low cursor-pointer" style="max-width: 200px;" readonly>
+</div>
 <style>
     :root {
-        --litepicker-button-prev-month-color-hover: var(--color-urge);
-        --litepicker-button-next-month-color-hover: var(--color-urge);
-        --litepicker-day-color-hover: var(--color-urge);
-        --litepicker-is-today-color: var(--color-urge);
-        --litepicker-is-in-range-color: var(--color-urge-normal-fill);
-        --litepicker-is-start-color-bg: var(--color-urge);
-        --litepicker-is-end-color-bg: var(--color-urge);
-        --litepicker-button-apply-color-bg: var(--color-urge);
+        --litepicker-button-prev-month-color-hover: #7c3aed;
+        --litepicker-button-next-month-color-hover: #7c3aed;
+        --litepicker-day-color-hover: #7c3aed;
+        --litepicker-is-today-color: #7c3aed;
+        --litepicker-is-in-range-color: #ddd6fe;
+        --litepicker-is-start-color-bg: #7c3aed;
+        --litepicker-is-end-color-bg: #7c3aed;
+        --litepicker-button-apply-color-bg: #7c3aed;
     }
 
     .litepicker .container__predefined-ranges, .litepicker .container__months {

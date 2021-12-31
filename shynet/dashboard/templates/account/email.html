@@ -6,7 +6,7 @@
 {% block page_title %}{% trans "Email Addresses" %}{% endblock %}
 
 {% block main %}
-<div class="card ~neutral !low max-w-lg">
+<div class="card max-w-lg">
 
   {% if user.emailaddress_set.all %}
   <p>{% trans 'These are your known email addresses:' %}</p>
@@ -33,7 +33,7 @@
       {% endfor %}
 
       <div class="block mt-4">
-        <button class="button ~neutral !high mb-1" type="submit" name="action_primary">{% trans 'Make Primary' %}</button>
+        <button class="button ~neutral @high mb-1" type="submit" name="action_primary">{% trans 'Make Primary' %}</button>
         <button class="button ~neutral mb-1" type="submit" name="action_send">{% trans 'Resend Verification' %}</button>
         <button class="button ~neutral mb-1" type="submit" name="action_remove">{% trans 'Remove' %}</button>
       </div>
@@ -51,10 +51,10 @@
 
 <hr class="sep">
 
-<form method="post" action="{% url 'account_email' %}" class="card ~neutral !low max-w-lg">
+<form method="post" action="{% url 'account_email' %}" class="card max-w-lg">
   {% csrf_token %}
   {{ form|a17t }}
-  <button name="action_add" class="button ~neutral !high" type="submit">{% trans "Add Address" %}</button>
+  <button name="action_add" class="button ~neutral @high" type="submit">{% trans "Add Address" %}</button>
 </form>
 
 {% endblock %}

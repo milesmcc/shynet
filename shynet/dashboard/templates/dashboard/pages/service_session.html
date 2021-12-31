@@ -5,11 +5,11 @@
 {% block head_title %}{{object.name}} Session{% endblock %}
 
 {% block service_actions %}
-<a href="{% contextual_url 'dashboard:service' object.uuid %}" class="button field !low bg-neutral-000 w-auto">Analytics &rarr;</a>
+<a href="{% contextual_url 'dashboard:service' object.uuid %}" class="button ~neutral @low w-auto">Analytics &rarr;</a>
 {% endblock %}
 
 {% block service_content %}
-<article class="card ~neutral !high">
+<article class="card ~neutral @high">
     <div class="md:flex items-center justify-between">
         <div>
             <h3 class="heading text-2xl mr-4">
@@ -18,7 +18,7 @@
         </div>
         <div>
             <p class="font-medium text-lg">{{session.start_time|date:"M j Y, g:i a"}} to
-                {{session.last_seen|date:"g:i a"}}{% if session.is_currently_active %} <span class="chip ~positive !high text-base">Online</span>{% endif %}</p>
+                {{session.last_seen|date:"g:i a"}}{% if session.is_currently_active %} <span class="chip ~positive @high text-base">Online</span>{% endif %}</p>
         </div>
     </div>
     <hr class="sep h-8 md:h-12">
@@ -70,7 +70,7 @@
         <div class="md:w-2/12 mb-2 md:mr-4 pt-4 md:text-right">
             <div class="text-lg font-medium">{{hit.start_time|date:"g:i a"}}</div>
         </div>
-        <div class="md:flex card ~neutral !low flex-grow justify-between">
+        <div class="md:flex card flex-grow justify-between">
             <div class="mb-4 md:mb-0 md:w-1/2">
                 <p class="label font-medium text-lg truncate">{{hit.location|default:"Unknown"|urlize}}</p>
                 {% if hit.referrer %}

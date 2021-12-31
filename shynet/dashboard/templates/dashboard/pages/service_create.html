@@ -7,14 +7,14 @@
 {% block content %}
 <h4 class="heading leading-none">Create Service</h4>
 <hr class="sep">
-<form class="card ~neutral !low p-0 max-w-xl" method="POST">
+<form class="card p-0 max-w-xl" method="POST">
     {% csrf_token %}
     <div class="p-4">
         {% include 'dashboard/includes/service_form.html' %}
     </div>
-    <div class="section ~urge !normal p-4">
-        <button type="submit" class="button ~urge !high">Create</button>
-        <a href="{% url 'dashboard:dashboard' %}" class="button ~urge !low">Cancel</a>
+    <div class="section ~urge @low p-4">
+        <button type="submit" class="button ~urge @high">Create</button>
+        <a href="{% url 'dashboard:dashboard' %}" class="ml-4 text-urge-600">Cancel</a>
     </div>
 </form>
 {% endblock %}

@@ -28,10 +28,10 @@
     {% endfor %}
     {% elif field|is_input %}
     {% include 'a17t/includes/label.html' %}
-    {{field|add_class:"input my-1"}}
+    {{field|add_class:"input ~neutral my-1"}}
     {% elif field|is_textarea %}
     {% include 'a17t/includes/label.html' %}
-    {{ field|add_class:'textarea my-1' }}
+    {{ field|add_class:'textarea ~neutral my-1' }}
     {% elif field|is_select %}
     {% include 'a17t/includes/label.html' %}
     <div class="select {% if field.errors|length > 0 %}~critical{% endif %} my-1">
@@ -39,7 +39,7 @@
     </div>
     {% else %}
     {% include 'a17t/includes/label.html' %}
-    {{field|add_class:"field my-1"}}
+    {{field|add_class:"field ~neutral my-1"}}
     {% endif %}
 
     {% for error in field.errors %}

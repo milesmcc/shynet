@@ -6,7 +6,7 @@
 <div class="mr-2">{% include 'dashboard/includes/date_range.html' %}</div>
 {% has_perm 'core.change_service' user object as can_update %}
 {% if can_update %}
-<a href="{% contextual_url 'dashboard:service_update' service.uuid %}" class="button field !low bg-neutral-000 w-auto">Manage &rarr;</a>
+<a href="{% contextual_url 'dashboard:service_update' service.uuid %}" class="button ~neutral @low w-auto">Manage &rarr;</a>
 {% endif %}
 {% endblock %}
 
@@ -19,7 +19,7 @@
     {% include 'dashboard/includes/service_snippet.html' %}
 </div>
 {% else %}
-<div class="grid grid-cols-2 gap-6 md:flex justify-between mb-6 card ~neutral !high px-6" id="stats">
+<div class="grid grid-cols-2 gap-6 md:flex justify-between mb-6 card ~neutral @high px-6" id="stats">
     {% with classes="text-sm font-semibold" good_classes="text-positive-400" bad_classes="text-critical-400" neutral_classes="text-gray-400" %}
     <article class="">
         <p class="label text-gray-400">Sessions</p>
@@ -93,12 +93,12 @@
     </article>
     {% endwith %}
 </div>
-<div class="card overflow-visible ~neutral !low py-0 mb-6">
+<div class="card overflow-visible py-0 mb-6">
     {% include 'dashboard/includes/time_chart.html' with data=stats.chart_data tooltip_format=stats.chart_tooltip_format granularity=stats.chart_granularity click_zoom=True %}
 </div>
 {% endif %}
 <div id="card-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-    <div class="card ~neutral !low limited-height py-2">
+    <div class="card limited-height py-2">
         <table class="table">
             <thead class="text-sm">
                 <tr>
@@ -132,22 +132,22 @@
             </tbody>
         </table>
     </div>
-    <div class="geo-map card ~neutral !low py-2 overflow-y-hidden">
+    <div class="geo-map card py-2 overflow-y-hidden">
         <p class="text-sm font-semibold p-2 border-b mb-2" style="color: var(--color-title)">
             Sessions by Geography &nbsp
-            <button onclick="document.getElementById('card-grid').classList.add('geo-card--use-table-view')" class="text-xs select-none p-0 button ~urge !low">
+            <button onclick="document.getElementById('card-grid').classList.add('geo-card--use-table-view')" class="text-xs select-none p-0 text-urge-600">
                 (view table)
             </button>
         </p>
         {% include 'dashboard/includes/map_chart.html' with countries=stats.countries %}
     </div>
-    <div class="geo-table card ~neutral !low limited-height py-2">
+    <div class="geo-table card limited-height py-2">
         <table class="table">
             <thead class="text-sm">
                 <tr>
                     <th>
                         Country &nbsp
-                        <button onclick="document.getElementById('card-grid').classList.remove('geo-card--use-table-view'); geoMap.resize()" class="text-xs select-none p-0 button ~urge !low">
+                        <button onclick="document.getElementById('card-grid').classList.remove('geo-card--use-table-view'); geoMap.resize()" class="text-xs select-none p-0 text-urge-600">
                             (view map)
                         </button>
                     </th>
@@ -180,7 +180,7 @@
             </tbody>
         </table>
     </div>
-    <div class="card ~neutral !low limited-height py-2">
+    <div class="card limited-height py-2">
         <table class="table">
             <thead class="text-sm">
                 <tr>
@@ -214,7 +214,7 @@
             </tbody>
         </table>
     </div>
-    <div class="card ~neutral !low limited-height py-2">
+    <div class="card limited-height py-2">
         <table class="table">
             <thead class="text-sm">
                 <tr>
@@ -248,7 +248,7 @@
             </tbody>
         </table>
     </div>
-    <div class="card ~neutral !low limited-height py-2">
+    <div class="card limited-height py-2">
         <table class="table">
             <thead class="text-sm">
                 <tr>
@@ -283,7 +283,7 @@
             </tbody>
         </table>
     </div>
-    <div class="card ~neutral !low limited-height py-2">
+    <div class="card limited-height py-2">
         <table class="table">
             <thead class="text-sm">
                 <tr>
@@ -318,7 +318,7 @@
         </table>
     </div>
 </div>
-<div class="card ~neutral !low py-2 overflow-auto">
+<div class="card py-2 overflow-auto">
     {% include 'dashboard/includes/session_list.html' %}
     <hr class="sep h-8 md:h-12">
     <a href="{% contextual_url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">View more

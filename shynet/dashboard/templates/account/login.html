@@ -16,7 +16,7 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button class="button ~urge !high mr-2" type="submit">{% trans "Sign In" %}</button>
+  <button class="button ~urge @high mr-2" type="submit">{% trans "Sign In" %}</button>
   <a href="{% url 'account_reset_password' %}" class="button ~neutral mr-2">{% trans "Reset Password" %}</a>
   <a href="{{ signup_url }}" class="button ~neutral">Sign Up</a>
 </form>

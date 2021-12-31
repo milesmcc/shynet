@@ -13,7 +13,7 @@
         </div>
         {% has_perm "core.create_service" user as can_create %}
         {% if can_create %}
-        <a href="{% url 'dashboard:service_create' %}" class="button field !low bg-neutral-000 w-auto">+ New Service</a>
+        <a href="{% url 'dashboard:service_create' %}" class="button ~neutral @low w-auto">+ New Service</a>
         {% endif %}
     </div>
 </div>
@@ -21,7 +21,7 @@
 {% for object in object_list|dictsortreversed:"stats.session_count" %}
 {% include 'dashboard/includes/service_overview.html' %}
 {% empty %}
-<p class="aside ~urge !high">You don't have any services yet. {% if can_create %}Get started by <a href="{% url 'dashboard:service_create' %}" class="underline">creating one</a>.{% endif %}</p>
+<p class="aside ~urge @high">You don't have any services yet. {% if can_create %}Get started by <a href="{% url 'dashboard:service_create' %}" class="underline">creating one</a>.{% endif %}</p>
 {% endfor %}
 
 {% if object_list %}

@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .litepicker .container__main {
+        @apply card p-2;
+    }
+}

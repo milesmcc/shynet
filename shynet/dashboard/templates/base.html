@@ -23,7 +23,7 @@
   {% endblock %}
 </head>
 
-<body class="bg-neutral-100 min-h-full overflow-x-hidden">
+<body class="bg-neutral-50 min-h-full overflow-x-hidden">
   {% block body %}
 
   <section class="max-w-screen-xl mx-auto px-4 py-4 md:py-12 md:flex">
@@ -34,7 +34,7 @@
         <i class="fas fa-binoculars fa-2x text-urge-600 md:hidden"></i>
       </a>
 
-      <a tabindex="0" role="button" class="button ~neutral !low md:hidden"
+      <a tabindex="0" role="button" class="text-neutral-600 md:hidden"
         onclick="document.getElementById('navMenuExpanded').classList.toggle('hidden')">
         <span class="icon">
           <i class="fas fa-bars"></i>
@@ -110,7 +110,7 @@
       {% if messages %}
       <div>
         {% for message in messages %}
-        <article class="card {{message.tags}} !high mb-2 w-full">{{message}}</article>
+        <article class="card {{message.tags}} @high mb-2 w-full">{{message}}</article>
         {% endfor %}
         </ul>
       </div>

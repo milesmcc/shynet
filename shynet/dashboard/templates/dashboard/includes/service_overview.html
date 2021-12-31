@@ -1,6 +1,6 @@
 {% load humanize helpers %}
 
-<a class="card chart-card overflow-visible ~neutral !low service mb-6 p-0" href="{% contextual_url 'dashboard:service' object.uuid %}">
+<a class="card chart-card overflow-visible service mb-6 p-0" href="{% contextual_url 'dashboard:service' object.uuid %}">
     {% with stats=object.stats %}
     <div class="p-4 md:flex justify-between overflow-none">
         <div class="flex items-center mb-4 md:mb-0 md:flex-1 md:min-w-0 truncate pr-0 md:pr-2">
