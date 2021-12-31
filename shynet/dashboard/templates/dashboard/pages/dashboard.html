@@ -13,7 +13,7 @@
         </div>
         {% has_perm "core.create_service" user as can_create %}
         {% if can_create %}
-        <a href="{% url 'dashboard:service_create' %}" class="button field bg-neutral-000 w-auto">+ New Service</a>
+        <a href="{% url 'dashboard:service_create' %}" class="button field !low bg-neutral-000 w-auto">+ New Service</a>
         {% endif %}
     </div>
 </div>
