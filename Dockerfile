@@ -44,8 +44,11 @@ COPY shynet .
 RUN python manage.py collectstatic --noinput && \
 	python manage.py compilemessages
 
+# Install healthcheck
+COPY docker_healthcheck.sh /bin/
+HEALTHCHECK CMD /bin/docker_healthcheck.sh
+
 # Launch
 USER appuser
 EXPOSE 8080
-HEALTHCHECK CMD bash -c 'wget -o /dev/null -O /dev/null --header "Host: ${ALLOWED_HOSTS%%,*}" "http://127.0.0.1:$PORT/healthz/?format=json"'
 CMD [ "./entrypoint.sh" ]
