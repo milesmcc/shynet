@@ -7,7 +7,6 @@
 - [Render](#render)
 - [Updating Your Configuration](#updating-your-configuration)
 - [Advanced Usage](#advanced-usage)
-  * [Installation with SSL](#installation-with-ssl)
   * [Configuring a Reverse Proxy](#configuring-a-reverse-proxy)
     + [Cloudflare](#cloudflare)
     + [Nginx](#nginx)
@@ -23,7 +22,7 @@
 
 ## Installation
 
-Installation of Shynet is easy! Follow the [Basic Installation](#basic-installation) guide or the [Basic Installation with Docker Compose](#basic-installation-with-docker-compose) below for a minimal installation, or if you are going to be running Shynet over HTTPS through a reverse proxy. If you'd like to run Shynet over HTTPS without a reverse proxy, skip ahead to [Installation with SSL](#installation-with-ssl) instead.
+Installation of Shynet is easy! Follow the [Basic Installation](#basic-installation) guide or the [Basic Installation with Docker Compose](#basic-installation-with-docker-compose) below for a minimal installation, or if you are going to be running Shynet over HTTPS through a reverse proxy.
 
 > **These commands assume Ubuntu.** If you're installing Shynet on a different platform, the process will be different.
 
@@ -35,7 +34,7 @@ Before continuing, please be sure to have the latest version of Docker installed
 
 2. Have a PostgreSQL server ready to go. This can be on the same machine as the deployment, or elsewhere. You'll just need a username, password, host, and port. (For info on how to setup a PostgreSQL server on Ubuntu, follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04)).
 
-3. Configure an environment file for Shynet, using [this file](/TEMPLATE.env) as a template. (This file is typically named `.env`.) Make sure you set the database settings, or Shynet won't be able to run.
+3. Configure an environment file for Shynet, using [this file](/TEMPLATE.env) as a template. (This file is typically named `.env`.) Make sure you set the database settings, or Shynet won't be able to run. Also consider setting `ALLOWED_HOSTS` inside the environment file to your deployment's domain for better security.
 
 4. Launch the Shynet server for the first time by running `docker run --env-file=<your env file> milesmcc/shynet:latest`. Provided you're using the default environment information (i.e., `PERFORM_CHECKS_AND_SETUP` is `True`), you'll see a few warnings about not having an admin user or host setup; these are normal. Don't worry — we'll do this in the next step. You only need to stop if you see a stacktrace about being unable to connect to the database.
 
@@ -56,7 +55,7 @@ Before continuing, please be sure to have the latest version of Docker installed
 
 1. Clone the repository.
 
-2. Using [TEMPLATE.env](/TEMPLATE.env) as a template, confiure the environment for your Shynet instance and place the modified config in a file called `.env` in the root of the repository. Do _not_ change the port number at the end; you can set the public facing port in the next step. 
+2. Using [TEMPLATE.env](/TEMPLATE.env) as a template, configure the environment for your Shynet instance and place the modified config in a file called `.env` in the root of the repository. Do _not_ change the port number at the end; you can set the public facing port in the next step. 
 
 3. On line 2 of the `nginx.conf` file located in the root of the repository, replace `example.com` with your hostname. Then, in the `docker-compose.yml` file, set the port number by replacing `8080` in line 38 ( `- 8080:80` ) with whatever local port you want to bind it to. For example, set the port number to `- 80:80` if you want your site will be available via HTTP (port 80) at `http://<your hostname>`.
 
@@ -95,40 +94,6 @@ See the [Render docs](https://render.com/docs/deploy-shynet) for more informatio
 ---
 
 ## Advanced Usage
-
-### Installation with SSL
-
-If you are going to be running Shynet through a reverse proxy, please see [Configuring a Reverse Proxy](#configuring-a-reverse-proxy) instead.
-
-0. We'll be cloning this into the home directory to make this installation easier, so run `cd ~/` if you need to.
-
-1. Instead of pulling from Docker, we will be pulling from GitHub and building using Docker in order to easily add SSL certificates. You will want to run `git clone https://github.com/milesmcc/shynet.git` to clone the GitHub repo to your current working directory.
-
-2. To install `certbot` follow [the guide here](https://certbot.eff.org/instructions) or follow along below
-   * Ubuntu 18.04
-     * `sudo apt-get update`
-     * `sudo apt-get install software-properties-common`
-     * `sudo add-apt-repository universe`
-     * `sudo add-apt-repository ppa:certbot/certbot`
-     * `sudo apt-get update`
-     * `sudo apt-get install certbot`
-
-3. Run `sudo certbot certonly --standalone` and follow the instructions to generate your SSL certificate.
-   * If you registering the certificate to a domain name like `example.com`, please be sure to point your DNS records to your current server before running `certbot`.
-
-4. We are going to move the SSL certificates to the Shynet repo with with command below. Replace `<domain>` with the domain name you used in step 3.
-   * `cp /etc/letsencrypt/live/<domain>/{cert,privkey}.pem ~/shynet/shynet/`
-
-5. With that, we are going to replace the `webserver.sh` with `ssl.webserver.sh` to enable the use of SSL certificates. The original `webserver.sh` will be backed up to `backup.webserver.sh`
-   * `mv ~/shynet/shynet/webserver.sh ~/shynet/shynet/backup.webserver.sh`
-   * `mv ~/shynet/shynet/ssl.webserver.sh ~/shynet/shynet/webserver.sh`
-
-6. Now we build the image!
-   * `docker image build shynet -t shynet-ssl:latest`
-
-7. Have a PostgreSQL server ready to go. This can be on the same machine as the deployment, or elsewhere. You'll just need a username, password, host, and port (default is `5432`). (For info on how to setup a PostgreSQL server on Ubuntu, follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04)).
-
-8. Follow the [Basic Installation](#basic-installation) guide with just one modification: in step #4, change the local bind port from `80` to `443`, and use `shynet-ssl:latest` as your Docker image instead of `milesmcc/shynet:latest`.
 
 ### Configuring a Reverse Proxy
 

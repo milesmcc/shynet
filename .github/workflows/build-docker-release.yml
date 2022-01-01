@@ -9,6 +9,11 @@ jobs:
   publish_to_docker_hub:
     runs-on: ubuntu-latest
     steps:
+      - name: Set swap space
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 5
+
       - name: Checkout code
         uses: actions/checkout@v2
       
@@ -39,6 +44,6 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.prep.outputs.tags }}

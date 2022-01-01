@@ -5,7 +5,7 @@
 {% block head_title %}{{object.name}} Session{% endblock %}
 
 {% block service_actions %}
-<a href="{% contextual_url 'dashboard:service' object.uuid %}" class="button field bg-neutral-000 w-auto">Analytics &rarr;</a>
+<a href="{% contextual_url 'dashboard:service' object.uuid %}" class="button field !low bg-neutral-000 w-auto">Analytics &rarr;</a>
 {% endblock %}
 
 {% block service_content %}
