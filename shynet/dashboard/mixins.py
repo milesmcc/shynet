@@ -46,6 +46,13 @@ class DateRangeMixin:
                 "end": now,
             },
             {
+                "name": "Last month",
+                "start": (now.replace(day=1) - timezone.timedelta(days=1)).replace(
+                    day=1
+                ),
+                "end": now.replace(day=1) - timezone.timedelta(days=1),
+            },
+            {
                 "name": "This year",
                 "start": now.replace(day=1, month=1),
                 "end": now,
