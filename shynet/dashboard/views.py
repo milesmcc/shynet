@@ -165,4 +165,4 @@ class RefreshApiTokenView(LoginRequiredMixin, View):
     def get(self, request):
         request.user.api_token = _default_api_token()
         request.user.save()
-        return redirect('dashboard:api_settings')
+        return redirect('account_change_password')
