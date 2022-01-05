@@ -19,7 +19,7 @@ class DashboardApiView(ApiTokenRequiredMixin, DateRangeMixin, View):
         if uuid:
             services = services.filter(uuid=uuid)
 
-        minimal = request.GET.get('minimal', '0').lower() in ('1', 'true')
+        basic = request.GET.get('basic', '0').lower() in ('1', 'true')
         start = self.get_start_date()
         end = self.get_end_date()
         services_data = [
@@ -27,12 +27,12 @@ class DashboardApiView(ApiTokenRequiredMixin, DateRangeMixin, View):
                 'name': s.name,
                 'uuid': s.uuid,
                 'link': s.link,
-                'stats': s.get_core_stats(start, end, minimal),
+                'stats': s.get_core_stats(start, end, basic),
             }
             for s in services
         ]
 
-        if not minimal:
+        if not basic:
             services_data = self._convert_querysets_to_lists(services_data)
 
         return JsonResponse(data={'services': services_data})

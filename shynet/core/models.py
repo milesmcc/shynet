@@ -113,21 +113,21 @@ class Service(models.Model):
             start_time=timezone.now() - timezone.timedelta(days=1)
         )
 
-    def get_core_stats(self, start_time=None, end_time=None, minimal=False):
+    def get_core_stats(self, start_time=None, end_time=None, basic=False):
         if start_time is None:
             start_time = timezone.now() - timezone.timedelta(days=30)
         if end_time is None:
             end_time = timezone.now()
 
-        main_data = self.get_relative_stats(start_time, end_time, minimal)
+        main_data = self.get_relative_stats(start_time, end_time, basic)
         comparison_data = self.get_relative_stats(
-            start_time - (end_time - start_time), start_time, minimal
+            start_time - (end_time - start_time), start_time, basic
         )
         main_data["compare"] = comparison_data
 
         return main_data
 
-    def get_relative_stats(self, start_time, end_time, minimal=False):
+    def get_relative_stats(self, start_time, end_time, basic=False):
         Session = apps.get_model("analytics", "Session")
         Hit = apps.get_model("analytics", "Hit")
 
@@ -159,7 +159,7 @@ class Service(models.Model):
         avg_hits_per_session = hit_count / session_count if session_count > 0 else None
 
         avg_session_duration = self._get_avg_session_duration(sessions, session_count)
-        if minimal:
+        if basic:
             return {
                 "currently_online": currently_online,
                 "session_count": session_count,
