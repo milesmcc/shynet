@@ -1,3 +1,4 @@
+import uuid
 from django.http import JsonResponse
 from django.db.models import Q
 from django.db.models.query import QuerySet
@@ -9,6 +10,14 @@ from core.models import Service
 from .mixins import ApiTokenRequiredMixin
 
 
+def is_valid_uuid(value):
+    try:
+        uuid.UUID(value)
+        return True
+    except ValueError:
+        return False
+
+
 class DashboardApiView(ApiTokenRequiredMixin, DateRangeMixin, View):
     def get(self, request, *args, **kwargs):
         services = Service.objects.filter(
@@ -16,7 +25,7 @@ class DashboardApiView(ApiTokenRequiredMixin, DateRangeMixin, View):
         ).distinct()
 
         uuid = request.GET.get('uuid')
-        if uuid:
+        if uuid and is_valid_uuid(uuid):
             services = services.filter(uuid=uuid)
 
         basic = request.GET.get('basic', '0').lower() in ('1', 'true')
