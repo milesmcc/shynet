@@ -256,7 +256,8 @@ class Service(models.Model):
                 .order_by("hour")
             )
             chart_data = {
-                k["hour"]: {"sessions": k["count"]} for k in sessions_per_hour
+                k["hour"]: {"sessions": k["count"], "hits": 0}
+                for k in sessions_per_hour
             }
             hits_per_hour = (
                 hits.annotate(hour=TruncHour("start_time"))
@@ -284,7 +285,9 @@ class Service(models.Model):
                 .annotate(count=models.Count("uuid"))
                 .order_by("date")
             )
-            chart_data = {k["date"]: {"sessions": k["count"]} for k in sessions_per_day}
+            chart_data = {
+                k["date"]: {"sessions": k["count"], "hits": 0} for k in sessions_per_day
+            }
             hits_per_day = (
                 hits.annotate(date=TruncDate("start_time"))
                 .values("date")
