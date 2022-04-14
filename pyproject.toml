@@ -26,6 +26,7 @@ django-health-check = "^3.16.4"
 django-npm = "^1.0.0"
 python-dotenv = "^0.18.0"
 django-debug-toolbar = "^3.2.1"
+django-cors-headers = "^3.11.0"
 
 [tool.poetry.dev-dependencies]
 pytest-sugar = "^0.9.4"

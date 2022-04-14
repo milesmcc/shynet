@@ -64,12 +64,14 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "debug_toolbar",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -371,3 +373,6 @@ DASHBOARD_PAGE_SIZE = int(os.getenv("DASHBOARD_PAGE_SIZE", "5"))
 USE_RELATIVE_MAX_IN_BAR_VISUALIZATION = (
     os.getenv("USE_RELATIVE_MAX_IN_BAR_VISUALIZATION", "True") == "True"
 )
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_METHODS = ["GET", "OPTIONS"]
