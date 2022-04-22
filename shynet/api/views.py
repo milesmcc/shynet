@@ -55,4 +55,4 @@ class DashboardApiView(ApiTokenRequiredMixin, DateRangeMixin, View):
                 if isinstance(value, QuerySet):
                     service_data['stats']['compare'][key] = list(value)
 
-        return service_data
+        return services_data
