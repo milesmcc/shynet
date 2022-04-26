@@ -29,8 +29,12 @@ class DashboardApiView(ApiTokenRequiredMixin, DateRangeMixin, View):
             services = services.filter(uuid=uuid)
 
         basic = request.GET.get('basic', '0').lower() in ('1', 'true')
-        start = self.get_start_date()
-        end = self.get_end_date()
+        try:
+            start = self.get_start_date()
+            end = self.get_end_date()
+        except ValueError:
+            return JsonResponse(status=400, data={'error': 'Invalid date format'})
+
         services_data = [
             {
                 'name': s.name,
