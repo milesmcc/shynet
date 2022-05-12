@@ -36,17 +36,16 @@
         <p>Service data can be accessed via API on url:</p>
         <code>{{script_protocol}}{{request.get_host}}{% url 'api:services' %}?uuid={{object.uuid}}</code>
         <p>
-          There are 3 optional query parameters:
+          There are 2 optional query parameters:
           <ul>
             <li>startDate - to set start date in format YYYY-MM-DD</li>
             <li>endDate - to set end date in format YYYY-MM-DD</li>
-            <li>basic - to get only basic data set to '1' or 'true'</li>
           </ul>
         </p>
         <p>Example using HTTPie:</p>
-        <code>http get '{{script_protocol}}{{request.get_host}}{% url 'api:services' %}?uuid={{object.uuid}}&startDate=2021-01-01&endDate=2050-01-01&basic=1' 'Authorization:Token {{request.user.api_token}}'</code>
+        <code>http get '{{script_protocol}}{{request.get_host}}{% url 'api:services' %}?uuid={{object.uuid}}&startDate=2021-01-01&endDate=2050-01-01' 'Authorization:Token {{request.user.api_token}}'</code>
         <p>Example using cURL:</p>
-        <code>curl -H 'Authorization:Token {{request.user.api_token}}' '{{script_protocol}}{{request.get_host}}{% url 'api:services' %}?uuid={{object.uuid}}&startDate=2021-01-01&endDate=2050-01-01&basic=1'</code>
+        <code>curl -H 'Authorization:Token {{request.user.api_token}}' '{{script_protocol}}{{request.get_host}}{% url 'api:services' %}?uuid={{object.uuid}}&startDate=2021-01-01&endDate=2050-01-01'</code>
     </div>
 </div>
 {% endblock %}
