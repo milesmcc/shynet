@@ -37,7 +37,9 @@ RUN apk --purge del .build-deps && \
 	rm -rf /var/lib/apt/lists/* && \
 	rm /var/cache/apk/* && \
 	addgroup --system -g $GF_GID appgroup && \
-	adduser appuser --system --uid $GF_UID -G appgroup
+	adduser appuser --system --uid $GF_UID -G appgroup && \
+	mkdir -p /var/local/shynet/db/ && \
+	chown -R appuser:appgroup /var/local/shynet
 
 # Install Shynet
 COPY shynet .

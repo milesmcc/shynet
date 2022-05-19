@@ -100,13 +100,13 @@ WSGI_APPLICATION = "shynet.wsgi.application"
 
 
 # Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 if os.getenv("SQLITE", "False") == "True":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+            "NAME": os.environ.get("DB_NAME", "/var/local/shynet/db/db.sqlite3"),
         }
     }
 else:
