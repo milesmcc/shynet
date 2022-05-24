@@ -32,7 +32,11 @@ Before continuing, please be sure to have the latest version of Docker installed
 
 1. Pull the latest version of Shynet using `docker pull milesmcc/shynet:latest`. If you don't have Docker installed, [install it](https://docs.docker.com/get-docker/).
 
-2. Have a PostgreSQL server ready to go. This can be on the same machine as the deployment, or elsewhere. You'll just need a username, password, host, and port. (For info on how to setup a PostgreSQL server on Ubuntu, follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04)).
+2. For database you can use either PostgreSQL or SQLite:
+
+    2.1 To use PostgreSQL you need a server ready to go. This can be on the same machine as the deployment, or elsewhere. You'll need a username, password, host, and port, set in the appropriate `DB_` environment variables (see next). (For info on how to setup a PostgreSQL server on Ubuntu, follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04)).
+
+    2.2 SQLite doesn't need a server, just a file. Set `SQLITE=True` in the environment file and create a Docker volume to hold the persistent DB with `docker volume create shynet_db`. Then whenever you run the container include `-v shynet_db:/var/local/shynet/db:rw` to mount the volume into the container. See the [Docker documentation on volumes](https://docs.docker.com/storage/volumes/).
 
 3. Configure an environment file for Shynet, using [this file](/TEMPLATE.env) as a template. (This file is typically named `.env`.) Make sure you set the database settings, or Shynet won't be able to run. Also consider setting `ALLOWED_HOSTS` inside the environment file to your deployment's domain for better security.
 
