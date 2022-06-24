@@ -1,0 +1,118 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-24 13:20+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: analytics/models.py:18
+msgid "Service"
+msgstr "Dienst"
+
+#: analytics/models.py:24
+msgid "Identifier"
+msgstr "Kennung"
+
+#: analytics/models.py:29
+msgid "Start time"
+msgstr "Startzeit"
+
+#: analytics/models.py:32
+msgid "Last seen"
+msgstr "Zuletzt gesehen"
+
+#: analytics/models.py:36
+msgid "User agent"
+msgstr ""
+
+#: analytics/models.py:37
+msgid "Browser"
+msgstr ""
+
+#: analytics/models.py:38
+msgid "Device"
+msgstr "Gerät"
+
+#: analytics/models.py:42
+msgid "Phone"
+msgstr ""
+
+#: analytics/models.py:43
+msgid "Tablet"
+msgstr ""
+
+#: analytics/models.py:44
+msgid "Desktop"
+msgstr ""
+
+#: analytics/models.py:45
+msgid "Robot"
+msgstr ""
+
+#: analytics/models.py:46
+msgid "Other"
+msgstr "Andere"
+
+#: analytics/models.py:49
+msgid "Device type"
+msgstr "Gerätetyp"
+
+#: analytics/models.py:51
+msgid "OS"
+msgstr "Betriessystem"
+
+#: analytics/models.py:52
+msgid "IP"
+msgstr ""
+
+#: analytics/models.py:55
+msgid "Asn"
+msgstr ""
+
+#: analytics/models.py:56
+msgid "Country"
+msgstr "Land"
+
+#: analytics/models.py:57
+msgid "Longitude"
+msgstr "Längengrad"
+
+#: analytics/models.py:58
+msgid "Latitude"
+msgstr "Breitengrad"
+
+#: analytics/models.py:59
+msgid "Time zone"
+msgstr "Zeitzone"
+
+#: analytics/models.py:61
+msgid "Is bounce"
+msgstr "Absprung"
+
+#: analytics/models.py:64 analytics/models.py:100
+msgid "Session"
+msgstr "Sitzung"
+
+#: analytics/models.py:65
+msgid "Sessions"
+msgstr "Sitzungen"
+
+#: analytics/models.py:122
+msgid "Hit"
+msgstr "Besuch"
+
+#: analytics/models.py:123
+msgid "Hits"
+msgstr "Besuche"
