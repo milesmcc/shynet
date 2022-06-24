@@ -1,6 +1,6 @@
-{% load helpers %}
+{% load i18n helpers %}
 
 <div>
-    <a class="portal !low {% if request.get_full_path|startswith:url %}~urge active bg-neutral-100{% endif %} flex items-center" title="{{label}}"
-        {% if disable_turbolinks %}data-turbolinks="false"{% endif %} href="{{url}}">{{icon}} <span class="truncate">{{label}}</span></a>
+    <a class="portal !low {% if request.get_full_path|startswith:url %}~urge active bg-neutral-100{% endif %} flex items-center" title="{% trans label %}"
+        {% if disable_turbolinks %}data-turbolinks="false"{% endif %} href="{{url}}">{{icon}} <span class="truncate">{% trans label %}</span></a>
 </div>

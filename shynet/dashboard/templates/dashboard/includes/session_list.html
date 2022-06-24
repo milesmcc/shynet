@@ -1,12 +1,12 @@
-{% load humanize helpers %}
+{% load i18n humanize helpers %}
 
 <table class="table">
     <thead>
-        <th>Session Start</th>
-        <th>Identity</th>
-        <th>Network</th>
-        <th class="rf">Duration</th>
-        <th class="rf">Hits</th>
+        <th>{% trans 'Session Start' %}</th>
+        <th>{% trans 'Identity' %}</th>
+        <th>{% trans 'Network' %}</th>
+        <th class="rf">{% trans 'Duration' %}</th>
+        <th class="rf">{% trans 'Hits' %}</th>
     </thead>
     <tbody>
         {% for session in object_list %}
@@ -14,7 +14,7 @@
             <td>
                 <a href="{% contextual_url 'dashboard:service_session' object.pk session.pk %}"
                     class="font-medium text-urge-700">
-                    {{session.start_time|date:"M j Y, g:i a"|capfirst}}
+                    {{ session.start_time|date:"DATETIME_FORMAT"|capfirst }}
                     {% if session.is_currently_active %}
                     <span class="badge ~positive">Online</span>
                     {% endif %}
@@ -33,7 +33,7 @@
         </tr>
         {% empty %}
         <tr>
-            <td><span class="text-gray-600">No data yet...</span></td>
+            <td><span class="text-gray-600">{% trans 'No data yet' %}...</span></td>
         </tr>
         {% endfor %}
     </tbody>

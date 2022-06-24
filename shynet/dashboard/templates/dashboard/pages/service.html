@@ -1,12 +1,12 @@
 {% extends "dashboard/service_base.html" %}
 
-{% load humanize helpers rules %}
+{% load i18n humanize helpers rules %}
 
 {% block service_actions %}
 <div class="mr-2">{% include 'dashboard/includes/date_range.html' %}</div>
 {% has_perm 'core.change_service' user object as can_update %}
 {% if can_update %}
-<a href="{% contextual_url 'dashboard:service_update' service.uuid %}" class="button field !low bg-neutral-000 w-auto">Manage &rarr;</a>
+<a href="{% contextual_url 'dashboard:service_update' service.uuid %}" class="button field !low bg-neutral-000 w-auto">{% trans 'Manage' %} &rarr;</a>
 {% endif %}
 {% endblock %}
 
@@ -14,7 +14,11 @@
 {% if not stats.has_hits %}
 <div class="content mb-6">
     <p>
-        This service hasn't collected any data yet. To get started, place the following code snippet at the end of the <code>&lt;body&gt;</code> tag on any page you'd like to track.
+        {% blocktrans trimmed %}
+            This service hasn't collected any data yet. To get started, place the
+            following code snippet at the end of the <code>&lt;body&gt;</code> tag on any
+            page you'd like to track.
+        {% endblocktrans %}
     </p>
     {% include 'dashboard/includes/service_snippet.html' %}
 </div>
@@ -22,7 +26,7 @@
 <div class="grid grid-cols-2 gap-6 md:flex justify-between mb-6 card ~neutral !high px-6" id="stats">
     {% with classes="text-sm font-semibold" good_classes="text-positive-400" bad_classes="text-critical-400" neutral_classes="text-gray-400" %}
     <article class="">
-        <p class="label text-gray-400">Sessions</p>
+        <p class="label text-gray-400">{% trans 'sessions' %}</p>
         <p class="heading">
             {{stats.session_count|intcomma}}
         <div>
@@ -31,7 +35,7 @@
         </p>
     </article>
     <article class="">
-        <p class="label text-gray-400">Hits</p>
+        <p class="label text-gray-400">{% trans 'Hits' %}</p>
         <p class="heading">
             {{stats.hit_count|intcomma}}
         <div>
@@ -40,7 +44,7 @@
         </p>
     </article>
     <article class="">
-        <p class="label text-gray-400">Load Time</p>
+        <p class="label text-gray-400">{% trans 'Load Time' %}</p>
         <p class="heading">
             {% if stats.avg_load_time %}
             {{stats.avg_load_time|floatformat:"0"}}ms
@@ -53,7 +57,7 @@
         </p>
     </article>
     <article class="">
-        <p class="label text-gray-400">Bounce Rate</p>
+        <p class="label text-gray-400">{% trans 'Bounce Rate' %}</p>
         <p class="heading">
             {% if stats.bounce_rate_pct %}
             {{stats.bounce_rate_pct|floatformat:"-1"}}%
@@ -66,7 +70,7 @@
         </p>
     </article>
     <article class="">
-        <p class="label text-gray-400">Duration</p>
+        <p class="label text-gray-400">{% trans 'Duration' %}</p>
         <p class="heading">
             {% if stats.avg_session_duration %}
             {{stats.avg_session_duration|naturaldelta}}
@@ -79,7 +83,7 @@
         </p>
     </article>
     <article class="">
-        <p class="label text-gray-400">Hits/Session</p>
+        <p class="label text-gray-400">{% trans 'Hits/Session' %}</p>
         <p class="heading">
             {% if stats.avg_hits_per_session %}
             {{stats.avg_hits_per_session|floatformat:"-1"}}
@@ -102,8 +106,8 @@
         <table class="table">
             <thead class="text-sm">
                 <tr>
-                    <th>Location</th>
-                    <th class="rf">Hits</th>
+                    <th>{% trans 'Location' %}</th>
+                    <th class="rf">{% trans 'Hits' %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -126,7 +130,7 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td><span class="text-gray-600">No data yet...</span></td>
+                    <td><span class="text-gray-600">{% trans 'No data yet...' %}</span></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -134,9 +138,9 @@
     </div>
     <div class="geo-map card ~neutral !low py-2 overflow-y-hidden">
         <p class="text-sm font-semibold p-2 border-b mb-2" style="color: var(--color-title)">
-            Sessions by Geography &nbsp
+            {% trans 'Sessions by Geography' %} &nbsp
             <button onclick="document.getElementById('card-grid').classList.add('geo-card--use-table-view')" class="text-xs select-none p-0 button ~urge !low">
-                (view table)
+                ({% trans 'view table' %})
             </button>
         </p>
         {% include 'dashboard/includes/map_chart.html' with countries=stats.countries %}
@@ -146,12 +150,12 @@
             <thead class="text-sm">
                 <tr>
                     <th>
-                        Country &nbsp
+                        {% trans 'Country' %} &nbsp
                         <button onclick="document.getElementById('card-grid').classList.remove('geo-card--use-table-view'); geoMap.resize()" class="text-xs select-none p-0 button ~urge !low">
                             (view map)
                         </button>
                     </th>
-                    <th class="rf">Sessions</th>
+                    <th class="rf">{% trans 'sessions' %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -184,8 +188,8 @@
         <table class="table">
             <thead class="text-sm">
                 <tr>
-                    <th>Referrer</th>
-                    <th class="rf">Sessions</th>
+                    <th>{% trans 'Referrer' %}</th>
+                    <th class="rf">{% trans 'sessions' %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -218,8 +222,8 @@
         <table class="table">
             <thead class="text-sm">
                 <tr>
-                    <th>Operating System</th>
-                    <th class="rf">Sessions</th>
+                    <th>{% trans 'Operating System' %}</th>
+                    <th class="rf">{% trans 'sessions' %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -252,8 +256,8 @@
         <table class="table">
             <thead class="text-sm">
                 <tr>
-                    <th>Browser</th>
-                    <th class="rf">Sessions</th>
+                    <th>{% trans 'Browser' %}</th>
+                    <th class="rf">{% trans 'sessions' %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -287,8 +291,8 @@
         <table class="table">
             <thead class="text-sm">
                 <tr>
-                    <th>Device Type</th>
-                    <th class="rf">Sessions</th>
+                    <th>{% trans 'Device Type' %}</th>
+                    <th class="rf">{% trans 'sessions' %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -321,8 +325,8 @@
 <div class="card ~neutral !low py-2 overflow-auto">
     {% include 'dashboard/includes/session_list.html' %}
     <hr class="sep h-8 md:h-12">
-    <a href="{% contextual_url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">View more
-        sessions
-        &rarr;</a>
+    <a href="{% contextual_url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">
+        {% trans 'View more sessions' %} &rarr;
+    </a>
 </div>
 {% endblock %}

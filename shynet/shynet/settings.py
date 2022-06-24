@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from pathlib import Path
+
 from dotenv import load_dotenv
 
 # import module sys to get the type of exception
@@ -201,7 +203,7 @@ LOGGING = {
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = os.getenv("LANGUAGE_CODE", "en-us")
 
 TIME_ZONE = os.getenv("TIME_ZONE", "America/New_York")
 

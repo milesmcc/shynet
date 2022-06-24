@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 <section class="content">
-    <h2>{{request.site.name}} Analytics</h2>
+    <h2>{{request.site.name}} {% trans 'Analytics' %}</h2>
     <p>{{request.site.name}} uses Shynet. Eventually, more information about Shynet will be available here.</p>
-    <a href="{% url 'account_login' %}" class="button ~urge !high">Log In</a>
+    <a href="{% url 'account_login' %}" class="button ~urge !high">{% trans 'Log In' %}</a>
 </section>
 {% endblock %}

@@ -1,12 +1,12 @@
 {% extends "dashboard/service_base.html" %}
 
-{% load a17t_tags pagination humanize helpers %}
+{% load i18n a17t_tags pagination humanize helpers %}
 
-{% block head_title %}{{object.name}} Sessions{% endblock %}
+{% block head_title %}{{object.name}} {% trans 'Sessions' %}{% endblock %}
 
 {% block service_actions %}
 <div class="mr-2">{% include 'dashboard/includes/date_range.html' %}</div>
-<a href="{% contextual_url 'dashboard:service' object.uuid %}" class="button field ~neutral !low bg-neutral-000 w-auto">Analytics &rarr;</a>
+<a href="{% contextual_url 'dashboard:service' object.uuid %}" class="button field ~neutral !low bg-neutral-000 w-auto">{% trans 'Analytics' %} &rarr;</a>
 {% endblock %}
 
 {% block service_content %}

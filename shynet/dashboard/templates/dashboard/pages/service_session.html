@@ -24,37 +24,36 @@
     <hr class="sep h-8 md:h-12">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-gray-400 font-medium">
         <div>
-            <p>Browser</p>
+            <p>{% trans 'Browser' %}</p>
             <p class="label">{{session.browser|default:"Unknown"}}</p>
         </div>
         <div>
-            <p>Device</p>
+            <p>{% trans 'Device' %}</p>
             <p class="label">{{session.device|default:"Unknown"}}</p>
         </div>
         <div>
-            <p>Device Type</p>
+            <p{% trans 'Device Type' %}</p>
             <p class="label">{{session.device_type|title}}</p>
         </div>
         <div>
-            <p>OS</p>
+            <p>{% trans 'OS' %}</p>
             <p class="label">{{session.os|default:"Unknown"}}</p>
         </div>
         <div>
-            <p>Network</p>
+            <p>{% trans 'Network' %}</p>
             <p class="label">{{session.asn|default:"Unknown"}}</p>
         </div>
         <div>
-            <p>Country</p>
+            <p>{% trans 'Country' %}</p>
             <p class="label"><span class="{{session.country|flag_class}}"></span>{{session.country|country_name}}</p>
         </div>
         <div>
-            <p>Location</p>
+            <p>{% trans 'Location' %}</p>
             <p class="label">
                 {% if session.latitude %}
-                <a href="{{session|location_url}}" target="_blank">Open
-                    in Maps &nearr;</a>
+                <a href="{{session|location_url}}" target="_blank">{% trans 'Open in Maps' %} &nearr;</a>
                 {% else %}
-                Unknown
+                {% trans 'Unknown' %}
                 {% endif %}
             </p>
         </div>
@@ -79,15 +78,15 @@
             </div>
             <div class="grid grid-cols-3 gap-3 md:pl-8 md:w-1/2">
                 <div>
-                    <p>Duration</p>
+                    <p>{% trans 'Duration' %}</p>
                     <p class="label">{{hit.duration|naturaldelta}}</p>
                 </div>
                 <div>
-                    <p>Load</p>
+                    <p>{% trans 'Load' %}</p>
                     <p class="label">{{hit.load_time|floatformat:"0"}}ms</p>
                 </div>
                 <div>
-                    <p>Tracker</p>
+                    <p>{% trans 'Tracker' %}</p>
                     <p class="label">{{hit.tracker}}</p>
                 </div>
             </div>

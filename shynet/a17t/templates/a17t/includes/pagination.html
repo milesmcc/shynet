@@ -1,14 +1,15 @@
+{% load i18n %}
 <nav class="flex w-full flex-wrap items-center justify-between" role="navigation" aria-label="pagination">
     <div class="w-full md:w-auto mb-2">
         {% if page.has_previous %}
-        <a href="?page={{ page.previous_page_number }}&{{url_parameters}}" class="button field !low bg-neutral-000 w-auto mr-1">Previous</a>
+        <a href="?page={{ page.previous_page_number }}&{{url_parameters}}" class="button field !low bg-neutral-000 w-auto mr-1">{% trans 'Previous' %}</a>
         {% else %}
-        <a class="button field !low bg-neutral-000 w-auto mr-1" disabled>Previous</a>
+        <a class="button field !low bg-neutral-000 w-auto mr-1" disabled>{% trans 'Previous' %}</a>
         {% endif %}
         {% if page.has_next %}
-        <a href="?page={{ page.next_page_number }}&{{url_parameters}}" class="button field !low bg-neutral-000 w-auto">Next</a>
+        <a href="?page={{ page.next_page_number }}&{{url_parameters}}" class="button field !low bg-neutral-000 w-auto">{% trans 'Next' %}</a>
         {% else %}
-        <a class="button field !low bg-neutral-000 w-auto" disabled>Next</a>
+        <a class="button field !low bg-neutral-000 w-auto" disabled>{% trans 'Next' %}</a>
         {% endif %}
     </div>
 
