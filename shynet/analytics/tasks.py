@@ -61,7 +61,7 @@ def ingress_request(
         log.debug(f"Linked to service {service}")
 
         if dnt and service.respect_dnt:
-            log.debug("Ignoring because of DNT")
+            log.debug("Ignoring because of DNT or GPC")
             return
 
         try:
