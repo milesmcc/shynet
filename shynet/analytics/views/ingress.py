@@ -29,7 +29,7 @@ def ingress(request, service_uuid, identifier, tracker, payload):
     location = request.META.get("HTTP_REFERER", "").strip()
     user_agent = request.META.get("HTTP_USER_AGENT", "").strip()
     dnt = request.META.get("HTTP_DNT", "0").strip() == "1"
-    gpc = request.META.get("HTTP_SEC-GPC", "0").strip() == "1"
+    gpc = request.META.get("HTTP_SEC_GPC", "0").strip() == "1"
     if gpc or dnt:
         dnt = True
 
