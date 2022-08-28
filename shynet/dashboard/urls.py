@@ -27,11 +27,6 @@ urlpatterns = [
         name="service_session",
     ),
     path(
-        "api-settings/",
-        views.ApiSettingsView.as_view(),
-        name="api_settings",
-    ),
-    path(
         "api-token-refresh/",
         views.RefreshApiTokenView.as_view(),
         name="api_token_refresh",

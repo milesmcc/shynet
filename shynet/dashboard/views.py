@@ -157,10 +157,6 @@ class ServiceSessionView(LoginRequiredMixin, PermissionRequiredMixin, DetailView
         return data
 
 
-class ApiSettingsView(LoginRequiredMixin, TemplateView):
-    template_name = "dashboard/pages/api_settings.html"
-
-
 class RefreshApiTokenView(LoginRequiredMixin, View):
     def get(self, request):
         request.user.api_token = _default_api_token()
