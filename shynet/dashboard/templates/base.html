@@ -1,4 +1,4 @@
-{% load static rules helpers %}
+{% load static i18n rules helpers %}
 <!DOCTYPE html>
 
 <html>
@@ -43,7 +43,9 @@
       <div id="navMenuExpanded"
         class="bg-neutral-000 shadow-lg md:shadow-none p-4 hidden rounded-lg md:block md:bg-transparent md:border-none md:p-0 w-full">
         {% if user.owning_services.all %}
-        <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Services</p>
+        <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">
+            {% trans 'Services' %}
+        </p>
 
         {% for service in user.owning_services.all %}
         {% contextual_url 'dashboard:service' service.uuid as url %}
@@ -55,14 +57,17 @@
         {% has_perm 'core.create_service' user as can_create %}
         {% if can_create %}
         {% url 'dashboard:service_create' as url %}
-        {% include 'dashboard/includes/sidebar_portal.html' with label="+ Create" url=url %}
+        {% trans '+ Create' as create %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label=create url=url %}
 
         <hr class="sep h-8">
         {% endif %}
 
 
         {% if user.collaborating_services.all %}
-        <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Collaborations</p>
+        <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">
+            {% trans 'Collaborations' %}
+        </p>
 
         {% for service in user.collaborating_services.all %}
         {% contextual_url 'dashboard:service' service.uuid as url %}
@@ -72,7 +77,9 @@
         <hr class="sep h-8">
         {% endif %}
 
-        <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Account</p>
+        <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">
+            {% trans 'Account' %}
+        </p>
 
         {% if user.is_authenticated %}
 

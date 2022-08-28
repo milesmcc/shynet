@@ -1,4 +1,4 @@
-{% load humanize helpers %}
+{% load i18n humanize helpers %}
 
 <a class="card chart-card overflow-visible ~neutral !low service mb-6 p-0" href="{% contextual_url 'dashboard:service' object.uuid %}">
     {% with stats=object.stats %}
@@ -12,21 +12,21 @@
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-3 lg:gap-6 md:flex-none">
             <div>
-                <p>Sessions</p>
+                <p>{% trans 'Sessions' %}</p>
                 <p class="label">
                     {{stats.session_count|intcomma}}
                     {% compare stats.compare.session_count stats.session_count "UP" %}
                 </p>
             </div>
             <div>
-                <p>Hits</p>
+                <p>{% trans 'Hits' %}</p>
                 <p class="label">
                     {{stats.hit_count|intcomma}}
                     {% compare stats.compare.hit_count stats.hit_count "UP" %}
                 </p>
             </div>
             <div>
-                <p>Bounce Rate</p>
+                <p>{% trans 'Bounce Rate' %}</p>
                 <p class="label">
                     {% if stats.bounce_rate_pct != None %}
                     {{stats.bounce_rate_pct|floatformat:"-1"}}%
@@ -37,7 +37,7 @@
                 </p>
             </div>
             <div>
-                <p>Avg. Duration</p>
+                <p>{% trans 'Avg. Duration' %}</p>
                 <p class="label">
                     {% if stats.avg_session_duration != None %}
                     {{stats.avg_session_duration|naturaldelta}}

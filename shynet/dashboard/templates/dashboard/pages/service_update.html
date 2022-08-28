@@ -1,20 +1,24 @@
 {% extends "dashboard/service_base.html" %}
 
-{% load a17t_tags %}
+{% load i18n a17t_tags %}
 
-{% block head_title %}{{object.name}} Management{% endblock %}
+{% block head_title %}{{object.name}} {% trans 'Management' %}{% endblock %}
 
 {% block service_actions %}
-<a href="{% url 'dashboard:service' object.uuid %}" class="button field !low bg-neutral-000 w-auto">View &rarr;</a>
+<a href="{% url 'dashboard:service' object.uuid %}" class="button field !low bg-neutral-000 w-auto">{% trans 'View' %} &rarr;</a>
 {% endblock %}
 
 {% block service_content %}
 <div class="max-w-xl content">
-    <h5>Installation</h5>
-    <p>Place the following snippet at the end of the <code>&lt;body&gt;</code> tag on any page you'd like to track.</p>
+    <h5>{% trans 'Installation'  %}</h5>
+    <p>
+        {% blocktrans trimmed %}
+        Place the following snippet at the end of the <code>&lt;body&gt;</code> tag on any page you'd like to track.
+        {% endblocktrans %}
+    </p>
     {% include 'dashboard/includes/service_snippet.html' %}
     <hr class="sep h-4">
-    <h5>Settings</h5>
+    <h5>{% trans 'Settings' %}</h5>
     <form class="card ~neutral !low p-0" method="POST">
         {% csrf_token %}
         <div class="p-4">
@@ -22,11 +26,11 @@
         </div>
         <div class="section ~neutral !normal p-4 flex justify-between">
             <div>
-                <button type="submit" class="button ~neutral !high">Save</button>
-                <a href="{% url 'dashboard:service' object.uuid %}" class="button ~neutral !low">Cancel</a>
+                <button type="submit" class="button ~neutral !high">{% trans 'Save' %}</button>
+                <a href="{% url 'dashboard:service' object.uuid %}" class="button ~neutral !low">{% trans 'Cancel' %}</a>
             </div>
             <div>
-                <a href="{% url 'dashboard:service_delete' object.uuid %}" class="button ~critical !high">Delete</a>
+                <a href="{% url 'dashboard:service_delete' object.uuid %}" class="button ~critical !high">{% trans 'Delete' %}</a>
             </div>
         </div>
     </form>

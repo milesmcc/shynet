@@ -1,3 +1,5 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <form method="GET" id="datePicker">
     <input type="hidden" name="startDate" value="{{start_date.isoformat}}" id="startDate">
     <input type="hidden" name="endDate" value="{{end_date.isoformat}}" id="endDate">
@@ -20,11 +22,20 @@
     }
 </style>
 <script>
-    var picker = new Litepicker({
+    function getLocaleDateString(locale) {
+        const formats = {
+            'de': "DD. MMM YY"
+        }
+        return formats[locale] || "MMM DD 'YY";
+    }
+
+    let locale = "{{ LANGUAGE_CODE }}";
+    let picker = new Litepicker({
         element: document.getElementById('rangePicker'),
         plugins: ['ranges'],
         singleMode: false,
-        format: "MMM DD 'YY",
+        lang: locale,
+        format: getLocaleDateString(locale),
         maxDate: new Date(),
         startDate: Date.parse(document.getElementById("startDate").getAttribute("value")),
         endDate: Date.parse(document.getElementById("endDate").getAttribute("value")),

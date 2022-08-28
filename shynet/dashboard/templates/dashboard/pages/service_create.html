@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% load a17t_tags %}
+{% load i18n a17t_tags %}
 
-{% block head_title %}Create Service{% endblock %}
+{% block head_title %}{% trans 'Create Service' %}{% endblock %}
 
 {% block content %}
-<h4 class="heading leading-none">Create Service</h4>
+<h4 class="heading leading-none">{% trans 'Create Service' %}</h4>
 <hr class="sep">
 <form class="card ~neutral !low p-0 max-w-xl" method="POST">
     {% csrf_token %}
@@ -13,8 +13,8 @@
         {% include 'dashboard/includes/service_form.html' %}
     </div>
     <div class="section ~urge !normal p-4">
-        <button type="submit" class="button ~urge !high">Create</button>
-        <a href="{% url 'dashboard:dashboard' %}" class="button ~urge !low">Cancel</a>
+        <button type="submit" class="button ~urge !high">{% trans 'Create' %}</button>
+        <a href="{% url 'dashboard:dashboard' %}" class="button ~urge !low">{% trans 'Cancel' %}</a>
     </div>
 </form>
 {% endblock %}

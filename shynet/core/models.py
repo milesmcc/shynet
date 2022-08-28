@@ -12,6 +12,7 @@ from django.db.models.functions import TruncDate, TruncHour
 from django.db.utils import NotSupportedError
 from django.shortcuts import reverse
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 # How long a session a needs to go without an update to no longer be considered 'active' (i.e., currently online)
 ACTIVE_USER_TIMEDELTA = timezone.timedelta(
@@ -54,34 +55,41 @@ class User(AbstractUser):
 class Service(models.Model):
     ACTIVE = "AC"
     ARCHIVED = "AR"
-    SERVICE_STATUSES = [(ACTIVE, "Active"), (ARCHIVED, "Archived")]
+    SERVICE_STATUSES = [(ACTIVE, _("Active")), (ARCHIVED, _("Archived"))]
 
     uuid = models.UUIDField(default=_default_uuid, primary_key=True)
-    name = models.TextField(max_length=64)
+    name = models.TextField(max_length=64, verbose_name=_('Name'))
     owner = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="owning_services"
+        User, verbose_name=_('Owner'),
+        on_delete=models.CASCADE, related_name="owning_services"
     )
     collaborators = models.ManyToManyField(
-        User, related_name="collaborating_services", blank=True
+        User, verbose_name=_('Collaborators'),
+        related_name="collaborating_services", blank=True
     )
-    created = models.DateTimeField(auto_now_add=True)
-    link = models.URLField(blank=True)
-    origins = models.TextField(default="*")
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_('created'))
+    link = models.URLField(blank=True, verbose_name=_('link'))
+    origins = models.TextField(default="*", verbose_name=_('origins'))
     status = models.CharField(
-        max_length=2, choices=SERVICE_STATUSES, default=ACTIVE, db_index=True
+        max_length=2, choices=SERVICE_STATUSES, default=ACTIVE, db_index=True,
+        verbose_name=_('status')
     )
-    respect_dnt = models.BooleanField(default=True)
-    ignore_robots = models.BooleanField(default=False)
-    collect_ips = models.BooleanField(default=True)
+    respect_dnt = models.BooleanField(default=True, verbose_name=_('Respect dnt'))
+    ignore_robots = models.BooleanField(default=False, verbose_name=_('Ignore robots'))
+    collect_ips = models.BooleanField(default=True, verbose_name=_('Collect ips'))
     ignored_ips = models.TextField(
-        default="", blank=True, validators=[_validate_network_list]
+        default="", blank=True, validators=[_validate_network_list],
+        verbose_name=_('Igored ips')
     )
     hide_referrer_regex = models.TextField(
-        default="", blank=True, validators=[_validate_regex]
+        default="", blank=True, validators=[_validate_regex],
+        verbose_name=_('Hide referrer regex')
     )
-    script_inject = models.TextField(default="", blank=True)
+    script_inject = models.TextField(default="", blank=True, verbose_name=_('Script inject'))
 
     class Meta:
+        verbose_name = _('Service')
+        verbose_name_plural = _('Services')
         ordering = ["name", "uuid"]
 
     def __str__(self):

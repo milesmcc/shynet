@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-24 13:20+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: core/models.py:58
+msgid "Active"
+msgstr "Aktiv"
+
+#: core/models.py:58
+msgid "Archived"
+msgstr "Archiviert"
+
+#: core/models.py:61
+msgid "Name"
+msgstr "Name"
+
+#: core/models.py:63
+msgid "Owner"
+msgstr "Eigentümer"
+
+#: core/models.py:67
+msgid "Collaborators"
+msgstr "Mitarbeiter"
+
+#: core/models.py:70
+msgid "created"
+msgstr "Erstellt"
+
+#: core/models.py:71
+msgid "link"
+msgstr "Verweis"
+
+#: core/models.py:72
+msgid "origins"
+msgstr ""
+
+#: core/models.py:75
+msgid "status"
+msgstr "Status"
+
+#: core/models.py:77
+msgid "Respect dnt"
+msgstr "DNT beachten"
+
+#: core/models.py:78
+msgid "Ignore robots"
+msgstr "Robots ignorieren"
+
+#: core/models.py:79
+msgid "Collect ips"
+msgstr "IPs erfassen"
+
+#: core/models.py:82
+msgid "Igored ips"
+msgstr "IPs ignorieren"
+
+#: core/models.py:86
+msgid "Hide referrer regex"
+msgstr "Referrer Regex ausblenden"
+
+#: core/models.py:88
+msgid "Script inject"
+msgstr ""
+
+#: core/models.py:91
+msgid "Service"
+msgstr "Dienst"
+
+#: core/models.py:92
+msgid "Services"
+msgstr "Dienste"
