@@ -31,21 +31,19 @@
         </div>
     </form>
     <hr class="sep h-4">
-    <div>
-        <h5>API</h5>
-        <p>Service data can be accessed via API on url:</p>
-        <code>{{script_protocol}}{{request.get_host}}{% url 'api:services' %}?uuid={{object.uuid}}</code>
+    <h5>API</h5>
+    <div class="card ~neutral !low content">
+        <p>Shynet provides a simple API that you can use to pull data programmatically. You can access this data via this URL:</p>
+        <code class="text-sm">{{script_protocol}}{{request.get_host}}{% url 'api:services' %}?uuid={{object.uuid}}</code>
         <p>
-          There are 2 optional query parameters:
-          <ul>
-            <li>startDate - to set start date in format YYYY-MM-DD</li>
-            <li>endDate - to set end date in format YYYY-MM-DD</li>
-          </ul>
+        There are 2 optional query parameters:
+        <ul>
+            <li><code class="text-sm">startDate</code> &mdash; to set the start date (in format YYYY-MM-DD)</li>
+            <li><code class="text-sm">endDate</code> &mdash; to set the end date (in format YYYY-MM-DD)</li>
+        </ul>
         </p>
-        <p>Example using HTTPie:</p>
-        <code>http get '{{script_protocol}}{{request.get_host}}{% url 'api:services' %}?uuid={{object.uuid}}&startDate=2021-01-01&endDate=2050-01-01' 'Authorization:Token {{request.user.api_token}}'</code>
         <p>Example using cURL:</p>
-        <code>curl -H 'Authorization:Token {{request.user.api_token}}' '{{script_protocol}}{{request.get_host}}{% url 'api:services' %}?uuid={{object.uuid}}&startDate=2021-01-01&endDate=2050-01-01'</code>
+        <code class="text-sm">curl -H 'Authorization: Token {{request.user.api_token}}' '{{script_protocol}}{{request.get_host}}{% url 'api:services' %}?uuid={{object.uuid}}&startDate=2021-01-01&endDate=2050-01-01'</code>
     </div>
 </div>
 {% endblock %}
