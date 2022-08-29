@@ -158,7 +158,7 @@ class ServiceSessionView(LoginRequiredMixin, PermissionRequiredMixin, DetailView
 
 
 class RefreshApiTokenView(LoginRequiredMixin, View):
-    def get(self, request):
+    def post(self, request):
         request.user.api_token = _default_api_token()
         request.user.save()
         return redirect('account_change_password')
