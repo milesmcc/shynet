@@ -353,7 +353,7 @@ test = ["pytest", "pytest-cov", "pytest-django", "celery", "redis"]
 
 [[package]]
 name = "django-ipware"
-version = "3.0.7"
+version = "4.0.2"
 description = "A Django application to retrieve user's IP address"
 category = "main"
 optional = false
@@ -974,7 +974,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "af3d0422c23c7381c78eaab410bdd1a0fa1ca2f19d615a4d365808b705e73188"
+content-hash = "21f01961cfb8400f3beaa3edde997911e344181bb49fb8f4040a599d0f17089b"
 
 [metadata.files]
 aiohttp = [
@@ -1099,10 +1099,7 @@ django-cors-headers = []
 django-coverage-plugin = []
 django-debug-toolbar = []
 django-health-check = []
-django-ipware = [
-    {file = "django-ipware-3.0.7.tar.gz", hash = "sha256:753f8214a16ccaac54ea977349a96e37b582a28a54065e00c1c46d530862c85e"},
-    {file = "django_ipware-3.0.7-py2.py3-none-any.whl", hash = "sha256:a18820ea2b98ff3f87b7530eb6346f5feb65d18e89397606aacc098fa7b93db2"},
-]
+django-ipware = []
 django-npm = [
     {file = "django-npm-1.0.0.tar.gz", hash = "sha256:2e6bba65e728fa18b9db3c8dc0d4490b70cb7f43bacf60eb3654d7dcb6424272"},
 ]
