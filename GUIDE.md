@@ -212,6 +212,22 @@ In a single-page application, the page never reloads. (That's the entire point o
 
 Fortunately, Shynet offers a simple method you can call from anywhere within your JavaScript to indicate that a new page has been loaded: `Shynet.newPageLoad()`. Add this method call to the code that handles routing in your app, and you'll be ready to go.
 
+
+### API
+
+All the information displayed on the dashboard can be obtained via API on url ```//shynet.example.com/api/v1/dashboard/```. By default this endpoint will return the full data from all services over the last last 30 days. The `Authentication` header should be set to use user's parsonal API token (```'Authorization: Token <user API token>'```).
+
+There are 3 optional query parameters:
+ * `uuid` - to get data only from one service
+ * `startDate` - to set start date in format YYYY-MM-DD
+ * `endDate` - to set end date in format YYYY-MM-DD
+
+Example in HTTPie:
+```http get '//shynet.example.com/api/v1/dashboard/?uuid={{service_uuid}}&startDate=2021-01-01&endDate=2050-01-01' 'Authorization:Token {{user_api_token}}'```
+
+Example in cURL:
+```curl -H 'Authorization:Token {{user_api_token}}' '//shynet.example.com/api/v1/dashboard/?uuid={{service_uuid}}&startDate=2021-01-01&endDate=2050-01-01'```
+
 ---
 
 ## Troubleshooting

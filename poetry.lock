@@ -302,6 +302,17 @@ requests = "*"
 requests-oauthlib = ">=0.3.0"
 
 [[package]]
+name = "django-cors-headers"
+version = "3.13.0"
+description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+Django = ">=3.2"
+
+[[package]]
 name = "django-coverage-plugin"
 version = "2.0.3"
 description = "Django template coverage.py plugin"
@@ -963,7 +974,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "ab6edbffdf2275a6e323a34d85f1f354264ad3a46d3c179922a7ee72f88ce1a2"
+content-hash = "af3d0422c23c7381c78eaab410bdd1a0fa1ca2f19d615a4d365808b705e73188"
 
 [metadata.files]
 aiohttp = [
@@ -1084,6 +1095,7 @@ django = []
 django-allauth = [
     {file = "django-allauth-0.45.0.tar.gz", hash = "sha256:6d46be0e1480316ccd45476db3aefb39db70e038d2a543112d314b76bb999a4e"},
 ]
+django-cors-headers = []
 django-coverage-plugin = []
 django-debug-toolbar = []
 django-health-check = []
