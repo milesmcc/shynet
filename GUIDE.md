@@ -20,6 +20,8 @@
 
 **If you install Shynet, you should strongly consider enabling notifications when new versions are released.** You can do this under the "Watch" tab on GitHub (above). This will ensure that you are notified when new versions are available, some of which may be security updates. (Shynet will never automatically update itself.)
 
+> **When you do update, read the release notes!** These will tell you if you need to make changes to your deployment. (E.g., Shynet 0.13.0 requires additional configuration.)
+
 ## Installation
 
 Installation of Shynet is easy! Follow the [Basic Installation](#basic-installation) guide or the [Basic Installation with Docker Compose](#basic-installation-with-docker-compose) below for a minimal installation, or if you are going to be running Shynet over HTTPS through a reverse proxy.
