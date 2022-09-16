@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='api_token',
-            field=models.TextField(default=core.models._default_api_token, unique=True),
+            field=models.TextField(null=True, unique=True),
         ),
         migrations.AlterField(
             model_name='user',

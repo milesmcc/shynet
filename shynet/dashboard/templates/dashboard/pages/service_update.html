@@ -47,7 +47,7 @@
         </ul>
         </p>
         <p>Example using cURL:</p>
-        <code class="text-sm">curl -H 'Authorization: Token {{request.user.api_token}}' '{{script_protocol}}{{request.get_host}}{% url 'api:services' %}?uuid={{object.uuid}}&startDate=2021-01-01&endDate=2050-01-01'</code>
+        <code class="text-sm">curl -H 'Authorization: Token (your API token, available on security page)' '{{script_protocol}}{{request.get_host}}{% url 'api:services' %}?uuid={{object.uuid}}&startDate=2021-01-01&endDate=2050-01-01'</code>
     </div>
 </div>
 {% endblock %}
