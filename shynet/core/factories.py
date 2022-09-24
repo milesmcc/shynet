@@ -1,20 +1,21 @@
-from django.contrib.auth import get_user_model
 import factory
+from django.contrib.auth import get_user_model
+from factory import post_generation
 from factory.django import DjangoModelFactory
+
 from .models import Service
 
 
 class UserFactory(DjangoModelFactory):
     username = factory.Faker("user_name")
     email = factory.Faker("email")
-    name = factory.Faker("name")
+    first_name = factory.Faker("name")
 
     @post_generation
     def password(self, create, extracted, **kwargs):
         password = (
             extracted
-            if extracted
-            else factory.Faker(
+            or factory.Faker(
                 "password",
                 length=42,
                 special_chars=True,
@@ -23,6 +24,7 @@ class UserFactory(DjangoModelFactory):
                 lower_case=True,
             ).evaluate(None, None, extra={"locale": None})
         )
+
         self.set_password(password)
 
     class Meta:
