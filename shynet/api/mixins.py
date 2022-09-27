@@ -6,11 +6,11 @@ from core.models import User
 
 class ApiTokenRequiredMixin:
     def _get_user_by_token(self, request):
-        token = request.headers.get('Authorization')
-        if not token or not token.startswith('Token '):
+        token = request.headers.get("Authorization")
+        if not token or not token.startswith("Token "):
             return AnonymousUser()
 
-        token = token.split(' ')[1]
+        token = token.split(" ")[1]
         user = User.objects.filter(api_token=token).first()
 
         return user if user else AnonymousUser()
