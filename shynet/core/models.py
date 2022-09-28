@@ -64,38 +64,51 @@ class Service(models.Model):
     SERVICE_STATUSES = [(ACTIVE, _("Active")), (ARCHIVED, _("Archived"))]
 
     uuid = models.UUIDField(default=_default_uuid, primary_key=True)
-    name = models.TextField(max_length=64, verbose_name=_('Name'))
+    name = models.TextField(max_length=64, verbose_name=_("Name"))
     owner = models.ForeignKey(
-        User, verbose_name=_('Owner'),
-        on_delete=models.CASCADE, related_name="owning_services"
+        User,
+        verbose_name=_("Owner"),
+        on_delete=models.CASCADE,
+        related_name="owning_services",
     )
     collaborators = models.ManyToManyField(
-        User, verbose_name=_('Collaborators'),
-        related_name="collaborating_services", blank=True
+        User,
+        verbose_name=_("Collaborators"),
+        related_name="collaborating_services",
+        blank=True,
     )
-    created = models.DateTimeField(auto_now_add=True, verbose_name=_('created'))
-    link = models.URLField(blank=True, verbose_name=_('link'))
-    origins = models.TextField(default="*", verbose_name=_('origins'))
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_("created"))
+    link = models.URLField(blank=True, verbose_name=_("link"))
+    origins = models.TextField(default="*", verbose_name=_("origins"))
     status = models.CharField(
-        max_length=2, choices=SERVICE_STATUSES, default=ACTIVE, db_index=True,
-        verbose_name=_('status')
+        max_length=2,
+        choices=SERVICE_STATUSES,
+        default=ACTIVE,
+        db_index=True,
+        verbose_name=_("status"),
     )
-    respect_dnt = models.BooleanField(default=True, verbose_name=_('Respect dnt'))
-    ignore_robots = models.BooleanField(default=False, verbose_name=_('Ignore robots'))
-    collect_ips = models.BooleanField(default=True, verbose_name=_('Collect ips'))
+    respect_dnt = models.BooleanField(default=True, verbose_name=_("Respect dnt"))
+    ignore_robots = models.BooleanField(default=False, verbose_name=_("Ignore robots"))
+    collect_ips = models.BooleanField(default=True, verbose_name=_("Collect ips"))
     ignored_ips = models.TextField(
-        default="", blank=True, validators=[_validate_network_list],
-        verbose_name=_('Igored ips')
+        default="",
+        blank=True,
+        validators=[_validate_network_list],
+        verbose_name=_("Igored ips"),
     )
     hide_referrer_regex = models.TextField(
-        default="", blank=True, validators=[_validate_regex],
-        verbose_name=_('Hide referrer regex')
+        default="",
+        blank=True,
+        validators=[_validate_regex],
+        verbose_name=_("Hide referrer regex"),
     )
-    script_inject = models.TextField(default="", blank=True, verbose_name=_('Script inject'))
+    script_inject = models.TextField(
+        default="", blank=True, verbose_name=_("Script inject")
+    )
 
     class Meta:
-        verbose_name = _('Service')
-        verbose_name_plural = _('Services')
+        verbose_name = _("Service")
+        verbose_name_plural = _("Services")
         ordering = ["name", "uuid"]
 
     def __str__(self):

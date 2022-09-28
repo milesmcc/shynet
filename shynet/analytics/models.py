@@ -15,27 +15,26 @@ def _default_uuid():
 class Session(models.Model):
     uuid = models.UUIDField(default=_default_uuid, primary_key=True)
     service = models.ForeignKey(
-        Service, verbose_name=_('Service'),
-        on_delete=models.CASCADE, db_index=True
+        Service, verbose_name=_("Service"), on_delete=models.CASCADE, db_index=True
     )
 
     # Cross-session identification; optional, and provided by the service
     identifier = models.TextField(
-        blank=True, db_index=True, verbose_name=_('Identifier')
+        blank=True, db_index=True, verbose_name=_("Identifier")
     )
 
     # Time
     start_time = models.DateTimeField(
-        default=timezone.now, db_index=True, verbose_name=_('Start time')
+        default=timezone.now, db_index=True, verbose_name=_("Start time")
     )
     last_seen = models.DateTimeField(
-        default=timezone.now, db_index=True, verbose_name=_('Last seen')
+        default=timezone.now, db_index=True, verbose_name=_("Last seen")
     )
 
     # Core request information
-    user_agent = models.TextField(verbose_name=_('User agent'))
-    browser = models.TextField(verbose_name=_('Browser'))
-    device = models.TextField(verbose_name=_('Device'))
+    user_agent = models.TextField(verbose_name=_("User agent"))
+    browser = models.TextField(verbose_name=_("Browser"))
+    device = models.TextField(verbose_name=_("Device"))
     device_type = models.CharField(
         max_length=7,
         choices=[
@@ -46,23 +45,25 @@ class Session(models.Model):
             ("OTHER", _("Other")),
         ],
         default="OTHER",
-        verbose_name=_('Device type')
+        verbose_name=_("Device type"),
     )
-    os = models.TextField(verbose_name=_('OS'))
-    ip = models.GenericIPAddressField(db_index=True, null=True, verbose_name=_('IP'))
+    os = models.TextField(verbose_name=_("OS"))
+    ip = models.GenericIPAddressField(db_index=True, null=True, verbose_name=_("IP"))
 
     # GeoIP data
-    asn = models.TextField(blank=True, verbose_name=_('Asn'))
-    country = models.TextField(blank=True, verbose_name=_('Country'))
-    longitude = models.FloatField(null=True, verbose_name=_('Longitude'))
-    latitude = models.FloatField(null=True, verbose_name=_('Latitude'))
-    time_zone = models.TextField(blank=True, verbose_name=_('Time zone'))
+    asn = models.TextField(blank=True, verbose_name=_("Asn"))
+    country = models.TextField(blank=True, verbose_name=_("Country"))
+    longitude = models.FloatField(null=True, verbose_name=_("Longitude"))
+    latitude = models.FloatField(null=True, verbose_name=_("Latitude"))
+    time_zone = models.TextField(blank=True, verbose_name=_("Time zone"))
 
-    is_bounce = models.BooleanField(default=True, db_index=True, verbose_name=_('Is bounce'))
+    is_bounce = models.BooleanField(
+        default=True, db_index=True, verbose_name=_("Is bounce")
+    )
 
     class Meta:
-        verbose_name = _('Session')
-        verbose_name_plural = _('Sessions')
+        verbose_name = _("Session")
+        verbose_name_plural = _("Sessions")
         ordering = ["-start_time"]
         indexes = [
             models.Index(fields=["service", "-start_time"]),
@@ -96,8 +97,7 @@ class Session(models.Model):
 
 class Hit(models.Model):
     session = models.ForeignKey(
-        Session, on_delete=models.CASCADE, db_index=True,
-        verbose_name=_('Session')
+        Session, on_delete=models.CASCADE, db_index=True, verbose_name=_("Session")
     )
     initial = models.BooleanField(default=True, db_index=True)
 
@@ -119,8 +119,8 @@ class Hit(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE, db_index=True)
 
     class Meta:
-        verbose_name = _('Hit')
-        verbose_name_plural = _('Hits')
+        verbose_name = _("Hit")
+        verbose_name_plural = _("Hits")
         ordering = ["-start_time"]
         indexes = [
             models.Index(fields=["session", "-start_time"]),
@@ -128,7 +128,6 @@ class Hit(models.Model):
             models.Index(fields=["session", "location"]),
             models.Index(fields=["session", "referrer"]),
         ]
-
 
     @property
     def duration(self):
