@@ -15,7 +15,6 @@ class ApiTokenRequiredMixin:
 
         token = token.split(" ")[1]
         user: User = User.objects.filter(api_token=token).first()
-
         return user or AnonymousUser()
 
     def dispatch(self, request, *args, **kwargs):
