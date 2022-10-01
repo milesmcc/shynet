@@ -24,9 +24,6 @@ from core.constants import (
     CoreConstants,
 )
 
-Session = apps.get_model("analytics", "Session")
-Hit = apps.get_model("analytics", "Hit")
-
 # How long a session a needs to go without an update to no longer be considered 'active' (i.e., currently online)
 ACTIVE_USER_TIMEDELTA = timezone.timedelta(
     milliseconds=settings.SCRIPT_HEARTBEAT_FREQUENCY * 2
@@ -169,6 +166,8 @@ class Service(models.Model):
     def _get_hits_data(
         self, start_time: datetime.datetime, end_time: datetime.datetime
     ) -> Tuple[QuerySet, int, bool]:
+        Hit = apps.get_model("analytics", "Hit")
+
         hits: QuerySet = Hit.objects.filter(
             service=self, start_time__lt=end_time, start_time__gt=start_time
         )
@@ -203,12 +202,8 @@ class Service(models.Model):
 
         return device_types, devices
 
-
-    def _get_bounces_data(self, sessions: QuerySet) -> Tuple[QuerySet, int]:
-        bounces: QuerySet = sessions.filter(is_bounce=True)
-        bounce_count: int = bounces.count()
-
-        return bounces, bounce_count
+    def _get_bounces_data(self, sessions: QuerySet) -> int:
+        return sessions.filter(is_bounce=True).count()
 
     def _get_referrers(self, hits: QuerySet) -> list:
         referrer_ignore = self.get_ignored_referrer_regex()
@@ -226,6 +221,8 @@ class Service(models.Model):
     def get_relative_stats(
         self, start_time: datetime.datetime, end_time: datetime.datetime
     ) -> dict:
+        Session = apps.get_model("analytics", "Session")
+
         tz_now: datetime.datetime = timezone.now()
 
         currently_online: int = Session.objects.filter(
@@ -258,7 +255,7 @@ class Service(models.Model):
         )
 
         # get bounces data
-        bounces, bounce_count = self._get_bounces_data(sessions)
+        bounce_count = self._get_bounces_data(sessions)
 
         # get device data
         device_types, devices = self._get_devices_data(sessions)
