@@ -1,19 +1,31 @@
+import datetime
 import ipaddress
 import re
 import uuid
-
 from secrets import token_urlsafe
+from typing import Tuple, Optional
 
 from django.apps import apps
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import QuerySet
 from django.db.models.functions import TruncDate, TruncHour
 from django.db.utils import NotSupportedError
 from django.shortcuts import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+
+from core.constants import (
+    ChartGranularity,
+    ChartTooltipDateTimeFormat,
+    ChartDataKeys,
+    CoreConstants,
+)
+
+Session = apps.get_model("analytics", "Session")
+Hit = apps.get_model("analytics", "Hit")
 
 # How long a session a needs to go without an update to no longer be considered 'active' (i.e., currently online)
 ACTIVE_USER_TIMEDELTA = timezone.timedelta(
@@ -30,20 +42,22 @@ def _validate_network_list(networks: str):
     try:
         _parse_network_list(networks)
     except ValueError as e:
-        raise ValidationError(str(e))
+        raise ValidationError(str(e)) from e
 
 
 def _validate_regex(regex: str):
     try:
         re.compile(regex)
-    except re.error:
-        raise ValidationError(f"'{regex}' is not valid RegEx")
+    except re.error as e:
+        raise ValidationError(f"'{regex}' is not valid RegEx") from e
 
 
 def _parse_network_list(networks: str):
-    if len(networks.strip()) == 0:
-        return []
-    return [ipaddress.ip_network(network.strip()) for network in networks.split(",")]
+    return (
+        [ipaddress.ip_network(network.strip()) for network in networks.split(",")]
+        if networks.strip()
+        else []
+    )
 
 
 def _default_api_token():
@@ -121,21 +135,24 @@ class Service(models.Model):
     def get_ignored_referrer_regex(self):
         if len(self.hide_referrer_regex.strip()) == 0:
             return re.compile(r".^")  # matches nothing
-        else:
-            try:
-                return re.compile(self.hide_referrer_regex)
-            except re.error:
-                # Regexes are validated in the form, but this is an important
-                # fallback to prevent form validation and malformed source
-                # data from causing all service pages to error
-                return re.compile(r".^")
+        try:
+            return re.compile(self.hide_referrer_regex)
+        except re.error:
+            # Regexes are validated in the form, but this is an important
+            # fallback to prevent form validation and malformed source
+            # data from causing all service pages to error
+            return re.compile(r".^")
 
     def get_daily_stats(self):
         return self.get_core_stats(
             start_time=timezone.now() - timezone.timedelta(days=1)
         )
 
-    def get_core_stats(self, start_time=None, end_time=None):
+    def get_core_stats(
+        self,
+        start_time: Optional[datetime.datetime] = None,
+        end_time: Optional[datetime.datetime] = None,
+    ) -> dict:
         if start_time is None:
             start_time = timezone.now() - timezone.timedelta(days=30)
         if end_time is None:
@@ -149,39 +166,53 @@ class Service(models.Model):
 
         return main_data
 
-    def get_relative_stats(self, start_time, end_time):
-        Session = apps.get_model("analytics", "Session")
-        Hit = apps.get_model("analytics", "Hit")
-
-        tz_now = timezone.now()
-
-        currently_online = Session.objects.filter(
-            service=self, last_seen__gt=tz_now - ACTIVE_USER_TIMEDELTA
-        ).count()
-
-        sessions = Session.objects.filter(
-            service=self, start_time__gt=start_time, start_time__lt=end_time
-        ).order_by("-start_time")
-        session_count = sessions.count()
-
-        hits = Hit.objects.filter(
+    def _get_hits_data(
+        self, start_time: datetime.datetime, end_time: datetime.datetime
+    ) -> Tuple[QuerySet, int, bool]:
+        hits: QuerySet = Hit.objects.filter(
             service=self, start_time__lt=end_time, start_time__gt=start_time
         )
-        hit_count = hits.count()
+        hit_count: int = hits.count()
+        has_hits: bool = Hit.objects.filter(service=self).exists()
+        return hits, hit_count, has_hits
 
-        has_hits = Hit.objects.filter(service=self).exists()
+    def _get_avg_hits_data(
+        self, hits: QuerySet, hit_count: int, session_count: int
+    ) -> Tuple[Optional[float], Optional[float]]:
+        avg_load_time: Optional[float] = hits.aggregate(
+            load_time__avg=models.Avg("load_time")
+        )["load_time__avg"]
+        avg_hits_per_session: Optional[float] = (
+            hit_count / session_count if session_count > 0 else None
+        )
+        return avg_load_time, avg_hits_per_session
 
-        bounces = sessions.filter(is_bounce=True)
-        bounce_count = bounces.count()
 
-        locations = (
-            hits.values("location")
-            .annotate(count=models.Count("location"))
+    def _get_devices_data(self, sessions: QuerySet) -> Tuple[QuerySet, QuerySet]:
+        device_types: QuerySet = (
+            sessions.values("device_type")
+            .annotate(count=models.Count("device_type"))
             .order_by("-count")[:RESULTS_LIMIT]
         )
 
+        devices: QuerySet = (
+            sessions.values("device")
+            .annotate(count=models.Count("device"))
+            .order_by("-count")[:RESULTS_LIMIT]
+        )
+
+        return device_types, devices
+
+
+    def _get_bounces_data(self, sessions: QuerySet) -> Tuple[QuerySet, int]:
+        bounces: QuerySet = sessions.filter(is_bounce=True)
+        bounce_count: int = bounces.count()
+
+        return bounces, bounce_count
+
+    def _get_referrers(self, hits: QuerySet) -> list:
         referrer_ignore = self.get_ignored_referrer_regex()
-        referrers = [
+        return [
             referrer
             for referrer in (
                 hits.filter(initial=True)
@@ -192,44 +223,65 @@ class Service(models.Model):
             if not referrer_ignore.match(referrer["referrer"])
         ]
 
-        countries = (
+    def get_relative_stats(
+        self, start_time: datetime.datetime, end_time: datetime.datetime
+    ) -> dict:
+        tz_now: datetime.datetime = timezone.now()
+
+        currently_online: int = Session.objects.filter(
+            service=self, last_seen__gt=tz_now - ACTIVE_USER_TIMEDELTA
+        ).count()
+        sessions: QuerySet = Session.objects.filter(
+            service=self, start_time__gt=start_time, start_time__lt=end_time
+        ).order_by("-start_time")
+
+        session_count: int = sessions.count()
+        countries: QuerySet = (
             sessions.values("country")
             .annotate(count=models.Count("country"))
             .order_by("-count")[:RESULTS_LIMIT]
         )
 
-        operating_systems = (
+        operating_systems: QuerySet = (
             sessions.values("os")
             .annotate(count=models.Count("os"))
             .order_by("-count")[:RESULTS_LIMIT]
-        )
 
-        browsers = (
+        )
+        browsers: QuerySet = (
             sessions.values("browser")
             .annotate(count=models.Count("browser"))
             .order_by("-count")[:RESULTS_LIMIT]
         )
+        avg_session_duration: Optional[float] = self._get_avg_session_duration(
+            sessions, session_count
+        )
 
-        device_types = (
-            sessions.values("device_type")
-            .annotate(count=models.Count("device_type"))
+        # get bounces data
+        bounces, bounce_count = self._get_bounces_data(sessions)
+
+        # get device data
+        device_types, devices = self._get_devices_data(sessions)
+
+        # get hits data
+        hits, hit_count, has_hits = self._get_hits_data(start_time, end_time)
+
+        # get locations
+        locations: QuerySet = (
+            hits.values("location")
+            .annotate(count=models.Count("location"))
             .order_by("-count")[:RESULTS_LIMIT]
         )
 
-        devices = (
-            sessions.values("device")
-            .annotate(count=models.Count("device"))
-            .order_by("-count")[:RESULTS_LIMIT]
+        # get avg hits data
+        avg_load_time, avg_hits_per_session = self._get_avg_hits_data(
+            hits, hit_count, session_count
         )
 
-        avg_load_time = hits.aggregate(load_time__avg=models.Avg("load_time"))[
-            "load_time__avg"
-        ]
+        # get referrers
+        referrers = self._get_referrers(hits)
 
-        avg_hits_per_session = hit_count / session_count if session_count > 0 else None
-
-        avg_session_duration = self._get_avg_session_duration(sessions, session_count)
-
+        # get chart data
         chart_data, chart_tooltip_format, chart_granularity = self._get_chart_data(
             sessions, hits, start_time, end_time, tz_now
         )
@@ -258,29 +310,75 @@ class Service(models.Model):
             "online": True,
         }
 
-    def _get_avg_session_duration(self, sessions, session_count):
+    def _get_avg_session_duration(
+        self, sessions: QuerySet, session_count: int
+    ) -> Optional[float]:
         try:
             avg_session_duration = sessions.annotate(
                 duration=models.F("last_seen") - models.F("start_time")
             ).aggregate(time_delta=models.Avg("duration"))["time_delta"]
         except NotSupportedError:
             avg_session_duration = sum(
-                [
-                    (session.last_seen - session.start_time).total_seconds()
-                    for session in sessions
-                ]
+                (session.last_seen - session.start_time).total_seconds()
+                for session in sessions
             ) / max(session_count, 1)
+
         if session_count == 0:
             avg_session_duration = None
 
         return avg_session_duration
 
-    def _get_chart_data(self, sessions, hits, start_time, end_time, tz_now):
+    def _get_hits_data_for_chart(
+        self, hits: QuerySet, chart_key: str, data: Optional[dict] = None
+    ) -> dict:
+        if not data:
+            data = {}
+
+        for hit in hits:
+            if hit[chart_key] not in data:
+                data[hit[chart_key]] = {"hits": hit["count"], "sessions": 0}
+            else:
+                data[hit[chart_key]]["hits"] = hit["count"]
+
+        return data
+
+    def _update_chart_data_for_offset(
+        self,
+        offset_range: range,
+        current_tz: datetime.datetime,
+        start_time: datetime.datetime,
+        chart_type: str,
+        data: Optional[dict] = None,
+    ) -> dict:
+        if not data:
+            data = {}
+
+        for offset in offset_range:
+            # TODO: Is there a better way to do this?
+            delta_dict = {
+                CoreConstants.HOURS
+                if chart_type == ChartGranularity.HOURLY
+                else CoreConstants.DAYS: offset
+            }
+            offset_key = (start_time + timezone.timedelta(**delta_dict)).date()
+            if offset_key not in data and offset_key <= current_tz.date():
+                data[offset_key] = {"sessions": 0, "hits": 0}
+
+        return data
+
+    def _get_chart_data(
+        self,
+        sessions: QuerySet,
+        hits: QuerySet,
+        start_time: datetime.datetime,
+        end_time: datetime.datetime,
+        tz_now: datetime.datetime,
+    ):
         # Show hourly chart for date ranges of 3 days or less, otherwise daily chart
         if (end_time - start_time).days < 3:
-            chart_tooltip_format = "MM/dd HH:mm"
-            chart_granularity = "hourly"
-            sessions_per_hour = (
+            chart_tooltip_format = ChartTooltipDateTimeFormat.HOURLY_TOOLTIP
+            chart_granularity = ChartGranularity.HOURLY
+            sessions_per_hour: QuerySet = (
                 sessions.annotate(hour=TruncHour("start_time"))
                 .values("hour")
                 .annotate(count=models.Count("uuid"))
@@ -290,27 +388,30 @@ class Service(models.Model):
                 k["hour"]: {"sessions": k["count"], "hits": 0}
                 for k in sessions_per_hour
             }
-            hits_per_hour = (
+            hits_per_hour: QuerySet = (
                 hits.annotate(hour=TruncHour("start_time"))
                 .values("hour")
                 .annotate(count=models.Count("id"))
                 .order_by("hour")
             )
-            for k in hits_per_hour:
-                if k["hour"] not in chart_data:
-                    chart_data[k["hour"]] = {"hits": k["count"], "sessions": 0}
-                else:
-                    chart_data[k["hour"]]["hits"] = k["count"]
+
+            chart_data = self._get_hits_data_for_chart(
+                hits=hits_per_hour, chart_key=ChartDataKeys.HOUR, data=chart_data
+            )
 
             hours_range = range(int((end_time - start_time).total_seconds() / 3600) + 1)
-            for hour_offset in hours_range:
-                hour = start_time + timezone.timedelta(hours=hour_offset)
-                if hour not in chart_data and hour <= tz_now:
-                    chart_data[hour] = {"sessions": 0, "hits": 0}
+            chart_data = self._update_chart_data_for_offset(
+                offset_range=hours_range,
+                current_tz=tz_now,
+                start_time=start_time,
+                chart_type=chart_granularity,
+                data=chart_data,
+            )
+
         else:
-            chart_tooltip_format = "MMM d"
-            chart_granularity = "daily"
-            sessions_per_day = (
+            chart_tooltip_format = ChartTooltipDateTimeFormat.DAILY_TOOLTIP
+            chart_granularity = ChartGranularity.DAILY
+            sessions_per_day: QuerySet = (
                 sessions.annotate(date=TruncDate("start_time"))
                 .values("date")
                 .annotate(count=models.Count("uuid"))
@@ -319,31 +420,33 @@ class Service(models.Model):
             chart_data = {
                 k["date"]: {"sessions": k["count"], "hits": 0} for k in sessions_per_day
             }
-            hits_per_day = (
+            hits_per_day: QuerySet = (
                 hits.annotate(date=TruncDate("start_time"))
                 .values("date")
                 .annotate(count=models.Count("id"))
                 .order_by("date")
             )
-            for k in hits_per_day:
-                if k["date"] not in chart_data:
-                    chart_data[k["date"]] = {"hits": k["count"], "sessions": 0}
-                else:
-                    chart_data[k["date"]]["hits"] = k["count"]
+            chart_data = self._get_hits_data_for_chart(
+                hits=hits_per_day, chart_key=ChartDataKeys.DATE, data=chart_data
+            )
 
-            for day_offset in range((end_time - start_time).days + 1):
-                day = (start_time + timezone.timedelta(days=day_offset)).date()
-                if day not in chart_data and day <= tz_now.date():
-                    chart_data[day] = {"sessions": 0, "hits": 0}
+            day_range = range((end_time - start_time).days + 1)
+            chart_data = self._update_chart_data_for_offset(
+                offset_range=day_range,
+                current_tz=tz_now,
+                start_time=start_time,
+                chart_type=chart_granularity,
+                data=chart_data,
+            )
 
-        chart_data = sorted(chart_data.items(), key=lambda k: k[0])
-        chart_data = {
-            "sessions": [v["sessions"] for k, v in chart_data],
-            "hits": [v["hits"] for k, v in chart_data],
-            "labels": [str(k) for k, v in chart_data],
+        sorted_chart_data = sorted(chart_data.items(), key=lambda k: k[0])
+        final_chart_data = {
+            "sessions": [v["sessions"] for k, v in sorted_chart_data],
+            "hits": [v["hits"] for k, v in sorted_chart_data],
+            "labels": [str(k) for k, v in sorted_chart_data],
         }
 
-        return chart_data, chart_tooltip_format, chart_granularity
+        return final_chart_data, chart_tooltip_format, chart_granularity
 
     def get_absolute_url(self):
         return reverse(
