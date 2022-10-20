@@ -20,7 +20,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         email = options.get("email")
-        password = get_random_string()
+        password = get_random_string(10)
         User.objects.create_superuser(str(uuid.uuid4()), email=email, password=password)
         self.stdout.write(self.style.SUCCESS("Successfully created a Shynet superuser"))
         self.stdout.write(f"Email address: {email}")
