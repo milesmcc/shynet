@@ -26,7 +26,7 @@ COPY package.json package-lock.json ../
 RUN apk add --no-cache postgresql-libs && \
 	apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev && \
 	npm i -P --prefix .. && \
-	pip install poetry==1.1.7
+	pip install poetry==1.2.2
 
 # Install Python dependencies
 RUN poetry config virtualenvs.create false && \
