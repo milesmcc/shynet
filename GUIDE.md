@@ -217,7 +217,7 @@ Fortunately, Shynet offers a simple method you can call from anywhere within you
 
 ### API
 
-All the information displayed on the dashboard can be obtained via API on url ```//shynet.example.com/api/v1/dashboard/```. By default this endpoint will return the full data from all services over the last last 30 days. The `Authentication` header should be set to use user's parsonal API token (```'Authorization: Token <user API token>'```).
+All the information displayed on the dashboard can be obtained via API on url ```//shynet.example.com/api/v1/dashboard/```. By default this endpoint will return the full data from all services over the last last 30 days. The `Authentication` header should be set to use user's personal API token (```'Authorization: Token <user API token>'```).
 
 There are 3 optional query parameters:
  * `uuid` - to get data only from one service
