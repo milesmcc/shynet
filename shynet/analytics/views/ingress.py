@@ -15,7 +15,7 @@ from django.shortcuts import render, reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView, View
+from django.views.generic import View
 from ipware import get_client_ip
 
 from core.models import Service
@@ -119,7 +119,7 @@ class ScriptView(ValidateServiceOriginsMixin, View):
                     "service_uuid": self.kwargs.get("service_uuid"),
                 },
             )
-            if self.kwargs.get("identifier") == None
+            if self.kwargs.get("identifier") is None
             else reverse(
                 "ingress:endpoint_script_id",
                 kwargs={
@@ -129,6 +129,9 @@ class ScriptView(ValidateServiceOriginsMixin, View):
             )
         )
         heartbeat_frequency = settings.SCRIPT_HEARTBEAT_FREQUENCY
+        dnt = self.request.META.get("HTTP_DNT", "0").strip() == "1"
+        service_uuid = self.kwargs.get("service_uuid")
+        service = Service.objects.get(pk=service_uuid, status=Service.ACTIVE)
         return render(
             self.request,
             "analytics/scripts/page.js",
@@ -138,6 +141,7 @@ class ScriptView(ValidateServiceOriginsMixin, View):
                     "protocol": protocol,
                     "heartbeat_frequency": heartbeat_frequency,
                     "script_inject": self.get_script_inject(),
+                    "dnt": dnt and service.respect_dnt,
                 }
             ),
             content_type="application/javascript",
@@ -159,7 +163,7 @@ class ScriptView(ValidateServiceOriginsMixin, View):
     def get_script_inject(self):
         service_uuid = self.kwargs.get("service_uuid")
         script_inject = cache.get(f"script_inject_{service_uuid}")
-        if script_inject == None:
+        if script_inject is None:
             service = Service.objects.get(uuid=service_uuid)
             script_inject = service.script_inject
             cache.set(f"script_inject_{service_uuid}", script_inject, timeout=3600)
