@@ -5,7 +5,13 @@
 //
 // This script only sends the current URL, the referrer URL, and the page load time. That's it!
 
+{% if dnt %}
 var Shynet = {
+  dnt: true
+};
+{% else %}
+var Shynet = {
+  dnt: false,
   idempotency: null,
   heartbeatTaskId: null,
   skipHeartbeat: false,
@@ -53,6 +59,8 @@ var Shynet = {
 };
 
 window.addEventListener("load", Shynet.newPageLoad);
+{% endif %}
+
 
 {% if script_inject %}
 // The following is script is not part of Shynet, and was instead
