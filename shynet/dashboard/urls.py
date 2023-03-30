@@ -27,6 +27,11 @@ urlpatterns = [
         name="service_session",
     ),
     path(
+        "service/<pk>/locations/",
+        views.ServiceLocationsListView.as_view(),
+        name="service_location_list",
+    ),
+    path(
         "api-token-refresh/",
         views.RefreshApiTokenView.as_view(),
         name="api_token_refresh",

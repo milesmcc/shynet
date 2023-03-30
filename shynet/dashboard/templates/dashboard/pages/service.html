@@ -135,6 +135,12 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% if stats.locations.count == RESULTS_LIMIT %}
+            <hr class="sep h-8 md:h-12">
+            <a href="{% contextual_url 'dashboard:service_location_list' service.uuid %}" class="button ~neutral w-auto mb-2">
+                {% trans 'View more locations' %} &rarr;
+            </a>
+        {% endif %}
     </div>
     <div class="geo-map card ~neutral !low py-2 overflow-y-hidden">
         <p class="text-sm font-semibold p-2 border-b mb-2" style="color: var(--color-title)">
