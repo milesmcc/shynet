@@ -146,7 +146,7 @@ class ServiceLocationsListView(
 ):
     model = Hit
     template_name = "dashboard/pages/service_location_list.html"
-    paginate_by = 100
+    paginate_by = RESULTS_LIMIT
     permission_required = "core.view_service"
 
     def get_object(self):

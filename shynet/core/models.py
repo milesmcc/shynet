@@ -19,7 +19,7 @@ from django.utils.translation import gettext_lazy as _
 ACTIVE_USER_TIMEDELTA = timezone.timedelta(
     milliseconds=settings.SCRIPT_HEARTBEAT_FREQUENCY * 2
 )
-RESULTS_LIMIT = 100
+RESULTS_LIMIT = 300
 
 
 def _default_uuid():
