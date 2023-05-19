@@ -2,21 +2,20 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.cache import cache
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.shortcuts import get_object_or_404, reverse, redirect
 from django.views.generic import (
     CreateView,
     DeleteView,
     DetailView,
     ListView,
-    TemplateView,
     UpdateView,
     View,
 )
 from rules.contrib.views import PermissionRequiredMixin
 
-from analytics.models import Session
-from core.models import Service, _default_api_token
+from analytics.models import Session, Hit
+from core.models import Service, _default_api_token, RESULTS_LIMIT
 
 from .forms import ServiceForm
 from .mixins import DateRangeMixin
@@ -68,6 +67,7 @@ class ServiceView(
         data = super().get_context_data(**kwargs)
         data["script_protocol"] = "https://" if settings.SCRIPT_USE_HTTPS else "http://"
         data["stats"] = self.object.get_core_stats(data["start_date"], data["end_date"])
+        data["RESULTS_LIMIT"] = RESULTS_LIMIT
         data["object_list"] = Session.objects.filter(
             service=self.get_object(),
             start_time__lt=self.get_end_date(),
@@ -138,6 +138,36 @@ class ServiceSessionsListView(
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data["object"] = self.get_object()
+        return data
+
+
+class ServiceLocationsListView(
+    LoginRequiredMixin, PermissionRequiredMixin, DateRangeMixin, ListView
+):
+    model = Hit
+    template_name = "dashboard/pages/service_location_list.html"
+    paginate_by = RESULTS_LIMIT
+    permission_required = "core.view_service"
+
+    def get_object(self):
+        return get_object_or_404(Service, pk=self.kwargs.get("pk"))
+
+    def get_queryset(self):
+        hits = Hit.objects.filter(
+            service=self.get_object(),
+            start_time__lt=self.get_end_date(),
+            start_time__gt=self.get_start_date(),
+        )
+        self.hit_count = hits.count()
+
+        return (
+            hits.values("location").annotate(count=Count("location")).order_by("-count")
+        )
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data["object"] = self.get_object()
+        data["hit_count"] = self.hit_count
         return data
 
 

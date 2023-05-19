@@ -1,0 +1,47 @@
+{% extends "dashboard/service_base.html" %}
+
+{% load i18n a17t_tags pagination humanize helpers %}
+
+{% block head_title %}{{object.name}} {% trans 'Locations' %}{% endblock %}
+
+{% block service_actions %}
+<div class="mr-2">{% include 'dashboard/includes/date_range.html' %}</div>
+<a href="{% contextual_url 'dashboard:service' object.uuid %}" class="button field ~neutral !low bg-neutral-000 w-auto">{% trans 'Analytics' %} &rarr;</a>
+{% endblock %}
+
+{% block service_content %}
+<div class="card ~neutral !low mb-8 pt-2 max-w-full overflow-x-auto">
+    <table class="table">
+        <thead class="text-sm">
+            <tr>
+                <th>{% trans 'Location' %}</th>
+                <th class="rf">{% trans 'Hits' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for location in object_list %}
+            <tr>
+                <td class="truncate w-full max-w-0 relative">
+                    <div class="relative flex items-center">
+                        {{location.location|default:"Unknown"|urldisplay}}
+                    </div>
+                </td>
+                <td>
+                    <div class="flex justify-end items-center">
+                        {{location.count|intcomma}}
+                        <span class="text-xs rf min-w-48">
+                            ({{location.count|percent:hit_count}})
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td><span class="text-gray-600">{% trans 'No data yet...' %}</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% pagination page_obj request %}
+{% endblock %}
