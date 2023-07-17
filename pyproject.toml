@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "shynet"
-version = "0.10.0"
+version = "0.13.0"
 description = "Modern, privacy-friendly, and cookie-free web analytics."
 authors = ["R. Miles McCain <github@sendmiles.email>"]
 license = "Apache-2.0"
