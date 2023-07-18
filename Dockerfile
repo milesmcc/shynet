@@ -30,6 +30,7 @@ RUN apk add --no-cache postgresql-libs && \
 
 # Install Python dependencies
 RUN poetry config virtualenvs.create false && \
+    poetry run pip install "Cython<3.0" "pyyaml==5.4.1" --no-build-isolation && \
     poetry install --no-dev --no-interaction --no-ansi
 
 # Cleanup dependencies & setup user group
