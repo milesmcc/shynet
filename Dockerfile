@@ -24,7 +24,7 @@ COPY package.json package-lock.json ../
 
 # Install more dependencies
 RUN apk add --no-cache postgresql-libs && \
-	apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev && \
+	apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev libressl-dev libffi-dev && \
 	npm i -P --prefix .. && \
 	pip install poetry==1.2.2
 
