@@ -23,7 +23,7 @@ from django.contrib.messages import constants as messages
 load_dotenv()
 
 # Increment on new releases
-VERSION = "0.13.0"
+VERSION = "0.13.1"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
