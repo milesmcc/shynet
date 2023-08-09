@@ -168,6 +168,7 @@ def iconify(text):
         "firefox mobile": "firefox.com",
         "edge mobile": "microsoft.com",
         "chromium": "chromium.org",
+        "duckduckgo mobile": "duckduckgo.com",
     }
 
     domain = None
