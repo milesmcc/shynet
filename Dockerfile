@@ -7,7 +7,8 @@ WORKDIR /usr/src/shynet
 ARG GF_UID="500"
 ARG GF_GID="500"
 RUN apk update && \
-	apk add --no-cache gettext bash npm libffi-dev rust cargo postgresql-libs
+	apk add --no-cache gettext bash npm postgresql-libs && \
+	test "$(arch)" != "x86_64" && apk add libffi-dev rust cargo || echo "amd64 build, skipping Rust installation"
 	# libffi-dev and rust are used for the cryptography package,
 	# which we indirectly rely on. Necessary for aarch64 support.
 
