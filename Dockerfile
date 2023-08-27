@@ -6,8 +6,7 @@ WORKDIR /usr/src/shynet
 # Install dependencies & configure machine
 ARG GF_UID="500"
 ARG GF_GID="500"
-RUN apk update && \
-	apk add gettext curl bash npm libffi-dev rust cargo
+RUN apk add --no-cache gettext curl bash npm libffi-dev rust cargo
 	# libffi-dev and rust are used for the cryptography package,
 	# which we indirectly rely on. Necessary for aarch64 support.
 
