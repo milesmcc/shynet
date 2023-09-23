@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-24 13:20+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: core/models.py:58
+msgid "Active"
+msgstr "啟用"
+
+#: core/models.py:58
+msgid "Archived"
+msgstr "已封存"
+
+#: core/models.py:61
+msgid "Name"
+msgstr "名稱"
+
+#: core/models.py:63
+msgid "Owner"
+msgstr "擁有者"
+
+#: core/models.py:67
+msgid "Collaborators"
+msgstr "協作者"
+
+#: core/models.py:70
+msgid "created"
+msgstr "已建立"
+
+#: core/models.py:71
+msgid "link"
+msgstr "連結"
+
+#: core/models.py:72
+msgid "origins"
+msgstr "來源"
+
+#: core/models.py:75
+msgid "status"
+msgstr "狀態"
+
+#: core/models.py:77
+msgid "Respect dnt"
+msgstr "尊重停止追蹤 (Do Not Track) 設定"
+
+#: core/models.py:78
+msgid "Ignore robots"
+msgstr "忽略機器人"
+
+#: core/models.py:79
+msgid "Collect ips"
+msgstr "收集 IP"
+
+#: core/models.py:82
+msgid "Igored ips"
+msgstr "忽略的 IP"
+
+#: core/models.py:86
+msgid "Hide referrer regex"
+msgstr "隱藏來源參照正規表達式"
+
+#: core/models.py:88
+msgid "Script inject"
+msgstr "插入指令碼"
+
+#: core/models.py:91
+msgid "Service"
+msgstr "服務"
+
+#: core/models.py:92
+msgid "Services"
+msgstr "服務"
