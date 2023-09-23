@@ -1,7 +1,10 @@
-from django.http import JsonResponse
-from django.contrib.auth.models import AnonymousUser
+from http import HTTPStatus
 
-from core.models import User
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
+from django.http import JsonResponse
+
+User = get_user_model()
 
 
 class ApiTokenRequiredMixin:
@@ -11,13 +14,13 @@ class ApiTokenRequiredMixin:
             return AnonymousUser()
 
         token = token.split(" ")[1]
-        user = User.objects.filter(api_token=token).first()
-
-        return user if user else AnonymousUser()
+        user: User = User.objects.filter(api_token=token).first()
+        return user or AnonymousUser()
 
     def dispatch(self, request, *args, **kwargs):
         request.user = self._get_user_by_token(request)
-        if not request.user.is_authenticated:
-            return JsonResponse(data={}, status=403)
-
-        return super().dispatch(request, *args, **kwargs)
+        return (
+            super().dispatch(request, *args, **kwargs)
+            if request.user.is_authenticated
+            else JsonResponse(data={}, status=HTTPStatus.FORBIDDEN)
+        )

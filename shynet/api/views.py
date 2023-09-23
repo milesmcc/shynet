@@ -1,54 +1,46 @@
-import uuid
-from django.http import JsonResponse
+from http import HTTPStatus
+
 from django.db.models import Q
 from django.db.models.query import QuerySet
+from django.http import JsonResponse
 from django.views.generic import View
 
-from dashboard.mixins import DateRangeMixin
 from core.models import Service
-
+from core.utils import is_valid_uuid
+from dashboard.mixins import DateRangeMixin
 from .mixins import ApiTokenRequiredMixin
-
-
-def is_valid_uuid(value):
-    try:
-        uuid.UUID(value)
-        return True
-    except ValueError:
-        return False
 
 
 class DashboardApiView(ApiTokenRequiredMixin, DateRangeMixin, View):
     def get(self, request, *args, **kwargs):
-        services = Service.objects.filter(
-            Q(owner=request.user) | Q(collaborators__in=[request.user])
-        ).distinct()
+        services = Service.objects.filter(Q(owner=request.user) | Q(collaborators__in=[request.user])).distinct()
 
-        uuid = request.GET.get("uuid")
-        if uuid and is_valid_uuid(uuid):
-            services = services.filter(uuid=uuid)
+        uuid_ = request.GET.get("uuid")
+        if uuid_ and is_valid_uuid(uuid_):
+            services = services.filter(uuid=uuid_)
 
         try:
             start = self.get_start_date()
             end = self.get_end_date()
         except ValueError:
-            return JsonResponse(status=400, data={"error": "Invalid date format"})
+            return JsonResponse(status=HTTPStatus.BAD_REQUEST, data={"error": "Invalid date format. Use YYYY-MM-DD."})
 
+        service: Service
         services_data = [
             {
-                "name": s.name,
-                "uuid": s.uuid,
-                "link": s.link,
-                "stats": s.get_core_stats(start, end),
+                "name": service.name,
+                "uuid": service.uuid,
+                "link": service.link,
+                "stats": service.get_core_stats(start, end),
             }
-            for s in services
+            for service in services
         ]
 
         services_data = self._convert_querysets_to_lists(services_data)
 
         return JsonResponse(data={"services": services_data})
 
-    def _convert_querysets_to_lists(self, services_data):
+    def _convert_querysets_to_lists(self, services_data: list[dict]) -> list[dict]:
         for service_data in services_data:
             for key, value in service_data["stats"].items():
                 if isinstance(value, QuerySet):
