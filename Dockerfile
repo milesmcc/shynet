@@ -31,9 +31,7 @@ RUN apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev libress
 	poetry config virtualenvs.create false && \
 	poetry run pip install "Cython<3.0" "pyyaml==5.4.1" --no-build-isolation && \
 	poetry install --no-dev --no-interaction --no-ansi && \
-	apk --purge del .build-deps && \
-	rm -rf /var/lib/apt/lists/* && \
-	rm /var/cache/apk/*
+	apk --purge del .build-deps
 
 # Setup user group
 RUN addgroup --system -g $GF_GID appgroup && \
