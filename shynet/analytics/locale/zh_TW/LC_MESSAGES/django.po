@@ -1,0 +1,118 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-24 13:20+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: analytics/models.py:18
+msgid "Service"
+msgstr "服務"
+
+#: analytics/models.py:24
+msgid "Identifier"
+msgstr "識別碼"
+
+#: analytics/models.py:29
+msgid "Start time"
+msgstr "開始時間"
+
+#: analytics/models.py:32
+msgid "Last seen"
+msgstr "最後瀏覽"
+
+#: analytics/models.py:36
+msgid "User agent"
+msgstr "使用者代理程式"
+
+#: analytics/models.py:37
+msgid "Browser"
+msgstr "瀏覽器"
+
+#: analytics/models.py:38
+msgid "Device"
+msgstr "裝置"
+
+#: analytics/models.py:42
+msgid "Phone"
+msgstr "手機"
+
+#: analytics/models.py:43
+msgid "Tablet"
+msgstr "平板"
+
+#: analytics/models.py:44
+msgid "Desktop"
+msgstr "桌上型電腦"
+
+#: analytics/models.py:45
+msgid "Robot"
+msgstr "機器人"
+
+#: analytics/models.py:46
+msgid "Other"
+msgstr "其他"
+
+#: analytics/models.py:49
+msgid "Device type"
+msgstr "裝置類型"
+
+#: analytics/models.py:51
+msgid "OS"
+msgstr "作業系統"
+
+#: analytics/models.py:52
+msgid "IP"
+msgstr "IP"
+
+#: analytics/models.py:55
+msgid "Asn"
+msgstr "ASN"
+
+#: analytics/models.py:56
+msgid "Country"
+msgstr "國家"
+
+#: analytics/models.py:57
+msgid "Longitude"
+msgstr "經度"
+
+#: analytics/models.py:58
+msgid "Latitude"
+msgstr "緯度"
+
+#: analytics/models.py:59
+msgid "Time zone"
+msgstr "時區"
+
+#: analytics/models.py:61
+msgid "Is bounce"
+msgstr "是否為跳出"
+
+#: analytics/models.py:64 analytics/models.py:100
+msgid "Session"
+msgstr "工作階段"
+
+#: analytics/models.py:65
+msgid "Sessions"
+msgstr "工作階段次數"
+
+#: analytics/models.py:122
+msgid "Hit"
+msgstr "點選"
+
+#: analytics/models.py:123
+msgid "Hits"
+msgstr "點選次數"

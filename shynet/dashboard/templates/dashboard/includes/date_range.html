@@ -24,7 +24,8 @@
 <script>
     function getLocaleDateString(locale) {
         const formats = {
-            'de': "DD. MMM YY"
+            'de': "DD. MMM YY",
+            'zh_TW': "YYYY 年 MM 月 DD 日"
         }
         return formats[locale] || "MMM DD 'YY";
     }
