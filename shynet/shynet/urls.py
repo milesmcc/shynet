@@ -24,6 +24,7 @@ urlpatterns = [
     path("ingress/", include(("analytics.ingress_urls", "ingress")), name="ingress"),
     path("dashboard/", include(("dashboard.urls", "dashboard"), namespace="dashboard")),
     path("healthz/", include("health_check.urls")),
+    path("prometheus/", include("django_prometheus.urls")),
     path("", include(("core.urls", "core"), namespace="core")),
     path("api/v1/", include(("api.urls", "api"), namespace="api")),
 ]

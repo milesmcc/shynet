@@ -69,6 +69,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "django_prometheus.middleware.PrometheusBeforeMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -80,6 +81,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "django_prometheus.middleware.PrometheusAfterMiddleware",
 ]
 
 ROOT_URLCONF = "shynet.urls"
@@ -109,14 +111,14 @@ WSGI_APPLICATION = "shynet.wsgi.application"
 if os.getenv("SQLITE", "False") == "True":
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.sqlite3",
+            "ENGINE": "django_prometheus.db.backends.sqlite3",
             "NAME": os.environ.get("DB_NAME", "/var/local/shynet/db/db.sqlite3"),
         }
     }
 else:
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "ENGINE": "django_prometheus.db.backends.postgresql",
             "NAME": os.environ.get("DB_NAME"),
             "USER": os.environ.get("DB_USER"),
             "PASSWORD": os.environ.get("DB_PASSWORD"),
@@ -231,7 +233,7 @@ STATICFILES_FINDERS = [
 if not DEBUG and os.getenv("REDIS_CACHE_LOCATION") is not None:
     CACHES = {
         "default": {
-            "BACKEND": "redis_cache.RedisCache",
+            "BACKEND": "django_prometheus.cache.backends.redis.RedisCache",
             "LOCATION": os.getenv("REDIS_CACHE_LOCATION"),
             "KEY_PREFIX": "v1_",  # Increment when migrations occur
         }
