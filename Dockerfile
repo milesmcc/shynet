@@ -12,10 +12,22 @@ RUN apk update && \
 	# libffi-dev and rust are used for the cryptography package,
 	# which we indirectly rely on. Necessary for aarch64 support.
 
+# MaxMind scans GitHub for exposed license keys and deactivates them. This
+# (encoded) license key is intened to be public; it is not configured with any
+# billing, and can only access MaxMind's public databases. These databases used
+# to be available for download without authentication, but they are now auth
+# gated. It is very important that the Shynet community have a simple,
+# easily-pullable Docker image with all "batteries included." As a result, we
+# intentionally "expose" this API key to the community. The "fix" is for MaxMind
+# to offer these free, public datasets in a way that doesn't require an API key.
+ARG MAXMIND_LICENSE_KEY_BASE64="Z2tySDgwX1htSEtmS3d4cDB1SnlMWTdmZ1hMMTQxNzRTQ2o5X21taw=="
+
+RUN echo $MAXMIND_LICENSE_KEY_BASE64 > .mmdb_key
+
 # Collect GeoIP Database
 RUN apk add --no-cache curl && \
-	curl -m 180 "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key=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&suffix=tar.gz" | tar -xvz -C /tmp && \
-	curl -m 180 "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=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&suffix=tar.gz" | tar -xvz -C /tmp && \
+	curl -m 180 "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key=$(base64 -d .mmdb_key)&suffix=tar.gz" | tar -xvz -C /tmp && \
+	curl -m 180 "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=$(base64 -d .mmdb_key)&suffix=tar.gz" | tar -xvz -C /tmp && \
 	mv /tmp/GeoLite2*/*.mmdb /etc && \
 	apk --purge del curl
 
