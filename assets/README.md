@@ -1,0 +1,3 @@
+This file contains GeoIP databases accurate as of 2019. We'd use newer databases, but MaxMind gates their free GeoIP databases behind a license key citing (an overly strict interpretation of) global data privacy regulation.
+
+These files are the most recent version licensed under Creative Commons, pulled from the Internet Archive. For more information, see https://forum.matomo.org/t/maxmind-is-changing-access-to-free-geolite2-databases/35439/2.

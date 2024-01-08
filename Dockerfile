@@ -25,10 +25,13 @@ ARG MAXMIND_LICENSE_KEY_BASE64="Z2tySDgwX1htSEtmS3d4cDB1SnlMWTdmZ1hMMTQxNzRTQ2o5
 RUN echo $MAXMIND_LICENSE_KEY_BASE64 > .mmdb_key
 
 # Collect GeoIP Database
+COPY assets/GeoLite2-ASN_20191224.tar.gz GeoLite2-ASN.tar.gz
+COPY assets/GeoLite2-City_20191224.tar.gz GeoLite2-City.tar.gz
 RUN apk add --no-cache curl && \
-	curl -m 180 "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key=$(base64 -d .mmdb_key)&suffix=tar.gz" | tar -xvz -C /tmp && \
-	curl -m 180 "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=$(base64 -d .mmdb_key)&suffix=tar.gz" | tar -xvz -C /tmp && \
+	tar -xvz -C /tmp < GeoLite2-ASN.tar.gz && \
+	tar -xvz -C /tmp < GeoLite2-City.tar.gz && \
 	mv /tmp/GeoLite2*/*.mmdb /etc && \
+	rm GeoLite2-ASN.tar.gz GeoLite2-City.tar.gz && \
 	apk --purge del curl
 
 # Move dependency files
