@@ -29,7 +29,7 @@ jobs:
         with:
           poetry-version: 1.2.2
       - name: Preinstall dependencies (temporary)
-        run: poetry run pip install "Cython<3.0" "pyyaml==5.4.1" --no-build-isolation
+        run: poetry run pip install "Cython<3.0" "pyyaml==5.4.1" "django-allauth==0.45.0" --no-build-isolation
       - name: Install dependencies 
         run: poetry install
       - name: Django Testing project
