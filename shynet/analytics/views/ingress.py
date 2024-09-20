@@ -132,7 +132,7 @@ class ScriptView(ValidateServiceOriginsMixin, View):
         dnt = self.request.META.get("HTTP_DNT", "0").strip() == "1"
         service_uuid = self.kwargs.get("service_uuid")
         service = Service.objects.get(pk=service_uuid, status=Service.ACTIVE)
-        return render(
+        response = render(
             self.request,
             "analytics/scripts/page.js",
             context=dict(
@@ -144,8 +144,11 @@ class ScriptView(ValidateServiceOriginsMixin, View):
                     "dnt": dnt and service.respect_dnt,
                 }
             ),
-            content_type="application/javascript",
+            content_type="application/javascript"
         )
+        
+        response["Cache-Control"] = "public, max-age=31536000"  # 1 year
+        return response
 
     def post(self, *args, **kwargs):
         payload = json.loads(self.request.body)
