@@ -144,7 +144,7 @@ class ScriptView(ValidateServiceOriginsMixin, View):
                     "dnt": dnt and service.respect_dnt,
                 }
             ),
-            content_type="application/javascript"
+            content_type="application/javascript",
         )
         
         response["Cache-Control"] = "public, max-age=31536000"  # 1 year
