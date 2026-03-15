@@ -79,9 +79,8 @@
       "generator": "secret"
     },
     "ALLOWED_HOSTS": {
-      "description": "Your deployment's domain (where you host, not embed, Shynet). Comma separated. The default '.herokuapp.com' allows any Heroku subdomain; add your custom domain if you have one. Do not use '*' as it enables password reset poisoning via Host header injection.",
-      "value": ".herokuapp.com",
-      "required": false
+      "description": "Your deployment's domain (where you host, not embed, Shynet), e.g. 'yourapp.herokuapp.com'. Comma separated. Do not use '*' as it enables password reset poisoning via Host header injection.",
+      "required": true
     },
     "ACCOUNT_SIGNUPS_ENABLED": {
       "description": "Set to True (capitalized) if you want people to be able to sign up for your Shynet instance (not recommended).",
