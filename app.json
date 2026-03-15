@@ -79,9 +79,8 @@
       "generator": "secret"
     },
     "ALLOWED_HOSTS": {
-      "description": "For better security, set this to your deployment's domain. (Where you will actually host, not embed, Shynet.) Set to '*' to allow serving all domains.",
-      "value": "*",
-      "required": false
+      "description": "Your deployment's domain (where you host, not embed, Shynet), e.g. 'yourapp.herokuapp.com'. Comma separated. Do not use '*' as it enables password reset poisoning via Host header injection.",
+      "required": true
     },
     "ACCOUNT_SIGNUPS_ENABLED": {
       "description": "Set to True (capitalized) if you want people to be able to sign up for your Shynet instance (not recommended).",

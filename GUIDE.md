@@ -40,7 +40,7 @@ Before continuing, please be sure to have the latest version of Docker installed
 
     2.2 SQLite doesn't need a server, just a file. Set `SQLITE=True` in the environment file and create a Docker volume to hold the persistent DB with `docker volume create shynet_db`. Then whenever you run the container include `-v shynet_db:/var/local/shynet/db:rw` to mount the volume into the container. See the [Docker documentation on volumes](https://docs.docker.com/storage/volumes/).
 
-3. Configure an environment file for Shynet, using [this file](/TEMPLATE.env) as a template. (This file is typically named `.env`.) Make sure you set the database settings, or Shynet won't be able to run. Also consider setting `ALLOWED_HOSTS` inside the environment file to your deployment's domain for better security.
+3. Configure an environment file for Shynet, using [this file](/TEMPLATE.env) as a template. (This file is typically named `.env`.) Make sure you set the database settings, or Shynet won't be able to run. Make sure `ALLOWED_HOSTS` is set to your deployment's domain — leaving it as the `localhost` default will cause Django to reject requests to your public hostname, and setting it to `*` enables Host header injection attacks against the password reset flow.
 
 4. Launch the Shynet server for the first time by running `docker run --env-file=<your env file> milesmcc/shynet:latest`. Provided you're using the default environment information (i.e., `PERFORM_CHECKS_AND_SETUP` is `True`), you'll see a few warnings about not having an admin user or host setup; these are normal. Don't worry — we'll do this in the next step. You only need to stop if you see a stacktrace about being unable to connect to the database.
 

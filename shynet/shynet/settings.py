@@ -38,7 +38,9 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "onlyusethisindev")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
+# Do not default to "*": it disables Host header validation, allowing password
+# reset poisoning (attacker-controlled reset URLs sent to users).
+ALLOWED_HOSTS = (os.getenv("ALLOWED_HOSTS") or "localhost,127.0.0.1").split(",")
 CSRF_TRUSTED_ORIGINS = filter(lambda k: len(k) > 0, os.getenv("CSRF_TRUSTED_ORIGINS", "").split(","))
 
 # Application definition

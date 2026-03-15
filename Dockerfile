@@ -62,5 +62,5 @@ RUN python manage.py collectstatic --noinput && \
 # Launch
 USER appuser
 EXPOSE 8080
-HEALTHCHECK CMD bash -c 'wget -o /dev/null -O /dev/null --header "Host: ${ALLOWED_HOSTS%%,*}" "http://127.0.0.1:${PORT:-8080}/healthz/?format=json"'
+HEALTHCHECK CMD bash -c 'H="${ALLOWED_HOSTS:-localhost}"; wget -o /dev/null -O /dev/null --header "Host: ${H%%,*}" "http://127.0.0.1:${PORT:-8080}/healthz/?format=json"'
 CMD [ "./entrypoint.sh" ]
