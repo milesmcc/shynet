@@ -2,37 +2,81 @@ name: Run tests
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
     services:
       db:
-        image: postgres:12.3-alpine
+        image: postgres:18-alpine
         env:
           POSTGRES_USER: shynet_db_user
           POSTGRES_PASSWORD: shynet_db_user_password
           POSTGRES_DB: shynet_db
         ports:
           - 5432:5432
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.9]
+        options: >-
+          --health-cmd "pg_isready -U shynet_db_user"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
         with:
-          python-version: ${{ matrix.python-version }}
-      - name: Run image
-        uses: abatilo/actions-poetry@v2.0.0
+          python-version: "3.15"
+
+      - uses: actions/setup-node@v7
         with:
-          poetry-version: 1.2.2
-      - name: Preinstall dependencies (temporary)
-        run: poetry run pip install "Cython<3.0" "pyyaml==5.4.1" "django-allauth==0.45.0" --no-build-isolation
-      - name: Install dependencies 
-        run: poetry install
-      - name: Django Testing project
+          node-version: 26
+          cache: npm
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Install Python dependencies
+        run: poetry install --no-interaction
+
+      - name: Install frontend packages
+        run: npm ci --omit=dev
+
+      - name: Prepare environment
         run: |
           cp TEMPLATE.env .env
-          poetry run ./shynet/manage.py test
+          sed -i 's/^DB_HOST=.*/DB_HOST=localhost/' .env
+          mkdir -p /tmp/geoip
+          tar -xz -C /tmp/geoip -f assets/GeoLite2-ASN_20191224.tar.gz
+          tar -xz -C /tmp/geoip -f assets/GeoLite2-City_20191224.tar.gz
+          sudo mv /tmp/geoip/GeoLite2*/*.mmdb /etc/
+
+      - name: Check for missing migrations
+        working-directory: shynet
+        run: poetry run python manage.py makemigrations --check --dry-run
+
+      - name: Collect static files
+        working-directory: shynet
+        run: poetry run python manage.py collectstatic --noinput
+
+      - name: Run tests
+        working-directory: shynet
+        run: poetry run python manage.py test
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/setup-qemu-action@v4
+      - uses: docker/setup-buildx-action@v4
+      - name: Build image for all release platforms (no push)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: false
+          tags: shynet:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
