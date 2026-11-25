@@ -55,8 +55,6 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.humanize",
     "health_check",
-    "health_check.db",
-    "health_check.cache",
     "rules.apps.AutodiscoverRulesConfig",
     "a17t",
     "core",
@@ -81,6 +79,7 @@ MIDDLEWARE = [
     "django.contrib.sites.middleware.CurrentSiteMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -213,8 +212,6 @@ TIME_ZONE = os.getenv("TIME_ZONE", "America/New_York")
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
@@ -222,7 +219,12 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = "compiledstatic/"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    },
+}
 STATICFILES_FINDERS = [
     "npm.finders.NpmFinder",
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -233,7 +235,7 @@ STATICFILES_FINDERS = [
 if not DEBUG and os.getenv("REDIS_CACHE_LOCATION") is not None:
     CACHES = {
         "default": {
-            "BACKEND": "redis_cache.RedisCache",
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
             "LOCATION": os.getenv("REDIS_CACHE_LOCATION"),
             "KEY_PREFIX": "v1_",  # Increment when migrations occur
         }
@@ -250,12 +252,10 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
 ACCOUNT_USER_DISPLAY = lambda k: k.email
 ACCOUNT_SIGNUPS_ENABLED = os.getenv("ACCOUNT_SIGNUPS_ENABLED", "False") == "True"
@@ -321,13 +321,13 @@ NPM_FILE_PATTERNS = {
     ],
     "turbolinks": [os.path.join("dist", "turbolinks.js")],
     "stimulus": [os.path.join("dist", "stimulus.umd.js")],
-    "inter-ui": [os.path.join("Inter (web)", "*")],
+    "inter-ui": ["inter.css", os.path.join("web", "*")],
     "@fortawesome": [os.path.join("fontawesome-free", "js", "all.min.js")],
     "datamaps": [os.path.join("dist", "datamaps.world.min.js")],
     "d3": ["d3.min.js"],
     "topojson": [os.path.join("build", "topojson.min.js")],
-    "flag-icon-css": [
-        os.path.join("css", "flag-icon.min.css"),
+    "flag-icons": [
+        os.path.join("css", "flag-icons.min.css"),
         os.path.join("flags", "*"),
     ],
 }

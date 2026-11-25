@@ -5,7 +5,7 @@
 {% block head_title %}{{object.name}} {% trans 'Management' %}{% endblock %}
 
 {% block service_actions %}
-<a href="{% url 'dashboard:service' object.uuid %}" class="button field !low bg-neutral-000 w-auto">{% trans 'View' %} &rarr;</a>
+<a href="{% url 'dashboard:service' object.uuid %}" class="button field @low bg-neutral-000 w-auto">{% trans 'View' %} &rarr;</a>
 {% endblock %}
 
 {% block service_content %}
@@ -19,24 +19,24 @@
     {% include 'dashboard/includes/service_snippet.html' %}
     <hr class="sep h-4">
     <h5>{% trans 'Settings' %}</h5>
-    <form class="card ~neutral !low p-0" method="POST">
+    <form class="card ~neutral @low p-0" method="POST">
         {% csrf_token %}
         <div class="p-4">
             {% include 'dashboard/includes/service_form.html' %}
         </div>
-        <div class="section ~neutral !normal p-4 flex justify-between">
+        <div class="section ~neutral @normal p-4 flex justify-between">
             <div>
-                <button type="submit" class="button ~neutral !high">{% trans 'Save' %}</button>
-                <a href="{% url 'dashboard:service' object.uuid %}" class="button ~neutral !low">{% trans 'Cancel' %}</a>
+                <button type="submit" class="button ~neutral @high">{% trans 'Save' %}</button>
+                <a href="{% url 'dashboard:service' object.uuid %}" class="button ~neutral @low">{% trans 'Cancel' %}</a>
             </div>
             <div>
-                <a href="{% url 'dashboard:service_delete' object.uuid %}" class="button ~critical !high">{% trans 'Delete' %}</a>
+                <a href="{% url 'dashboard:service_delete' object.uuid %}" class="button ~critical @high">{% trans 'Delete' %}</a>
             </div>
         </div>
     </form>
     <hr class="sep h-4">
     <h5>API</h5>
-    <div class="card ~neutral !low content">
+    <div class="card ~neutral @low content">
         <p>Shynet provides a simple API that you can use to pull data programmatically. You can access this data via this URL:</p>
         <code class="text-sm">{{script_protocol}}{{request.get_host}}{% url 'api:services' %}?uuid={{object.uuid}}</code>
         <p>
