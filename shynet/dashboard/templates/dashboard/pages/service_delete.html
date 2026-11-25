@@ -5,7 +5,7 @@
 {% block head_title %}{% trans 'Delete' %} {{object.name}}{% endblock %}
 
 {% block service_content %}
-<form class="card ~neutral !low p-0 max-w-xl" method="POST">
+<form class="card ~neutral @low p-0 max-w-xl" method="POST">
     {% csrf_token %}
     <div class="p-4">
         <p>
@@ -16,9 +16,9 @@
         </p>
         {{form|a17t}}
     </div>
-    <div class="section ~critical !normal p-4">
-        <button type="submit" class="button ~critical !high">Delete</button>
-        <a href="{% url 'dashboard:service' object.uuid %}" class="button ~critical !low">Cancel</a>
+    <div class="section ~critical @normal p-4">
+        <button type="submit" class="button ~critical @high">Delete</button>
+        <a href="{% url 'dashboard:service' object.uuid %}" class="button ~critical @low">Cancel</a>
     </div>
 </form>
 {% endblock %}

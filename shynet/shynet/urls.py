@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 import debug_toolbar
+from health_check.views import HealthCheckView
 
 urlpatterns = [
     path("__debug__/", include(debug_toolbar.urls)),
@@ -23,7 +24,12 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("ingress/", include(("analytics.ingress_urls", "ingress")), name="ingress"),
     path("dashboard/", include(("dashboard.urls", "dashboard"), namespace="dashboard")),
-    path("healthz/", include("health_check.urls")),
+    path(
+        "healthz/",
+        HealthCheckView.as_view(
+            checks=["health_check.checks.Cache", "health_check.checks.Database"]
+        ),
+    ),
     path("", include(("core.urls", "core"), namespace="core")),
     path("api/v1/", include(("api.urls", "api"), namespace="api")),
 ]
