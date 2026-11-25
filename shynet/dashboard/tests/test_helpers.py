@@ -14,7 +14,7 @@ class FilterTests(SimpleTestCase):
         self.assertEqual(helpers.naturaldelta(0), "00:00")
 
     def test_flag_class(self):
-        self.assertEqual(helpers.flag_class("CH"), "mr-1 flag-icon flag-icon-ch")
+        self.assertEqual(helpers.flag_class("CH"), "mr-1 fi fi-ch")
         self.assertEqual(helpers.flag_class(""), "hidden")
 
     def test_country_helpers(self):
