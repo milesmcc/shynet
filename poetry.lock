@@ -228,6 +228,25 @@ files = [
 vine = ">=5.0.0,<6.0.0"
 
 [[package]]
+name = "anyio"
+version = "4.16.0"
+description = "High-level concurrency and networking framework on top of asyncio or Trio"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+markers = "python_version >= \"3.15\""
+files = [
+    {file = "anyio-4.16.0-py3-none-any.whl", hash = "sha256:c66ae634e0b8228396b801741beb3294326d4b6102f7bba4041c0dfb58c29026"},
+    {file = "anyio-4.16.0.tar.gz", hash = "sha256:59bb03251907983d1603d27c3087ddb1e93299ea2163adcdba37899a4fb12ffb"},
+]
+
+[package.dependencies]
+idna = ">=2.8"
+
+[package.extras]
+trio = ["trio (>=0.32.0)"]
+
+[[package]]
 name = "asgiref"
 version = "3.13.0"
 description = "ASGI specs, helper code, and adapters"
@@ -796,24 +815,24 @@ files = [
 
 [[package]]
 name = "django"
-version = "5.2.19"
+version = "6.1.3"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
 optional = false
-python-versions = ">=3.10"
+python-versions = ">=3.12"
 groups = ["main", "dev"]
 files = [
-    {file = "django-5.2.19-py3-none-any.whl", hash = "sha256:5965d974a5218a2b68a11dd1276434707f23886525c23f0598eccedaf4f4ca00"},
-    {file = "django-5.2.19.tar.gz", hash = "sha256:ad03d8abc51dbff95ebf34b27123cf0c26a3b62db7ba0cd520783686362533d1"},
+    {file = "django-6.1.3-py3-none-any.whl", hash = "sha256:a0530e3fdac55d34ccc5893c36f6c57d7a7083064f3d414537e51473648b3290"},
+    {file = "django-6.1.3.tar.gz", hash = "sha256:b5d2d9e35295065d13b1927b3f19a59bd119f737aa6299def14ccca1ae3c8c0d"},
 ]
 
 [package.dependencies]
-asgiref = ">=3.8.1"
-sqlparse = ">=0.3.1"
+asgiref = ">=3.9.1"
+sqlparse = ">=0.5.0"
 tzdata = {version = "*", markers = "sys_platform == \"win32\""}
 
 [package.extras]
-argon2 = ["argon2-cffi (>=19.1.0)"]
-bcrypt = ["bcrypt"]
+argon2 = ["argon2-cffi (>=23.1.0)"]
+bcrypt = ["bcrypt (>=4.1.1)"]
 
 [[package]]
 name = "django-allauth"
@@ -919,31 +938,31 @@ threadmill = ["threadmill[redis] (>=0.7.3)"]
 
 [[package]]
 name = "django-health-check"
-version = "4.10.0"
+version = "4.11.4"
 description = "Monitor the health of your Django app and its connected services."
 optional = false
 python-versions = ">=3.14"
 groups = ["main"]
 markers = "python_version >= \"3.15\""
 files = [
-    {file = "django_health_check-4.10.0-py3-none-any.whl", hash = "sha256:2cd841b2cf9eab706b8146ed098afda1312c778895db008c7e9d68e0343a9966"},
-    {file = "django_health_check-4.10.0.tar.gz", hash = "sha256:ade209858e5fe4154e252ad5b37c1c57cf5e0752f2fb1366eaf47cdf995fefb1"},
+    {file = "django_health_check-4.11.4-py3-none-any.whl", hash = "sha256:00a0c3f4f91739fa7a929732e76feb3a6902bfb117bfc178e4935520eae1a694"},
+    {file = "django_health_check-4.11.4.tar.gz", hash = "sha256:47eb41f72edd307c1b6d70b71e10930ffb7ffcb5bbdc208a4dff86e7abfc674d"},
 ]
 
 [package.dependencies]
-Django = ">=5.2"
-dnspython = ">=2.0.0"
+django = ">=6"
+dnspython = ">=2"
+httpx = ">=0.27"
 
 [package.extras]
-atlassian = ["httpx (>=0.27.0)"]
-celery = ["celery (>=5.0.0)"]
-crontask = ["django-crontask[redis] (>=2.0.0)", "redis (>=5.0.1)"]
-kafka = ["confluent-kafka (>=2.0.0)"]
-psutil = ["psutil (>=7.2.0)"]
-rabbitmq = ["aio-pika (>=9.0.0)"]
+celery = ["celery (>=5)"]
+crontask = ["django-crontask[redis] (>=2)", "redis (>=5.0.1)"]
+kafka = ["confluent-kafka (>=2)"]
+psutil = ["psutil (>=7.2)"]
+rabbitmq = ["aio-pika (>=9)"]
 redis = ["redis (>=5.0.1)"]
-rss = ["feedparser (>=6.0.0)", "httpx (>=0.27.0)"]
-threadmill = ["threadmill[redis] (>=0.7.3)"]
+rss = ["feedparser (>=6)"]
+threadmill = ["threadmill[redis] (>=0.9)"]
 
 [[package]]
 name = "django-ipware"
@@ -1256,6 +1275,19 @@ testing = ["coverage", "gevent (>=24.10.1)", "h2 (>=4.4.1)", "httpx[http2] (>=0.
 tornado = ["tornado (>=6.5.7)"]
 
 [[package]]
+name = "h11"
+version = "0.16.0"
+description = "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+markers = "python_version >= \"3.15\""
+files = [
+    {file = "h11-0.16.0-py3-none-any.whl", hash = "sha256:63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86"},
+    {file = "h11-0.16.0.tar.gz", hash = "sha256:4e35b956cf45792e4caa5885e69fba00bdbc6ffafbfa020300e549b208ee5ff1"},
+]
+
+[[package]]
 name = "html2text"
 version = "2025.4.15"
 description = "Turn HTML into equivalent Markdown-structured text."
@@ -1266,6 +1298,55 @@ files = [
     {file = "html2text-2025.4.15-py3-none-any.whl", hash = "sha256:00569167ffdab3d7767a4cdf589b7f57e777a5ed28d12907d8c58769ec734acc"},
     {file = "html2text-2025.4.15.tar.gz", hash = "sha256:948a645f8f0bc3abe7fd587019a2197a12436cd73d0d4908af95bfc8da337588"},
 ]
+
+[[package]]
+name = "httpcore"
+version = "1.0.9"
+description = "A minimal low-level HTTP client."
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+markers = "python_version >= \"3.15\""
+files = [
+    {file = "httpcore-1.0.9-py3-none-any.whl", hash = "sha256:2d400746a40668fc9dec9810239072b40b4484b640a8c38fd654a024c7a1bf55"},
+    {file = "httpcore-1.0.9.tar.gz", hash = "sha256:6e34463af53fd2ab5d807f399a9b45ea31c3dfa2276f15a2c3f00afff6e176e8"},
+]
+
+[package.dependencies]
+certifi = "*"
+h11 = ">=0.16"
+
+[package.extras]
+asyncio = ["anyio (>=4.0,<5.0)"]
+http2 = ["h2 (>=3,<5)"]
+socks = ["socksio (==1.*)"]
+trio = ["trio (>=0.22.0,<1.0)"]
+
+[[package]]
+name = "httpx"
+version = "0.28.1"
+description = "The next generation HTTP client."
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+markers = "python_version >= \"3.15\""
+files = [
+    {file = "httpx-0.28.1-py3-none-any.whl", hash = "sha256:d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad"},
+    {file = "httpx-0.28.1.tar.gz", hash = "sha256:75e98c5f16b0f35b567856f597f06ff2270a374470a5c2392242528e3e3e42fc"},
+]
+
+[package.dependencies]
+anyio = "*"
+certifi = "*"
+httpcore = "==1.*"
+idna = "*"
+
+[package.extras]
+brotli = ["brotli ; platform_python_implementation == \"CPython\"", "brotlicffi ; platform_python_implementation != \"CPython\""]
+cli = ["click (==8.*)", "pygments (==2.*)", "rich (>=10,<14)"]
+http2 = ["h2 (>=3,<5)"]
+socks = ["socksio (==1.*)"]
+zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "idna"
@@ -2775,4 +2856,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "a8d2cb7362009890e951a7751b92e15fdc6e02818c6f9b5258237aa737a3ca36"
+content-hash = "a2150297886f8065cd279254dae468adef0440c70701da5a46debda535a0b0d2"

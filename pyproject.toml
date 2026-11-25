@@ -7,7 +7,7 @@ license = "Apache-2.0"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-Django = "^5.2"
+Django = "*"
 django-allauth = "*"
 geoip2 = "*"
 whitenoise = "*"
