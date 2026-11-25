@@ -108,7 +108,6 @@ class ServiceDeleteView(
     LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView
 ):
     model = Service
-    form_class = ServiceForm
     template_name = "dashboard/pages/service_delete.html"
     permission_required = "core.delete_service"
     success_message = "The service was deleted successfully."
