@@ -7,14 +7,14 @@
 {% block content %}
 <h4 class="heading leading-none">{% trans 'Create Service' %}</h4>
 <hr class="sep">
-<form class="card ~neutral !low p-0 max-w-xl" method="POST">
+<form class="card ~neutral @low p-0 max-w-xl" method="POST">
     {% csrf_token %}
     <div class="p-4">
         {% include 'dashboard/includes/service_form.html' %}
     </div>
-    <div class="section ~urge !normal p-4">
-        <button type="submit" class="button ~urge !high">{% trans 'Create' %}</button>
-        <a href="{% url 'dashboard:dashboard' %}" class="button ~urge !low">{% trans 'Cancel' %}</a>
+    <div class="section ~urge @normal p-4">
+        <button type="submit" class="button ~urge @high">{% trans 'Create' %}</button>
+        <a href="{% url 'dashboard:dashboard' %}" class="button ~urge @low">{% trans 'Cancel' %}</a>
     </div>
 </form>
 {% endblock %}

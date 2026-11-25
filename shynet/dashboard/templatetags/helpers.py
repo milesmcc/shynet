@@ -30,7 +30,7 @@ def naturaldelta(timedelta):
 @register.filter
 def flag_class(isocode):
     if isocode:
-        return "mr-1 flag-icon flag-icon-" + isocode.lower()
+        return "mr-1 fi fi-" + isocode.lower()
     else:
         return "hidden"
 
